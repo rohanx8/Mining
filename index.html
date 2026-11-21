@@ -1,0 +1,1916 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mining Risk Explorer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Pick a gold mine, see what it is worth, then turn nine plain-English risk dials to see what each risk takes away.">
+<style>
+:root {
+  /* Layout: an instrument panel. A sticky control bar holds the shared price deck and discount rate; one job per screen; tabs sit at the bottom on phones and in the bar on wide screens. */
+  --bg: #f3f5f7;
+  --surface: #ffffff;
+  --surface-2: #eaeef2;
+  --ink: #111519;
+  --ink-2: #434d58;
+  --muted: #66707b;
+  --line: #d9dfe5;
+  --line-strong: #b6c0ca;
+  --accent: #8a5d00;        /* assay gold, safe for text */
+  --accent-fill: #d99a14;   /* gold price line, tab indicator */
+  --accent-soft: #f6ebcf;
+  --gain: #2a78d6;
+  --loss: #e34948;
+  --total: #5d6874;
+  --aisc: #2a78d6;
+  --riskcost: #eb6834;
+  --ok-ink: #0a6b0a;  --ok-bg: #e2f2e2;
+  --der-ink: #1d5fae; --der-bg: #e1ecfa;
+  --asm-ink: #7f4c00; --asm-bg: #fbecca;
+  --bad-ink: #b3261e; --bad-bg: #fbe3e1;
+  --focus: #2a78d6;
+  --shadow: 0 1px 2px rgba(17, 21, 25, .06), 0 6px 18px rgba(17, 21, 25, .06);
+  --font-ui: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-num: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", Menlo, Consolas, monospace;
+  --radius: 10px;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1114; --surface: #161a1f; --surface-2: #1f252b; --ink: #eef1f4; --ink-2: #b9c1ca; --muted: #8d97a1;
+    --line: #2a3138; --line-strong: #3d4650; --accent: #eabb4b; --accent-fill: #d9a12a; --accent-soft: #3a2f17;
+    --gain: #3987e5; --loss: #e66767; --total: #8f9aa6; --aisc: #3987e5; --riskcost: #d95926;
+    --ok-ink: #6fd56f; --ok-bg: #15301a; --der-ink: #8fbcf2; --der-bg: #16263a; --asm-ink: #f2c564; --asm-bg: #362912;
+    --bad-ink: #ff9e95; --bad-bg: #3b1a18; --focus: #6aa8f0; --shadow: 0 1px 2px rgba(0, 0, 0, .5);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1114; --surface: #161a1f; --surface-2: #1f252b; --ink: #eef1f4; --ink-2: #b9c1ca; --muted: #8d97a1;
+  --line: #2a3138; --line-strong: #3d4650; --accent: #eabb4b; --accent-fill: #d9a12a; --accent-soft: #3a2f17;
+  --gain: #3987e5; --loss: #e66767; --total: #8f9aa6; --aisc: #3987e5; --riskcost: #d95926;
+  --ok-ink: #6fd56f; --ok-bg: #15301a; --der-ink: #8fbcf2; --der-bg: #16263a; --asm-ink: #f2c564; --asm-bg: #362912;
+  --bad-ink: #ff9e95; --bad-bg: #3b1a18; --focus: #6aa8f0; --shadow: 0 1px 2px rgba(0, 0, 0, .5);
+  color-scheme: dark;
+}
+[hidden] { display: none !important; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-ui); font-size: 15px; line-height: 1.5;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 40; background: var(--surface);
+}
+a { color: var(--der-ink); }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.2; letter-spacing: -0.01em; }
+h1 { font-size: 1.55rem; }
+h2 { font-size: 1.2rem; }
+h3 { font-size: 1.02rem; }
+p { margin: 0; }
+.num { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--font-num); font-size: .92em; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.wrap {
+  max-width: 1140px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+
+/* ---------- Top bar ---------- */
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30;
+  background: var(--surface); border-bottom: 1px solid var(--line);
+}
+.topbar .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding-block: 10px; }
+.brand { display: flex; align-items: center; gap: 9px; font-weight: 750; font-size: 15.5px; letter-spacing: -.01em; white-space: nowrap; }
+.brand svg { flex: none; }
+.brand small { display: block; font-weight: 500; font-size: 11.5px; color: var(--muted); letter-spacing: 0; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-left: auto; }
+.ctl { display: flex; align-items: center; gap: 8px; }
+.ctl-label { font-size: 12px; font-weight: 650; color: var(--muted); }
+
+/* Segmented controls (radio groups) */
+fieldset.seg { border: 0; margin: 0; padding: 2px; min-width: 0; display: inline-flex; gap: 2px; background: var(--surface-2); border-radius: 9px; }
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.seg label {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 34px; padding: 4px 11px; border-radius: 7px; cursor: pointer;
+  font-size: 13px; font-weight: 650; color: var(--ink-2); line-height: 1.15; text-align: center;
+}
+.seg label .def { font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: .02em; }
+.seg input:checked + label { background: var(--surface); color: var(--ink); box-shadow: 0 0 0 1px var(--line-strong), 0 1px 2px rgba(0,0,0,.06); }
+.seg input:focus-visible + label { outline: 2px solid var(--focus); outline-offset: 1px; }
+.seg input:disabled + label { cursor: not-allowed; opacity: .5; }
+.stepper { display: inline-flex; align-items: center; background: var(--surface-2); border-radius: 9px; padding: 2px; }
+.stepper button { width: 34px; height: 34px; border: 0; background: transparent; border-radius: 7px; font-size: 18px; font-weight: 600; cursor: pointer; color: var(--ink); }
+.stepper button:hover { background: var(--surface); }
+.stepper output { min-width: 54px; text-align: center; font-weight: 700; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+
+/* Tabs: bottom bar on phones, inline in the top bar on wide screens */
+.tabs {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 35;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  background: var(--surface); border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px);
+}
+.tabs a {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 8px 4px 9px; font-size: 12px; font-weight: 650; color: var(--muted); text-decoration: none;
+}
+.tabs a svg { width: 20px; height: 20px; }
+.tabs a[aria-current="page"] { color: var(--ink); }
+.tabs a[aria-current="page"]::before { content: ""; position: absolute; top: 0; left: 25%; right: 25%; height: 3px; border-radius: 0 0 3px 3px; background: var(--accent-fill); }
+main { padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+@media (min-width: 900px) {
+  .tabs { position: static; display: flex; gap: 2px; border: 0; padding: 0; background: transparent; order: 2; }
+  .tabs a { flex-direction: row; gap: 7px; padding: 8px 12px; border-radius: 8px; font-size: 13.5px; }
+  .tabs a svg { width: 17px; height: 17px; }
+  .tabs a:hover { background: var(--surface-2); }
+  .tabs a[aria-current="page"] { background: var(--surface-2); }
+  .tabs a[aria-current="page"]::before { top: auto; bottom: -11px; left: 12px; right: 12px; border-radius: 3px 3px 0 0; }
+  .brand { order: 1; }
+  .controls { order: 3; }
+  main { padding-bottom: 32px; }
+}
+
+/* ---------- Screens ---------- */
+.screen { padding-block: 20px 8px; display: grid; gap: 22px; }
+.screen-head { display: grid; gap: 6px; }
+.screen-head p { color: var(--ink-2); max-width: 68ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; min-width: 0; }
+.panel-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; margin-bottom: 12px; }
+.panel-head p { color: var(--muted); font-size: 13px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px;
+  padding: 6px 13px; border-radius: 8px; border: 1px solid var(--line-strong); background: var(--surface);
+  font-size: 13.5px; font-weight: 650; cursor: pointer; color: var(--ink); text-decoration: none;
+}
+.btn:hover { background: var(--surface-2); }
+.btn-quiet { border-color: transparent; background: transparent; color: var(--der-ink); padding-inline: 6px; }
+.btn-quiet:hover { background: var(--surface-2); }
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.link-btn { border: 0; background: none; padding: 0; color: var(--der-ink); font-weight: 650; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; font-size: inherit; }
+
+/* Pills and flags */
+.pill { display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 700; white-space: nowrap; background: var(--surface-2); color: var(--ink-2); }
+.flag-sourced { background: var(--ok-bg); color: var(--ok-ink); }
+.flag-derived { background: var(--der-bg); color: var(--der-ink); }
+.flag-assumption { background: var(--asm-bg); color: var(--asm-ink); }
+.pill-pending { background: var(--asm-bg); color: var(--asm-ink); }
+.pill-level-H { background: var(--bad-bg); color: var(--bad-ink); }
+.pill-level-M { background: var(--asm-bg); color: var(--asm-ink); }
+.pill-level-L { background: var(--ok-bg); color: var(--ok-ink); }
+
+/* ---------- Pick ---------- */
+.cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.asset-card {
+  display: grid; gap: 12px; align-content: start; text-align: left; width: 100%;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px;
+  cursor: pointer; box-shadow: var(--shadow); color: var(--ink);
+}
+.asset-card:hover { border-color: var(--line-strong); }
+.asset-card[aria-current="true"] { border-color: var(--accent-fill); box-shadow: 0 0 0 1px var(--accent-fill), var(--shadow); }
+.asset-card span { display: block; }
+.ac-top { display: flex !important; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.ac-name { font-size: 1.25rem; font-weight: 750; letter-spacing: -.015em; }
+.ac-meta { font-size: 13px; color: var(--ink-2); }
+.ac-values { display: grid !important; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 8px; padding-top: 10px; border-top: 1px solid var(--line); }
+.ac-values .lbl { font-size: 11.5px; font-weight: 650; color: var(--muted); }
+.ac-values .val { font-size: 1.2rem; font-weight: 750; font-variant-numeric: tabular-nums; }
+.ac-values .arrow { color: var(--muted); padding-bottom: 4px; }
+.ac-change { font-size: 13px; font-weight: 650; }
+.ac-foot { display: flex !important; flex-wrap: wrap; gap: 6px; }
+.neg { color: var(--bad-ink); }
+.pos { color: var(--ok-ink); }
+
+/* ---------- Value ---------- */
+.asset-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 8px 16px; }
+.asset-head .meta { color: var(--ink-2); font-size: 13.5px; }
+.headline { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media (min-width: 640px) { .headline { grid-template-columns: 1fr auto 1fr; align-items: stretch; } }
+.hl-tile {
+  display: grid; gap: 4px; align-content: start; text-align: left; width: 100%;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px;
+  cursor: pointer; color: var(--ink);
+}
+.hl-tile:hover { border-color: var(--line-strong); }
+.hl-tile .big { font-size: clamp(1.9rem, 7vw, 2.6rem); font-weight: 780; letter-spacing: -.025em; font-variant-numeric: tabular-nums; line-height: 1.05; }
+.hl-tile .sub { font-size: 13px; color: var(--ink-2); }
+.hl-tile .trace { font-size: 12px; color: var(--der-ink); font-weight: 650; }
+.hl-tile.risk { border-color: var(--line-strong); }
+.hl-delta { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 4px 6px; text-align: center; }
+.hl-delta .d { font-size: 1.05rem; font-weight: 750; font-variant-numeric: tabular-nums; }
+.hl-delta .arrowline { color: var(--muted); font-size: 20px; line-height: 1; }
+@media (max-width: 639px) { .hl-delta { flex-direction: row; gap: 8px; justify-content: flex-start; padding: 0 4px; } .hl-delta .arrowline { transform: rotate(90deg); } }
+.metrics { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+.metric {
+  display: grid; gap: 3px; align-content: start; text-align: left; width: 100%;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px;
+  cursor: pointer; color: var(--ink);
+}
+.metric:hover { border-color: var(--line-strong); }
+.metric .k { font-size: 12px; font-weight: 650; color: var(--muted); }
+.metric .v { font-size: 1.12rem; font-weight: 750; font-variant-numeric: tabular-nums; }
+.metric .s { font-size: 12.5px; color: var(--ink-2); }
+.chart { width: 100%; min-width: 0; position: relative; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.t-ink { fill: var(--ink); }
+.t-ink2 { fill: var(--ink-2); }
+.t-muted { fill: var(--muted); }
+.f-gain { fill: var(--gain); }
+.f-loss { fill: var(--loss); }
+.f-total { fill: var(--total); }
+.f-aisc { fill: var(--aisc); }
+.f-risk { fill: var(--riskcost); }
+.f-surface { fill: var(--surface); }
+.s-grid { stroke: var(--line); }
+.s-axis { stroke: var(--line-strong); }
+.s-gold { stroke: var(--accent-fill); }
+.wf-row { cursor: pointer; }
+.wf-row:focus { outline: none; }
+.wf-row:focus-visible .wf-hit, .wf-row:hover .wf-hit { fill: var(--surface-2); }
+.wf-hit { fill: transparent; }
+.risks { display: grid; gap: 10px; }
+.risk-item { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; padding: 12px 0; border-top: 1px solid var(--line); }
+.risk-item:first-child { border-top: 0; padding-top: 0; }
+.risk-rank { grid-row: span 3; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-2); font-weight: 750; font-size: 13.5px; }
+.risk-item h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.risk-item .q { font-size: 13.5px; color: var(--ink-2); padding: 8px 10px; background: var(--surface-2); border-radius: 8px; }
+.risk-item .q b { color: var(--ink); }
+.banner { display: grid; gap: 6px; padding: 14px 16px; border-radius: var(--radius); background: var(--asm-bg); color: var(--ink); border: 1px solid var(--line); }
+.banner b { color: var(--asm-ink); }
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; }
+.timeline li { display: grid; grid-template-columns: 92px 1fr; gap: 12px; padding: 9px 0; border-top: 1px solid var(--line); }
+.timeline li:first-child { border-top: 0; }
+.timeline .date { font-weight: 700; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.timeline .src { font-size: 12px; color: var(--muted); }
+
+/* Tables */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: 8px; max-width: 100%; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+th, td { padding: 6px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); z-index: 1; }
+thead th { font-size: 12px; color: var(--muted); font-weight: 700; background: var(--surface); }
+tbody tr:last-child td { border-bottom: 0; }
+tr.strong td { font-weight: 750; }
+tr.sep td { border-top: 2px solid var(--line-strong); }
+td.wrap-cell, th.wrap-cell { white-space: normal; min-width: 150px; text-align: left; }
+.cmp th, .cmp td { text-align: left; }
+.cmp td.n { text-align: right; }
+
+details.more { border-top: 1px solid var(--line); padding-top: 10px; }
+details.more > summary { cursor: pointer; font-weight: 650; color: var(--der-ink); font-size: 13.5px; list-style-position: inside; }
+details.more[open] > summary { margin-bottom: 10px; }
+
+/* ---------- Dials ---------- */
+.dial-summary {
+  position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--topbar-h, 108px)); z-index: 10;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px;
+  background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 8px 14px; box-shadow: var(--shadow);
+  margin-bottom: -10px;
+}
+@media (max-width: 639px) { .dial-summary .vals { font-size: 13.5px; gap: 2px 8px; } .dial-summary .vals b { font-size: 1rem; } }
+.dial-summary .vals { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-variant-numeric: tabular-nums; }
+.dial-summary .vals b { font-size: 1.1rem; }
+.dial-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
+.dial { display: grid; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; min-width: 0; }
+.dial.changed { border-color: var(--accent-fill); }
+.dial.flash { box-shadow: 0 0 0 3px var(--accent-soft); }
+.dial-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.dial-impact { text-align: right; font-weight: 750; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dial-impact small { display: block; font-size: 11px; font-weight: 600; color: var(--muted); }
+.dial .effect { font-size: 13.5px; }
+.dial .reason { font-size: 13px; color: var(--ink-2); }
+.dial .reason b { color: var(--ink); }
+.dial fieldset.seg { width: 100%; }
+.dial fieldset.seg label { flex: 1; }
+.dial .na { font-size: 12.5px; color: var(--muted); }
+.ev-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.ev-list li { display: grid; gap: 2px; font-size: 13px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.ev-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+.ev-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 8px; align-items: baseline; }
+.ev-val { font-weight: 700; }
+.ev-src { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.plan { display: grid; gap: 10px; }
+.switch-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; }
+.switch-row label { font-weight: 650; }
+.check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 650; }
+.check input { width: 18px; height: 18px; accent-color: var(--accent-fill); }
+
+/* ---------- Compare ---------- */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--ink-2); margin-bottom: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.sw-aisc { background: var(--aisc); }
+.sw-risk { background: var(--riskcost); }
+.sw-gold { width: 18px; height: 0; border-top: 2px dashed var(--accent-fill); border-radius: 0; }
+.explain { font-size: 14px; color: var(--ink); background: var(--surface-2); border-radius: 8px; padding: 10px 12px; margin-top: 10px; }
+.tip {
+  position: absolute; pointer-events: none; z-index: 5; min-width: 170px; max-width: 240px;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--line-strong); border-radius: 8px;
+  padding: 8px 10px; font-size: 12.5px; box-shadow: var(--shadow);
+}
+.tip b { display: block; font-size: 13px; margin-bottom: 2px; }
+.tip .row { display: flex; justify-content: space-between; gap: 10px; font-variant-numeric: tabular-nums; }
+.cc-bar { cursor: pointer; }
+.cc-bar:focus { outline: none; }
+.cc-bar:focus-visible .cc-outline, .cc-bar:hover .cc-outline { stroke: var(--ink); stroke-width: 1.5; }
+.cc-outline { fill: none; stroke: transparent; }
+
+/* ---------- Footer & sheet ---------- */
+.footer { padding-block: 18px 6px; display: grid; gap: 10px; color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--line); margin-top: 18px; }
+dialog.sheet {
+  border: 1px solid var(--line-strong); border-radius: 14px; padding: 0; width: min(760px, calc(100vw - 24px));
+  max-height: min(86vh, 900px); background: var(--surface); color: var(--ink); box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+dialog.sheet::backdrop { background: rgba(10, 14, 18, .45); }
+.sheet-head { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 16px; background: var(--surface); border-bottom: 1px solid var(--line); }
+.sheet-body { padding: 16px; display: grid; gap: 14px; overflow-wrap: anywhere; }
+.sheet-body h3 { margin-top: 4px; }
+.formula { font-family: var(--font-num); font-size: 12.5px; background: var(--surface-2); padding: 10px 12px; border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.kv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 14px; font-size: 13.5px; }
+.kv > :nth-child(even) { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.checks-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13px; }
+.checks-list li { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: start; padding: 8px 10px; border-radius: 8px; background: var(--surface-2); }
+.checks-list .res { font-weight: 800; font-size: 11.5px; padding: 1px 7px; border-radius: 999px; }
+.res-pass { background: var(--ok-bg); color: var(--ok-ink); }
+.res-fail { background: var(--bad-bg); color: var(--bad-ink); }
+pre.log { font-family: var(--font-num); font-size: 12px; background: var(--surface-2); border-radius: 8px; padding: 10px; overflow-x: auto; white-space: pre; margin: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .dial, .asset-card, .hl-tile, .metric { transition: border-color .15s ease, box-shadow .2s ease; }
+}
+</style>
+</head>
+<body>
+<header class="topbar" id="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M5 18 L9 8 H17 L21 18 Z" fill="var(--accent-fill)"/><path d="M9 8 H17 L15.5 11 H10.5 Z" fill="var(--accent-soft)" opacity=".9"/><rect x="3" y="19" width="20" height="2.4" rx="1.2" fill="var(--ink)"/></svg>
+      <span>Mining Risk Explorer<small id="brand-asset">Gold · version 1</small></span>
+    </div>
+    <nav class="tabs" aria-label="Screens">
+      <a href="#pick" data-screen="pick"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="11" y="3" width="6" height="6" rx="1.5"/><rect x="3" y="11" width="6" height="6" rx="1.5"/><rect x="11" y="11" width="6" height="6" rx="1.5"/></svg>Pick</a>
+      <a href="#value" data-screen="value"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 16.5h14"/><path d="M5 14V8"/><path d="M9 14V5"/><path d="M13 14v-3"/><path d="M17 14V9"/></svg>Value</a>
+      <a href="#dials" data-screen="dials"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 6h14M3 14h14"/><circle cx="8" cy="6" r="2.2" fill="var(--surface)"/><circle cx="13" cy="14" r="2.2" fill="var(--surface)"/></svg>Dials</a>
+      <a href="#compare" data-screen="compare"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 17h14"/><rect x="4" y="9" width="3.5" height="8"/><rect x="8.5" y="6" width="3.5" height="11"/><rect x="13" y="3" width="3.5" height="14"/></svg>Compare</a>
+    </nav>
+    <div class="controls">
+      <div class="ctl">
+        <span class="ctl-label" id="deck-label">Gold price</span>
+        <fieldset class="seg" aria-labelledby="deck-label" id="deck-seg"></fieldset>
+      </div>
+      <div class="ctl">
+        <span class="ctl-label" id="rate-label">Real rate</span>
+        <div class="stepper" role="group" aria-labelledby="rate-label">
+          <button type="button" id="rate-down" aria-label="Lower the base real discount rate by 0.5 points">&minus;</button>
+          <output id="rate-out" aria-live="polite">5.0%</output>
+          <button type="button" id="rate-up" aria-label="Raise the base real discount rate by 0.5 points">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <section class="screen" id="screen-pick" aria-labelledby="pick-title"></section>
+  <section class="screen" id="screen-value" aria-labelledby="value-title" hidden></section>
+  <section class="screen" id="screen-dials" aria-labelledby="dials-title" hidden></section>
+  <section class="screen" id="screen-compare" aria-labelledby="compare-title" hidden></section>
+  <footer class="footer">
+    <div class="btn-row">
+      <button type="button" class="btn" data-open="how">How the dials work</button>
+      <button type="button" class="btn" data-open="assumptions">Assumptions list</button>
+      <button type="button" class="btn" data-open="checks" id="run-checks">Run checks</button>
+    </div>
+    <p>Valuation date 1 January 2026 · real US$ · flat real prices · end-year discounting. Every dial level is a starting assumption to calibrate against what happened at comparable mines, not an industry statistic. A screening aid, not investment advice.</p>
+  </footer>
+</main>
+
+<dialog class="sheet" id="sheet" aria-labelledby="sheet-title">
+  <div class="sheet-head"><h2 id="sheet-title">Details</h2><button type="button" class="btn" id="sheet-close">Close</button></div>
+  <div class="sheet-body" id="sheet-body"></div>
+</dialog>
+
+<script>
+'use strict';
+/* =====================================================================
+   1. DATA. Every number on screen comes from these objects or is
+      computed from them. Flags: sourced | derived | assumption.
+   ===================================================================== */
+const G_PER_OZ = 31.1034768;
+
+const MODEL = {
+  firstYear: 2026,                 // valuation date 1 Jan 2026, so 2026 cash flow is discounted one full year
+  defaultRate: 0.05,
+  rateStep: 0.005, rateMin: 0, rateMax: 0.20,
+  fixedShare: 0.40,                // share of site costs that continue through a stoppage
+  fiscalWithinYears: 3,            // a fiscal change "within three years" is equally likely in each of years 1-3
+  breakevenMax: 25000
+};
+
+const MODEL_ASSUMPTIONS = [
+  { label: 'Fixed share of site costs during a stoppage', value: '40%', note: 'A stoppage cuts production and variable costs; fixed costs continue. Build-brief assumption.' },
+  { label: 'Stoppage events as expected values', value: 'p × months ÷ 12', note: 'A p% yearly chance of an n-month stoppage cuts each year’s milled tonnes by p × n/12. Events from different dials add.' },
+  { label: 'Timing of a fiscal change “within three years”', value: 'Equal chance in years 1, 2, 3', note: 'Expected royalty rise in year t = probability × 2 points × min(1, t/3). The state-stake rise uses the same timing.' },
+  { label: 'State stake rise', value: 'Uncompensated', note: 'The owner’s share falls pro rata (share × (1 − new) ÷ (1 − current)), with no payment from the state.' },
+  { label: 'Sustaining capex during stoppages', value: 'Scales with tonnes milled', note: 'Sustaining capex is per tonne milled, so it falls with a stoppage.' },
+  { label: 'Depreciation for tax', value: 'Units of production', note: '(Opening tax base + capex) × this year’s tonnes ÷ remaining scheduled tonnes; whatever is left is deducted in the final year.' },
+  { label: 'Working-capital days', value: 'Receivables 5 · inventory 30 · payables 45', note: 'The brief lists "5 / 45 / 30". Reading it as receivables / payables / inventory reproduces the Tongon spreadsheet (NPV US$322M, +1 year +US$57M); reading inventory as 45 and payables as 30 gives US$325.6M. Receivables use net revenue; inventory and payables use site costs.' },
+  { label: 'Working-capital release', value: 'Year after production ends', note: 'The balance unwinds in the year after the last production year, if that year is inside the asset’s model horizon (Tongon: 2030, as in the spreadsheet).' },
+  { label: 'AISC definition', value: 'Site + royalties + sustaining + corporate G&A', note: 'Per payable ounce. Excludes exploration, streams, growth capex and closure.' },
+  { label: 'Risk cost per ounce', value: '(Base − risk-adjusted NPV) ÷ owner’s LOM ounces', note: 'Owner’s share of NPV over the owner’s share of base-case life-of-mine payable ounces.' },
+  { label: 'Consensus deck after 2030', value: 'Flat at US$4,500/oz', note: 'Goldman Sachs gives 2026 and 2027; flat from 2028 onwards is an assumption.' },
+  { label: 'Dial levels', value: 'Starting assumptions', note: 'Every dial level is a starting assumption to calibrate against comparable mines, not an industry statistic.' }
+];
+
+const PRICE_DECKS = {
+  spot:      { id: 'spot', label: 'Spot', prices: {}, flat: 3700, desc: 'US$3,700/oz flat', source: 'Trading Economics, gold spot, 19 Nov 2026', url: 'https://tradingeconomics.com/commodity/gold', flag: 'sourced' },
+  consensus: { id: 'consensus', label: 'Consensus', prices: { 2026: 4150, 2027: 4650, 2028: 4500, 2029: 4500, 2030: 4500 }, flat: 4500, desc: 'US$4,150 (2026), 4,650 (2027), then 4,500 flat', source: 'Goldman Sachs gold forecast, Nov 2026; flat from 2028 is an assumption', url: '', flag: 'assumption' },
+  downside:  { id: 'downside', label: 'Downside', prices: {}, flat: 3000, desc: 'US$3,000/oz flat', source: 'Downside deck set in the build brief', url: '', flag: 'assumption' }
+};
+
+const LEVELS = ['L', 'M', 'H'];
+const LEVEL_NAME = { L: 'Low', M: 'Medium', H: 'High' };
+
+// The nine dials, in bridge order (discount rate last). Every number here is a starting assumption.
+const DIALS = [
+  { id: 'resource', name: 'Resource and grade', short: 'Resource', question: 'How sure are we about the ounces?',
+    covers: 'Resource confidence, grade reconciliation, dilution, life extension', method: 'Range on an input', line: 'Head grade; tonnes and mine life',
+    basis: 'Share of the plan from inferred ounces, reconciliation history, years in production',
+    levels: { L: { text: 'No change', fx: {} }, M: { text: 'Grade −5%, mine life −10%', fx: { grade: -0.05, life: -0.10 } }, H: { text: 'Grade −10%, mine life −25%', fx: { grade: -0.10, life: -0.25 } } } },
+  { id: 'recovery', name: 'Recovery', short: 'Recovery', question: 'Will the plant get the gold out?',
+    covers: 'Metallurgy, ore variability, throughput', method: 'Range on an input', line: 'Metallurgical recovery, so payable ounces',
+    basis: 'Years of plant data versus bench testwork only; refractory or fresh ore ahead',
+    levels: { L: { text: 'Recovery −1 point', fx: { recPts: -1 } }, M: { text: 'Recovery −4 points', fx: { recPts: -4 } }, H: { text: 'Recovery −12 points', fx: { recPts: -12 } } } },
+  { id: 'ground', name: 'Ground and mining', short: 'Ground', question: 'How hard is it to mine?',
+    covers: 'Geotechnical, water, hardness, hauls, method change', method: 'Range on an input; an event at High', line: 'Mining cost; downtime',
+    basis: 'Pit depth and wall history, water, haul distances, planned transitions',
+    levels: { L: { text: 'No change', fx: {} }, M: { text: 'Mining cost +5%', fx: { mining: 0.05 } }, H: { text: 'Mining cost +15%, plus a 5% yearly chance of a two-month stoppage', fx: { mining: 0.15, events: [{ p: 0.05, months: 2 }] } } } },
+  { id: 'infra', name: 'Infrastructure', short: 'Infrastructure', question: 'Can it get power, water and supplies reliably?',
+    covers: 'Power, water, access', method: 'Range on an input; an event at High', line: 'Processing and site G&A cost; downtime',
+    basis: 'Grid reliability, diesel dependence, distance to port',
+    levels: { L: { text: 'No change', fx: {} }, M: { text: 'Processing and G&A +5%', fx: { procGa: 0.05 } }, H: { text: 'Processing and G&A +10%, plus a 2% yearly chance of a one-month outage', fx: { procGa: 0.10, events: [{ p: 0.02, months: 1 }] } } } },
+  { id: 'people', name: 'People and operator', short: 'People', question: 'Have they done this before?',
+    covers: 'Skills, operator record, labour relations', method: 'Range on an input; a delay for deposits at High', line: 'All site costs; ramp-up for deposits',
+    basis: 'Depth of the local mining workforce, expat share, operator history',
+    levels: { L: { text: 'No change', fx: {} }, M: { text: 'Site costs +5%', fx: { site: 0.05 } }, H: { text: 'Site costs +10%; deposits also ramp up six months slower', fx: { site: 0.10, depositDelay: 0.5 } } } },
+  { id: 'capex', name: 'Capex and schedule', short: 'Capex', question: 'Will it be built on budget and on time?', depositsOnly: true,
+    covers: 'Overrun, delay, ramp-up', method: 'Range on an input, plus a delay', line: 'Initial capex; production timing',
+    basis: 'Study stage (PFS or DFS), contingency, contractor record',
+    levels: { L: { text: 'No change', fx: {} }, M: { text: 'Capex +15%, six months late', fx: { capex: 0.15, depositDelay: 0.5 } }, H: { text: 'Capex +35%, twelve months late', fx: { capex: 0.35, depositDelay: 1 } } } },
+  { id: 'fiscal', name: 'Fiscal and legal', short: 'Fiscal', question: 'Will the rules change?',
+    covers: 'Royalty, tax, state stake, permits', method: 'Event (probability × impact)', line: 'Royalties; owner’s share',
+    basis: 'Recent code changes, stability agreement, licence term',
+    levels: { L: { text: 'No change', fx: {} }, M: { text: '25% chance of a two-point royalty rise within three years', fx: { royaltyPts: 2, royaltyProb: 0.25 } }, H: { text: '50% chance of a two-point royalty rise and the state stake going to 30%', fx: { royaltyPts: 2, royaltyProb: 0.5, stateTo: 0.30, stateProb: 0.5 } } } },
+  { id: 'community', name: 'Community and environment', short: 'Community', question: 'Will people and regulators let it run?',
+    covers: 'Land, artisanal miners, blockades, permits, climate', method: 'Event (probability × impact); a delay for deposits at High', line: 'Downtime; schedule for deposits',
+    basis: 'Resettlement scale, artisanal activity, past blockades, permit status',
+    levels: { L: { text: 'No change', fx: {} }, M: { text: '3% yearly chance of a one-month blockade', fx: { events: [{ p: 0.03, months: 1 }] } }, H: { text: '10% yearly chance of a three-month blockade; deposits also get a one-year permit delay', fx: { events: [{ p: 0.10, months: 3 }], depositDelay: 1 } } } },
+  { id: 'political', name: 'Political and security', short: 'Political', question: 'Could the country stop the mine?',
+    covers: 'Instability, expropriation, security', method: 'Country premium on the discount rate (never also a stoppage event)', line: 'Discount rate',
+    basis: 'Damodaran’s premium, the Fraser Institute survey, recent events',
+    levels: { L: { text: 'Half the country risk premium', fx: { crpMult: 0.5 } }, M: { text: 'The full country risk premium', fx: { crpMult: 1 } }, H: { text: '1.5× the country risk premium', fx: { crpMult: 1.5 } } } }
+];
+
+// Source records, spread into evidence items so each carries {source, url}.
+const S = {
+  TM:     { source: 'Tongon mining model (CFI-style), Mining Model sheet', url: '' },
+  TMS:    { source: 'Tongon mining model, Sensitivity Engine sheet', url: '' },
+  BRIEF:  { source: 'Build brief for this MVP (21 Nov 2026)', url: '' },
+  CIROY:  { source: 'Africa Sustainability Matters, West Africa reassesses gold royalties (2025)', url: 'https://africasustainabilitymatters.com/west-africa-reassesses-gold-royalties-amid-record-breaking-prices/' },
+  DAM:    { source: 'Damodaran (NYU), Country Default Spreads and Risk Premiums, Jan 2026', url: 'https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/ctryprem.html' },
+  QR:     { source: 'Regis, ASX Quarterly Report to 30 Sep 2026 (20 Oct 2026)', url: 'https://www.marketindex.com.au/data-api/api/v1/announcements/XASX:RRL:6A1350046/pdf/inline/quarterly-activities-report' },
+  QRJUN:  { source: 'Regis, ASX Quarterly Report to 30 Jun 2026 (24 Jul 2026)', url: 'https://hotcopper.com.au/data/announcements/ASX/6A1335194_RRL.pdf' },
+  MRE:    { source: 'Regis, Mineral Resource and Ore Reserve Update at Tropicana (23 Feb 2026), incl. JORC Table 1', url: 'https://www.marketindex.com.au/data-api/api/v1/announcements/XASX:RRL:6A1313084/pdf/inline/mineral-resource-and-ore-reserve-update-at-tropicana' },
+  GUID:   { source: 'Regis, Stronger Production Outlook Lifts FY27 Guidance (17 Jul 2026)', url: 'https://www.listcorp.com/asx/rrl/regis-resources-limited/news/stronger-production-outlook-lifts-fy27-guidance-3378436.html' },
+  HAV:    { source: 'Regis, Havana Underground Project approval (9 Sep 2024)', url: 'https://announcements.asx.com.au/asxpdf/20240909/pdf/067nbj99yfdwk5.pdf' },
+  AGA:    { source: 'AngloGold Ashanti, Tropicana operation page', url: 'https://www.anglogoldashanti.com/portfolio/australia/tropicana/' },
+  AGAAR:  { source: 'AngloGold Ashanti 2025 Annual Report, Regional review: Australia', url: 'https://reports.anglogoldashanti.com/25/ar/footprint/australia/' },
+  AGAQ3:  { source: 'AngloGold Ashanti, Q3 2026 earnings release (5 Nov 2026)', url: 'https://www.financialcontent.com/article/bizwire-2026-11-5-anglogold-ashanti-q3-30-september-2026-earnings-release-and-dividend-declaration' },
+  RRLSITE:{ source: 'Regis, Tropicana Gold Mine Joint Venture page', url: 'https://www.regisresources.com.au/our-assets/tropicana-joint-venture/' },
+  FACT:   { source: 'Tropicana JV, Fact Sheet 2025', url: 'https://www.tropicanajv.com.au/irm/pdf/7dc0406f-8060-4ea4-8446-b818e8b52bdc/Tropicana-Fact-Sheet-2025.pdf?Platform=ListPage' },
+  PE:     { source: 'Pacific Energy, Tropicana hybrid power system delivered (2025)', url: 'https://pacificenergy.com.au/pacific-energy-delivers-australias-largest-off-grid-hybrid-power-system-to-tropicana-gold-mine/' },
+  GMR:    { source: 'Global Mining Review, Tropicana renewables (26 Jun 2023)', url: 'https://www.globalminingreview.com/mining/26062023/anglogold-ashanti-to-power-tropicana-gold-with-renewable-energy/' },
+  AGAEN:  { source: 'AngloGold Ashanti, Climate change and resilience page', url: 'https://www.anglogoldashanti.com/sustainability/environment/energy-climate-change/' },
+  SITE:   { source: 'Regis, Analyst Duketon Site Visit presentation (2 Nov 2026)', url: 'https://www.regisresources.com.au/wp-content/uploads/2026/11/Regis-Analyst-Duketon-Site-Visit.pdf' },
+  FRASER: { source: 'Fraser Institute, Annual Survey of Mining Companies 2025 (Feb 2026)', url: 'https://www.fraserinstitute.org/sites/default/files/2026-02/annual-survey-of-mining-companies-2025.pdf' },
+  FRASER2:{ source: 'Colitco, summary of Fraser Institute 2025 survey (Mar 2026)', url: 'https://colitco.com/australia-dominates-global-mining-investment-rankings/' },
+  PACK:   { source: 'Tropicana data pack, Risk dial evidence sheet (21 Nov 2026)', url: '' },
+  PACKP:  { source: 'Tropicana data pack, Production sheet (derived from Regis quarterlies at 30%)', url: '' },
+  // Côte d'Ivoire and Mali country risk
+  MOODYCI:{ source: 'Daba Finance, Côte d’Ivoire sovereign rating: Moody’s Ba2 (affirmed 13 Mar 2026)', url: 'https://dabafinance.com/en/news/cote-divoire-sovereign-rating-moody-s-ba2-outlook' },
+  DAMCOPY:{ source: 'Third-party copy of Damodaran’s January 2026 country risk table (SlideShare)', url: 'https://www.slideshare.net/slideshow/country-risk-premiums-178-countries-with-default-spreads-crp-erp/286462603' },
+  DAMJUL: { source: 'Damodaran, country risk update, July 2026 (blog)', url: 'https://aswathdamodaran.blogspot.com/2026/07/country-risk-drivers-measures-and.html' },
+  // Loulo-Gounkoto (gathered from search excerpts; verify against the documents)
+  LGTR:   { source: 'Loulo-Gounkoto technical report, effective 31 Dec 2022', url: 'https://minedocs.com/24/loulo-gounkoto-tr-12312022.pdf' },
+  BRKFY25:{ source: 'Barrick, full-year and Q4 2025 results (5 Feb 2026)', url: 'https://www.globenewswire.com/news-release/2026/02/05/3232770/0/en/barrick-reports-full-year-and-fourth-quarter-2025-results.html' },
+  BRKQ425:{ source: 'Barrick, Q4 2025 MD&A', url: 'https://s25.q4cdn.com/322814910/files/doc_financial/quarterly_results/2025/q4/Barrick_Q4_2025_MD-A.pdf' },
+  BRKQ326:{ source: 'Barrick, Q3 2026 results (9 Nov 2026)', url: 'https://www.globenewswire.com/news-release/2026/11/09/3398168/0/en/barrick-reports-third-quarter-2026-results.html' },
+  BRKSET: { source: 'Barrick, resolution of its disputes with Mali (24 Nov 2025)', url: 'https://www.globenewswire.com/news-release/2025/11/24/3193667/0/en/barrick-announces-resolution-of-its-disputes-with-mali.html' },
+  BRKSOL: { source: 'Barrick, Loulo-Gounkoto delivers another value-creating performance (10 Mar 2024)', url: 'https://www.globenewswire.com/news-release/2024/03/10/2843413/0/en/loulo-gounkoto-delivers-another-value-creating-performance.html' },
+  LGHALT: { source: 'Mining.com, Barrick halts operations in Mali after gold seized (Jan 2025)', url: 'https://www.mining.com/barrick-halts-operations-in-mali-after-245m-gold-seized/' },
+  LGADM:  { source: 'Mining Weekly, gold complex placed under state control (17 Jun 2025)', url: 'https://www.miningweekly.com/article/barrick-minings-gold-complex-placed-under-state-control-in-mali-2025-06-17' },
+  LGLOSS: { source: 'Mining.com, Barrick posts US$1 billion charge on Mali mine (2025)', url: 'https://www.mining.com/web/barrick-falls-after-posting-1-billion-charge-on-mali-mine/' },
+  LG430:  { source: 'Mining Weekly, Barrick to pay US$430M to settle (Bloomberg, 25 Nov 2025)', url: 'https://www.miningweekly.com/article/barrick-to-pay-430m-to-settle-mali-gold-mine-dispute-bloomberg-news-reports-2025-11-25' },
+  LGECO:  { source: 'Ecofin Agency, Barrick confirms restart at Loulo-Gounkoto (6 Feb 2026)', url: 'https://www.ecofinagency.com/news-industry/0602-52638-barrick-confirms-gold-production-restart-at-mali-s-loulo-gounkoto-mine-in-2026' },
+  LGECOH1:{ source: 'Ecofin Agency, Loulo-Gounkoto output rebounds after 2025 shutdown (12 Aug 2026)', url: 'https://www.ecofinagency.com/news/1208-58101-mali-s-loulo-gounkoto-gold-output-rebounds-after-2025-shutdown' },
+  LGPERM: { source: 'Mining Weekly, Mali renews Loulo licence for 10 years (16 Feb 2026)', url: 'https://www.miningweekly.com/article/mali-renews-barrick-minings-loulo-license-for-10-more-years-2026-02-16' },
+  LGGMS:  { source: 'Zawya (Reuters), Barrick contractor to exit Mali and lay off more than 600 (May 2026)', url: 'https://www.zawya.com/en/economy/africa/barrick-contractor-to-exit-mali-lay-off-more-than-600-people-sources-say-ksbzffi1' },
+  LGUNION:{ source: 'Mining Weekly, Barrick reaches deal with unions at Mali mine (28 Sep 2026)', url: 'https://www.miningweekly.com/article/barrick-mining-reaches-deal-with-unions-at-mali-gold-mine-easing-strike-threat-2026-09-28' },
+  LGIISD: { source: 'IISD Investment Treaty News, Barrick and Mali implement settlement (9 Sep 2026)', url: 'https://www.iisd.org/itn/2026/09/09/barrick-and-mali-implement-settlement-ending-icsid-dispute-over-loulo-gounkoto/' },
+  LGPWR:  { source: 'International Mining, Loulo off-grid solar hybrid plant (13 Feb 2019)', url: 'https://im-mining.com/2019/02/13/barricks-loulo-gold-operation-readies-introduction-off-grid-solar-hybrid-plant/' },
+  JNIM:   { source: 'Africa Center for Strategic Studies, JNIM attacks in western Mali', url: 'https://africacenter.org/spotlight/jnim-attacks-western-mali-sahel/' },
+  ENS:    { source: 'ENSafrica, Mining legislation reform in Mali', url: 'https://www.ensafrica.com/news/detail/9042/mining-legislation-reform-in-mali-strengtheni' },
+  LGRES:  { source: 'Secondary profiles (Metalpilot blog; Grokipedia), unverified', url: 'https://blog.metalpilot.com/analyses/barrick-mining-abx/' },
+  LGZACKS:{ source: 'Yahoo Finance (Zacks), Barrick strategic plans, quoting Barrick 2023 results', url: 'https://finance.yahoo.com/news/barrick-gold-announces-strategic-plans-163600410.html' }
+};
+
+const ASSETS = [
+  /* ------------------------------------------------------------------ */
+  {
+    id: 'tropicana', name: 'Tropicana', country: 'Australia', region: 'Western Australia, 330 km ENE of Kalgoorlie',
+    stage: 'operating', metal: 'Gold', method: 'Open pits and underground',
+    owners: [{ name: 'AngloGold Ashanti (manager)', share: 0.70 }, { name: 'Regis Resources', share: 0.30 }],
+    ownerShare: 1.0, ownerLabel: '100% (whole joint venture)', stateStake: 0,
+    schedule: {
+      kind: 'sources', startYear: 2026, millRate: 9.3, groupCaps: { ug: 2.0, op: 4.3 },
+      sources: [
+        { id: 'ug', label: 'Underground reserve', tonnes: 9.3, grade: 2.9, group: 'ug', priority: 1 },
+        { id: 'op', label: 'Open pit reserve', tonnes: 14.4, grade: 1.7, group: 'op', priority: 2 },
+        { id: 'sp', label: 'Stockpile reserve', tonnes: 15.1, grade: 0.5, priority: 4 }
+      ],
+      extension: { kind: 'years', maxYears: 5, ugRate: 2.0, ugGrade: 2.4, fillGrade: 0.5, ugPriority: 3, fillPriority: 5,
+        label: 'Extra underground years from resource conversion',
+        note: 'Each extra year mines 2.0 Mt of underground resource at 2.4 g/t (the underground resource grade) and fills the rest of the mill at stockpile grade. Resource conversion, not reserves.' }
+    },
+    processing: { recovery: 0.896, payability: 0.999 },
+    costs: {
+      calibrate: {
+        aiscLowLocal: 2630, aiscHighLocal: 2950, fx: 0.70, realisedLocal: 6088,
+        sustainingQuarterLocal: { devAndWaste: 17, plantEquip: 6 }, quarterShare: 0.30,
+        growth: { year: 2026, lowLocal: 15, highLocal: 25, share: 0.30 },
+        splitFrom: 'tongon'
+      },
+      corporatePerOz: 0, explorationPerOz: 0
+    },
+    fiscal: {
+      royalties: [{ name: 'WA state gold royalty', rate: 0.025 }],
+      taxRate: 0.30, taxBase: 500e6, closure: 100e6,
+      wc: { receivableDays: 5, inventoryDays: 30, payableDays: 45 }, wcReleaseHorizon: null
+    },
+    stream: null, transaction: null,
+    crp: { value: 0, label: 'Australia (Aaa)', ...S.DAM, flag: 'sourced', note: 'Aaa-rated countries carry 0% in Damodaran’s table; the data pack asks to confirm Australia’s row.' },
+    dialDefaults: {
+      resource: { level: 'L', reason: 'Reserves cover about four years, but underground reserves have grown faster than depletion every year since 2018 and are priced at US$1,700/oz.', sources: ['MRE'],
+        question: 'How much of the 1.8 Moz of underground Inferred resource converts to reserves, and how does head grade hold as the pit sequence changes?' },
+      recovery: { level: 'L', reason: 'Thirteen years of plant data; quarterly recovery of 89.0–89.9% runs above the 87.3–88.9% reserve assumption.', sources: ['QR', 'MRE'],
+        question: 'Does recovery hold as underground ore takes a larger share of mill feed?' },
+      ground: { level: 'M', reason: 'Deep pits with 70–90° fresh-rock batters, strip ratios of 8–18×, and a third underground mine (Havana) starting in 2027.', sources: ['MRE', 'QR', 'AGAAR'],
+        question: 'How have the pit walls performed, what remediation has been needed, and how much groundwater is there?' },
+      infra: { level: 'L', reason: 'Off-grid 115 MW gas, wind, solar and battery system since February 2025 on a 10-year contract; gas by pipeline since 2016.', sources: ['PE', 'GMR', 'AGAEN'],
+        question: 'What are the water supply and tailings storage capacity over the remaining life?' },
+      people: { level: 'L', reason: 'AngloGold Ashanti has run it since first gold in 2013; Macmahon mines it; fly-in fly-out staffing is complete.', sources: ['RRLSITE', 'FACT', 'MRE'],
+        question: 'How will WA labour costs and contractor rates move over the next cycle?' },
+      capex: { level: 'L', reason: 'Operating mine. The only build is Havana Underground: A$15–25M of growth capital (30% share) in FY27, first ore targeted H1 CY2027.', sources: ['GUID', 'QR'],
+        question: 'What is Havana Underground’s full capex at 100%?' },
+      fiscal: { level: 'L', reason: 'WA royalty of 2.5%; WA ranked 6th of 68 in the 2025 Fraser survey; approvals current.', sources: ['MRE', 'FRASER2'],
+        question: 'Is the extra 1% native-title royalty allowance in the reserve model a real expected cost or a buffer?' },
+      community: { level: 'L', reason: 'Stakeholder agreements in place; acid-forming waste encapsulated; closure costs included in the reserve model.', sources: ['MRE', 'PACK'],
+        question: 'What are the tailings facility design and capacity, and how large is the closure provision?' },
+      political: { level: 'L', reason: 'Australia carries a 0% country risk premium as an Aaa-rated country.', sources: ['DAM'],
+        question: 'No material political risk found in the sources reviewed; confirm no change to WA mining policy is proposed.' }
+    },
+    evidence: [
+      // Model inputs
+      { input: true, label: 'Plant capacity', value: 9.4, unit: 'Mtpa', ...S.AGA, flag: 'sourced' },
+      { input: true, label: 'Ore milled, FY26 (100%)', value: 9.27, unit: 'Mt', ...S.PACKP, flag: 'derived', note: 'Regis 30% share of 2.78 Mt ÷ 0.30.' },
+      { input: true, label: 'Mill rate used in the model', value: 9.3, unit: 'Mtpa', ...S.BRIEF, flag: 'assumption', note: 'FY26 actual, rounded.' },
+      { input: true, label: 'Mining rates used: underground / open pit', value: '2.0 / 4.3', unit: 'Mtpa', ...S.PACKP, flag: 'derived', note: 'FY26 ore mined at 30%: underground 0.60 Mt, open pit 1.29 Mt, grossed up to 100%.' },
+      { input: true, label: 'Ore Reserve, open pit', value: '14.4 Mt @ 1.7 g/t', unit: '', ...S.MRE, flag: 'sourced' },
+      { input: true, label: 'Ore Reserve, underground', value: '9.3 Mt @ 2.9 g/t', unit: '', ...S.MRE, flag: 'sourced' },
+      { input: true, label: 'Ore Reserve, stockpiles', value: '15.1 Mt @ 0.5 g/t', unit: '', ...S.MRE, flag: 'sourced' },
+      { input: true, label: 'Ore Reserve, total (31 Dec 2025)', value: '38.8 Mt @ 1.5 g/t = 1.9 Moz', unit: '', ...S.MRE, flag: 'sourced' },
+      { input: true, label: 'Recovery used (FY26 actual, weighted)', value: '89.6%', unit: '', ...S.QR, flag: 'derived', note: 'Weighted from four quarters of Regis data; reserve assumption is 87.3% open pit / 88.9% underground.' },
+      { input: true, label: 'Payability', value: '99.9%', unit: '', ...S.BRIEF, flag: 'assumption' },
+      { input: true, label: 'FX used to convert A$', value: 0.70, unit: 'US$ per A$', ...S.BRIEF, flag: 'assumption', note: 'Regis presentations use 0.72; the reserve price (US$1,700 = A$2,576) implies 0.66.' },
+      { input: true, label: 'FY27 AISC guidance (Regis)', value: 'A$2,630–2,950', unit: 'A$/oz', ...S.GUID, flag: 'sourced', note: 'Midpoint A$2,790/oz = US$1,953/oz; year-1 AISC is calibrated to it.' },
+      { input: true, label: 'Realised gold price, Sep Q FY27', value: 6088, unit: 'A$/oz', ...S.QR, flag: 'sourced', note: 'Used to back the royalty out of guided AISC.' },
+      { input: true, label: 'Sustaining capital, Sep Q FY27 (30%)', value: 'A$17M development and waste + A$6M plant', unit: '', ...S.QR, flag: 'sourced', note: '× 4 ÷ 0.30 = A$307M a year at 100%.' },
+      { input: true, label: 'Havana Underground growth capital, FY27 (30%)', value: 'A$15–25M', unit: '', ...S.GUID, flag: 'sourced', note: 'Midpoint grossed up to 100% and converted: about US$47M, placed in 2026.' },
+      { input: true, label: 'Site cost split (mining / processing / transport / G&A)', value: 'Tongon proportions', unit: '', ...S.BRIEF, flag: 'assumption', note: 'Tropicana unit costs are not public. The calibrated site cost is split in Tongon’s proportions so the cost dials have something to act on.' },
+      { input: true, label: 'Corporate G&A and exploration', value: 0, unit: 'US$/oz', ...S.BRIEF, flag: 'assumption', note: 'Inside the calibrated site cost.' },
+      { input: true, label: 'WA state gold royalty', value: '2.5%', unit: 'of gold value', ...S.MRE, flag: 'sourced' },
+      { input: true, label: 'Corporate income tax', value: '30%', unit: '', ...S.BRIEF, flag: 'assumption', note: 'Standard Australian federal rate.' },
+      { input: true, label: 'Opening tax base', value: 500, unit: 'US$M', ...S.BRIEF, flag: 'assumption' },
+      { input: true, label: 'Closure cost', value: 100, unit: 'US$M', ...S.BRIEF, flag: 'assumption', note: 'Closure is in the reserve model but the amount is not disclosed.' },
+      { input: true, label: 'FY27 production guidance (Regis 30%)', value: '120–130', unit: 'koz', ...S.GUID, flag: 'sourced', note: 'Midpoint grossed up: about 417 koz at 100%, a cross-check on year-1 output.' },
+      // Dial evidence
+      { dial: 'resource', label: 'Mineral Resources, incl. reserves', value: '87.9 Mt @ 1.9 g/t = 5.4 Moz', unit: '', ...S.MRE, flag: 'sourced' },
+      { dial: 'resource', label: 'Underground Inferred resource', value: 1.8, unit: 'Moz', ...S.MRE, flag: 'sourced' },
+      { dial: 'resource', label: 'Underground reserve additions since 2018', value: '1.3 Moz added vs 808 koz mined', unit: '', ...S.MRE, flag: 'sourced' },
+      { dial: 'resource', label: 'Reserve gold price', value: 1700, unit: 'US$/oz', ...S.MRE, flag: 'sourced' },
+      { dial: 'resource', label: 'Head grade range, last five quarters', value: '1.35–1.96', unit: 'g/t', ...S.QR, flag: 'sourced' },
+      { dial: 'recovery', label: 'Quarterly recovery, FY26 to Sep Q FY27', value: '89.0–89.9%', unit: '', ...S.QR, flag: 'sourced' },
+      { dial: 'recovery', label: 'Reserve recovery assumption', value: '87.3% open pit / 88.9% underground', unit: '', ...S.MRE, flag: 'sourced' },
+      { dial: 'recovery', label: 'Deleterious elements', value: 'None present', unit: '', ...S.MRE, flag: 'sourced' },
+      { dial: 'recovery', label: 'Metallurgical testing', value: 'Pilot-scale tests on PQ core in the feasibility study', unit: '', ...S.MRE, flag: 'sourced' },
+      { dial: 'ground', label: 'Fresh-rock batter angle; bench height', value: '70–90°; 12 m', unit: '', ...S.MRE, flag: 'sourced' },
+      { dial: 'ground', label: 'Strip ratio range, FY26–FY27 quarters', value: '8.3–18.1', unit: 'waste:ore', ...S.QR, flag: 'sourced' },
+      { dial: 'ground', label: 'Underground unplanned dilution; mining recovery', value: '10%; 90–92%', unit: '', ...S.MRE, flag: 'sourced' },
+      { dial: 'ground', label: 'Open pit sequence', value: 'Havana 4 completes mid-2026, then Havana 6', unit: '', ...S.AGAAR, flag: 'sourced' },
+      { dial: 'infra', label: 'Power system', value: '115 MW off-grid hybrid (54 MW gas + 61 MW renewables) since Feb 2025', unit: '', ...S.PE, flag: 'sourced' },
+      { dial: 'infra', label: 'Power contract', value: '10-year build-own-operate with Pacific Energy', unit: '', ...S.GMR, flag: 'sourced' },
+      { dial: 'infra', label: 'Gas supply', value: 'Pipeline since 2016', unit: '', ...S.AGAEN, flag: 'sourced' },
+      { dial: 'infra', label: 'Water supply and tailings capacity', value: 'Not in the sources reviewed', unit: '', ...S.PACK, flag: 'assumption' },
+      { dial: 'people', label: 'Operator', value: 'AngloGold Ashanti, manager since first gold in 2013', unit: '', ...S.RRLSITE, flag: 'sourced' },
+      { dial: 'people', label: 'Mining contractor', value: 'Macmahon Holdings', unit: '', ...S.FACT, flag: 'sourced' },
+      { dial: 'people', label: 'Workforce model', value: 'Fly-in fly-out from Perth or Kalgoorlie; staffing complete', unit: '', ...S.MRE, flag: 'sourced' },
+      { dial: 'capex', label: 'Havana Underground growth capital, FY27 (30%)', value: 'A$15–25M', unit: '', ...S.GUID, flag: 'sourced' },
+      { dial: 'capex', label: 'Havana first ore target', value: 'H1 CY2027', unit: '', ...S.QR, flag: 'sourced' },
+      { dial: 'fiscal', label: 'WA state gold royalty', value: '2.5%', unit: 'of gold value', ...S.MRE, flag: 'sourced' },
+      { dial: 'fiscal', label: 'Extra royalty allowance in reserve evaluation', value: '1%', unit: 'of gold value', ...S.MRE, flag: 'sourced', note: 'For native title uncertainty. Shown as evidence; not in the base case.' },
+      { dial: 'fiscal', label: 'Fraser Institute investment attractiveness, WA', value: '6th of 68', unit: '', ...S.FRASER2, flag: 'sourced' },
+      { dial: 'political', label: 'Country risk premium, Australia', value: '0%', unit: '', ...S.DAM, flag: 'sourced' },
+      { dial: 'community', label: 'Social licence', value: 'All necessary agreements in place with key stakeholders', unit: '', ...S.MRE, flag: 'sourced' },
+      { dial: 'community', label: 'Waste management', value: 'Dumps progressively rehabilitated; acid-forming waste encapsulated', unit: '', ...S.MRE, flag: 'sourced' },
+      { dial: 'community', label: 'Regional weather', value: 'Sep 2026 rain disrupted Regis’s nearby Duketon pits', unit: '', ...S.PACK, flag: 'sourced' }
+    ],
+    events: [
+      { date: 'Sep 2013', text: 'First gold.', ...S.RRLSITE },
+      { date: 'Sep 2020', text: 'Boston Shaker underground reaches commercial production.', ...S.RRLSITE },
+      { date: 'Sep 2024', text: 'Havana Underground approved.', ...S.HAV },
+      { date: 'Feb 2025', text: '115 MW hybrid power system starts commercial operation.', ...S.PE },
+      { date: '23 Feb 2026', text: 'Reserves at 31 Dec 2025: 38.8 Mt at 1.5 g/t for 1.9 Moz.', ...S.MRE },
+      { date: '17 Jul 2026', text: 'Regis lifts FY27 guidance: 120–130 koz (30%) at A$2,630–2,950/oz AISC.', ...S.GUID },
+      { date: '5 Nov 2026', text: 'AngloGold reports Q3 2026 Tropicana output 15% below Q3 2025, as anticipated.', ...S.AGAQ3 }
+    ]
+  },
+  /* ------------------------------------------------------------------ */
+  {
+    id: 'tongon', name: 'Tongon', country: 'Côte d’Ivoire', region: 'Côte d’Ivoire',
+    stage: 'operating', metal: 'Gold', method: 'Open pits',
+    owners: [{ name: 'Atlantic Group (bought from Barrick, Dec 2025)', share: 0.897 }, { name: 'State of Côte d’Ivoire', share: 0.10 }, { name: 'Others', share: 0.003 }],
+    ownerShare: 0.897, ownerLabel: 'Atlantic Group 89.7%', stateStake: 0.10,
+    schedule: {
+      kind: 'fixed',
+      rows: [{ year: 2026, ore: 4.0, grade: 1.20 }, { year: 2027, ore: 4.0, grade: 1.17 }, { year: 2028, ore: 4.0, grade: 1.13 }, { year: 2029, ore: 4.0, grade: 1.10 }],
+      extension: { label: 'Add the 2030 extension year', rows: [{ year: 2030, ore: 4.0, grade: 1.05 }], note: 'The Tongon model’s optional extension year: 4.0 Mt at 1.05 g/t. Not in the base plan.' }
+    },
+    processing: { recovery: 0.82, payability: 0.999 },
+    costs: {
+      split: { mining: 23.00, processing: 21.50, transport: 0.50, ga: 14.50 },
+      corporatePerOz: 15, explorationPerOz: 25, sustainingPerT: 7.50, growthCapex: {}, devCapex: {}
+    },
+    fiscal: {
+      royalties: [{ name: 'Ad valorem royalty', rate: 0.08 }, { name: 'Local development fund', rate: 0.005 }],
+      taxRate: 0.25, taxBase: 150e6, closure: 40e6,
+      wc: { receivableDays: 5, inventoryDays: 30, payableDays: 45 }, wcReleaseHorizon: 2030
+    },
+    stream: { holder: 'Empress', holderPayment: 0.005,
+      tiers: [{ upTo: 400000, rate: 0.0358 }, { upTo: 600000, rate: 0.0293 }, { upTo: null, rate: 0.0081 }] },
+    transaction: { buyer: 'Atlantic Group', upfront: 192e6, contingentTotal: 113e6, contingentPaidShare: 0.5, contingentYears: [2026, 2027, 2028] },
+    crp: { value: 0.039, label: 'Côte d’Ivoire (Ba2 level)', ...S.DAM, flag: 'assumption', note: 'Côte d’Ivoire’s own row in Damodaran’s January 2026 table could not be read, so this uses the brief’s fallback: the 3.90% that Ba2 countries carry in that table. Moody’s rates Côte d’Ivoire Ba2 (affirmed 13 Mar 2026).' },
+    dialDefaults: {
+      resource: { level: 'M', reason: 'About four to five years of reserves left; the plan ends in 2029 unless resources convert.', sources: ['TM'],
+        question: 'How many ounces convert to reserve beyond 2029, and how has mill grade reconciled with the block model?' },
+      recovery: { level: 'M', reason: 'The 82% recovery is a model assumption; actual plant recovery is not disclosed in the sources used.', sources: ['TM'],
+        question: 'What recovery has the plant achieved on fresh ore over the last twelve months?' },
+      ground: { level: 'M', reason: 'The pits are moving from soft saprolite into harder fresh rock.', sources: ['BRIEF'],
+        question: 'What do the latest geotechnical and dewatering reviews say about the pits as they deepen into fresh rock?' },
+      infra: { level: 'L', reason: 'Operating plant; no evidence of power, water or access problems in the sources used. Flagged for diligence.', sources: ['BRIEF'],
+        question: 'How reliable is grid power, and what does backup supply cost?' },
+      people: { level: 'M', reason: 'The new owner comes from banking and industry, not mining.', sources: ['BRIEF'],
+        question: 'Who runs the mine day to day under Atlantic Group, and what is their record running open pits?' },
+      capex: { level: 'L', reason: 'Operating mine with no development capex. The dial applies to undeveloped deposits.', sources: ['TM'],
+        question: 'Not applicable: there is no build.' },
+      fiscal: { level: 'M', reason: 'Côte d’Ivoire raised the gold royalty by two points in its 2025 Finance Law.', sources: ['CIROY'],
+        question: 'Does Tongon’s mining convention carry a stability clause that shields it from further royalty rises?' },
+      community: { level: 'M', reason: 'No public evidence either way; set at Medium until diligence says otherwise.', sources: ['BRIEF'],
+        question: 'Are there disputes over land, artisanal mining or jobs around the pits?' },
+      political: { level: 'M', reason: 'Côte d’Ivoire’s country risk premium applied in full.', sources: ['DAM'],
+        question: 'What political-risk insurance or state guarantees cover the asset?' }
+    },
+    evidence: [
+      { input: true, label: 'Ore milled, 2026–2029', value: 4.0, unit: 'Mt a year', ...S.TM, flag: 'sourced' },
+      { input: true, label: 'Head grade 2026 / 2027 / 2028 / 2029', value: '1.20 / 1.17 / 1.13 / 1.10', unit: 'g/t', ...S.TM, flag: 'sourced' },
+      { input: true, label: 'Optional 2030 extension year', value: '4.0 Mt @ 1.05 g/t', unit: '', ...S.TM, flag: 'sourced' },
+      { input: true, label: 'Recovery', value: '82%', unit: '', ...S.TM, flag: 'assumption', note: 'Assumed in the model; not disclosed.' },
+      { input: true, label: 'Payability', value: '99.9%', unit: '', ...S.TM, flag: 'assumption' },
+      { input: true, label: 'Site cost: mining (incl. haulage) / processing / transport and refining / G&A', value: '23.00 / 21.50 / 0.50 / 14.50', unit: 'US$/t milled', ...S.TM, flag: 'sourced', note: 'Total US$59.50/t.' },
+      { input: true, label: 'Corporate G&A; exploration', value: '15; 25', unit: 'US$/oz', ...S.TM, flag: 'sourced' },
+      { input: true, label: 'Sustaining capex', value: 7.50, unit: 'US$/t milled', ...S.TM, flag: 'sourced' },
+      { input: true, label: 'Royalty', value: '8% ad valorem + 0.5% local development fund', unit: '', ...S.TM, flag: 'sourced' },
+      { input: true, label: 'Stream (Empress)', value: '3.58% of payable gold to 400 koz, 2.93% to 600 koz, 0.81% after; holder pays 0.5% of spot', unit: '', ...S.TM, flag: 'sourced' },
+      { input: true, label: 'Corporate income tax', value: '25%', unit: '', ...S.TM, flag: 'sourced' },
+      { input: true, label: 'Opening tax base', value: 150, unit: 'US$M', ...S.TM, flag: 'assumption' },
+      { input: true, label: 'Closure cost', value: 40, unit: 'US$M', ...S.TM, flag: 'assumption' },
+      { input: true, label: 'Working-capital days', value: 'Receivables 5, inventory 30, payables 45', unit: 'days', ...S.TM, flag: 'assumption', note: 'Brief lists 5 / 45 / 30; this reading reproduces the spreadsheet’s results.' },
+      { input: true, label: 'Purchase price', value: 'US$192M upfront + 50% of US$113M contingent, paid evenly 2026–2028', unit: '', ...S.TM, flag: 'sourced' },
+      { input: true, label: 'Owner’s share', value: '89.7%', unit: '', ...S.TM, flag: 'sourced' },
+      { input: true, label: 'State stake today', value: '10%', unit: '', ...S.BRIEF, flag: 'assumption', note: 'Not in the source files; Côte d’Ivoire’s usual free-carried 10%. Only used by the Fiscal dial at High.' },
+      { dial: 'resource', label: 'Years of reserves', value: 'About 4–5', unit: 'years', ...S.TM, flag: 'sourced' },
+      { dial: 'recovery', label: 'Recovery basis', value: '82%, assumed, not disclosed', unit: '', ...S.TM, flag: 'assumption' },
+      { dial: 'ground', label: 'Ore type ahead', value: 'Saprolite giving way to fresh rock', unit: '', ...S.BRIEF, flag: 'sourced' },
+      { dial: 'people', label: 'New owner', value: 'Atlantic Group: banking and industry, not mining', unit: '', ...S.BRIEF, flag: 'sourced' },
+      { dial: 'fiscal', label: '2025 Finance Law', value: 'Gold royalty +2 points', unit: '', ...S.CIROY, flag: 'sourced' },
+      { dial: 'community', label: 'Public evidence on community issues', value: 'None found', unit: '', ...S.BRIEF, flag: 'assumption' },
+      { dial: 'political', label: 'Country risk premium used', value: '3.90%', unit: '', ...S.DAMCOPY, flag: 'assumption', note: 'Ba2-level premium in the January 2026 table (Costa Rica and the Dominican Republic also carry 3.90%); Côte d’Ivoire’s own row not read.' },
+      { dial: 'political', label: 'Sovereign rating', value: 'Moody’s Ba2, upgraded from Ba3 in Mar 2024, affirmed 13 Mar 2026', unit: '', ...S.MOODYCI, flag: 'sourced' }
+    ],
+    events: [
+      { date: '2025', text: 'Côte d’Ivoire’s 2025 Finance Law adds two points to the gold royalty.', ...S.CIROY },
+      { date: 'Dec 2025', text: 'Atlantic Group buys Barrick’s 89.7% for US$192M upfront plus up to US$113M contingent.', ...S.TM }
+    ]
+  },
+  /* ------------------------------------------------------------------ */
+  {
+    id: 'loulo', name: 'Loulo-Gounkoto', country: 'Mali', region: 'Western Mali',
+    stage: 'operating', metal: 'Gold', method: 'Underground and open pit',
+    owners: [{ name: 'Barrick', share: 0.80 }, { name: 'State of Mali', share: 0.20 }],
+    ownerShare: 0.80, ownerLabel: 'Barrick 80%', stateStake: 0.20,
+    dataStatus: 'pending',
+    pendingNote: 'Public sources reached so far give plant capacity, historic grade and recovery, the old fiscal terms and the event timeline. Still missing: reserves by mine at 31 Dec 2025, sustaining capex, current site AISC, the royalty and tax that apply after the settlement, and the closure provision.',
+    crp: { value: 0.1166, label: 'Mali (Caa2)', ...S.DAM, flag: 'sourced', note: 'Damodaran January 2026 table: Caa2, default spread 7.65%, country risk premium 11.66% (read from a third-party copy of the table; Damodaran has since published a July 2026 update).' },
+    gaps: [
+      { item: 'Ore Reserves by mine and source (Yalea, Gara, Gounkoto open pit and underground, stockpiles) at 31 Dec 2025', why: 'Sets the schedule and mine life', where: 'Barrick 2025 reserves table and Annual Information Form' },
+      { item: 'Ore milled, head grade and recovery, 2023–2026', why: 'Calibrates the schedule and the Recovery dial', where: 'Barrick quarterly Mine Stats' },
+      { item: 'Site AISC for 2024 and 2026, and sustaining capex by year', why: 'Calibrates site cost per tonne, as done for Tropicana', where: 'Barrick Q4 2024 MD&A; 2026 quarterly MD&A segment tables' },
+      { item: 'Royalty, tax and state stake that apply after the November 2025 settlement', why: 'Royalty line, tax line and owner’s share; the settlement accepted the 2023 code but its terms are not published', where: 'Settlement and new convention texts; Mali decree 2024-0396; law-firm guides' },
+      { item: 'Closure provision', why: 'Closure line', where: 'Provisions note in Barrick’s 2025 financial statements; technical report closure section' },
+      { item: 'Priority dividend on the state’s free-carried stake', why: 'Cash to the owner', where: 'Mali 2023 code implementing decree; Barrick filings' }
+    ],
+    dialDefaults: {
+      resource: { level: 'L', reason: 'Long record: 684–723 koz a year in 2022–2024, with reserves reported to support underground mining to 2041. Reserves by mine still to load.', sources: ['LGTR', 'LGRES'],
+        question: 'How much of the reserve sits in Gounkoto and Yalea North, which have been idle since December 2025?' },
+      recovery: { level: 'L', reason: 'Long plant history: 91.2% recovery in 2022 against an 89.5% life-of-mine assumption.', sources: ['LGTR'],
+        question: 'What recovery has the plant achieved since the December 2025 restart?' },
+      ground: { level: 'M', reason: 'Gounkoto pit and Yalea North underground had not restarted by May 2026, and a shaft was reported in poor condition for lack of spare parts.', sources: ['LGGMS'],
+        question: 'What ground, shaft and access work is needed before Gounkoto and Yalea North restart, and at what cost?' },
+      infra: { level: 'M', reason: 'Off-grid: a 63 MW heavy-fuel-oil plant plus 60 MW of solar, with fuel trucked through western Mali, where an insurgent fuel blockade began in September 2025.', sources: ['LGPWR', 'BRKSOL', 'JNIM'],
+        question: 'How many days of fuel does the site hold, and how has the 2025 fuel blockade affected deliveries?' },
+      people: { level: 'H', reason: 'The main mining contractor, GMS, gave more than 600 termination notices and left in May 2026.', sources: ['LGGMS'],
+        question: 'Who mines the ore now, at what cost, and with what experience on this orebody?' },
+      capex: { level: 'L', reason: 'Operating mine. The dial applies to undeveloped deposits.', sources: ['LGTR'],
+        question: 'Not applicable: there is no build. The plant expansion to 6.2 Mtpa would be a separate growth case.' },
+      fiscal: { level: 'H', reason: 'The settlement accepted Mali’s 2023 code: a sliding royalty of about 9.5% at today’s prices against 6% under the old convention, and a state stake of up to 35%.', sources: ['LGIISD', 'CIROY', 'ENS'],
+        question: 'What royalty, tax rate, state stake and stability period did the November 2025 settlement fix for Loulo-Gounkoto?' },
+      community: { level: 'M', reason: 'A strike over 15 demands was averted by a new collective agreement on 21 Sep 2026; artisanal mining is widespread in the district.', sources: ['LGUNION'],
+        question: 'How durable is the September 2026 collective agreement, and what are relations like with nearby communities and artisanal miners?' },
+      political: { level: 'H', reason: 'Mali carries an 11.66% country premium (Caa2); the state seized gold and ran the mine for six months in 2025; Fraser 2025 ranks Mali among the five least attractive jurisdictions.', sources: ['DAM', 'FRASER', 'LGADM'],
+        question: 'What protection does Barrick now have against a repeat of the 2025 seizure, and is it insured?' }
+    },
+    evidence: [
+      // Known so far (not yet enough for a model)
+      { known: true, label: 'Plant capacity', value: 5.0, unit: 'Mtpa', ...S.LGTR, flag: 'sourced', note: 'Expansion to 6.2 Mtpa reported for 2029.' },
+      { known: true, label: '2022 actuals (100%)', value: '5.1 Mt milled at 4.59 g/t, 91.2% recovery, 684 koz', unit: '', ...S.LGTR, flag: 'sourced' },
+      { known: true, label: 'Life-of-mine recovery assumption', value: '89.5%', unit: '', ...S.LGTR, flag: 'sourced' },
+      { known: true, label: 'Production 2024 (100%)', value: 723, unit: 'koz', ...S.BRIEF, flag: 'sourced' },
+      { known: true, label: '2026 guidance', value: '260–290 koz attributable (about 325–363 koz at 100%)', unit: '', ...S.BRKFY25, flag: 'derived', note: 'Attributable guidance ÷ 0.80.' },
+      { known: true, label: 'H1 2026 production (100%)', value: 'About 190', unit: 'koz', ...S.LGECOH1, flag: 'sourced' },
+      { known: true, label: 'Reserves, whole complex', value: '6.9–7.3 Moz at about 4.0–4.2 g/t', unit: '', ...S.LGRES, flag: 'sourced', note: 'Secondary, unverified sources that disagree with each other. Not used in any calculation.' },
+      { known: true, label: 'Reserve gold price, Barrick, year-end 2025', value: 1500, unit: 'US$/oz', ...S.BRKFY25, flag: 'sourced' },
+      { known: true, label: 'AISC 2023 (attributable)', value: 1166, unit: 'US$/oz', ...S.LGZACKS, flag: 'sourced', note: 'Secondary source quoting Barrick. 2024 and 2026 site AISC not found.' },
+      { known: true, label: 'Old convention terms', value: 'Royalty 6%; income tax 30%', unit: '', ...S.LGTR, flag: 'sourced' },
+      { known: true, label: 'Owner’s share', value: 'Barrick 80%, State of Mali 20%', unit: '', ...S.BRKQ326, flag: 'sourced' },
+      // Dial evidence
+      { dial: 'resource', label: 'Production record (100%)', value: '684 koz (2022), 683 koz (2023), 723 koz (2024)', unit: '', ...S.LGTR, flag: 'sourced' },
+      { dial: 'resource', label: 'Reported mine life', value: 'Open pit to 2034, underground to 2041', unit: '', ...S.LGRES, flag: 'sourced', note: 'Secondary source.' },
+      { dial: 'recovery', label: 'Recovery, 2022 actual vs life-of-mine', value: '91.2% vs 89.5%', unit: '', ...S.LGTR, flag: 'sourced' },
+      { dial: 'ground', label: 'Idle since December 2025', value: 'Gounkoto pit; Yalea North underground', unit: '', ...S.LGGMS, flag: 'sourced' },
+      { dial: 'ground', label: 'Shaft condition', value: 'Reported poor, for lack of spare parts', unit: '', ...S.LGGMS, flag: 'sourced', note: 'Single unnamed source cited by Reuters.' },
+      { dial: 'infra', label: 'Power', value: '63 MW heavy-fuel-oil plant + 60 MW solar with batteries; no grid connection', unit: '', ...S.LGPWR, flag: 'sourced' },
+      { dial: 'infra', label: 'Fuel supply', value: 'Insurgent blockade of fuel convoys in western Mali since Sep 2025', unit: '', ...S.JNIM, flag: 'sourced' },
+      { dial: 'people', label: 'Main contractor exit', value: 'GMS: more than 600 termination notices, May 2026', unit: '', ...S.LGGMS, flag: 'sourced' },
+      { dial: 'fiscal', label: '2023 code gold royalty at US$4,500/oz', value: 'About 9.5%', unit: '', ...S.CIROY, flag: 'derived', note: 'Sliding scale: 7% up to US$2,500, then +0.5 points per US$400. Other outlets quote 10% or 10.5%.' },
+      { dial: 'fiscal', label: 'State participation allowed by the 2023 code', value: 'Up to 35%: 10% free-carried, up to 20% paid, 5% local investors', unit: '', ...S.ENS, flag: 'sourced' },
+      { dial: 'fiscal', label: 'Settlement', value: 'Barrick accepted the 2023 code; Loulo permit renewed for 10 years', unit: '', ...S.LGIISD, flag: 'sourced' },
+      { dial: 'community', label: 'Labour', value: 'Strike over 15 demands dropped after a new collective agreement, 21 Sep 2026', unit: '', ...S.LGUNION, flag: 'sourced' },
+      { dial: 'political', label: 'Country risk premium, Mali (Caa2)', value: '11.66%', unit: '', ...S.DAM, flag: 'sourced' },
+      { dial: 'political', label: 'Fraser Institute 2025 survey', value: '5th least attractive for investment; 2nd worst on policy perception', unit: '', ...S.FRASER, flag: 'sourced' },
+      { dial: 'political', label: 'State intervention', value: 'Gold seized Jan 2025; provisional administration Jun–Dec 2025', unit: '', ...S.LGADM, flag: 'sourced' }
+    ],
+    events: [
+      { date: '2022', text: 'Mills 5.1 Mt at 4.59 g/t with 91.2% recovery: 684 koz (100%).', ...S.LGTR },
+      { date: '2024', text: 'Produces 723 koz (100%).', ...S.BRIEF },
+      { date: '14 Jan 2025', text: 'Barrick suspends operations after about 3 t of gold is flown to a state bank.', ...S.LGHALT },
+      { date: '16 Jun 2025', text: 'A Bamako court imposes a six-month provisional administration.', ...S.LGADM },
+      { date: 'Q2 2025', text: 'Barrick books about US$1.04B on deconsolidating the complex.', ...S.LGLOSS },
+      { date: '24 Nov 2025', text: 'Settlement: about US$430M (244bn CFA) per Bloomberg, carried by Reuters. Ecofin reported US$253M, which matches the 144bn CFA cash tranche.', ...S.LG430 },
+      { date: '16–18 Dec 2025', text: 'Control returns to Barrick (Barrick gives 16 Dec; other reports 18 Dec).', ...S.BRKQ425 },
+      { date: '13 Feb 2026', text: 'Council of Ministers renews the Loulo permit for 10 years.', ...S.LGPERM },
+      { date: 'H1 2026', text: 'About 190 koz (100%); 2026 guidance 260–290 koz attributable.', ...S.LGECOH1 },
+      { date: '7 May 2026', text: 'Main contractor GMS to exit with more than 600 termination notices; Gounkoto pit and Yalea North idle since December.', ...S.LGGMS },
+      { date: '21 Sep 2026', text: 'New collective agreement; strike threat dropped.', ...S.LGUNION },
+      { date: 'Q3 2026', text: 'Barrick reports output up 16% on Q2.', ...S.BRKQ326 }
+    ]
+  }
+];
+
+/* =====================================================================
+   2. ENGINE. Pure functions: inputs in, outputs out. No DOM access.
+   ===================================================================== */
+const sum = (arr, f = (x) => x) => arr.reduce((s, x) => s + f(x), 0);
+
+function deckPrice(deck, year) {
+  return deck.prices[year] != null ? deck.prices[year] : deck.flat;
+}
+
+// Calibrate unit costs where they are not public (Tropicana) and resolve everything into one cost object.
+function resolveCosts(asset, all) {
+  const c = asset.costs;
+  if (c.split) {
+    return { split: { ...c.split }, sustainingPerT: c.sustainingPerT, growthCapex: { ...(c.growthCapex || {}) }, devCapex: { ...(c.devCapex || {}) },
+      corporatePerOz: c.corporatePerOz || 0, explorationPerOz: c.explorationPerOz || 0, haulagePerT: c.haulagePerT || 0, calibration: null };
+  }
+  const k = c.calibrate;
+  const y1 = buildSchedule(asset, 0)[0];
+  const tonnes1 = y1.ore * 1e6;
+  const oz1 = tonnes1 * y1.grade / G_PER_OZ * asset.processing.recovery * asset.processing.payability;
+  const aiscLocal = (k.aiscLowLocal + k.aiscHighLocal) / 2;
+  const aiscUS = aiscLocal * k.fx;
+  const royRate = sum(asset.fiscal.royalties, (r) => r.rate);
+  const royUSperOz = royRate * k.realisedLocal * k.fx;
+  const sustLocal = (k.sustainingQuarterLocal.devAndWaste + k.sustainingQuarterLocal.plantEquip) * 4 / k.quarterShare;
+  const sustUS = sustLocal * 1e6 * k.fx;
+  const corp = c.corporatePerOz || 0;
+  const siteCostPerT = (aiscUS * oz1 - royUSperOz * oz1 - sustUS - corp * oz1) / tonnes1;
+  const ref = all.find((a) => a.id === k.splitFrom).costs.split;
+  const refTot = ref.mining + ref.processing + ref.transport + ref.ga;
+  const split = {};
+  for (const key of ['mining', 'processing', 'transport', 'ga']) split[key] = siteCostPerT * ref[key] / refTot;
+  const growth = { ...(c.growthCapex || {}) };
+  if (k.growth) growth[k.growth.year] = (k.growth.lowLocal + k.growth.highLocal) / 2 / k.growth.share * k.fx * 1e6;
+  return { split, sustainingPerT: sustUS / tonnes1, growthCapex: growth, devCapex: { ...(c.devCapex || {}) },
+    corporatePerOz: corp, explorationPerOz: c.explorationPerOz || 0, haulagePerT: 0,
+    calibration: { oz1, tonnes1, aiscLocal, aiscUS, royUSperOz, sustLocal, sustUS, siteCostPerT, fx: k.fx, growthUS: growth[k.growth.year], growthYear: k.growth.year } };
+}
+
+// Production schedule before any dial: [{year, ore (Mt), grade (g/t)}]
+function buildSchedule(asset, ext, trimYears = 0) {
+  const s = asset.schedule;
+  let rows = [];
+  if (s.kind === 'fixed') {
+    rows = s.rows.map((r) => ({ year: r.year, ore: r.ore, grade: r.grade }));
+    if (ext && s.extension) rows = rows.concat(s.extension.rows.map((r) => ({ year: r.year, ore: r.ore, grade: r.grade })));
+  } else if (s.kind === 'sources') {
+    const src = s.sources.map((x) => ({ ...x, left: x.tonnes }));
+    const n = Math.max(0, Math.min(ext || 0, s.extension ? s.extension.maxYears : 0));
+    if (n > 0) {
+      const e = s.extension;
+      src.push({ id: 'ugx', left: e.ugRate * n, grade: e.ugGrade, group: 'ug', priority: e.ugPriority });
+      src.push({ id: 'fill', left: (s.millRate - e.ugRate) * n, grade: e.fillGrade, priority: e.fillPriority });
+    }
+    src.sort((a, b) => a.priority - b.priority);
+    let year = s.startYear;
+    while (src.some((x) => x.left > 1e-9) && rows.length < 80) {
+      let mill = s.millRate; const used = {}; let t = 0; let g = 0;
+      for (const x of src) {
+        if (x.left <= 1e-9 || mill <= 1e-9) continue;
+        const cap = x.group ? s.groupCaps[x.group] - (used[x.group] || 0) : Infinity;
+        const take = Math.min(x.left, cap, mill);
+        if (take <= 1e-12) continue;
+        x.left -= take; mill -= take; t += take; g += take * x.grade;
+        if (x.group) used[x.group] = (used[x.group] || 0) + take;
+      }
+      if (t <= 1e-12) break;
+      rows.push({ year, ore: t, grade: g / t });
+      year++;
+    }
+  }
+  if (trimYears > 0) rows = rows.slice(0, Math.max(0, rows.length - trimYears));
+  return rows;
+}
+
+// Remove the last share of scheduled tonnes (pro rata in the final year).
+function cutLife(rows, frac) {
+  if (!(frac > 0)) return rows;
+  let remove = sum(rows, (r) => r.ore) * frac;
+  const out = rows.map((r) => ({ ...r }));
+  for (let i = out.length - 1; i >= 0 && remove > 1e-12; i--) {
+    const take = Math.min(out[i].ore, remove);
+    out[i].ore -= take; remove -= take;
+  }
+  return out.filter((r) => r.ore > 1e-9);
+}
+
+// Push production later by d years (fractional). Used for deposits only.
+function shiftSchedule(rows, d) {
+  if (!(d > 0) || !rows.length) return rows;
+  const k = Math.floor(d); const f = d - k; const first = rows[0].year; const out = [];
+  for (let j = 0; j < rows.length + k + (f > 0 ? 1 : 0); j++) {
+    const a = rows[j - k]; const b = rows[j - k - 1];
+    let ore = 0; let g = 0;
+    if (a) { ore += (1 - f) * a.ore; g += (1 - f) * a.ore * a.grade; }
+    if (b && f > 0) { ore += f * b.ore; g += f * b.ore * b.grade; }
+    if (ore > 1e-12) out.push({ year: first + j, ore, grade: g / ore });
+  }
+  return out;
+}
+
+// Streamed ounces this year from cumulative-ounce tiers.
+function tierOz(tiers, cum, oz) {
+  let s = 0; let lo = 0;
+  for (const t of tiers) {
+    const cap = t.upTo == null ? Infinity : t.upTo;
+    const a = Math.max(cum, lo); const b = Math.min(cum + oz, cap);
+    if (b > a) s += (b - a) * t.rate;
+    lo = cap;
+  }
+  return s;
+}
+
+// Translate dial levels into model adjustments. Only enabled dials count.
+function dialParams(asset, levels, enabled) {
+  const P = { grade: 0, life: 0, recPts: 0, mining: 0, procGa: 0, site: 0, events: [], capex: 0, delay: 0,
+    royaltyPts: 0, royaltyProb: 0, stateTo: null, stateProb: 0, crpMult: 0 };
+  const isDeposit = asset.stage === 'deposit';
+  for (const d of DIALS) {
+    if (!enabled.has(d.id)) continue;
+    if (d.depositsOnly && !isDeposit) continue;
+    const fx = d.levels[levels[d.id]].fx;
+    for (const [key, v] of Object.entries(fx)) {
+      if (key === 'events') P.events.push(...v);
+      else if (key === 'depositDelay') { if (isDeposit) P.delay += v; }
+      else if (key === 'stateTo') P.stateTo = v;
+      else P[key] += v;
+    }
+  }
+  return P;
+}
+
+const ramp = (year, within) => Math.min(1, (year - MODEL.firstYear + 1) / within);
+
+/**
+ * Run the DCF for one asset.
+ * o = { deck, flatPrice?, rate, levels, enabled:Set, ext, trimYears? }
+ */
+function runModel(asset, o) {
+  const P = dialParams(asset, o.levels, o.enabled);
+  const c = asset.resolved; const f = asset.fiscal; const pr = asset.processing;
+  let rows = buildSchedule(asset, o.ext, o.trimYears || 0);
+  if (P.delay > 0) rows = shiftSchedule(rows, P.delay);
+  rows = cutLife(rows, -P.life);
+  const stop = sum(P.events, (e) => e.p * e.months / 12);
+  const recovery = Math.max(0, pr.recovery + P.recPts / 100);
+  const sp = c.split;
+  const unitSite = (sp.mining * (1 + P.mining) + sp.processing * (1 + P.procGa) + sp.transport + sp.ga * (1 + P.procGa) + c.haulagePerT * (1 + P.mining)) * (1 + P.site);
+  const royBase = sum(f.royalties, (r) => r.rate);
+  const dil = P.stateTo != null && asset.stateStake < P.stateTo ? 1 - (1 - P.stateTo) / (1 - asset.stateStake) : 0;
+  const rate = o.rate + P.crpMult * asset.crp.value;
+  let remOre = sum(rows, (r) => r.ore); let taxBase = f.taxBase; let cumOz = 0; let wcPrev = null;
+  const years = [];
+  rows.forEach((r, i) => {
+    const last = i === rows.length - 1;
+    const price = o.flatPrice != null ? o.flatPrice : deckPrice(o.deck, r.year);
+    const milled = r.ore * (1 - stop);
+    const grade = r.grade * (1 + P.grade);
+    const oz = milled * 1e6 * grade / G_PER_OZ * recovery * pr.payability;
+    const sOz = asset.stream ? tierOz(asset.stream.tiers, cumOz, oz) : 0;
+    cumOz += oz;
+    const revenue = oz * price;
+    const stream = asset.stream ? sOz * price * (1 - asset.stream.holderPayment) : 0;
+    const royaltyRate = royBase + (P.royaltyPts / 100) * P.royaltyProb * ramp(r.year, MODEL.fiscalWithinYears);
+    const royalties = revenue * royaltyRate;
+    const site = unitSite * 1e6 * (r.ore * MODEL.fixedShare + milled * (1 - MODEL.fixedShare));
+    const corporate = oz * c.corporatePerOz;
+    const exploration = oz * c.explorationPerOz;
+    const ebitda = revenue - stream - royalties - site - corporate - exploration;
+    const sustaining = c.sustainingPerT * milled * 1e6;
+    const growth = c.growthCapex[r.year] || 0;
+    const development = (c.devCapex[r.year] || 0) * (1 + P.capex);
+    const capex = sustaining + growth + development;
+    const share = last ? 1 : r.ore / remOre;
+    const depreciation = (taxBase + capex) * Math.min(1, share);
+    taxBase = taxBase + capex - depreciation; remOre -= r.ore;
+    const tax = Math.max(0, (ebitda - depreciation) * f.taxRate);
+    const netRevenue = revenue - stream - royalties;
+    const wc = netRevenue * f.wc.receivableDays / 365 + site * f.wc.inventoryDays / 365 - site * f.wc.payableDays / 365;
+    const dWC = wcPrev == null ? 0 : wc - wcPrev; wcPrev = wc;
+    const closure = last ? f.closure : 0;
+    const fcf = ebitda - capex - tax - dWC - closure;
+    const ownerShare = asset.ownerShare * (1 - P.stateProb * ramp(r.year, MODEL.fiscalWithinYears) * dil);
+    years.push({ year: r.year, ore: r.ore, milled, grade, recovery, oz, price, revenue, streamOz: sOz, stream, royaltyRate, royalties,
+      site, corporate, exploration, ebitda, sustaining, growth, development, capex, depreciation, tax, wc, dWC, closure, fcf, ownerShare });
+  });
+  if (years.length) {
+    const relYear = years[years.length - 1].year + 1;
+    if (f.wcReleaseHorizon == null || relYear <= f.wcReleaseHorizon) {
+      const z = { year: relYear, release: true, ore: 0, milled: 0, grade: 0, recovery: 0, oz: 0, price: 0, revenue: 0, streamOz: 0, stream: 0, royaltyRate: 0,
+        royalties: 0, site: 0, corporate: 0, exploration: 0, ebitda: 0, sustaining: 0, growth: 0, development: 0, capex: 0, depreciation: 0, tax: 0,
+        wc: 0, dWC: -wcPrev, closure: 0, fcf: wcPrev, ownerShare: years[years.length - 1].ownerShare };
+      years.push(z);
+    }
+  }
+  let npv = 0; let npvAttr = 0;
+  for (const y of years) {
+    y.t = y.year - (MODEL.firstYear - 1);
+    y.df = 1 / Math.pow(1 + rate, y.t);
+    y.attrFcf = y.fcf * y.ownerShare;
+    y.pv = y.fcf * y.df; y.pvAttr = y.attrFcf * y.df;
+    npv += y.pv; npvAttr += y.pvAttr;
+  }
+  const prodYears = years.filter((y) => !y.release);
+  const y1 = prodYears[0];
+  const lomOz = sum(prodYears, (y) => y.oz);
+  const totalOre = sum(prodYears, (y) => y.ore);
+  const peakOre = prodYears.length ? Math.max(...prodYears.map((y) => y.ore)) : 0;
+  const res = {
+    years, rate, npv, npvAttr, lomOz, totalOre,
+    life: peakOre > 0 ? totalOre / peakOre : 0,
+    lastYear: prodYears.length ? prodYears[prodYears.length - 1].year : null,
+    prod1: y1 ? y1.oz : 0,
+    aisc1: y1 && y1.oz > 0 ? (y1.site + y1.royalties + y1.sustaining + y1.corporate) / y1.oz : NaN,
+    params: P, tx: null
+  };
+  if (asset.transaction) res.tx = transactionMetrics(asset, years, rate);
+  return res;
+}
+
+function contingentByYear(t) {
+  const per = t.contingentTotal * t.contingentPaidShare / t.contingentYears.length;
+  const m = {}; for (const y of t.contingentYears) m[y] = per; return m;
+}
+
+function transactionMetrics(asset, years, rate) {
+  const t = asset.transaction; const cont = contingentByYear(t);
+  const flows = [{ t: 0, year: MODEL.firstYear - 1, cf: -t.upfront }];
+  const byYear = {};
+  for (const y of years) byYear[y.year] = (byYear[y.year] || 0) + y.attrFcf;
+  for (const yr of Object.keys(cont)) byYear[yr] = (byYear[yr] || 0);
+  for (const yr of Object.keys(byYear).map(Number).sort((a, b) => a - b)) {
+    flows.push({ t: yr - (MODEL.firstYear - 1), year: yr, cf: byYear[yr] - (cont[yr] || 0) });
+  }
+  const npvAt = (r) => sum(flows, (x) => x.cf / Math.pow(1 + r, x.t));
+  return { flows, npv: npvAt(rate), irr: irr(flows), upfront: t.upfront, contingent: cont };
+}
+
+// IRR: scan upward from -50% for the first sign change, then bisect. Flows that end with a small
+// negative (a working-capital unwind) can have a second, meaningless root far below -50%.
+function irr(flows) {
+  const f = (r) => sum(flows, (x) => x.cf / Math.pow(1 + r, x.t));
+  let lo = -0.5; let flo = f(lo); let hi = null;
+  for (let r = lo + 0.01; r <= 10.0001; r += (r < 1 ? 0.01 : 0.1)) {
+    const fr = f(r);
+    if (isFinite(fr) && isFinite(flo) && flo * fr <= 0) { hi = r; break; }
+    lo = r; flo = fr;
+  }
+  if (hi == null) return null;
+  for (let i = 0; i < 200; i++) {
+    const mid = (lo + hi) / 2; const fm = f(mid);
+    if (Math.abs(fm) < 1e-6) return mid;
+    if (fm * flo > 0) { lo = mid; flo = fm; } else { hi = mid; }
+  }
+  return (lo + hi) / 2;
+}
+
+// Flat gold price at which the owner's NPV is zero.
+function breakeven(asset, o) {
+  const at = (p) => runModel(asset, { ...o, flatPrice: p }).npvAttr;
+  let lo = 0; let hi = MODEL.breakevenMax;
+  if (at(hi) < 0) return null;
+  if (at(lo) > 0) return 0;
+  for (let i = 0; i < 48; i++) { const mid = (lo + hi) / 2; if (at(mid) > 0) hi = mid; else lo = mid; }
+  return (lo + hi) / 2;
+}
+
+const ALL_DIALS = () => new Set(DIALS.map((d) => d.id));
+
+// Everything the screens need for one asset under one set of controls.
+function analyse(asset, ctl) {
+  if (asset.dataStatus === 'pending') return { pending: true };
+  const common = { deck: ctl.deck, rate: ctl.rate, levels: ctl.levels, ext: ctl.ext };
+  const base = runModel(asset, { ...common, enabled: new Set() });
+  const risk = runModel(asset, { ...common, enabled: ALL_DIALS() });
+  const bridge = []; const on = new Set(); let prev = base;
+  for (const d of DIALS) {
+    on.add(d.id);
+    const cur = on.size === DIALS.length ? risk : runModel(asset, { ...common, enabled: new Set(on) });
+    const applies = !(d.depositsOnly && asset.stage !== 'deposit');
+    bridge.push({ dial: d, level: ctl.levels[d.id], delta: cur.npvAttr - prev.npvAttr, applies, after: cur.npvAttr });
+    prev = cur;
+  }
+  const attrOz = base.lomOz * asset.ownerShare;
+  return {
+    base, risk, bridge,
+    beBase: breakeven(asset, { ...common, enabled: new Set() }),
+    beRisk: breakeven(asset, { ...common, enabled: ALL_DIALS() }),
+    attrOz,
+    riskCostPerOz: attrOz > 0 ? (base.npvAttr - risk.npvAttr) / attrOz : NaN
+  };
+}
+
+/* =====================================================================
+   3. STATE
+   ===================================================================== */
+for (const a of ASSETS) if (a.dataStatus !== 'pending') a.resolved = resolveCosts(a, ASSETS);
+
+const state = {
+  assetId: 'tongon',
+  deck: 'spot',
+  rate: MODEL.defaultRate,
+  levels: Object.fromEntries(ASSETS.map((a) => [a.id, Object.fromEntries(DIALS.map((d) => [d.id, a.dialDefaults[d.id].level]))])),
+  ext: Object.fromEntries(ASSETS.map((a) => [a.id, 0])),
+  screen: 'pick',
+  tableMode: 'risk',
+  open: new Set()
+};
+const assetById = (id) => ASSETS.find((a) => a.id === id);
+const currentAsset = () => assetById(state.assetId);
+const ctlFor = (a) => ({ deck: PRICE_DECKS[state.deck], rate: state.rate, levels: state.levels[a.id], ext: state.ext[a.id] });
+let ANALYSIS = {};
+function recompute() { ANALYSIS = {}; for (const a of ASSETS) ANALYSIS[a.id] = analyse(a, ctlFor(a)); }
+
+/* =====================================================================
+   4. FORMATTING
+   ===================================================================== */
+const MINUS = '−';
+const esc = (s) => String(s).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+function money(x, opts = {}) {
+  if (x == null || !isFinite(x)) return '—';
+  const m = x / 1e6; const a = Math.abs(m);
+  if (a < 0.05) return opts.plus ? 'US$0.0M' : 'US$0.0M';
+  const s = a >= 100 ? Math.round(a).toLocaleString('en-US') : a.toFixed(1);
+  const sign = m < 0 ? MINUS : (opts.plus ? '+' : '');
+  return `${sign}US$${s}M`;
+}
+const mnum = (x, d = 1) => (x == null || !isFinite(x)) ? '—' : ((x < 0 ? MINUS : '') + Math.abs(x / 1e6).toFixed(d));
+const pct = (x, d = 1, plus = false) => (x == null || !isFinite(x)) ? '—' : ((x < 0 ? MINUS : (plus && x > 0 ? '+' : '')) + Math.abs(x * 100).toFixed(d) + '%');
+const usd0 = (x) => {
+  if (x == null || !isFinite(x)) return '—';
+  const r = Math.round(Math.abs(x));
+  return `${x < 0 && r > 0 ? MINUS : ''}US$${r.toLocaleString('en-US')}`;
+};
+const perOz = (x) => (x == null || !isFinite(x)) ? '—' : `${usd0(x)}/oz`;
+const irrText = (x) => x == null ? 'n/a' : pct(x, 1);
+const koz = (oz) => (oz == null || !isFinite(oz)) ? '—' : `${(oz / 1000).toLocaleString('en-US', { maximumFractionDigits: oz < 100000 ? 1 : 0 })} koz`;
+const yrs = (x) => (x == null || !isFinite(x)) ? '—' : `${x.toFixed(1)} years`;
+const flagPill = (f) => `<span class="pill flag-${f}">${f === 'sourced' ? 'Sourced' : f === 'derived' ? 'Derived' : 'Assumption'}</span>`;
+const levelPill = (lv) => `<span class="pill pill-level-${lv}">${LEVEL_NAME[lv]}</span>`;
+const srcLink = (o) => o.url ? `<a href="${esc(o.url)}" target="_blank" rel="noopener">${esc(o.source)}</a>` : esc(o.source || '');
+function pctChange(a, b) { return Math.abs(a) > 1e-9 ? (b - a) / Math.abs(a) : NaN; }
+
+/* =====================================================================
+   5. RENDERING
+   ===================================================================== */
+const $ = (sel, root = document) => root.querySelector(sel);
+
+function renderControls() {
+  $('#deck-seg').innerHTML = Object.values(PRICE_DECKS).map((d) => `
+    <input type="radio" name="deck" id="deck-${d.id}" value="${d.id}" data-role="deck" ${state.deck === d.id ? 'checked' : ''}>
+    <label for="deck-${d.id}" title="${esc(d.desc)}">${esc(d.label)}</label>`).join('');
+  $('#rate-out').textContent = pct(state.rate, 1);
+  const a = currentAsset();
+  $('#brand-asset').textContent = `${a.name} · ${a.country}`;
+}
+
+function renderTabs() {
+  document.querySelectorAll('.tabs a').forEach((el) => {
+    if (el.dataset.screen === state.screen) el.setAttribute('aria-current', 'page'); else el.removeAttribute('aria-current');
+  });
+  for (const s of ['pick', 'value', 'dials', 'compare']) $(`#screen-${s}`).hidden = s !== state.screen;
+}
+
+/* ---------- Pick ---------- */
+function renderPick() {
+  const cards = ASSETS.map((a) => {
+    const an = ANALYSIS[a.id];
+    const owners = a.owners.map((o) => `${esc(o.name)} ${pct(o.share, o.share * 100 % 1 ? 1 : 0)}`).join(' · ');
+    let values;
+    if (an.pending) {
+      values = `<span class="ac-values"><span><span class="lbl">Base NPV</span><span class="val">Data pending</span></span><span class="arrow" aria-hidden="true">→</span><span><span class="lbl">Country premium</span><span class="val">${pct(a.crp.value, 2)}</span></span></span>
+        <span class="ac-change muted">Event timeline and country premium only until model inputs are loaded.</span>`;
+    } else {
+      const ch = an.risk.npvAttr - an.base.npvAttr;
+      values = `<span class="ac-values"><span><span class="lbl">Base NPV</span><span class="val">${money(an.base.npvAttr)}</span></span><span class="arrow" aria-hidden="true">→</span><span><span class="lbl">Risk-adjusted NPV</span><span class="val">${money(an.risk.npvAttr)}</span></span></span>
+        <span class="ac-change ${ch < 0 ? 'neg' : 'pos'}">${money(ch, { plus: true })} (${pct(pctChange(an.base.npvAttr, an.risk.npvAttr), 0, true)}) from the nine risk dials</span>`;
+    }
+    return `<button type="button" class="asset-card" data-pick="${a.id}" aria-current="${a.id === state.assetId}">
+      <span class="ac-top"><span><span class="ac-name">${esc(a.name)}</span><span class="ac-meta">${esc(a.country)}${a.region && a.region !== a.country ? ' · ' + esc(a.region) : ''}</span></span>${an.pending ? '<span class="pill pill-pending">Data pending</span>' : ''}</span>
+      <span class="ac-meta">${a.stage === 'operating' ? 'Operating mine' : 'Undeveloped deposit'} · ${esc(a.metal)} · ${esc(a.method)}</span>
+      <span class="ac-meta">${owners}</span>
+      ${values}
+      <span class="ac-foot"><span class="pill">NPV basis: ${esc(a.ownerLabel)}</span><span class="pill">Country premium ${pct(a.crp.value, 2)}</span></span>
+    </button>`;
+  }).join('');
+  $('#screen-pick').innerHTML = `
+    <div class="screen-head">
+      <h1 id="pick-title">Pick a mine</h1>
+      <p>See what it is worth, then turn the risk dials to see what could take that value away, and why. Every dial starts at a level set from evidence, so the risk-adjusted value below already means something.</p>
+    </div>
+    <div class="cards">${cards}</div>
+    <p class="small muted">NPVs are the owner’s share at the ${esc(PRICE_DECKS[state.deck].label.toLowerCase())} gold deck and a ${pct(state.rate, 1)} real discount rate; risk-adjusted values add the country premium through the Political dial. Same metal, three countries.</p>`;
+}
+
+/* ---------- Value ---------- */
+function bridgeSVG(asset, an, width) {
+  const rows = [{ kind: 'total', label: 'Base value', value: an.base.npvAttr }];
+  let run = an.base.npvAttr;
+  for (const b of an.bridge) { rows.push({ kind: 'step', b, start: run, end: run + b.delta }); run += b.delta; }
+  rows.push({ kind: 'total', label: 'Risk-adjusted', value: an.risk.npvAttr });
+  const vals = [0]; for (const r of rows) { if (r.kind === 'total') vals.push(r.value); else vals.push(r.start, r.end); }
+  let lo = Math.min(...vals); let hi = Math.max(...vals);
+  const span = hi - lo || 1; lo -= span * 0.02; hi += span * 0.02;
+  const W = Math.max(300, width); const narrow = W < 520;
+  const labelW = narrow ? 104 : 168; const valW = narrow ? 70 : 92;
+  const x0 = labelW + 6; const x1 = W - valW - 6;
+  const rowH = 30; const barH = 16; const top = 6; const axisH = 22;
+  const H = top + rows.length * rowH + axisH;
+  const sx = (v) => x0 + (v - lo) / (hi - lo) * (x1 - x0);
+  const ticks = niceTicks(lo, hi, narrow ? 3 : 5);
+  let g = '';
+  for (const t of ticks) {
+    const x = sx(t);
+    g += `<line x1="${x}" x2="${x}" y1="${top}" y2="${top + rows.length * rowH}" class="s-grid" stroke-width="1"/>`;
+    g += `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="11" class="t-muted">${esc(axisMoney(t))}</text>`;
+  }
+  if (lo < 0 && hi > 0) g += `<line x1="${sx(0)}" x2="${sx(0)}" y1="${top}" y2="${top + rows.length * rowH}" class="s-axis" stroke-width="1.5"/>`;
+  rows.forEach((r, i) => {
+    const yMid = top + i * rowH + rowH / 2; const yb = yMid - barH / 2;
+    if (r.kind === 'total') {
+      const xa = sx(Math.min(0, r.value)); const xb = sx(Math.max(0, r.value));
+      g += `<g><text x="0" y="${yMid + 4}" font-size="12.5" font-weight="700" class="t-ink">${esc(r.label)}</text>
+        <rect x="${xa}" y="${yb}" width="${Math.max(1.5, xb - xa)}" height="${barH}" rx="3" class="f-total"/>
+        <text x="${W}" y="${yMid + 4}" text-anchor="end" font-size="12.5" font-weight="700" class="t-ink">${esc(money(r.value))}</text></g>`;
+    } else {
+      const b = r.b; const xa = sx(Math.min(r.start, r.end)); const xb = sx(Math.max(r.start, r.end));
+      const zero = Math.abs(b.delta) < 0.05e6;
+      const cls = b.delta < 0 ? 'f-loss' : 'f-gain';
+      const lvl = b.applies ? LEVEL_NAME[b.level].slice(0, narrow ? 1 : 3) : 'n/a';
+      const valTxt = !b.applies ? 'n/a' : zero ? '0.0' : money(b.delta, { plus: true }).replace('US$', narrow ? '' : 'US$');
+      g += `<g class="wf-row" tabindex="0" role="button" data-goto-dial="${b.dial.id}" aria-label="${esc(`${b.dial.name}, ${b.applies ? LEVEL_NAME[b.level] : 'not applicable'}: ${b.applies ? money(b.delta, { plus: true }) : 'no effect'}. Open this dial.`)}">
+        <rect class="wf-hit" x="0" y="${yMid - rowH / 2 + 1}" width="${W}" height="${rowH - 2}" rx="5"/>
+        <text x="0" y="${yMid + 4}" font-size="12.5" class="t-ink">${esc(b.dial.short)} <tspan class="t-muted" font-size="11">${esc(lvl)}</tspan></text>
+        ${zero ? `<line x1="${sx(r.start)}" x2="${sx(r.start)}" y1="${yb}" y2="${yb + barH}" class="s-axis" stroke-width="1.5"/>` : `<rect x="${xa}" y="${yb}" width="${Math.max(1.5, xb - xa)}" height="${barH}" rx="3" class="${cls}"/>`}
+        <text x="${W}" y="${yMid + 4}" text-anchor="end" font-size="12.5" class="${zero || !b.applies ? 't-muted' : 't-ink'}">${esc(valTxt)}</text></g>`;
+    }
+    if (i < rows.length - 1) {
+      const endVal = r.kind === 'total' ? r.value : r.end;
+      g += `<line x1="${sx(endVal)}" x2="${sx(endVal)}" y1="${yMid + barH / 2}" y2="${yMid + rowH - barH / 2}" class="s-axis" stroke-width="1" stroke-dasharray="2 2"/>`;
+    }
+  });
+  const desc = `Waterfall from base value ${money(an.base.npvAttr)} to risk-adjusted value ${money(an.risk.npvAttr)}. ` +
+    an.bridge.map((b) => `${b.dial.name}: ${b.applies ? money(b.delta, { plus: true }) : 'not applicable'}`).join('; ') + '.';
+  return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(desc)}">${g}</svg>`;
+}
+
+function axisMoney(v) {
+  const m = v / 1e6; const a = Math.abs(m);
+  const s = a >= 1000 ? (a / 1000).toFixed(1) + 'B' : (a >= 10 ? Math.round(a) : a.toFixed(1)) + 'M';
+  return (m < 0 ? MINUS : '') + '$' + s;
+}
+
+function niceTicks(lo, hi, n) {
+  const span = hi - lo; if (!(span > 0)) return [lo];
+  const raw = span / n; const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => span / s <= n) || 10 * mag;
+  const out = []; for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(Math.abs(v) < 1e-9 ? 0 : v);
+  return out;
+}
+
+function riskSentence(asset, b, an) {
+  const lv = b.dial.levels[b.level];
+  let detail = lv.text;
+  if (b.dial.id === 'recovery') detail = `${lv.text} (${pct(asset.processing.recovery, 1)} → ${pct(asset.processing.recovery + lv.fx.recPts / 100, 1)})`;
+  if (b.dial.id === 'political') detail = `${lv.text} (${pct(asset.crp.value, 2)} for ${asset.crp.label}) added to the ${pct(state.rate, 1)} discount rate, giving ${pct(an.risk.rate, 1)}`;
+  const share = an.base.npvAttr ? Math.abs(b.delta / an.base.npvAttr) : NaN;
+  return `${detail}. Takes ${money(-b.delta)}${isFinite(share) ? `, ${pct(share, 0)} of base value` : ''}.`;
+}
+
+function renderValue() {
+  const a = currentAsset(); const an = ANALYSIS[a.id];
+  const head = `
+    <div class="asset-head">
+      <div class="screen-head">
+        <p class="eyebrow">Value</p>
+        <h1 id="value-title">${esc(a.name)}</h1>
+        <p class="meta">${esc(a.country)} · ${a.stage === 'operating' ? 'operating mine' : 'undeveloped deposit'} · ${esc(a.method.toLowerCase())} · NPV basis ${esc(a.ownerLabel)}</p>
+      </div>
+      <div class="btn-row"><a class="btn" href="#pick">Change mine</a><a class="btn" href="#dials">Adjust the dials</a></div>
+    </div>`;
+  if (an.pending) { $('#screen-value').innerHTML = head + renderPendingValue(a); return; }
+  const ch = an.risk.npvAttr - an.base.npvAttr;
+  const deck = PRICE_DECKS[state.deck];
+  const metrics = [];
+  if (a.transaction && an.base.tx) {
+    const t = a.transaction; const contTotal = t.contingentTotal * t.contingentPaidShare;
+    const lossNote = an.risk.tx.irr != null && an.risk.tx.irr < 0 ? ' Risk-adjusted, the buyer gets back less cash than it paid.' : '';
+    metrics.push(`<button type="button" class="metric" data-trace="tx"><span class="k">Transaction IRR (price paid)</span>
+      <span class="v">${irrText(an.base.tx.irr)} → ${irrText(an.risk.tx.irr)}</span>
+      <span class="s">NPV ${money(an.base.tx.npv)} → ${money(an.risk.tx.npv)} · paid ${money(t.upfront)} + ${money(contTotal)} contingent · hurdle ${pct(an.risk.rate, 1)}.${lossNote}</span></button>`);
+  }
+  metrics.push(`<button type="button" class="metric" data-trace="breakeven"><span class="k">Breakeven gold price (flat)</span>
+    <span class="v">${perOz(an.beBase)} → ${perOz(an.beRisk)}</span>
+    <span class="s">Where the owner’s NPV hits zero; ${esc(deck.label)} deck is ${perOz(deckPrice(deck, MODEL.firstYear))} in 2026</span></button>`);
+  metrics.push(`<button type="button" class="metric" data-trace="prod"><span class="k">Year-1 output and AISC</span>
+    <span class="v">${koz(an.base.prod1)} · ${perOz(an.base.aisc1)}</span>
+    <span class="s">Payable gold, 100% basis, before risk; risk-adjusted ${koz(an.risk.prod1)} at ${perOz(an.risk.aisc1)}</span></button>`);
+  metrics.push(`<button type="button" class="metric" data-trace="life"><span class="k">Mine life in the plan</span>
+    <span class="v">${yrs(an.base.life)} → ${yrs(an.risk.life)}</span>
+    <span class="s">Production ${MODEL.firstYear}–${an.base.lastYear} at base; ${koz(an.base.lomOz)} payable over life</span></button>`);
+  metrics.push(`<button type="button" class="metric" data-trace="rate"><span class="k">Discount rate (real)</span>
+    <span class="v">${pct(state.rate, 1)} → ${pct(an.risk.rate, 1)}</span>
+    <span class="s">Political dial adds ${an.risk.params.crpMult}× the ${pct(a.crp.value, 2)} country premium</span></button>`);
+  const top = an.bridge.filter((b) => b.applies && b.delta < -0.05e6).sort((x, y) => x.delta - y.delta).slice(0, 3);
+  const risks = top.length ? top.map((b, i) => `
+      <div class="risk-item">
+        <span class="risk-rank" aria-hidden="true">${i + 1}</span>
+        <h3>${esc(b.dial.name)} ${levelPill(b.level)}</h3>
+        <p>${esc(riskSentence(a, b, an))}</p>
+        <p class="q"><b>Diligence question:</b> ${esc(a.dialDefaults[b.dial.id].question)}</p>
+        <div><button type="button" class="btn-quiet btn" data-goto-dial="${b.dial.id}">Adjust this dial</button></div>
+      </div>`).join('') : '<p class="muted">No dial takes value at the current settings.</p>';
+  const fewer = top.length && top.length < 3 ? `<p class="small muted">Only ${top.length === 1 ? 'one dial takes' : 'two dials take'} value at the current settings.</p>` : '';
+  $('#screen-value').innerHTML = head + `
+    <div class="headline">
+      <button type="button" class="hl-tile" data-trace="npv-base">
+        <span class="eyebrow">Base value</span>
+        <span class="big">${money(an.base.npvAttr)}</span>
+        <span class="sub">NPV at ${pct(state.rate, 1)} real, ${esc(deck.label)} deck, no risk adjustments. Asset at 100%: ${money(an.base.npv)}.</span>
+        <span class="trace">See inputs and sources</span>
+      </button>
+      <div class="hl-delta" aria-hidden="true"><span class="arrowline">→</span><span class="d ${ch < 0 ? 'neg' : 'pos'}">${money(ch, { plus: true })}</span><span class="small muted">${pct(pctChange(an.base.npvAttr, an.risk.npvAttr), 0, true)}</span></div>
+      <button type="button" class="hl-tile risk" data-trace="npv-risk">
+        <span class="eyebrow">Risk-adjusted value</span>
+        <span class="big">${money(an.risk.npvAttr)}</span>
+        <span class="sub">After nine risk dials, discounted at ${pct(an.risk.rate, 1)} real. Change ${money(ch, { plus: true })} (${pct(pctChange(an.base.npvAttr, an.risk.npvAttr), 0, true)}).</span>
+        <span class="trace">See what moved it</span>
+      </button>
+    </div>
+    <div class="metrics">${metrics.join('')}</div>
+    <section class="panel" aria-labelledby="bridge-title">
+      <div class="panel-head"><h2 id="bridge-title">What each risk takes away</h2><p>Dials applied in order, discount rate last. Bars add up to the change. Tap a bar to open its dial.</p></div>
+      <div class="chart" id="bridge-chart" data-chart="bridge"></div>
+    </section>
+    <section class="panel" aria-labelledby="risks-title">
+      <div class="panel-head"><h2 id="risks-title">Top three risks</h2><p>Largest bars in the bridge, with the question that would settle each.</p></div>
+      <div class="risks">${risks}</div>${fewer}
+    </section>
+    <section class="panel" aria-labelledby="cf-title">
+      <div class="panel-head"><h2 id="cf-title">Annual cash flow</h2>
+        <fieldset class="seg" aria-label="Which case to show">
+          <input type="radio" name="tablemode" id="tm-risk" value="risk" data-role="tablemode" ${state.tableMode === 'risk' ? 'checked' : ''}><label for="tm-risk">Risk-adjusted</label>
+          <input type="radio" name="tablemode" id="tm-base" value="base" data-role="tablemode" ${state.tableMode === 'base' ? 'checked' : ''}><label for="tm-base">Base</label>
+        </fieldset>
+      </div>
+      ${cashTable(a, state.tableMode === 'risk' ? an.risk : an.base)}
+    </section>
+    ${eventsPanel(a)}`;
+  drawCharts();
+}
+
+function eventsPanel(a) {
+  if (!a.events || !a.events.length) return '';
+  return `<section class="panel" aria-labelledby="ev-title-${a.id}">
+    <div class="panel-head"><h2 id="ev-title-${a.id}">What has happened</h2><p>Dated events behind the dial defaults.</p></div>
+    <ol class="timeline">${a.events.map((e) => `<li><span class="date">${esc(e.date)}</span><span>${esc(e.text)}<br><span class="src">${srcLink(e)}</span></span></li>`).join('')}</ol>
+  </section>`;
+}
+
+function renderPendingValue(a) {
+  const dp = a.dialDefaults.political; const mult = DIALS.find((d) => d.id === 'political').levels[dp.level].fx.crpMult;
+  return `
+    <div class="banner"><b>Data pending: no NPV yet</b><p>${esc(a.pendingNote)} Until then this asset shows its event timeline, country premium and evidence-based dial defaults.</p></div>
+    <div class="metrics">
+      <div class="metric"><span class="k">Country risk premium</span><span class="v">${pct(a.crp.value, 2)}</span><span class="s">${esc(a.crp.label)} · ${srcLink(a.crp)}</span></div>
+      <div class="metric"><span class="k">Discount rate with the Political dial at ${LEVEL_NAME[dp.level]}</span><span class="v">${pct(state.rate, 1)} → ${pct(state.rate + mult * a.crp.value, 1)}</span><span class="s">${mult}× the premium added to the base real rate. The longer the life, the more this costs.</span></div>
+      <div class="metric"><span class="k">Owner’s share</span><span class="v">${esc(a.ownerLabel)}</span><span class="s">State ${pct(a.stateStake, 0)} today; the 2023 code allows up to 35%</span></div>
+    </div>
+    ${eventsPanel(a)}
+    <section class="panel" aria-labelledby="known-title">
+      <div class="panel-head"><h2 id="known-title">Known so far</h2><p>Gathered from public sources; not yet enough to build the schedule and costs.</p></div>
+      <ul class="ev-list">${(a.evidence || []).filter((e) => e.known).map(evidenceItem).join('')}</ul>
+    </section>
+    <section class="panel" aria-labelledby="gaps-title">
+      <div class="panel-head"><h2 id="gaps-title">Still missing</h2><p>Fill these to give the asset an NPV.</p></div>
+      <div class="table-wrap"><table class="cmp"><thead><tr><th scope="col" class="wrap-cell">Item</th><th scope="col" class="wrap-cell">Why it matters</th><th scope="col" class="wrap-cell">Where to look</th></tr></thead>
+      <tbody>${(a.gaps || []).map((g) => `<tr><td class="wrap-cell">${esc(g.item)}</td><td class="wrap-cell">${esc(g.why)}</td><td class="wrap-cell">${esc(g.where)}</td></tr>`).join('')}</tbody></table></div>
+    </section>`;
+}
+
+function cashTable(a, r) {
+  const ys = r.years;
+  const cols = ys.map((y) => `<th scope="col">${y.year}${y.release ? '<br><span class="muted">WC release</span>' : ''}</th>`).join('');
+  const row = (label, f, cls = '', total = null) => `<tr class="${cls}"><th scope="row">${label}</th>${ys.map((y) => `<td>${f(y)}</td>`).join('')}<td>${total == null ? '' : total}</td></tr>`;
+  const flow = (k) => (y) => mnum(y[k]);
+  const neg = (k) => (y) => mnum(-y[k]);
+  const tot = (k, s = 1) => mnum(s * sum(ys, (y) => y[k]));
+  return `<div class="table-wrap"><table>
+    <thead><tr><th scope="col">US$M unless stated</th>${cols}<th scope="col">Total</th></tr></thead>
+    <tbody>
+      ${row('Ore scheduled (Mt)', (y) => y.release ? '' : y.ore.toFixed(2), '', sum(ys, (y) => y.ore).toFixed(2))}
+      ${row('Ore milled after stoppages (Mt)', (y) => y.release ? '' : y.milled.toFixed(2), '', sum(ys, (y) => y.milled).toFixed(2))}
+      ${row('Head grade (g/t)', (y) => y.release ? '' : y.grade.toFixed(2))}
+      ${row('Recovery', (y) => y.release ? '' : pct(y.recovery, 1))}
+      ${row('Payable gold (koz)', (y) => y.release ? '' : (y.oz / 1000).toFixed(1), '', (sum(ys, (y) => y.oz) / 1000).toFixed(1))}
+      ${row('Gold price (US$/oz)', (y) => y.release ? '' : Math.round(y.price).toLocaleString('en-US'))}
+      ${row('Revenue', flow('revenue'), 'sep', tot('revenue'))}
+      ${a.stream ? row('Stream deliveries', neg('stream'), '', tot('stream', -1)) : ''}
+      ${row('Royalties', neg('royalties'), '', tot('royalties', -1))}
+      ${row('Site costs', neg('site'), '', tot('site', -1))}
+      ${row('Corporate G&A and exploration', (y) => mnum(-(y.corporate + y.exploration)), '', mnum(-sum(ys, (y) => y.corporate + y.exploration)))}
+      ${row('EBITDA', flow('ebitda'), 'strong', tot('ebitda'))}
+      ${row('Capex', neg('capex'), '', tot('capex', -1))}
+      ${row('Tax depreciation (not cash)', flow('depreciation'), 'muted', tot('depreciation'))}
+      ${row('Tax', neg('tax'), '', tot('tax', -1))}
+      ${row('Change in working capital', neg('dWC'), '', tot('dWC', -1))}
+      ${row('Closure', neg('closure'), '', tot('closure', -1))}
+      ${row('Free cash flow (100%)', flow('fcf'), 'strong sep', tot('fcf'))}
+      ${row('Owner’s share', (y) => pct(y.ownerShare, 1))}
+      ${row(`Discount factor at ${pct(r.rate, 2)}`, (y) => y.df.toFixed(4))}
+      ${row('PV of owner’s free cash flow', flow('pvAttr'), 'strong', mnum(r.npvAttr))}
+    </tbody></table></div>`;
+}
+
+/* ---------- Dials ---------- */
+function renderDials() {
+  const a = currentAsset(); const an = ANALYSIS[a.id]; const lv = state.levels[a.id];
+  const changed = DIALS.filter((d) => lv[d.id] !== a.dialDefaults[d.id].level).length;
+  const summary = an.pending
+    ? `<div class="vals"><span>${esc(a.name)}</span><b>Data pending</b><span class="muted small">Dials show defaults and evidence; no NPV yet.</span></div>`
+    : `<div class="vals"><span>${esc(a.name)}</span><span class="muted small">Base</span><b>${money(an.base.npvAttr)}</b><span aria-hidden="true">→</span><span class="muted small">Risk-adjusted</span><b>${money(an.risk.npvAttr)}</b><span class="${an.risk.npvAttr < an.base.npvAttr ? 'neg' : 'pos'} small"><b>${money(an.risk.npvAttr - an.base.npvAttr, { plus: true })}</b> (${pct(pctChange(an.base.npvAttr, an.risk.npvAttr), 0, true)})</span></div>`;
+  const plan = planOptions(a);
+  const cards = DIALS.map((d) => {
+    const def = a.dialDefaults[d.id]; const cur = lv[d.id];
+    const applies = !(d.depositsOnly && a.stage !== 'deposit');
+    const b = an.pending ? null : an.bridge.find((x) => x.dial.id === d.id);
+    const ev = (a.evidence || []).filter((e) => e.dial === d.id);
+    const srcs = (def.sources || []).map((k) => S[k]).filter(Boolean);
+    const openId = `ev-${a.id}-${d.id}`;
+    const radios = LEVELS.map((L) => `
+      <input type="radio" name="lv-${d.id}" id="lv-${d.id}-${L}" value="${L}" data-role="level" data-dial="${d.id}" ${cur === L ? 'checked' : ''} ${applies ? '' : 'disabled'}>
+      <label for="lv-${d.id}-${L}">${LEVEL_NAME[L]}${def.level === L ? '<span class="def">default</span>' : ''}</label>`).join('');
+    const impact = !applies ? '<span class="muted">n/a</span>' : b ? `<span class="${b.delta < -0.05e6 ? 'neg' : 'muted'}">${Math.abs(b.delta) < 0.05e6 ? 'US$0.0M' : money(b.delta, { plus: true })}</span><small>this dial, in order</small>` : '<small>no NPV yet</small>';
+    return `<article class="dial ${cur !== def.level ? 'changed' : ''}" id="dial-${d.id}" aria-labelledby="dq-${d.id}">
+      <div class="dial-top">
+        <div><p class="eyebrow">${esc(d.name)}</p><h3 id="dq-${d.id}">${esc(d.question)}</h3></div>
+        <div class="dial-impact num">${impact}</div>
+      </div>
+      <fieldset class="seg"><legend class="sr-only">${esc(d.name)} level</legend>${radios}</fieldset>
+      ${applies ? `<p class="effect"><b>${LEVEL_NAME[cur]}:</b> ${esc(d.levels[cur].text)}.</p>` : '<p class="na">Applies to undeveloped deposits only. This is an operating mine, so the dial has no effect.</p>'}
+      <p class="reason"><b>Why ${LEVEL_NAME[def.level]} by default:</b> ${esc(def.reason)}${cur !== def.level ? ` <button type="button" class="link-btn" data-reset-dial="${d.id}">Back to ${LEVEL_NAME[def.level]}</button>` : ''}</p>
+      <details class="more" data-open-id="${openId}" ${state.open.has(openId) ? 'open' : ''}>
+        <summary>Evidence and sources (${ev.length + srcs.length})</summary>
+        ${ev.length ? `<ul class="ev-list">${ev.map(evidenceItem).join('')}</ul>` : ''}
+        <p class="small" style="margin-top:8px"><b>Sources for the default:</b> ${srcs.map(srcLink).join('; ') || '—'}</p>
+        <p class="small muted" style="margin-top:6px"><b>Diligence question:</b> ${esc(def.question)}</p>
+        <p class="small muted" style="margin-top:6px"><b>Covers:</b> ${esc(d.covers)}. <b>Moves:</b> ${esc(d.line)} (${esc(d.method.toLowerCase())}). <b>Evidence that sets it:</b> ${esc(d.basis)}.</p>
+      </details>
+    </article>`;
+  }).join('');
+  $('#screen-dials').innerHTML = `
+    <div class="screen-head">
+      <p class="eyebrow">Dials</p>
+      <h1 id="dials-title">What could take the value away?</h1>
+      <p>Nine plain questions. Each starts at a level set from evidence, with its reason. Change any of them and every screen updates.</p>
+    </div>
+    <div class="dial-summary" aria-live="polite">${summary}</div>
+    <div class="btn-row"><button type="button" class="btn" data-reset-all ${changed ? '' : 'disabled'}>Reset to defaults${changed ? ` (${changed})` : ''}</button><button type="button" class="btn" data-open="how">How the dials work</button></div>
+    ${plan}
+    <div class="dial-grid">${cards}</div>`;
+}
+
+function evidenceItem(e) {
+  const val = typeof e.value === 'number' ? `${e.value.toLocaleString('en-US')}${e.unit ? ' ' + e.unit : ''}` : `${e.value}${e.unit ? ' ' + e.unit : ''}`;
+  return `<li><div class="ev-head"><span>${esc(e.label)}</span>${flagPill(e.flag)}</div>
+    <span class="ev-val">${esc(val)}</span>${e.note ? `<span class="small muted">${esc(e.note)}</span>` : ''}<span class="ev-src">${srcLink(e)}</span></li>`;
+}
+
+function planOptions(a) {
+  const s = a.schedule; if (!s || !s.extension || a.dataStatus === 'pending') return '';
+  const e = s.extension;
+  if (s.kind === 'fixed') {
+    return `<section class="panel plan" aria-labelledby="plan-title"><div class="switch-row"><h2 id="plan-title">Mine plan</h2><span class="pill flag-assumption">Resource, not reserve</span></div>
+      <label class="check" for="ext-toggle"><input type="checkbox" id="ext-toggle" data-role="ext-fixed" ${state.ext[a.id] ? 'checked' : ''}> ${esc(e.label)}</label>
+      <p class="small muted">${esc(e.note)}</p></section>`;
+  }
+  return `<section class="panel plan" aria-labelledby="plan-title"><div class="switch-row"><h2 id="plan-title">Mine plan</h2><span class="pill flag-assumption">Resource conversion</span></div>
+    <div class="switch-row"><span id="ext-label">${esc(e.label)}</span>
+      <div class="stepper" role="group" aria-labelledby="ext-label">
+        <button type="button" id="ext-down" data-ext-step="-1" aria-label="One fewer extra year">&minus;</button>
+        <output id="ext-out" aria-live="polite">${state.ext[a.id]} ${state.ext[a.id] === 1 ? 'year' : 'years'}</output>
+        <button type="button" id="ext-up" data-ext-step="1" aria-label="One more extra year">+</button>
+      </div></div>
+    <p class="small muted">${esc(e.note)} Off (0 years) by default.</p></section>`;
+}
+
+/* ---------- Compare ---------- */
+function curveItems() {
+  return ASSETS.filter((a) => !ANALYSIS[a.id].pending).map((a) => {
+    const an = ANALYSIS[a.id];
+    return { a, an, koz: an.base.prod1 / 1000, aisc: an.base.aisc1, risk: Math.max(0, an.riskCostPerOz), riskRaw: an.riskCostPerOz, total: an.base.aisc1 + Math.max(0, an.riskCostPerOz) };
+  }).sort((x, y) => x.total - y.total);
+}
+
+function curveSVG(items, width, gold) {
+  const W = Math.max(300, width); const narrow = W < 520;
+  const m = { l: narrow ? 46 : 58, r: 10, t: 46, b: 44 };
+  const H = narrow ? 300 : 340;
+  const totalKoz = sum(items, (i) => i.koz) || 1;
+  const yMaxRaw = Math.max(gold, ...items.map((i) => i.total)) * 1.1;
+  const ticks = niceTicks(0, yMaxRaw, 5); const yMax = Math.max(yMaxRaw, ticks[ticks.length - 1]);
+  const sx = (k) => m.l + k / totalKoz * (W - m.l - m.r);
+  const sy = (v) => m.t + (1 - v / yMax) * (H - m.t - m.b);
+  let g = '';
+  for (const t of ticks) {
+    g += `<line x1="${m.l}" x2="${W - m.r}" y1="${sy(t)}" y2="${sy(t)}" class="s-grid"/>`;
+    g += `<text x="${m.l - 6}" y="${sy(t) + 4}" text-anchor="end" font-size="11" class="t-muted">${t >= 1000 ? (t / 1000).toLocaleString('en-US', { maximumFractionDigits: 1 }) + 'k' : t}</text>`;
+  }
+  g += `<text x="${m.l - 6}" y="${m.t - 30}" text-anchor="end" font-size="11" class="t-muted">US$/oz</text>`;
+  let cum = 0; const labels = [];
+  items.forEach((it, idx) => {
+    const xa = sx(cum) + (idx ? 1 : 0); const xb = sx(cum + it.koz) - (idx < items.length - 1 ? 1 : 0); cum += it.koz;
+    const w = Math.max(2, xb - xa);
+    const yA = sy(it.aisc); const yT = sy(it.total); const y0 = sy(0);
+    const gap = it.risk > 0 ? 2 : 0;
+    const rTop = Math.min(4, w / 2);
+    const aiscPath = it.risk > 0 ? `<rect x="${xa}" y="${yA}" width="${w}" height="${Math.max(0, y0 - yA)}" class="f-aisc"/>` : roundTopRect(xa, yA, w, y0 - yA, rTop, 'f-aisc');
+    const riskPath = it.risk > 0 ? roundTopRect(xa, yT, w, Math.max(0, yA - gap - yT), rTop, 'f-risk') : '';
+    const label = `${it.a.name}: year-1 output ${koz(it.an.base.prod1)}; AISC ${perOz(it.aisc)}; risk cost ${perOz(it.riskRaw)}; total ${perOz(it.total)}.`;
+    g += `<g class="cc-bar" tabindex="0" role="img" data-cc="${it.a.id}" aria-label="${esc(label)}">${aiscPath}${riskPath}<rect class="cc-outline" x="${xa}" y="${yT}" width="${w}" height="${y0 - yT}" rx="2"/></g>`;
+    labels.push({ cx: xa + w / 2, y: yT, name: it.a.name, total: it.total, w });
+  });
+  // Labels above bars; lift a label if it would collide with its neighbour.
+  let prevRight = -Infinity; let prevLift = 0;
+  labels.forEach((L) => {
+    const est = Math.max(L.name.length * 6.6, 70);
+    let lift = 0;
+    if (L.cx - est / 2 < prevRight + 4) lift = prevLift ? 0 : 26;
+    const y = L.y - 8 - lift;
+    g += `<text x="${L.cx}" y="${y - 13}" text-anchor="middle" font-size="12" font-weight="700" class="t-ink">${esc(L.name)}</text>`;
+    g += `<text x="${L.cx}" y="${y}" text-anchor="middle" font-size="11" class="t-ink2">${esc(usd0(L.total))}</text>`;
+    prevRight = L.cx + est / 2; prevLift = lift;
+  });
+  const gy = sy(gold);
+  g += `<line x1="${m.l}" x2="${W - m.r}" y1="${gy}" y2="${gy}" class="s-gold" stroke-width="2" stroke-dasharray="6 4"/>`;
+  g += `<text x="${W - m.r}" y="${gy - 6}" text-anchor="end" font-size="11" font-weight="700" class="t-ink">Gold ${esc(usd0(gold))}</text>`;
+  g += `<line x1="${m.l}" x2="${W - m.r}" y1="${sy(0)}" y2="${sy(0)}" class="s-axis" stroke-width="1.5"/>`;
+  const xt = niceTicks(0, totalKoz, narrow ? 3 : 6);
+  for (const t of xt) {
+    g += `<line x1="${sx(t)}" x2="${sx(t)}" y1="${sy(0)}" y2="${sy(0) + 4}" class="s-axis"/>`;
+    g += `<text x="${sx(t)}" y="${sy(0) + 17}" text-anchor="middle" font-size="11" class="t-muted">${Math.round(t)}</text>`;
+  }
+  g += `<text x="${(m.l + W - m.r) / 2}" y="${H - 6}" text-anchor="middle" font-size="11" class="t-muted">Year-1 payable production, cumulative (koz, 100% basis)</text>`;
+  const desc = 'Risk-adjusted cost curve. ' + items.map((it) => `${it.a.name}: AISC ${perOz(it.aisc)} plus risk cost ${perOz(it.riskRaw)}`).join('; ') + `. Gold price line at ${usd0(gold)} per ounce.`;
+  return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="group" aria-label="${esc(desc)}">${g}</svg>`;
+}
+
+function roundTopRect(x, y, w, h, r, cls) {
+  if (h <= 0) return '';
+  r = Math.min(r, h, w / 2);
+  return `<path class="${cls}" d="M${x},${y + h} V${y + r} Q${x},${y} ${x + r},${y} H${x + w - r} Q${x + w},${y} ${x + w},${y + r} V${y + h} Z"/>`;
+}
+
+function dialCostPerOz(an) {
+  const out = {}; for (const b of an.bridge) out[b.dial.id] = an.attrOz > 0 ? -b.delta / an.attrOz : NaN; return out;
+}
+
+function curveExplainer(items) {
+  if (items.length < 2) return 'Add a second modelled asset to compare positions on the curve.';
+  const lo = items[0]; const hi = items[items.length - 1];
+  const gap = hi.total - lo.total; const aiscGap = hi.aisc - lo.aisc; const riskGap = hi.risk - lo.risk;
+  const dh = dialCostPerOz(hi.an); const dl = dialCostPerOz(lo.an);
+  const diffs = DIALS.map((d) => ({ d, v: (dh[d.id] || 0) - (dl[d.id] || 0) })).sort((x, y) => y.v - x.v).filter((x) => x.v > 0.5);
+  const top = diffs.slice(0, 2).map((x) => `${x.d.name.toLowerCase()} (US$${Math.round(x.v).toLocaleString('en-US')}/oz)`);
+  let s = `${hi.a.name} sits ${usd0(gap)}/oz above ${lo.a.name} on the risk-adjusted curve. Cost explains ${usd0(aiscGap)}/oz of the gap and risk ${usd0(riskGap)}/oz.`;
+  if (top.length) s += ` Most of the risk gap comes from ${top.join(' and ')}.`;
+  return s;
+}
+
+function renderCompare() {
+  const items = curveItems(); const deck = PRICE_DECKS[state.deck]; const gold = deckPrice(deck, MODEL.firstYear);
+  const pend = ASSETS.filter((a) => ANALYSIS[a.id].pending);
+  const cols = ASSETS;
+  const cell = (a, f) => { const an = ANALYSIS[a.id]; return an.pending ? '<td class="n muted">pending</td>' : `<td class="n">${f(an, a)}</td>`; };
+  const rowsDef = [
+    ['Country', (a) => `<td>${esc(a.country)}</td>`],
+    ['Stage', (a) => `<td>${a.stage === 'operating' ? 'Operating' : 'Deposit'}</td>`],
+    ['NPV basis', (a) => `<td>${esc(a.ownerLabel)}</td>`],
+    ['Country risk premium', (a) => `<td class="n">${pct(a.crp.value, 2)}</td>`],
+    ['Year-1 payable output', (a) => cell(a, (an) => koz(an.base.prod1))],
+    ['Year-1 AISC', (a) => cell(a, (an) => perOz(an.base.aisc1))],
+    ['Mine life in plan', (a) => cell(a, (an) => yrs(an.base.life))],
+    ['Life-of-mine payable gold', (a) => cell(a, (an) => koz(an.base.lomOz))],
+    ['Base NPV', (a) => cell(a, (an) => money(an.base.npvAttr))],
+    ['Risk-adjusted NPV', (a) => cell(a, (an) => money(an.risk.npvAttr))],
+    ['Change', (a) => cell(a, (an) => `${money(an.risk.npvAttr - an.base.npvAttr, { plus: true })} (${pct(pctChange(an.base.npvAttr, an.risk.npvAttr), 0, true)})`)],
+    ['Risk cost per ounce', (a) => cell(a, (an) => perOz(an.riskCostPerOz))],
+    ['Discount rate with the Political dial', (a) => { const lv = state.levels[a.id].political; const m = DIALS.find((d) => d.id === 'political').levels[lv].fx.crpMult; return `<td class="n">${pct(state.rate + m * a.crp.value, 1)} <span class="muted small">${LEVEL_NAME[lv].slice(0, 3)}</span></td>`; }],
+    ['Breakeven gold, base → risk', (a) => cell(a, (an) => `${usd0(an.beBase)} → ${usd0(an.beRisk)}`)],
+    ['Biggest risk', (a) => { const an = ANALYSIS[a.id]; if (an.pending) return '<td class="muted">pending</td>'; const t = an.bridge.filter((b) => b.applies).sort((x, y) => x.delta - y.delta)[0]; return `<td>${t && t.delta < 0 ? esc(t.dial.name) : 'none'}</td>`; }],
+    ['Transaction IRR, base → risk', (a) => cell(a, (an) => an.base.tx ? `${pct(an.base.tx.irr, 1)} → ${pct(an.risk.tx.irr, 1)}` : '—')]
+  ];
+  const table = `<div class="table-wrap"><table class="cmp"><thead><tr><th scope="col">Metric</th>${cols.map((a) => `<th scope="col">${esc(a.name)}</th>`).join('')}</tr></thead>
+    <tbody>${rowsDef.map(([lbl, f]) => `<tr><th scope="row">${lbl}</th>${cols.map((a) => f(a)).join('')}</tr>`).join('')}</tbody></table></div>`;
+  const dialTable = `<div class="table-wrap"><table class="cmp"><thead><tr><th scope="col">Risk cost per ounce, by dial</th>${cols.map((a) => `<th scope="col">${esc(a.name)}</th>`).join('')}</tr></thead>
+    <tbody>${DIALS.map((d) => `<tr><th scope="row">${esc(d.name)}</th>${cols.map((a) => { const an = ANALYSIS[a.id]; if (an.pending) return `<td class="n muted">${LEVEL_NAME[state.levels[a.id][d.id]]}</td>`; const v = dialCostPerOz(an)[d.id]; const b = an.bridge.find((x) => x.dial.id === d.id); return `<td class="n">${b.applies ? perOz(v) : 'n/a'} <span class="muted small">${LEVEL_NAME[b.level].slice(0, 3)}</span></td>`; }).join('')}</tr>`).join('')}
+    <tr class="strong sep"><th scope="row">Total risk cost per ounce</th>${cols.map((a) => { const an = ANALYSIS[a.id]; return an.pending ? '<td class="n muted">pending</td>' : `<td class="n">${perOz(an.riskCostPerOz)}</td>`; }).join('')}</tr></tbody></table></div>`;
+  $('#screen-compare').innerHTML = `
+    <div class="screen-head">
+      <p class="eyebrow">Compare</p>
+      <h1 id="compare-title">Same metal, different countries</h1>
+      <p>Each bar is a mine: width is year-1 output, height is all-in sustaining cost plus the risk cost per ounce from its dials. Geopolitics shows up as extra height.</p>
+    </div>
+    <section class="panel" aria-labelledby="curve-title">
+      <div class="panel-head"><h2 id="curve-title">Risk-adjusted cost curve</h2><p>${esc(deck.label)} deck · ${pct(state.rate, 1)} real · each asset at its own dial settings</p></div>
+      <div class="legend"><span><i class="sw sw-aisc"></i>AISC, year 1</span><span><i class="sw sw-risk"></i>Risk cost per ounce</span><span><i class="sw sw-gold"></i>Gold price, 2026</span></div>
+      <div class="chart" id="curve-chart" data-chart="curve"></div>
+      <p class="explain">${esc(curveExplainer(items))}</p>
+      ${pend.length ? `<p class="small muted" style="margin-top:8px">${pend.map((a) => esc(a.name)).join(', ')}: data pending, so not on the curve yet.</p>` : ''}
+    </section>
+    <section class="panel" aria-labelledby="cmp-title"><div class="panel-head"><h2 id="cmp-title">Side by side</h2><p>Owner’s share of NPV; output and costs at 100%.</p></div>${table}</section>
+    <section class="panel" aria-labelledby="dcmp-title"><div class="panel-head"><h2 id="dcmp-title">Where the risk cost comes from</h2><p>Each dial’s bridge bar ÷ owner’s life-of-mine ounces. Risks stay separate; there is no blended score.</p></div>${dialTable}</section>`;
+  drawCharts();
+}
+
+/* ---------- Charts sized to their container ---------- */
+function drawCharts() {
+  const bc = document.getElementById('bridge-chart');
+  if (bc && !bc.closest('[hidden]')) {
+    const a = currentAsset(); const an = ANALYSIS[a.id];
+    if (!an.pending) bc.innerHTML = bridgeSVG(a, an, bc.clientWidth || 640);
+  }
+  const cc = document.getElementById('curve-chart');
+  if (cc && !cc.closest('[hidden]')) {
+    const items = curveItems();
+    cc.innerHTML = curveSVG(items, cc.clientWidth || 640, deckPrice(PRICE_DECKS[state.deck], MODEL.firstYear)) + '<div class="tip" id="cc-tip" hidden></div>';
+  }
+}
+
+/* ---------- Sheets: traces, how-it-works, assumptions, checks ---------- */
+function openSheet(title, html) {
+  const d = $('#sheet'); $('#sheet-title').textContent = title; $('#sheet-body').innerHTML = html;
+  if (typeof d.showModal === 'function') { if (!d.open) d.showModal(); } else d.setAttribute('open', '');
+  $('#sheet-body').scrollTop = 0;
+}
+function closeSheet() { const d = $('#sheet'); if (typeof d.close === 'function') d.close(); else d.removeAttribute('open'); }
+
+function inputsList(a) {
+  const items = (a.evidence || []).filter((e) => e.input);
+  const extra = [];
+  if (a.resolved && a.resolved.calibration) {
+    const k = a.resolved.calibration;
+    extra.push({ label: 'Site cost per tonne milled (calibrated)', value: `US$${k.siteCostPerT.toFixed(2)}`, unit: '/t', source: 'Computed: (AISC × year-1 oz − royalty at the realised price − sustaining capex) ÷ year-1 tonnes', url: '', flag: 'derived',
+      note: `AISC US$${k.aiscUS.toFixed(0)}/oz (A$${k.aiscLocal.toFixed(0)} × ${k.fx}); year-1 ${koz(k.oz1)}; royalty US$${k.royUSperOz.toFixed(1)}/oz; sustaining US$${(k.sustUS / 1e6).toFixed(1)}M; ${(k.tonnes1 / 1e6).toFixed(1)} Mt.` });
+    extra.push({ label: 'Sustaining capex per tonne milled', value: `US$${(k.sustUS / k.tonnes1).toFixed(2)}`, unit: '/t', source: `Computed: A$${k.sustLocal.toFixed(0)}M × ${k.fx} ÷ ${(k.tonnes1 / 1e6).toFixed(1)} Mt`, url: '', flag: 'derived' });
+    extra.push({ label: 'Havana growth capex in the model', value: `US$${(k.growthUS / 1e6).toFixed(1)}M in ${k.growthYear}`, unit: '', source: 'Computed: guidance midpoint ÷ 0.30 × FX', url: '', flag: 'derived' });
+  }
+  return `<ul class="ev-list">${extra.concat(items).map(evidenceItem).join('')}</ul>`;
+}
+
+function traceHTML(kind) {
+  const a = currentAsset(); const an = ANALYSIS[a.id]; const deck = PRICE_DECKS[state.deck];
+  if (an.pending) return ['Data pending', '<p>This asset has no model inputs yet.</p>'];
+  const b = an.base; const r = an.risk;
+  const deckLine = `<p class="small">${esc(deck.label)} deck: ${esc(deck.desc)}. ${flagPill(deck.flag)} ${srcLink(deck)}</p>`;
+  if (kind === 'npv-base' || kind === 'npv-risk') {
+    const isRisk = kind === 'npv-risk'; const res = isRisk ? r : b;
+    const formula = `NPV (owner) = Σ FCFₜ × owner shareₜ ÷ (1 + r)^t\n t = 1 for 2026 (valuation date 1 Jan 2026, end-year cash flows)\n r = ${pct(state.rate, 1)} base real${isRisk ? ` + ${r.params.crpMult} × ${pct(a.crp.value, 2)} country premium = ${pct(r.rate, 2)}` : ''}\n FCF = EBITDA − capex − tax − Δ working capital − closure\n = ${money(res.npvAttr)} owner’s share; ${money(res.npv)} at 100%`;
+    const moved = isRisk ? `<h3>What moved it</h3><div class="kv">${an.bridge.map((x) => `<span>${esc(x.dial.name)} · ${x.applies ? LEVEL_NAME[x.level] : 'n/a'}</span><span>${x.applies ? money(x.delta, { plus: true }) : 'n/a'}</span>`).join('')}<span><b>Total change</b></span><span>${money(r.npvAttr - b.npvAttr, { plus: true })}</span></div>` : '';
+    return [isRisk ? 'Risk-adjusted value' : 'Base value', `<div class="formula">${esc(formula)}</div>${deckLine}${moved}
+      <h3>Inputs and sources</h3>${inputsList(a)}<h3>Annual cash flow</h3>${cashTable(a, res)}`];
+  }
+  if (kind === 'tx') {
+    const t = a.transaction; const fl = (res) => res.tx.flows.map((x) => `<span>${x.year === MODEL.firstYear - 1 ? 'Close (t = 0)' : x.year}</span><span>${money(x.cf)}</span>`).join('');
+    return ['Transaction NPV and IRR', `<div class="formula">${esc(`Cash flow to the buyer = owner’s FCF − price paid\n Upfront ${money(t.upfront)} at close (t = 0)\n Contingent: ${pct(t.contingentPaidShare, 0)} of ${money(t.contingentTotal)}, paid evenly ${t.contingentYears[0]}–${t.contingentYears[t.contingentYears.length - 1]}\n IRR is the rate where NPV = 0; compare it with the hurdle ${pct(r.rate, 1)}`)}</div>
+      <div class="kv"><span>Base NPV at ${pct(b.rate, 1)}</span><span>${money(b.tx.npv)}</span><span>Base IRR</span><span>${pct(b.tx.irr, 1)}</span><span>Risk-adjusted NPV at ${pct(r.rate, 1)}</span><span>${money(r.tx.npv)}</span><span>Risk-adjusted IRR</span><span>${pct(r.tx.irr, 1)}</span></div>
+      <h3>Base-case cash flows to the buyer</h3><div class="kv">${fl(b)}</div><h3>Risk-adjusted cash flows to the buyer</h3><div class="kv">${fl(r)}</div>
+      <p class="small">${flagPill('sourced')} ${srcLink(S.TM)}</p>`];
+  }
+  if (kind === 'breakeven') {
+    return ['Breakeven gold price', `<div class="formula">${esc(`Flat real gold price where the owner’s NPV = 0\n Solved by bisection between US$0 and US$${MODEL.breakevenMax.toLocaleString('en-US')}/oz\n Base: ${perOz(an.beBase)} at ${pct(b.rate, 1)}\n Risk-adjusted: ${perOz(an.beRisk)} at ${pct(r.rate, 1)}`)}</div>
+      <p>The risk-adjusted breakeven includes every dial and the country premium. Compare it with the ${esc(deck.label)} deck: ${esc(deck.desc)}.</p>${deckLine}`];
+  }
+  if (kind === 'prod') {
+    const y = b.years[0]; const yr = r.years[0];
+    return ['Year-1 output and AISC', `<div class="formula">${esc(`Payable oz = ore milled × grade ÷ 31.1034768 × recovery × payability\n Base ${y.year}: ${y.milled.toFixed(2)} Mt × ${y.grade.toFixed(3)} g/t ÷ 31.1034768 × ${pct(y.recovery, 1)} × ${pct(a.processing.payability, 1)} = ${koz(y.oz)}\n Risk-adjusted: ${yr.milled.toFixed(2)} Mt × ${yr.grade.toFixed(3)} g/t × ${pct(yr.recovery, 1)} = ${koz(yr.oz)}\n\nAISC = (site costs + royalties + sustaining capex + corporate G&A) ÷ payable oz\n Base: (${mnum(y.site)} + ${mnum(y.royalties)} + ${mnum(y.sustaining)} + ${mnum(y.corporate)}) US$M ÷ ${koz(y.oz)} = ${perOz(b.aisc1)}`)}</div>
+      ${a.resolved.calibration ? `<p>Year-1 AISC is calibrated to the FY27 guidance midpoint of A$${a.resolved.calibration.aiscLocal.toFixed(0)}/oz (US$${a.resolved.calibration.aiscUS.toFixed(0)}/oz). The model figure differs slightly because royalties move with the deck price.</p>` : ''}
+      <h3>Inputs and sources</h3>${inputsList(a)}`];
+  }
+  if (kind === 'life') {
+    return ['Mine life', `<div class="formula">${esc(`Life = scheduled tonnes ÷ peak annual tonnes\n Base: ${b.totalOre.toFixed(1)} Mt ÷ ${Math.max(...b.years.filter((y) => !y.release).map((y) => y.ore)).toFixed(1)} Mt = ${yrs(b.life)}\n Risk-adjusted: ${yrs(r.life)} (the Resource dial removes the last tonnes of the schedule)`)}</div>
+      <p>${a.schedule.kind === 'sources' ? 'The schedule mills 9.3 Mtpa: underground up to 2.0 Mtpa and open pit up to 4.3 Mtpa until each reserve runs out, with stockpiles filling the rest; it stops when reserves run out.' : 'The schedule is the Tongon model’s ore plan.'}</p>
+      <h3>Inputs and sources</h3>${inputsList(a)}`];
+  }
+  if (kind === 'rate') {
+    return ['Discount rate', `<div class="formula">${esc(`Risk-adjusted real rate = base real rate + Political multiplier × country risk premium\n = ${pct(state.rate, 1)} + ${r.params.crpMult} × ${pct(a.crp.value, 2)} = ${pct(r.rate, 2)}`)}</div>
+      <p>Country risk enters once, through the discount rate. The Political dial never adds a stoppage event as well. ${a.crp.note ? esc(a.crp.note) : ''}</p>
+      <p class="small">${flagPill(a.crp.flag)} ${srcLink(a.crp)}</p>`];
+  }
+  return ['Details', ''];
+}
+
+function howHTML() {
+  const rows = DIALS.map((d) => `<tr><th scope="row" class="wrap-cell"><b>${esc(d.name)}</b><br><span class="muted">${esc(d.question)}</span></th>${LEVELS.map((L) => `<td class="wrap-cell">${esc(d.levels[L].text)}</td>`).join('')}<td class="wrap-cell">${esc(d.line)}<br><span class="muted">${esc(d.method)}</span></td></tr>`).join('');
+  return `<p>Every risk changes the DCF in one of four ways: a range on an input, a delay, an event (yearly probability × impact), or a country premium on the discount rate. Each risk is counted once.</p>
+    <div class="table-wrap"><table><thead><tr><th scope="col">Dial</th><th scope="col" class="wrap-cell">Low</th><th scope="col" class="wrap-cell">Medium</th><th scope="col" class="wrap-cell">High</th><th scope="col" class="wrap-cell">DCF line it moves</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <h3>Rules the model follows</h3>
+    <ul>
+      <li><b>Events as expected values.</b> A p% yearly chance of an n-month stoppage cuts that year’s milled tonnes and variable costs by p × n/12. Fixed costs, ${pct(MODEL.fixedShare, 0)} of site costs, continue.</li>
+      <li><b>Fiscal changes within three years</b> are equally likely in each of years 1–3, so the expected royalty rise ramps in. The state-stake rise at High dilutes the owner without compensation.</li>
+      <li><b>Mine life cuts</b> remove the last tonnes of the schedule, pro rata in the final year.</li>
+      <li><b>Political risk</b> is only the country premium on the discount rate (0.5×, 1×, 1.5×). It never also adds a stoppage, so country risk is counted once.</li>
+      <li><b>Capex and schedule</b> applies to undeveloped deposits only. Delays shift production later; overruns scale development capex.</li>
+      <li><b>The bridge</b> applies dials cumulatively in this order: ${DIALS.map((d) => d.short).join(', ')} (discount rate last). Each bar is the NPV change from adding that dial, so the bars sum exactly to risk-adjusted minus base.</li>
+    </ul>
+    <p class="banner"><b>Starting assumptions.</b> Every number on this page is a starting assumption to calibrate against what actually happened at comparable mines, not an industry statistic.</p>`;
+}
+
+function assumptionsHTML() {
+  const model = MODEL_ASSUMPTIONS.map((x) => `<li><div class="ev-head"><span>${esc(x.label)}</span>${flagPill('assumption')}</div><span class="ev-val">${esc(x.value)}</span><span class="small muted">${esc(x.note)}</span></li>`).join('');
+  const decks = Object.values(PRICE_DECKS).map((d) => `<li><div class="ev-head"><span>${esc(d.label)} price deck</span>${flagPill(d.flag)}</div><span class="ev-val">${esc(d.desc)}</span><span class="ev-src">${srcLink(d)}</span></li>`).join('');
+  const per = ASSETS.map((a) => {
+    const items = (a.evidence || []).filter((e) => e.flag === 'assumption');
+    if (a.crp.flag === 'assumption') items.push({ label: 'Country risk premium', value: pct(a.crp.value, 2), unit: '', source: a.crp.source, url: a.crp.url, flag: 'assumption', note: a.crp.note });
+    return `<h3>${esc(a.name)}</h3><ul class="ev-list">${items.map(evidenceItem).join('') || '<li>None flagged.</li>'}</ul>`;
+  }).join('');
+  return `<p>Everything not taken directly from a source is flagged here. Fill these in to replace assumptions with evidence.</p>
+    <h3>Model-wide</h3><ul class="ev-list">${model}${decks}</ul>${per}`;
+}
+
+/* =====================================================================
+   6. CHECKS (also run by the "Run checks" button)
+   ===================================================================== */
+function runChecks() {
+  const out = [];
+  const add = (name, ok, detail) => out.push({ name, ok: !!ok, detail });
+  const within = (got, target, tol) => Math.abs(got - target) <= tol;
+  const T = assetById('tongon');
+  const none = new Set(); const levelsT = state.levels.tongon;
+  const baseO = { deck: PRICE_DECKS.spot, rate: 0.05, levels: levelsT, enabled: none, ext: 0 };
+  const b = runModel(T, baseO);
+  const tol1 = (t, half) => Math.max(Math.abs(t) * 0.01, half);
+  // 1. Tongon reconciliation with the spreadsheet
+  add('Tongon asset NPV (100%) ≈ US$322M', within(b.npv / 1e6, 322, tol1(322, 0.5)), `${(b.npv / 1e6).toFixed(2)}M (${pct((b.npv / 1e6 - 322) / 322, 2, true)})`);
+  add('Tongon attributable NPV ≈ US$289M', within(b.npvAttr / 1e6, 289, tol1(289, 0.5)), `${(b.npvAttr / 1e6).toFixed(2)}M`);
+  add('Tongon transaction NPV ≈ US$46M', within(b.tx.npv / 1e6, 46, tol1(46, 0.5)), `${(b.tx.npv / 1e6).toFixed(2)}M (target stated to the nearest US$1M)`);
+  add('Tongon transaction IRR ≈ 16%', within(b.tx.irr * 100, 16, 0.5), `${pct(b.tx.irr, 2)}`);
+  add('Tongon 2026 payable gold ≈ 126,400 oz', within(b.years[0].oz, 126400, 1264), `${Math.round(b.years[0].oz).toLocaleString('en-US')} oz`);
+  add('Tongon 2026 FCF ≈ US$107.5M', within(b.years[0].fcf / 1e6, 107.5, tol1(107.5, 0.05)), `${(b.years[0].fcf / 1e6).toFixed(2)}M`);
+  const up = runModel(T, { ...baseO, flatPrice: 3700 * 1.1 }).npv; const dn = runModel(T, { ...baseO, flatPrice: 3700 * 0.9 }).npv;
+  add('Gold +10% moves NPV ≈ +33%', within((up / b.npv - 1) * 100, 33, 0.5), pct(up / b.npv - 1, 1, true));
+  add('Gold −10% moves NPV ≈ −33%', within((dn / b.npv - 1) * 100, -33, 0.5), pct(dn / b.npv - 1, 1, true));
+  const p1 = runModel(T, { ...baseO, ext: 1 }).npv - b.npv; const m1 = runModel(T, { ...baseO, trimYears: 1 }).npv - b.npv;
+  add('Mine life +1 year ≈ +US$57M', within(p1 / 1e6, 57, tol1(57, 0.5)), money(p1, { plus: true }));
+  add('Mine life −1 year ≈ −US$66M', within(m1 / 1e6, -66, tol1(66, 0.5)), money(m1, { plus: true }));
+  // 2. Tropicana calibration
+  const R = assetById('tropicana');
+  const tb = runModel(R, { deck: PRICE_DECKS.spot, rate: 0.05, levels: state.levels.tropicana, enabled: none, ext: 0 });
+  add('Tropicana year-1 production 400–430 koz', tb.prod1 >= 400000 && tb.prod1 <= 430000, koz(tb.prod1));
+  add('Tropicana year-1 AISC within 2% of US$1,953/oz', Math.abs(tb.aisc1 / 1953 - 1) <= 0.02, `${perOz(tb.aisc1)} (${pct(tb.aisc1 / 1953 - 1, 2, true)}) at Spot`);
+  add('Tropicana reserve life ≈ 4.2 years', within(tb.life, 4.2, 0.05), yrs(tb.life));
+  add('Tropicana site cost backs out near US$60/t', within(R.resolved.calibration.siteCostPerT, 60, 3), `US$${R.resolved.calibration.siteCostPerT.toFixed(2)}/t`);
+  // 3. Bridge sums
+  for (const a of ASSETS) {
+    const an = ANALYSIS[a.id]; if (an.pending) continue;
+    const s = sum(an.bridge, (x) => x.delta); const d = an.risk.npvAttr - an.base.npvAttr;
+    add(`${a.name}: bridge bars sum to risk-adjusted minus base`, Math.abs(s - d) < 0.1e6, `${money(s)} vs ${money(d)} (diff ${(Math.abs(s - d) / 1e6).toFixed(6)}M)`);
+  }
+  // 4. No NaN, no negative production across decks, dial sets and plan options
+  let runs = 0; let bad = [];
+  for (const a of ASSETS) {
+    if (a.dataStatus === 'pending') continue;
+    const sets = { defaults: state.levels[a.id], allL: {}, allM: {}, allH: {} };
+    for (const d of DIALS) { sets.allL[d.id] = 'L'; sets.allM[d.id] = 'M'; sets.allH[d.id] = 'H'; }
+    const exts = a.schedule.kind === 'fixed' ? [0, 1] : [0, 2, a.schedule.extension.maxYears];
+    for (const deck of Object.values(PRICE_DECKS)) for (const [nm, lv] of Object.entries(sets)) for (const ext of exts) for (const en of [new Set(), ALL_DIALS()]) {
+      const res = runModel(a, { deck, rate: 0.05, levels: lv, enabled: en, ext }); runs++;
+      const nums = [res.npv, res.npvAttr, res.prod1, res.aisc1, res.lomOz, res.life];
+      for (const y of res.years) nums.push(y.oz, y.fcf, y.tax, y.revenue, y.site, y.capex, y.df, y.milled, y.ore);
+      if (nums.some((x) => !isFinite(x))) bad.push(`${a.name}/${deck.id}/${nm}/ext${ext}: non-finite value`);
+      if (res.years.some((y) => y.oz < 0 || y.ore < 0 || y.milled < 0)) bad.push(`${a.name}/${deck.id}/${nm}/ext${ext}: negative production`);
+    }
+  }
+  add('No NaN and no negative production', bad.length === 0, `${runs} model runs${bad.length ? '; ' + bad.slice(0, 3).join('; ') : ''}`);
+  // Live update across every screen
+  const a = ASSETS.find((x) => x.id === state.assetId && x.dataStatus !== 'pending') || T;
+  const saveAsset = state.assetId; state.assetId = a.id;
+  const snap = () => ['pick', 'value', 'dials', 'compare'].map((s) => $(`#screen-${s}`).textContent);
+  renderAll(true); const before = snap();
+  const old = state.levels[a.id].recovery; state.levels[a.id].recovery = old === 'H' ? 'L' : 'H';
+  renderAll(true); const after = snap();
+  state.levels[a.id].recovery = old; state.assetId = saveAsset; renderAll(true);
+  const changedScreens = ['Pick', 'Value', 'Dials', 'Compare'].filter((_, i) => before[i] !== after[i]);
+  add('A dial change updates every screen', changedScreens.length === 4, `Changed: ${changedScreens.join(', ') || 'none'} (Recovery dial on ${a.name})`);
+  const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+  add('No horizontal page scroll at this width', overflow <= 1, `viewport ${window.innerWidth}px, overflow ${overflow}px.${window.innerWidth > 420 ? ' Narrow the window to 375px to test the phone layout.' : ''}`);
+  return out;
+}
+
+function checksHTML() {
+  const res = runChecks(); const pass = res.filter((r) => r.ok).length;
+  const log = res.map((r) => `${r.ok ? 'PASS' : 'FAIL'}  ${r.name}  →  ${r.detail}`).join('\n');
+  try { console.log('Mining Risk Explorer checks\n' + log); } catch (e) { /* console unavailable */ }
+  return `<p><b>${pass} of ${res.length} checks pass.</b> Tolerance is 1% of the target or half the last digit the target is stated to, whichever is larger.</p>
+    <ul class="checks-list">${res.map((r) => `<li><span class="res ${r.ok ? 'res-pass' : 'res-fail'}">${r.ok ? 'PASS' : 'FAIL'}</span><span><b>${esc(r.name)}</b><br><span class="muted">${esc(r.detail)}</span></span></li>`).join('')}</ul>
+    <details class="more"><summary>Plain-text log</summary><pre class="log">${esc(log)}</pre></details>`;
+}
+
+/* =====================================================================
+   7. WIRING
+   ===================================================================== */
+function renderAll(silent) {
+  const active = document.activeElement && document.activeElement.id ? document.activeElement.id : null;
+  recompute();
+  renderControls(); renderTabs(); renderPick(); renderValue(); renderDials(); renderCompare();
+  const th = $('#topbar').offsetHeight; document.documentElement.style.setProperty('--topbar-h', (window.innerWidth >= 900 ? th + 8 : th + 8) + 'px');
+  if (active && !silent) { const el = document.getElementById(active); if (el) el.focus({ preventScroll: true }); }
+}
+
+function go(screen, opts = {}) {
+  if (location.hash !== '#' + screen) { history.replaceState(null, '', '#' + screen); }
+  state.screen = screen; renderTabs(); drawCharts();
+  if (!opts.keepScroll) window.scrollTo(0, 0);
+  if (opts.dial) {
+    const card = document.getElementById('dial-' + opts.dial);
+    if (card) {
+      card.scrollIntoView({ block: 'center' });
+      card.classList.add('flash'); setTimeout(() => card.classList.remove('flash'), 1200);
+      const r = card.querySelector('input:checked') || card.querySelector('input');
+      if (r) r.focus({ preventScroll: true });
+    }
+  }
+}
+
+document.addEventListener('change', (e) => {
+  const t = e.target; const role = t.dataset && t.dataset.role;
+  if (!role) return;
+  if (role === 'deck') { state.deck = t.value; renderAll(); }
+  else if (role === 'level') { state.levels[state.assetId][t.dataset.dial] = t.value; renderAll(); }
+  else if (role === 'tablemode') { state.tableMode = t.value; renderAll(); }
+  else if (role === 'ext-fixed') { state.ext[state.assetId] = t.checked ? 1 : 0; renderAll(); }
+});
+
+document.addEventListener('toggle', (e) => {
+  const d = e.target; if (!d.dataset || !d.dataset.openId) return;
+  if (d.open) state.open.add(d.dataset.openId); else state.open.delete(d.dataset.openId);
+}, true);
+
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('button, a, [data-goto-dial]');
+  if (!el) return;
+  if (el.matches('.tabs a')) { e.preventDefault(); go(el.dataset.screen); return; }
+  if (el.dataset.pick) { state.assetId = el.dataset.pick; renderAll(true); go('value'); return; }
+  if (el.dataset.gotoDial) { go('dials', { dial: el.dataset.gotoDial }); return; }
+  if (el.dataset.trace) { const [title, html] = traceHTML(el.dataset.trace); openSheet(title, html); return; }
+  if (el.dataset.open === 'how') { openSheet('How the dials work', howHTML()); return; }
+  if (el.dataset.open === 'assumptions') { openSheet('Assumptions list', assumptionsHTML()); return; }
+  if (el.dataset.open === 'checks') { const html = checksHTML(); openSheet('Checks', html); return; }
+  if (el.dataset.resetDial) { const a = currentAsset(); state.levels[a.id][el.dataset.resetDial] = a.dialDefaults[el.dataset.resetDial].level; renderAll(); return; }
+  if (el.hasAttribute('data-reset-all')) { const a = currentAsset(); for (const d of DIALS) state.levels[a.id][d.id] = a.dialDefaults[d.id].level; renderAll(); return; }
+  if (el.dataset.extStep) { const a = currentAsset(); const max = a.schedule.extension.maxYears; state.ext[a.id] = Math.max(0, Math.min(max, state.ext[a.id] + Number(el.dataset.extStep))); renderAll(); return; }
+  if (el.id === 'rate-down' || el.id === 'rate-up') {
+    const step = el.id === 'rate-up' ? MODEL.rateStep : -MODEL.rateStep;
+    state.rate = Math.round(Math.max(MODEL.rateMin, Math.min(MODEL.rateMax, state.rate + step)) * 1000) / 1000; renderAll(); return;
+  }
+  if (el.id === 'sheet-close') { closeSheet(); return; }
+  if (el.matches('a[href^="#"]')) { const s = el.getAttribute('href').slice(1); if (['pick', 'value', 'dials', 'compare'].includes(s)) { e.preventDefault(); go(s); } }
+});
+
+document.addEventListener('keydown', (e) => {
+  const row = e.target.closest && e.target.closest('[data-goto-dial]');
+  if (row && row.tagName !== 'BUTTON' && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); go('dials', { dial: row.dataset.gotoDial }); }
+});
+
+// Cost-curve tooltip (hover, focus or tap).
+function showTip(g, evt) {
+  const tip = document.getElementById('cc-tip'); const chart = document.getElementById('curve-chart'); if (!tip || !chart) return;
+  const a = assetById(g.dataset.cc); const an = ANALYSIS[a.id];
+  tip.innerHTML = `<b>${esc(a.name)}</b><div class="row"><span>Year-1 output</span><span>${koz(an.base.prod1)}</span></div><div class="row"><span>AISC</span><span>${perOz(an.base.aisc1)}</span></div><div class="row"><span>Risk cost</span><span>${perOz(an.riskCostPerOz)}</span></div><div class="row"><span><b>Total</b></span><span><b>${perOz(an.base.aisc1 + Math.max(0, an.riskCostPerOz))}</b></span></div>`;
+  tip.hidden = false;
+  const cr = chart.getBoundingClientRect(); const gr = g.getBoundingClientRect();
+  let x = (evt && evt.clientX ? evt.clientX : gr.left + gr.width / 2) - cr.left + 12;
+  const y = gr.top - cr.top + 10;
+  x = Math.min(x, cr.width - tip.offsetWidth - 4); x = Math.max(4, x);
+  tip.style.left = x + 'px'; tip.style.top = Math.max(0, y) + 'px';
+}
+function hideTip() { const tip = document.getElementById('cc-tip'); if (tip) tip.hidden = true; }
+document.addEventListener('mousemove', (e) => { const g = e.target.closest && e.target.closest('.cc-bar'); if (g) showTip(g, e); else hideTip(); });
+document.addEventListener('focusin', (e) => { const g = e.target.closest && e.target.closest('.cc-bar'); if (g) showTip(g); });
+document.addEventListener('focusout', (e) => { if (e.target.closest && e.target.closest('.cc-bar')) hideTip(); });
+document.addEventListener('pointerdown', (e) => { const g = e.target.closest && e.target.closest('.cc-bar'); if (g && e.pointerType !== 'mouse') showTip(g, e); });
+
+window.addEventListener('hashchange', () => { const s = location.hash.slice(1); if (['pick', 'value', 'dials', 'compare'].includes(s)) go(s); });
+let resizeTimer = null;
+window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { drawCharts(); const th = $('#topbar').offsetHeight; document.documentElement.style.setProperty('--topbar-h', (th + 8) + 'px'); }, 120); });
+$('#sheet').addEventListener('click', (e) => { if (e.target === $('#sheet')) closeSheet(); });
+
+(function start() {
+  const s = location.hash.slice(1);
+  state.screen = ['pick', 'value', 'dials', 'compare'].includes(s) ? s : 'pick';
+  renderAll(true);
+  drawCharts();
+})();
+</script>
+</body>
+</html>
