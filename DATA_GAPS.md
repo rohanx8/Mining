@@ -21,11 +21,12 @@ The public sources reached so far are enough for the event timeline, the country
 
 | Gap | Effect in the app | Where to look |
 |---|---|---|
-| **The Tongon spreadsheet itself** was not supplied; the engine was rebuilt from the values in the brief | All nine reconciliation targets pass. Two readings were inferred: working-capital days (receivables 5, payables 45, inventory 30) and the release horizon (2030). | Send `Tongon_Mining_Model.xlsx` to confirm both readings and the inventory basis |
+| Throughput, head grade and recovery (the spreadsheet's estimates: 4.0 Mtpa, 1.20 → 1.10 g/t, 82%) | Drive every ounce; the Recovery default is Medium because 82% is assumed | Barrick quarterly Mine Stats and MD&As, 2019–Q3 2025, Tongon rows |
+| Basis of the 620 koz reserve (100% or 89.7%) | Resource dial evidence (the plan is 1.27× the reserves left) | Barrick reserves table, 31 Dec 2024 |
 | Côte d'Ivoire row in Damodaran's January 2026 table | Uses the 3.90% Ba2-level fallback (flagged). The country is rated Ba2. | Damodaran Jan 2026 `ctryprem` archive |
-| Actual plant recovery | 82% is a model assumption, so the Recovery default is Medium | Atlantic Group or Barrick historical Tongon disclosures |
-| Current state stake | 10% assumed; only used by Fiscal at High | Tongon mining convention; Atlantic Group acquisition documents |
-| Opening tax base and closure cost | US$150M and US$40M, as in the spreadsheet (flagged as assumptions) | Tongon statutory accounts; closure plan |
+| Contingent consideration terms | Half of US$113M assumed paid, evenly over 2026–2028 | Barrick 2 Dec 2025 release and 2025 annual report: price thresholds and conversion milestones |
+| Stream terms | 0.5%-of-spot ongoing payment is unusually low; tiers start 31 Jan 2026 (modelled from 1 Jan) | Empress Royalty MD&A and material change report |
+| Opening tax base, closure cost, sustaining capex, corporate G&A, exploration | US$150M, US$40M, US$7.50/t, US$15/oz, US$25/oz (spreadsheet assumptions) | EITI Côte d'Ivoire payment data; Tongon closure plan; Barrick Tongon sustaining capex history |
 | Infrastructure and community evidence | Infrastructure default Low, Community default Medium, both without public evidence | Site visit; grid reliability data; local press; ESIA |
 | Reserves beyond 2029 | Drives the Resource dial and the +1 year case | Updated reserve statement under Atlantic Group |
 

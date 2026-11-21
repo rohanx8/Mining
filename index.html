@@ -411,7 +411,8 @@ pre.log { font-family: var(--font-num); font-size: 12px; background: var(--surfa
 const G_PER_OZ = 31.1034768;
 
 const MODEL = {
-  firstYear: 2026,                 // valuation date 1 Jan 2026, so 2026 cash flow is discounted one full year
+  firstYear: 2026,                 // valuation date 1 Jan 2026; cash flows dated 31 Dec, discounted by actual days ÷ 365 (Excel XNPV, as in the Tongon spreadsheet)
+  valuationUTC: Date.UTC(2026, 0, 1),
   defaultRate: 0.05,
   rateStep: 0.005, rateMin: 0, rateMax: 0.20,
   fixedShare: 0.40,                // share of site costs that continue through a stoppage
@@ -426,17 +427,18 @@ const MODEL_ASSUMPTIONS = [
   { label: 'State stake rise', value: 'Uncompensated', note: 'The owner’s share falls pro rata (share × (1 − new) ÷ (1 − current)), with no payment from the state.' },
   { label: 'Sustaining capex during stoppages', value: 'Scales with tonnes milled', note: 'Sustaining capex is per tonne milled, so it falls with a stoppage.' },
   { label: 'Depreciation for tax', value: 'Units of production', note: '(Opening tax base + capex) × this year’s tonnes ÷ remaining scheduled tonnes; whatever is left is deducted in the final year.' },
-  { label: 'Working-capital days', value: 'Receivables 5 · inventory 30 · payables 45', note: 'The brief lists "5 / 45 / 30". Reading it as receivables / payables / inventory reproduces the Tongon spreadsheet (NPV US$322M, +1 year +US$57M); reading inventory as 45 and payables as 30 gives US$325.6M. Receivables use net revenue; inventory and payables use site costs.' },
-  { label: 'Working-capital release', value: 'Year after production ends', note: 'The balance unwinds in the year after the last production year, if that year is inside the asset’s model horizon (Tongon: 2030, as in the spreadsheet).' },
-  { label: 'AISC definition', value: 'Site + royalties + sustaining + corporate G&A', note: 'Per payable ounce. Excludes exploration, streams, growth capex and closure.' },
+  { label: 'Discounting', value: 'End-year, by actual days', note: 'Cash flows are dated 31 December and discounted from 1 Jan 2026 by actual days ÷ 365, as Excel’s XNPV and XIRR do in the Tongon spreadsheet. Year 1 is 364/365 of a year.' },
+  { label: 'Working-capital days', value: 'Receivables 5 · inventory 30 · payables 45', note: 'As in the Tongon spreadsheet. Receivables use revenue after the stream; inventory and payables use site costs. The opening balance equals the year-1 level.' },
+  { label: 'Working-capital release', value: 'Year after production ends', note: 'The balance unwinds in the year after the last production year, if that year is inside the asset’s model horizon (Tongon: 2030, the spreadsheet’s last column).' },
+  { label: 'AISC definition', value: 'Site + royalties + sustaining + corporate G&A + exploration', note: 'Per payable ounce, as in the Tongon spreadsheet. Excludes streams (shown as a memo there), growth capex and closure.' },
   { label: 'Risk cost per ounce', value: '(Base − risk-adjusted NPV) ÷ owner’s LOM ounces', note: 'Owner’s share of NPV over the owner’s share of base-case life-of-mine payable ounces.' },
   { label: 'Consensus deck after 2030', value: 'Flat at US$4,500/oz', note: 'Goldman Sachs gives 2026 and 2027; flat from 2028 onwards is an assumption.' },
   { label: 'Dial levels', value: 'Starting assumptions', note: 'Every dial level is a starting assumption to calibrate against comparable mines, not an industry statistic.' }
 ];
 
 const PRICE_DECKS = {
-  spot:      { id: 'spot', label: 'Spot', prices: {}, flat: 3700, desc: 'US$3,700/oz flat', source: 'Trading Economics, gold spot, 19 Nov 2026', url: 'https://tradingeconomics.com/commodity/gold', flag: 'sourced' },
-  consensus: { id: 'consensus', label: 'Consensus', prices: { 2026: 4150, 2027: 4650, 2028: 4500, 2029: 4500, 2030: 4500 }, flat: 4500, desc: 'US$4,150 (2026), 4,650 (2027), then 4,500 flat', source: 'Goldman Sachs gold forecast, Nov 2026; flat from 2028 is an assumption', url: '', flag: 'assumption' },
+  spot:      { id: 'spot', label: 'Spot', prices: {}, flat: 3700, desc: 'US$3,700/oz flat', source: 'Trading Economics, gold spot about US$3,692 on 19 Nov 2026, rounded', url: 'https://tradingeconomics.com/commodity/gold', flag: 'sourced' },
+  consensus: { id: 'consensus', label: 'Consensus', prices: { 2026: 4150, 2027: 4650, 2028: 4500, 2029: 4500, 2030: 4500 }, flat: 4500, desc: 'US$4,150 (2026), 4,650 (2027), then 4,500 flat', source: 'Goldman Sachs end-2026 and end-2027 forecasts (5 and 14 Nov 2026) via Golden Ark Reserve; US$4,500 from 2028 is an assumption', url: 'https://goldenarkreserve.com/insights/gold-price-forecast-november-2026/', flag: 'assumption' },
   downside:  { id: 'downside', label: 'Downside', prices: {}, flat: 3000, desc: 'US$3,000/oz flat', source: 'Downside deck set in the build brief', url: '', flag: 'assumption' }
 };
 
@@ -485,8 +487,15 @@ const DIALS = [
 
 // Source records, spread into evidence items so each carries {source, url}.
 const S = {
-  TM:     { source: 'Tongon mining model (CFI-style), Mining Model sheet', url: '' },
-  TMS:    { source: 'Tongon mining model, Sensitivity Engine sheet', url: '' },
+  TM:     { source: 'Tongon_Mining_Model.xlsx (CFI layout), Mining Model sheet: illustrative best guesses from public information, not Tongon’s actual mine plan', url: '' },
+  TMS:    { source: 'Tongon_Mining_Model.xlsx, Sensitivity Engine sheet', url: '' },
+  BRKTON: { source: 'Barrick, Barrick Completes Tongon Transaction (2 Dec 2025)', url: 'https://www.barrick.com/English/news/news-details/2025/barrick-completes-tongon-transaction/default.aspx' },
+  MCTON:  { source: 'MINING.COM, Barrick sells Tongon mine interests to Atlantic Group for up to $305M (7 Oct 2025)', url: 'https://www.mining.com/barrick-sells-tongon-mine-interests-to-atlantic-group-for-up-to-305m/' },
+  BNNTON: { source: 'BNN Bloomberg, Barrick sells stake in Tongon mine for US$305M (6 Oct 2025)', url: 'https://www.bnnbloomberg.ca/business/2025/10/06/barrick-selling-its-stake-in-tongon-mine-in-deal-worth-up-to-us305m/' },
+  EMPRESS:{ source: 'Empress Royalty, Tongon stream agreement (17 Sep 2026)', url: 'https://www.empressroyalty.com/news/160494' },
+  EITICI: { source: 'EITI, Côte d’Ivoire country page', url: 'https://eiti.org/countries/cote-divoire' },
+  L500CI: { source: 'Legal 500, Ivory Coast mining guide 2026', url: 'https://www.legal500.com/guides/chapter/ivory-coast-mining/' },
+  GOLDARK:{ source: 'Golden Ark Reserve, gold price forecast round-up (Nov 2026), citing Goldman Sachs', url: 'https://goldenarkreserve.com/insights/gold-price-forecast-november-2026/' },
   BRIEF:  { source: 'Build brief for this MVP (21 Nov 2026)', url: '' },
   CIROY:  { source: 'Africa Sustainability Matters, West Africa reassesses gold royalties (2025)', url: 'https://africasustainabilitymatters.com/west-africa-reassesses-gold-royalties-amid-record-breaking-prices/' },
   DAM:    { source: 'Damodaran (NYU), Country Default Spreads and Risk Premiums, Jan 2026', url: 'https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/ctryprem.html' },
@@ -682,11 +691,11 @@ const ASSETS = [
     transaction: { buyer: 'Atlantic Group', upfront: 192e6, contingentTotal: 113e6, contingentPaidShare: 0.5, contingentYears: [2026, 2027, 2028] },
     crp: { value: 0.039, label: 'Côte d’Ivoire (Ba2 level)', ...S.DAM, flag: 'assumption', note: 'Côte d’Ivoire’s own row in Damodaran’s January 2026 table could not be read, so this uses the brief’s fallback: the 3.90% that Ba2 countries carry in that table. Moody’s rates Côte d’Ivoire Ba2 (affirmed 13 Mar 2026).' },
     dialDefaults: {
-      resource: { level: 'M', reason: 'About four to five years of reserves left; the plan ends in 2029 unless resources convert.', sources: ['TM'],
+      resource: { level: 'M', reason: 'Reserves of 620 koz cover about three years; the four-year plan already needs 27% more gold than the reserves left after 2025.', sources: ['MCTON', 'TM'],
         question: 'How many ounces convert to reserve beyond 2029, and how has mill grade reconciled with the block model?' },
       recovery: { level: 'M', reason: 'The 82% recovery is a model assumption; actual plant recovery is not disclosed in the sources used.', sources: ['TM'],
         question: 'What recovery has the plant achieved on fresh ore over the last twelve months?' },
-      ground: { level: 'M', reason: 'The pits are moving from soft saprolite into harder fresh rock.', sources: ['BRIEF'],
+      ground: { level: 'M', reason: 'The pits are deepening from soft saprolite into harder fresh rock, and lower-grade satellite pits mean longer hauls.', sources: ['TM', 'BRIEF'],
         question: 'What do the latest geotechnical and dewatering reviews say about the pits as they deepen into fresh rock?' },
       infra: { level: 'L', reason: 'Operating plant; no evidence of power, water or access problems in the sources used. Flagged for diligence.', sources: ['BRIEF'],
         question: 'How reliable is grid power, and what does backup supply cost?' },
@@ -702,35 +711,46 @@ const ASSETS = [
         question: 'What political-risk insurance or state guarantees cover the asset?' }
     },
     evidence: [
-      { input: true, label: 'Ore milled, 2026–2029', value: 4.0, unit: 'Mt a year', ...S.TM, flag: 'sourced' },
-      { input: true, label: 'Head grade 2026 / 2027 / 2028 / 2029', value: '1.20 / 1.17 / 1.13 / 1.10', unit: 'g/t', ...S.TM, flag: 'sourced' },
-      { input: true, label: 'Optional 2030 extension year', value: '4.0 Mt @ 1.05 g/t', unit: '', ...S.TM, flag: 'sourced' },
-      { input: true, label: 'Recovery', value: '82%', unit: '', ...S.TM, flag: 'assumption', note: 'Assumed in the model; not disclosed.' },
-      { input: true, label: 'Payability', value: '99.9%', unit: '', ...S.TM, flag: 'assumption' },
-      { input: true, label: 'Site cost: mining (incl. haulage) / processing / transport and refining / G&A', value: '23.00 / 21.50 / 0.50 / 14.50', unit: 'US$/t milled', ...S.TM, flag: 'sourced', note: 'Total US$59.50/t.' },
-      { input: true, label: 'Corporate G&A; exploration', value: '15; 25', unit: 'US$/oz', ...S.TM, flag: 'sourced' },
-      { input: true, label: 'Sustaining capex', value: 7.50, unit: 'US$/t milled', ...S.TM, flag: 'sourced' },
-      { input: true, label: 'Royalty', value: '8% ad valorem + 0.5% local development fund', unit: '', ...S.TM, flag: 'sourced' },
-      { input: true, label: 'Stream (Empress)', value: '3.58% of payable gold to 400 koz, 2.93% to 600 koz, 0.81% after; holder pays 0.5% of spot', unit: '', ...S.TM, flag: 'sourced' },
-      { input: true, label: 'Corporate income tax', value: '25%', unit: '', ...S.TM, flag: 'sourced' },
-      { input: true, label: 'Opening tax base', value: 150, unit: 'US$M', ...S.TM, flag: 'assumption' },
-      { input: true, label: 'Closure cost', value: 40, unit: 'US$M', ...S.TM, flag: 'assumption' },
-      { input: true, label: 'Working-capital days', value: 'Receivables 5, inventory 30, payables 45', unit: 'days', ...S.TM, flag: 'assumption', note: 'Brief lists 5 / 45 / 30; this reading reproduces the spreadsheet’s results.' },
-      { input: true, label: 'Purchase price', value: 'US$192M upfront + 50% of US$113M contingent, paid evenly 2026–2028', unit: '', ...S.TM, flag: 'sourced' },
-      { input: true, label: 'Owner’s share', value: '89.7%', unit: '', ...S.TM, flag: 'sourced' },
-      { input: true, label: 'State stake today', value: '10%', unit: '', ...S.BRIEF, flag: 'assumption', note: 'Not in the source files; Côte d’Ivoire’s usual free-carried 10%. Only used by the Fiscal dial at High.' },
-      { dial: 'resource', label: 'Years of reserves', value: 'About 4–5', unit: 'years', ...S.TM, flag: 'sourced' },
+      { input: true, label: '2025 production; revenue; EBITDA (operator data)', value: 'About 125,600 oz; US$445M; US$164M', unit: '', ...S.EMPRESS, flag: 'sourced', note: 'Also about US$75M of free cash flow in H1 2026. The site cost below is back-solved to this EBITDA.' },
+      { input: true, label: 'Ore milled, 2026–2029', value: 4.0, unit: 'Mt a year', ...S.TM, flag: 'assumption', note: 'Throughput not disclosed; set so 2025 output (about 125,600 oz) is matched at about 1.2 g/t and 82% recovery.' },
+      { input: true, label: 'Head grade 2026 / 2027 / 2028 / 2029', value: '1.20 / 1.17 / 1.13 / 1.10', unit: 'g/t', ...S.TM, flag: 'assumption', note: 'Implied by 2025 output, easing as the pits deepen into fresh rock and lower-grade satellite ore comes in.' },
+      { input: true, label: 'Optional 2030 extension year', value: '4.0 Mt @ 1.05 g/t', unit: '', ...S.TM, flag: 'assumption', note: 'Resource conversion and satellite pits; Tongon was originally due to close in 2020 and has been extended repeatedly.' },
+      { input: true, label: 'Recovery', value: '82%', unit: '', ...S.TM, flag: 'assumption', note: 'Not disclosed in the sources reviewed.' },
+      { input: true, label: 'Payability (doré)', value: '99.9%', unit: '', ...S.TM, flag: 'assumption' },
+      { input: true, label: 'Total site cost', value: 59.50, unit: 'US$/t milled', ...S.TM, flag: 'derived', note: '2025 revenue US$445M − EBITDA US$164M = US$281M of costs; less 8.5% royalties (about US$38M) and corporate G&A and exploration (about US$5M) leaves about US$238M, or US$59.50/t on 4.0 Mt.' },
+      { input: true, label: 'Site cost split: mining (incl. haulage) / processing / transport and refining / G&A', value: '23.00 / 21.50 / 0.50 / 14.50', unit: 'US$/t milled', ...S.TM, flag: 'assumption', note: 'Only the total is calibrated; the split is an estimate.' },
+      { input: true, label: 'Corporate G&A; exploration (expensed)', value: '15; 25', unit: 'US$/oz', ...S.TM, flag: 'assumption', note: 'Atlantic head-office allocation; expensed share of drilling to extend mine life.' },
+      { input: true, label: 'Sustaining capex', value: 7.50, unit: 'US$/t milled', ...S.TM, flag: 'assumption', note: 'About US$30M a year, including capitalised waste stripping.' },
+      { input: true, label: 'Ad valorem royalty', value: '8%', unit: 'of revenue', ...S.CIROY, flag: 'sourced', note: '2025 Finance Law raised the gold scale by two points to 5–8%, with 8% above US$2,000/oz. Every deck here is above US$2,000.' },
+      { input: true, label: 'Local Mining Development Fund', value: '0.5%', unit: 'of turnover', ...S.EITICI, flag: 'sourced' },
+      { input: true, label: 'Stream (Empress)', value: '3.58% of payable gold to 400 koz, 2.93% to 600 koz, 0.81% after; holder pays 0.5% of spot', unit: '', ...S.EMPRESS, flag: 'sourced', note: 'The agreement counts tiers from 31 Jan 2026; the model counts from 1 Jan 2026, a simplification. Term about 29 years.' },
+      { input: true, label: 'Corporate income tax', value: '25%', unit: '', ...S.TM, flag: 'assumption', note: 'Standard Ivorian rate.' },
+      { input: true, label: 'Opening tax base', value: 150, unit: 'US$M', ...S.TM, flag: 'assumption', note: 'The mine has run since 2010, so much of its cost is written down; buying the shares gives no step-up.' },
+      { input: true, label: 'Closure cost', value: 40, unit: 'US$M', ...S.TM, flag: 'assumption', note: 'Not found in public sources; spent in the final production year.' },
+      { input: true, label: 'Working-capital days', value: 'Receivables 5, inventory 30, payables 45', unit: 'days', ...S.TM, flag: 'assumption', note: 'Receivables on revenue after the stream; inventory and payables on site costs. Unwinds the year after production stops.' },
+      { input: true, label: 'Upfront price', value: 'US$192M cash, incl. a US$23M shareholder-loan repayment', unit: '', ...S.BRKTON, flag: 'sourced' },
+      { input: true, label: 'Contingent price', value: 'Up to US$113M, on the gold price over 2.5 years and resource conversion over 5 years', unit: '', ...S.BRKTON, flag: 'sourced', note: 'The model assumes half is paid, evenly over 2026–2028.' },
+      { input: true, label: 'Interest acquired (owner’s share)', value: '89.7%', unit: '', ...S.BNNTON, flag: 'sourced' },
+      { input: true, label: 'State stake today', value: 'At least 10%, free-carried', unit: '', ...S.L500CI, flag: 'sourced', note: 'Modelled as 10%. Only the Fiscal dial at High uses it.' },
+      { dial: 'resource', label: 'Proven and probable reserves; M&I resources', value: '620 koz; 700 koz', unit: '', ...S.MCTON, flag: 'sourced', note: 'Barrick, Oct 2025. Whether this is 100% or Barrick’s 89.7% is not stated.' },
+      { dial: 'resource', label: 'Plan versus reserves left after 2025', value: '1.27×', unit: '', ...S.TM, flag: 'derived', note: '592 koz contained in the plan vs about 467 koz of reserves left (620 koz − 2025 output ÷ recovery). The plan already relies on resources converting.' },
+      { dial: 'resource', label: 'Life history', value: 'Originally due to close in 2020; extended repeatedly', unit: '', ...S.TM, flag: 'sourced' },
       { dial: 'recovery', label: 'Recovery basis', value: '82%, assumed, not disclosed', unit: '', ...S.TM, flag: 'assumption' },
-      { dial: 'ground', label: 'Ore type ahead', value: 'Saprolite giving way to fresh rock', unit: '', ...S.BRIEF, flag: 'sourced' },
+      { dial: 'ground', label: 'Ore ahead', value: 'Pits deepening into fresh rock; lower-grade satellite ore', unit: '', ...S.TM, flag: 'sourced' },
+      { dial: 'ground', label: 'Longer hauls from satellite pits (+US$3/t)', value: '−US$32.3M', unit: 'NPV', ...S.TMS, flag: 'derived' },
       { dial: 'people', label: 'New owner', value: 'Atlantic Group: banking and industry, not mining', unit: '', ...S.BRIEF, flag: 'sourced' },
-      { dial: 'fiscal', label: '2025 Finance Law', value: 'Gold royalty +2 points', unit: '', ...S.CIROY, flag: 'sourced' },
+      { dial: 'fiscal', label: '2025 Finance Law', value: 'Gold royalty scale +2 points, to 5–8%', unit: '', ...S.CIROY, flag: 'sourced' },
+      { dial: 'fiscal', label: 'A further +2 points, for certain', value: '−US$23.9M', unit: 'NPV', ...S.TMS, flag: 'derived', note: 'The dial at Medium weights this by a 25% chance phased in over three years.' },
       { dial: 'community', label: 'Public evidence on community issues', value: 'None found', unit: '', ...S.BRIEF, flag: 'assumption' },
       { dial: 'political', label: 'Country risk premium used', value: '3.90%', unit: '', ...S.DAMCOPY, flag: 'assumption', note: 'Ba2-level premium in the January 2026 table (Costa Rica and the Dominican Republic also carry 3.90%); Côte d’Ivoire’s own row not read.' },
       { dial: 'political', label: 'Sovereign rating', value: 'Moody’s Ba2, upgraded from Ba3 in Mar 2024, affirmed 13 Mar 2026', unit: '', ...S.MOODYCI, flag: 'sourced' }
     ],
     events: [
-      { date: '2025', text: 'Côte d’Ivoire’s 2025 Finance Law adds two points to the gold royalty.', ...S.CIROY },
-      { date: 'Dec 2025', text: 'Atlantic Group buys Barrick’s 89.7% for US$192M upfront plus up to US$113M contingent.', ...S.TM }
+      { date: '2025', text: 'Côte d’Ivoire’s 2025 Finance Law raises the gold royalty scale by two points, to 8% above US$2,000/oz.', ...S.CIROY },
+      { date: '2025', text: 'Tongon produces about 125,600 oz, with about US$445M of revenue and US$164M of EBITDA.', ...S.EMPRESS },
+      { date: '6–7 Oct 2025', text: 'Barrick agrees to sell its 89.7% to Atlantic Group for up to US$305M.', ...S.MCTON },
+      { date: '2 Dec 2025', text: 'Sale completes: US$192M cash plus up to US$113M contingent on gold price and resource conversion.', ...S.BRKTON },
+      { date: '17 Sep 2026', text: 'Empress Royalty takes a tiered gold stream on Tongon (3.58%, 2.93%, then 0.81% of payable gold).', ...S.EMPRESS }
     ]
   },
   /* ------------------------------------------------------------------ */
@@ -844,7 +864,8 @@ function resolveCosts(asset, all) {
   const sustLocal = (k.sustainingQuarterLocal.devAndWaste + k.sustainingQuarterLocal.plantEquip) * 4 / k.quarterShare;
   const sustUS = sustLocal * 1e6 * k.fx;
   const corp = c.corporatePerOz || 0;
-  const siteCostPerT = (aiscUS * oz1 - royUSperOz * oz1 - sustUS - corp * oz1) / tonnes1;
+  const expl = c.explorationPerOz || 0;
+  const siteCostPerT = (aiscUS * oz1 - royUSperOz * oz1 - sustUS - (corp + expl) * oz1) / tonnes1;
   const ref = all.find((a) => a.id === k.splitFrom).costs.split;
   const refTot = ref.mining + ref.processing + ref.transport + ref.ga;
   const split = {};
@@ -951,41 +972,49 @@ function dialParams(asset, levels, enabled) {
 
 const ramp = (year, within) => Math.min(1, (year - MODEL.firstYear + 1) / within);
 
+// Years from the valuation date to 31 Dec of `year`, by actual days ÷ 365 (Excel XNPV/XIRR convention).
+const yearFrac = (year) => (Date.UTC(year, 11, 31) - MODEL.valuationUTC) / 86400000 / 365;
+
 /**
  * Run the DCF for one asset.
- * o = { deck, flatPrice?, rate, levels, enabled:Set, ext, trimYears? }
+ * o = { deck, flatPrice?, rate, levels, enabled:Set, ext, trimYears?, tweak? }
+ * tweak = one-at-a-time sensitivity levers, as in the Tongon Sensitivity Engine:
+ *   { gold (price ×), grade (×), site (site cost/t ×), haul (+US$/t), royaltyPts (+), stream (false = removed), closure (×) }
  */
 function runModel(asset, o) {
   const P = dialParams(asset, o.levels, o.enabled);
+  const tw = o.tweak || {};
   const c = asset.resolved; const f = asset.fiscal; const pr = asset.processing;
+  const stream = tw.stream === false ? null : asset.stream;
   let rows = buildSchedule(asset, o.ext, o.trimYears || 0);
   if (P.delay > 0) rows = shiftSchedule(rows, P.delay);
   rows = cutLife(rows, -P.life);
   const stop = sum(P.events, (e) => e.p * e.months / 12);
   const recovery = Math.max(0, pr.recovery + P.recPts / 100);
   const sp = c.split;
-  const unitSite = (sp.mining * (1 + P.mining) + sp.processing * (1 + P.procGa) + sp.transport + sp.ga * (1 + P.procGa) + c.haulagePerT * (1 + P.mining)) * (1 + P.site);
-  const royBase = sum(f.royalties, (r) => r.rate);
+  const unitSite = (sp.mining * (1 + P.mining) + sp.processing * (1 + P.procGa) + sp.transport + sp.ga * (1 + P.procGa) + c.haulagePerT * (1 + P.mining)) * (1 + P.site) * (tw.site || 1) + (tw.haul || 0);
+  const royBase = sum(f.royalties, (r) => r.rate) + (tw.royaltyPts || 0) / 100;
+  const closureCost = f.closure * (tw.closure || 1);
   const dil = P.stateTo != null && asset.stateStake < P.stateTo ? 1 - (1 - P.stateTo) / (1 - asset.stateStake) : 0;
   const rate = o.rate + P.crpMult * asset.crp.value;
   let remOre = sum(rows, (r) => r.ore); let taxBase = f.taxBase; let cumOz = 0; let wcPrev = null;
   const years = [];
   rows.forEach((r, i) => {
     const last = i === rows.length - 1;
-    const price = o.flatPrice != null ? o.flatPrice : deckPrice(o.deck, r.year);
+    const price = (o.flatPrice != null ? o.flatPrice : deckPrice(o.deck, r.year)) * (tw.gold || 1);
     const milled = r.ore * (1 - stop);
-    const grade = r.grade * (1 + P.grade);
+    const grade = r.grade * (1 + P.grade) * (tw.grade || 1);
     const oz = milled * 1e6 * grade / G_PER_OZ * recovery * pr.payability;
-    const sOz = asset.stream ? tierOz(asset.stream.tiers, cumOz, oz) : 0;
+    const sOz = stream ? tierOz(stream.tiers, cumOz, oz) : 0;
     cumOz += oz;
     const revenue = oz * price;
-    const stream = asset.stream ? sOz * price * (1 - asset.stream.holderPayment) : 0;
+    const streamCost = stream ? sOz * price * (1 - stream.holderPayment) : 0;
     const royaltyRate = royBase + (P.royaltyPts / 100) * P.royaltyProb * ramp(r.year, MODEL.fiscalWithinYears);
     const royalties = revenue * royaltyRate;
     const site = unitSite * 1e6 * (r.ore * MODEL.fixedShare + milled * (1 - MODEL.fixedShare));
     const corporate = oz * c.corporatePerOz;
     const exploration = oz * c.explorationPerOz;
-    const ebitda = revenue - stream - royalties - site - corporate - exploration;
+    const ebitda = revenue - streamCost - royalties - site - corporate - exploration;
     const sustaining = c.sustainingPerT * milled * 1e6;
     const growth = c.growthCapex[r.year] || 0;
     const development = (c.devCapex[r.year] || 0) * (1 + P.capex);
@@ -994,13 +1023,13 @@ function runModel(asset, o) {
     const depreciation = (taxBase + capex) * Math.min(1, share);
     taxBase = taxBase + capex - depreciation; remOre -= r.ore;
     const tax = Math.max(0, (ebitda - depreciation) * f.taxRate);
-    const netRevenue = revenue - stream - royalties;
-    const wc = netRevenue * f.wc.receivableDays / 365 + site * f.wc.inventoryDays / 365 - site * f.wc.payableDays / 365;
+    const revenueAfterStream = revenue - streamCost;   // receivables basis, as in the Tongon spreadsheet
+    const wc = revenueAfterStream * f.wc.receivableDays / 365 + site * f.wc.inventoryDays / 365 - site * f.wc.payableDays / 365;
     const dWC = wcPrev == null ? 0 : wc - wcPrev; wcPrev = wc;
-    const closure = last ? f.closure : 0;
+    const closure = last ? closureCost : 0;
     const fcf = ebitda - capex - tax - dWC - closure;
     const ownerShare = asset.ownerShare * (1 - P.stateProb * ramp(r.year, MODEL.fiscalWithinYears) * dil);
-    years.push({ year: r.year, ore: r.ore, milled, grade, recovery, oz, price, revenue, streamOz: sOz, stream, royaltyRate, royalties,
+    years.push({ year: r.year, ore: r.ore, milled, grade, recovery, oz, price, revenue, streamOz: sOz, stream: streamCost, royaltyRate, royalties,
       site, corporate, exploration, ebitda, sustaining, growth, development, capex, depreciation, tax, wc, dWC, closure, fcf, ownerShare });
   });
   if (years.length) {
@@ -1014,7 +1043,7 @@ function runModel(asset, o) {
   }
   let npv = 0; let npvAttr = 0;
   for (const y of years) {
-    y.t = y.year - (MODEL.firstYear - 1);
+    y.t = yearFrac(y.year);
     y.df = 1 / Math.pow(1 + rate, y.t);
     y.attrFcf = y.fcf * y.ownerShare;
     y.pv = y.fcf * y.df; y.pvAttr = y.attrFcf * y.df;
@@ -1030,7 +1059,7 @@ function runModel(asset, o) {
     life: peakOre > 0 ? totalOre / peakOre : 0,
     lastYear: prodYears.length ? prodYears[prodYears.length - 1].year : null,
     prod1: y1 ? y1.oz : 0,
-    aisc1: y1 && y1.oz > 0 ? (y1.site + y1.royalties + y1.sustaining + y1.corporate) / y1.oz : NaN,
+    aisc1: y1 && y1.oz > 0 ? (y1.site + y1.royalties + y1.sustaining + y1.corporate + y1.exploration) / y1.oz : NaN,
     params: P, tx: null
   };
   if (asset.transaction) res.tx = transactionMetrics(asset, years, rate);
@@ -1049,10 +1078,12 @@ function transactionMetrics(asset, years, rate) {
   for (const y of years) byYear[y.year] = (byYear[y.year] || 0) + y.attrFcf;
   for (const yr of Object.keys(cont)) byYear[yr] = (byYear[yr] || 0);
   for (const yr of Object.keys(byYear).map(Number).sort((a, b) => a - b)) {
-    flows.push({ t: yr - (MODEL.firstYear - 1), year: yr, cf: byYear[yr] - (cont[yr] || 0) });
+    flows.push({ t: yearFrac(yr), year: yr, cf: byYear[yr] - (cont[yr] || 0) });
   }
   const npvAt = (r) => sum(flows, (x) => x.cf / Math.pow(1 + r, x.t));
-  return { flows, npv: npvAt(rate), irr: irr(flows), upfront: t.upfront, contingent: cont };
+  let cum = 0; let payback = null;
+  for (const x of flows) { cum += x.cf; if (payback == null && x.t > 0 && cum >= 0) payback = x.year; }
+  return { flows, npv: npvAt(rate), irr: irr(flows), upfront: t.upfront, contingent: cont, payback };
 }
 
 // IRR: scan upward from -50% for the first sign change, then bisect. Flows that end with a small
@@ -1683,13 +1714,14 @@ function traceHTML(kind) {
   if (kind === 'tx') {
     const t = a.transaction; const fl = (res) => res.tx.flows.map((x) => `<span>${x.year === MODEL.firstYear - 1 ? 'Close (t = 0)' : x.year}</span><span>${money(x.cf)}</span>`).join('');
     return ['Transaction NPV and IRR', `<div class="formula">${esc(`Cash flow to the buyer = owner’s FCF − price paid\n Upfront ${money(t.upfront)} at close (t = 0)\n Contingent: ${pct(t.contingentPaidShare, 0)} of ${money(t.contingentTotal)}, paid evenly ${t.contingentYears[0]}–${t.contingentYears[t.contingentYears.length - 1]}\n IRR is the rate where NPV = 0; compare it with the hurdle ${pct(r.rate, 1)}`)}</div>
-      <div class="kv"><span>Base NPV at ${pct(b.rate, 1)}</span><span>${money(b.tx.npv)}</span><span>Base IRR</span><span>${pct(b.tx.irr, 1)}</span><span>Risk-adjusted NPV at ${pct(r.rate, 1)}</span><span>${money(r.tx.npv)}</span><span>Risk-adjusted IRR</span><span>${pct(r.tx.irr, 1)}</span></div>
+      <div class="kv"><span>Base NPV at ${pct(b.rate, 1)}</span><span>${money(b.tx.npv)}</span><span>Base IRR</span><span>${irrText(b.tx.irr)}</span><span>Base payback</span><span>${b.tx.payback ? `${b.tx.payback} (year ${b.tx.payback - MODEL.firstYear + 1})` : 'not within the plan'}</span><span>Risk-adjusted NPV at ${pct(r.rate, 1)}</span><span>${money(r.tx.npv)}</span><span>Risk-adjusted IRR</span><span>${irrText(r.tx.irr)}</span><span>Risk-adjusted payback</span><span>${r.tx.payback ? `${r.tx.payback} (year ${r.tx.payback - MODEL.firstYear + 1})` : 'not within the plan'}</span></div>
       <h3>Base-case cash flows to the buyer</h3><div class="kv">${fl(b)}</div><h3>Risk-adjusted cash flows to the buyer</h3><div class="kv">${fl(r)}</div>
       <p class="small">${flagPill('sourced')} ${srcLink(S.TM)}</p>`];
   }
   if (kind === 'breakeven') {
     return ['Breakeven gold price', `<div class="formula">${esc(`Flat real gold price where the owner’s NPV = 0\n Solved by bisection between US$0 and US$${MODEL.breakevenMax.toLocaleString('en-US')}/oz\n Base: ${perOz(an.beBase)} at ${pct(b.rate, 1)}\n Risk-adjusted: ${perOz(an.beRisk)} at ${pct(r.rate, 1)}`)}</div>
-      <p>The risk-adjusted breakeven includes every dial and the country premium. Compare it with the ${esc(deck.label)} deck: ${esc(deck.desc)}.</p>${deckLine}`];
+      <p>The risk-adjusted breakeven includes every dial and the country premium. Compare it with the ${esc(deck.label)} deck: ${esc(deck.desc)}.</p>
+      <p class="small muted">This is an exact solve. Tax floors at zero in loss years, so it sits above a straight-line estimate from the ±10% cases (the Tongon spreadsheet’s linear estimate is US$2,572/oz).</p>${deckLine}`];
   }
   if (kind === 'prod') {
     const y = b.years[0]; const yr = r.years[0];
@@ -1741,16 +1773,69 @@ function assumptionsHTML() {
 /* =====================================================================
    6. CHECKS (also run by the "Run checks" button)
    ===================================================================== */
+// Outputs of Tongon_Mining_Model.xlsx (Sensitivity Engine sheet, Spot deck, 5% real), used by Run checks.
+const TONGON_REFERENCE = {
+  source: 'Tongon_Mining_Model.xlsx, Sensitivity Engine rows 5–25 and Mining Model rows 116–223',
+  cases: [
+    { name: 'Base case', tweak: {}, npv: 322438495.573328, txNpv: 45934811.2951102, irr: 0.157549604592115 },
+    { name: 'Gold −20%', tweak: { gold: 0.8 }, npv: 102429018.505853, txNpv: -151413689.634415, irr: null },
+    { name: 'Gold −10%', tweak: { gold: 0.9 }, npv: 216493737.411125, txNpv: -49097636.776386, irr: -0.0815498978450068 },
+    { name: 'Gold +10%', tweak: { gold: 1.1 }, npv: 428081587.9777, txNpv: 140696665.181831, irr: 0.355087734518906 },
+    { name: 'Gold +20%', tweak: { gold: 1.2 }, npv: 533724680.382071, txNpv: 235458519.068553, irr: 0.534580622480752 },
+    { name: 'Grade −10%', tweak: { grade: 0.9 }, npv: 217093311.84364, txNpv: -48559818.5104196, irr: -0.0803810571966605 },
+    { name: 'Grade +10%', tweak: { grade: 1.1 }, npv: 427384606.853521, txNpv: 140071473.113443, irr: 0.353500169666359 },
+    { name: 'Mine life −1 year', trim: 1, npv: 256224947.107419, txNpv: -13458741.6788101, irr: 0.006899457819926 },
+    { name: 'Mine life +1 year', ext: 1, npv: 378996361.110848, txNpv: 96667216.6822657, irr: 0.229356674617261 },
+    { name: 'Site cost −10%', tweak: { site: 0.9 }, npv: 386504501.986183, txNpv: 103402019.047441, irr: 0.279035866250372 },
+    { name: 'Site cost +10%', tweak: { site: 1.1 }, npv: 258372489.160473, txNpv: -11532396.4572204, irr: 0.0208277424317467 },
+    { name: 'Longer hauls +US$3/t', tweak: { haul: 3 }, npv: 290136307.466006, txNpv: 16959748.5628427, irr: 0.0911367593039643 },
+    { name: 'Royalty +2 points', tweak: { royaltyPts: 2 }, npv: 298551196.396, txNpv: 24507903.9330469, irr: 0.108685931355511 },
+    { name: 'Stream removed', tweak: { stream: false }, npv: 363915206.678873, txNpv: 83139421.1567839, irr: 0.238723478126994 },
+    { name: 'Closure +50%', tweak: { closure: 1.5 }, npv: 305984446.07749, txNpv: 31175528.8973439, irr: 0.127865881223829 }
+  ],
+  grid: {
+    rates: [0.05, 0.065, 0.08, 0.10], gold: [0.8, 0.9, 1, 1.1, 1.2],
+    npv: [
+      [102429018.505853, 216493737.411125, 322438495.573328, 428081587.9777, 533724680.382071],
+      [100104807.038679, 210170642.61776, 312555970.32799, 414656271.839224, 516756573.350458],
+      [97864032.3737567, 204152204.263573, 303169779.24607, 401917835.970914, 500665892.695758],
+      [94999842.4998055, 196568128.365168, 291370458.339725, 385922343.253116, 480474228.166506]
+    ]
+  },
+  year2026: { payableOz: 126418.793155626, fcf: 107454274.745594, aisc: 2474.43797211846 },
+  fcf: [107454274.745594, 102491150.010002, 96135834.8961652, 57457439.0181221, -4088742.99220761],
+  attributableNpv: 289227330.529275
+};
+
 function runChecks() {
   const out = [];
-  const add = (name, ok, detail) => out.push({ name, ok: !!ok, detail });
+  let group = '';
+  const add = (name, ok, detail) => out.push({ group, name, ok: !!ok, detail });
   const within = (got, target, tol) => Math.abs(got - target) <= tol;
   const T = assetById('tongon');
   const none = new Set(); const levelsT = state.levels.tongon;
   const baseO = { deck: PRICE_DECKS.spot, rate: 0.05, levels: levelsT, enabled: none, ext: 0 };
   const b = runModel(T, baseO);
   const tol1 = (t, half) => Math.max(Math.abs(t) * 0.01, half);
-  // 1. Tongon reconciliation with the spreadsheet
+  // 0. Exact reconciliation with the Tongon spreadsheet
+  group = 'Tongon spreadsheet, case by case (tolerance US$0.01M; IRR 0.01 points)';
+  const ref = TONGON_REFERENCE; const M = (x) => (x / 1e6).toFixed(2);
+  for (const c of ref.cases) {
+    const r = runModel(T, { ...baseO, tweak: c.tweak || {}, ext: c.ext || 0, trimYears: c.trim || 0 });
+    const okN = within(r.npv, c.npv, 1e4); const okT = within(r.tx.npv, c.txNpv, 1e4);
+    const okI = c.irr == null ? true : (r.tx.irr != null && within(r.tx.irr, c.irr, 1e-4));
+    add(c.name, okN && okT && okI, `NPV ${M(r.npv)}M vs ${M(c.npv)}M · transaction NPV ${M(r.tx.npv)}M vs ${M(c.txNpv)}M · IRR ${r.tx.irr == null ? 'n/a' : pct(r.tx.irr, 2)} vs ${c.irr == null ? 'n/a (no IRR in the spreadsheet)' : pct(c.irr, 2)}`);
+  }
+  let worst = 0;
+  ref.grid.rates.forEach((rt, i) => ref.grid.gold.forEach((gm, j) => {
+    const v = runModel(T, { ...baseO, rate: rt, tweak: { gold: gm } }).npv; worst = Math.max(worst, Math.abs(v - ref.grid.npv[i][j]));
+  }));
+  add('NPV grid: 4 discount rates × 5 gold cases', worst < 1e4, `largest gap US$${(worst / 1e6).toFixed(4)}M across 20 cells`);
+  const fcfGap = Math.max(...ref.fcf.map((v, i) => Math.abs((b.years[i] ? b.years[i].fcf : 0) - v)));
+  add('Free cash flow 2026–2030 by year', fcfGap < 1e4, `largest gap US$${(fcfGap / 1e6).toFixed(4)}M`);
+  add('2026 AISC (incl. exploration)', within(b.aisc1, ref.year2026.aisc, 0.5), `${perOz(b.aisc1)} vs ${perOz(ref.year2026.aisc)}`);
+  // 1. The brief's targets
+  group = 'Build-brief targets (Tongon, Spot, 5% real, no dials)';
   add('Tongon asset NPV (100%) ≈ US$322M', within(b.npv / 1e6, 322, tol1(322, 0.5)), `${(b.npv / 1e6).toFixed(2)}M (${pct((b.npv / 1e6 - 322) / 322, 2, true)})`);
   add('Tongon attributable NPV ≈ US$289M', within(b.npvAttr / 1e6, 289, tol1(289, 0.5)), `${(b.npvAttr / 1e6).toFixed(2)}M`);
   add('Tongon transaction NPV ≈ US$46M', within(b.tx.npv / 1e6, 46, tol1(46, 0.5)), `${(b.tx.npv / 1e6).toFixed(2)}M (target stated to the nearest US$1M)`);
@@ -1764,6 +1849,7 @@ function runChecks() {
   add('Mine life +1 year ≈ +US$57M', within(p1 / 1e6, 57, tol1(57, 0.5)), money(p1, { plus: true }));
   add('Mine life −1 year ≈ −US$66M', within(m1 / 1e6, -66, tol1(66, 0.5)), money(m1, { plus: true }));
   // 2. Tropicana calibration
+  group = 'Tropicana calibration';
   const R = assetById('tropicana');
   const tb = runModel(R, { deck: PRICE_DECKS.spot, rate: 0.05, levels: state.levels.tropicana, enabled: none, ext: 0 });
   add('Tropicana year-1 production 400–430 koz', tb.prod1 >= 400000 && tb.prod1 <= 430000, koz(tb.prod1));
@@ -1771,6 +1857,7 @@ function runChecks() {
   add('Tropicana reserve life ≈ 4.2 years', within(tb.life, 4.2, 0.05), yrs(tb.life));
   add('Tropicana site cost backs out near US$60/t', within(R.resolved.calibration.siteCostPerT, 60, 3), `US$${R.resolved.calibration.siteCostPerT.toFixed(2)}/t`);
   // 3. Bridge sums
+  group = 'Bridge, robustness and screens';
   for (const a of ASSETS) {
     const an = ANALYSIS[a.id]; if (an.pending) continue;
     const s = sum(an.bridge, (x) => x.delta); const d = an.risk.npvAttr - an.base.npvAttr;
@@ -1811,8 +1898,9 @@ function checksHTML() {
   const res = runChecks(); const pass = res.filter((r) => r.ok).length;
   const log = res.map((r) => `${r.ok ? 'PASS' : 'FAIL'}  ${r.name}  →  ${r.detail}`).join('\n');
   try { console.log('Mining Risk Explorer checks\n' + log); } catch (e) { /* console unavailable */ }
-  return `<p><b>${pass} of ${res.length} checks pass.</b> Tolerance is 1% of the target or half the last digit the target is stated to, whichever is larger.</p>
-    <ul class="checks-list">${res.map((r) => `<li><span class="res ${r.ok ? 'res-pass' : 'res-fail'}">${r.ok ? 'PASS' : 'FAIL'}</span><span><b>${esc(r.name)}</b><br><span class="muted">${esc(r.detail)}</span></span></li>`).join('')}</ul>
+  const groups = [...new Set(res.map((r) => r.group))];
+  return `<p><b>${pass} of ${res.length} checks pass.</b> Spreadsheet cases must match to US$0.01M. The brief’s targets allow 1% of the target or half the last digit it is stated to, whichever is larger.</p>
+    ${groups.map((g) => `<h3>${esc(g)}</h3><ul class="checks-list">${res.filter((r) => r.group === g).map((r) => `<li><span class="res ${r.ok ? 'res-pass' : 'res-fail'}">${r.ok ? 'PASS' : 'FAIL'}</span><span><b>${esc(r.name)}</b><br><span class="muted">${esc(r.detail)}</span></span></li>`).join('')}</ul>`).join('')}
     <details class="more"><summary>Plain-text log</summary><pre class="log">${esc(log)}</pre></details>`;
 }
 
