@@ -156,7 +156,7 @@ Every dial level is a starting assumption today. Base rates from comparable mine
 
 ## Priority 3: Cross-check country risk and value
 
-- [ ] **Damodaran country risk premiums: January 2026 file and the July 2026 update.**
+- [x] **Damodaran country risk premiums: January 2026 file and the July 2026 update.** Received 22 Nov 2026; all 178 countries are in `data/country_risk_2026.json`.
   - Where: pages.stern.nyu.edu/~adamodar, the current data page and the "archived data" page.
   - Collect: rows for Côte d'Ivoire (replaces the 3.90% Ba2 fallback), Mali and Australia; also the 2015–2026 history for each.
   - Defends: the Political dial, and shows how stable the premium is.
@@ -203,5 +203,5 @@ If you only have an afternoon, these four remove the most flagged assumptions:
 
 1. Barrick's 31 Dec 2025 reserves table and the Q4 2025 MD&A, which together nearly unblock Loulo-Gounkoto.
 2. Barrick Tongon quarterly Mine Stats for 2019–2025, which replace Tongon's throughput, grade and recovery guesses.
-3. Damodaran's January 2026 archived file, which replaces the Côte d'Ivoire fallback.
+3. ~~Damodaran's January 2026 archived file~~ (received; Côte d'Ivoire is 3.895%, Ba2).
 4. AngloGold's 2025 Form 20-F, Tropicana section, which cross-checks the Tropicana cost calibration.

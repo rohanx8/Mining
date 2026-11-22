@@ -186,7 +186,7 @@ These also appear in the app under **Assumptions list**.
 - Half the US$113M contingent consideration is assumed paid, evenly over 2026–2028.
 - The stream agreement counts tiers from 31 Jan 2026; the model counts from 1 Jan 2026.
 - The state holds at least 10%, free-carried (per Legal 500); it's modelled as 10%, and only the Fiscal dial at High uses it.
-- The country risk premium is 3.90%, the Ba2 level in Damodaran's January 2026 table, because Côte d'Ivoire's own row couldn't be read. It is Ba2-rated (Moody's, affirmed Mar 2026).
+- The country risk premium is 3.895%, Côte d'Ivoire's own row in Damodaran's January 2026 file (Moody's Ba2). July 2026 gives 3.724%.
 - The Infrastructure default is Low with no evidence either way, and the Community default is Medium with no public evidence. Both are flagged for diligence.
 - The 2030 extension year (4.0 Mt at 1.05 g/t) is off by default. When it's on, the working-capital release falls outside the 2030 horizon.
 

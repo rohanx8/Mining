@@ -724,7 +724,7 @@ const ASSETS = [
     stream: { holder: 'Empress', holderPayment: 0.005,
       tiers: [{ upTo: 400000, rate: 0.0358 }, { upTo: 600000, rate: 0.0293 }, { upTo: null, rate: 0.0081 }] },
     transaction: { buyer: 'Atlantic Group', upfront: 192e6, contingentTotal: 113e6, contingentPaidShare: 0.5, contingentYears: [2026, 2027, 2028] },
-    crp: { value: 0.039, label: 'Côte d’Ivoire (Ba2 level)', ...S.DAM, flag: 'assumption', note: 'Côte d’Ivoire’s own row in Damodaran’s January 2026 table could not be read, so this uses the brief’s fallback: the 3.90% that Ba2 countries carry in that table. Moody’s rates Côte d’Ivoire Ba2 (affirmed 13 Mar 2026).' },
+    crp: { value: 0.038953, label: 'Côte d’Ivoire (Ba2)', ...S.DAM, flag: 'sourced', note: 'Côte d’Ivoire’s row in Damodaran’s January 2026 file (Regional breakdown sheet): Moody’s Ba2, country risk premium 3.895%. The July 2026 update gives 3.724%.' },
     dialDefaults: {
       resource: { level: 'M', reason: 'Reserves of 620 koz cover about three years; the four-year plan already needs 27% more gold than the reserves left after 2025.', sources: ['MCTON', 'TM'],
         question: 'How many ounces convert to reserve beyond 2029, and how has mill grade reconciled with the block model?' },
@@ -777,7 +777,7 @@ const ASSETS = [
       { dial: 'fiscal', label: '2025 Finance Law', value: 'Gold royalty scale +2 points, to 5–8%', unit: '', ...S.CIROY, flag: 'sourced' },
       { dial: 'fiscal', label: 'A further +2 points, for certain', value: '−US$23.9M', unit: 'NPV', ...S.TMS, flag: 'derived', note: 'The dial at Medium weights this by a 25% chance phased in over three years.' },
       { dial: 'community', label: 'Public evidence on community issues', value: 'None found', unit: '', ...S.BRIEF, flag: 'assumption' },
-      { dial: 'political', label: 'Country risk premium used', value: '3.90%', unit: '', ...S.DAMCOPY, flag: 'assumption', note: 'Ba2-level premium in the January 2026 table (Costa Rica and the Dominican Republic also carry 3.90%); Côte d’Ivoire’s own row not read.' },
+      { dial: 'political', label: 'Country risk premium used', value: '3.895%', unit: '', ...S.DAM, flag: 'sourced', note: 'Côte d’Ivoire’s row in the January 2026 file. July 2026: 3.724%.' },
       { dial: 'political', label: 'Sovereign rating', value: 'Moody’s Ba2, upgraded from Ba3 in Mar 2024, affirmed 13 Mar 2026', unit: '', ...S.MOODYCI, flag: 'sourced' }
     ],
     events: [
@@ -796,7 +796,7 @@ const ASSETS = [
     ownerShare: 0.80, ownerLabel: 'Barrick 80%', stateStake: 0.20,
     dataStatus: 'pending',
     pendingNote: 'Public sources reached so far give plant capacity, historic grade and recovery, the old fiscal terms and the event timeline. Still missing: reserves by mine at 31 Dec 2025, sustaining capex, current site AISC, the royalty and tax that apply after the settlement, and the closure provision.',
-    crp: { value: 0.1166, label: 'Mali (Caa2)', ...S.DAM, flag: 'sourced', note: 'Damodaran January 2026 table: Caa2, default spread 7.65%, country risk premium 11.66% (read from a third-party copy of the table; Damodaran has since published a July 2026 update).' },
+    crp: { value: 0.116553, label: 'Mali (Caa2)', ...S.DAM, flag: 'sourced', note: 'Mali’s row in Damodaran’s January 2026 file (Regional breakdown sheet): Moody’s Caa2, default spread 7.65%, country risk premium 11.655%. The July 2026 update gives 11.143%.' },
     gaps: [
       { item: 'Ore Reserves by mine and source (Yalea, Gara, Gounkoto open pit and underground, stockpiles) at 31 Dec 2025', why: 'Sets the schedule and mine life', where: 'Barrick 2025 reserves table and Annual Information Form' },
       { item: 'Ore milled, head grade and recovery, 2023–2026', why: 'Calibrates the schedule and the Recovery dial', where: 'Barrick quarterly Mine Stats' },

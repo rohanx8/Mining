@@ -1,0 +1,82 @@
+{
+  "about": "Lithium (hard-rock spodumene) benchmarks extracted from documents supplied by the user. Each value records its source, page and basis. 'derived' values show their working. Currencies as reported; A$/US$ implied by PLS's own conversion is 0.707 for the Sep 2026 quarter.",
+  "sources": {
+    "PLS_SQ26": "PLS Group, September 2026 Quarterly Activities Report (ASX: PLS, 28 Oct 2026). User-supplied PDF.",
+    "LTR_SQ26": "Liontown, Quarterly Activities Report for the period ended 30 September 2026 (ASX: LTR, 29 Oct 2026). User-supplied PDF."
+  },
+  "operations": [
+    {
+      "operation": "Pilgangoora", "owner": "PLS Group", "country": "Australia", "state": "Western Australia", "mining": "Open pit", "port": "Port Hedland", "source": "PLS_SQ26",
+      "period": "Sep quarter 2026 (Q1 FY27)",
+      "values": [
+        { "metric": "Spodumene concentrate produced", "value": 267.6, "unit": "kt", "page": 1, "flag": "sourced" },
+        { "metric": "Concentrate sold", "value": 223.6, "unit": "kt", "page": 1, "flag": "sourced" },
+        { "metric": "Average shipped grade", "value": 5.2, "unit": "% Li2O", "page": 2, "flag": "sourced" },
+        { "metric": "Realised price, SC5.2 CIF China", "value": 1809, "unit": "US$/t", "page": 1, "flag": "sourced" },
+        { "metric": "Realised price, SC6 equivalent CIF China", "value": 2077, "unit": "US$/t", "page": 1, "flag": "sourced" },
+        { "metric": "Realised price, SC5.2 CIF China, at 26 Oct 2026", "value": 1754, "unit": "US$/t", "page": 8, "flag": "sourced" },
+        { "metric": "Unit operating cost, FOB Port Hedland (mining, processing, transport, port, site admin; excludes freight, royalties, D&A)", "value": 539, "unit": "A$/t concentrate", "page": 1, "flag": "sourced" },
+        { "metric": "Unit operating cost, FOB, in US$", "value": 381, "unit": "US$/t concentrate", "page": 1, "flag": "sourced" },
+        { "metric": "FY27 guidance, unit operating cost FOB", "value": "575-625", "unit": "A$/t concentrate", "page": 6, "flag": "sourced" },
+        { "metric": "FY27 guidance, sustaining capex", "value": "85-100", "unit": "A$M", "page": 6, "flag": "sourced" },
+        { "metric": "Lithia recovery", "value": 74.7, "unit": "%", "page": 2, "flag": "sourced" },
+        { "metric": "Lithia recovery, last five quarters", "value": "74.7-78.2", "unit": "%", "page": 8, "flag": "sourced" },
+        { "metric": "Average Li2O grade mined, last five quarters", "value": "1.2-1.4", "unit": "% Li2O", "page": 8, "flag": "sourced" },
+        { "metric": "Total material mined", "value": 11.5, "unit": "Mt", "page": 2, "flag": "sourced" },
+        { "metric": "Ore mined", "value": 1.5, "unit": "Mt", "page": 2, "flag": "sourced" },
+        { "metric": "Strip ratio (waste : ore)", "value": 6.7, "unit": "x", "page": 2, "flag": "derived", "working": "(11.5 - 1.5) / 1.5" },
+        { "metric": "Ore Reserve", "value": "249.2 Mt @ 1.24% Li2O", "unit": "", "page": 5, "flag": "sourced" },
+        { "metric": "Mineral Resource", "value": "403 Mt @ 1.33% Li2O", "unit": "", "page": 5, "flag": "sourced" },
+        { "metric": "Access road", "value": 24, "unit": "km to Great Northern Highway; sealing expected to cut daily haulage movements ~35%", "page": 4, "flag": "sourced" },
+        { "metric": "Power purchase agreement benefit", "value": "15-20", "unit": "A$/t FOB reduction (future)", "page": 1, "flag": "sourced" }
+      ],
+      "study": {
+        "name": "P2000 expansion feasibility study (FID Oct 2026)", "page": 3,
+        "values": [
+          { "metric": "Capex", "value": 1.9, "unit": "A$B", "flag": "sourced" },
+          { "metric": "Concentrate capacity after expansion", "value": 2.0, "unit": "Mtpa (approximately double)", "flag": "sourced" },
+          { "metric": "Incremental post-tax NPV", "value": 2.7, "unit": "A$B at 8% real", "flag": "sourced" },
+          { "metric": "Post-tax IRR", "value": 29.5, "unit": "%", "flag": "sourced" },
+          { "metric": "Long-term SC6 price assumption", "value": 1620, "unit": "US$/t", "flag": "sourced" },
+          { "metric": "Average unit operating cost FOB, first 10 years (real)", "value": 600, "unit": "A$/t concentrate", "flag": "sourced" },
+          { "metric": "First production from the new plant", "value": "Sep quarter CY2029", "unit": "", "flag": "sourced" }
+        ]
+      },
+      "other": [
+        { "metric": "Enhancing infrastructure (road upgrade, 1,200-bed village, mine services)", "value": "600-650", "unit": "A$M over FY27-FY29", "page": 3, "flag": "sourced" },
+        { "metric": "Grid connection", "value": "~25 km 220 kV line, ~20 km funded by PLS", "unit": "", "page": 4, "flag": "sourced" }
+      ]
+    },
+    {
+      "operation": "Kathleen Valley", "owner": "Liontown", "country": "Australia", "state": "Western Australia", "mining": "Underground (open-pit stockpiles drawn down)", "port": "Geraldton", "location": "680 km north-east of Perth, 350 km north-north-west of Kalgoorlie", "source": "LTR_SQ26",
+      "period": "Sep quarter 2026 (Q1 FY27)",
+      "values": [
+        { "metric": "Ore processed", "value": 508, "unit": "kdmt", "page": 2, "flag": "sourced" },
+        { "metric": "Feed grade", "value": 1.3, "unit": "% Li2O", "page": 2, "flag": "sourced" },
+        { "metric": "Lithia recovery (ramp-up, contaminated stockpile feed)", "value": 60, "unit": "%", "page": 2, "flag": "sourced" },
+        { "metric": "Lithia recovery, prior quarter", "value": 63, "unit": "%", "page": 2, "flag": "sourced" },
+        { "metric": "Concentrate produced", "value": 77982, "unit": "dmt @ 5.1% Li2O", "page": 1, "flag": "sourced" },
+        { "metric": "Concentrate sold", "value": 82561, "unit": "dmt @ 5.2% Li2O", "page": 1, "flag": "sourced" },
+        { "metric": "Realised price, SC6 equivalent", "value": 1966, "unit": "US$/dmt", "page": 2, "flag": "sourced" },
+        { "metric": "Fastmarkets spodumene min 6% Li2O spot, CIF China, Jul-Sep 2026 average", "value": 2105, "unit": "US$/t", "page": 2, "flag": "sourced" },
+        { "metric": "Unit operating cost, FOB, per dmt sold", "value": 1259, "unit": "A$/dmt", "page": 6, "flag": "sourced" },
+        { "metric": "FY27 guidance, unit operating cost FOB (SC5.1 basis)", "value": "1,050-1,250", "unit": "A$/dmt sold", "page": 6, "flag": "sourced" },
+        { "metric": "Underground ore mined in the quarter", "value": 388568, "unit": "t", "page": 2, "flag": "sourced" },
+        { "metric": "Mining rate target by end FY27", "value": 2.8, "unit": "Mtpa", "page": 2, "flag": "sourced" },
+        { "metric": "Mineral Resource", "value": "147 Mt @ 1.3% Li2O", "unit": "", "page": 15, "flag": "sourced" },
+        { "metric": "Hybrid power station renewable penetration", "value": 71, "unit": "%", "page": 3, "flag": "sourced" }
+      ],
+      "study": {
+        "name": "Kathleen Valley expansion (FID Sep 2026)", "page": 8,
+        "values": [
+          { "metric": "Expansion capex", "value": 389, "unit": "A$M (mining 145; processing and non-process infrastructure 244; includes contingency)", "flag": "sourced" },
+          { "metric": "Processing capacity", "value": "2.8 to 4.2", "unit": "Mtpa", "flag": "sourced" },
+          { "metric": "Mining rate", "value": "2.8 to 4.1", "unit": "Mtpa from FY30", "flag": "sourced" },
+          { "metric": "Steady-state concentrate production, five-year average from FY30", "value": 780000, "unit": "dmt/yr (SC5.4 basis)", "flag": "sourced" },
+          { "metric": "Steady-state unit operating cost, five-year average from FY30 (real)", "value": "840-920", "unit": "A$/dmt", "flag": "sourced" },
+          { "metric": "Expansion capex per tonne of added processing capacity", "value": 278, "unit": "A$ per annual tonne of ore", "flag": "derived", "working": "389 / (4.2 - 2.8)" }
+        ]
+      }
+    }
+  ]
+}

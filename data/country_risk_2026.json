@@ -1,0 +1,1433 @@
+{
+"source": "Damodaran (NYU Stern), Country Default Spreads and Risk Premiums: January 2026 file (updated 16 Feb 2026 for ratings) and July 2026 file (default spreads corrected 9 Jul 2026). Rated countries from the 'Regional breakdown' sheet; unrated countries from the 'PRS Worksheet'.",
+"matureMarketERP": {
+"Jan2026": 0.0423,
+"Jul2026": 0.042
+},
+"countries": [
+{
+"country": "Abu Dhabi",
+"basis": "Moody's Aa2",
+"region": "Middle East",
+"crpJan2026": 0.006391,
+"crpJul2026": 0.00611,
+"corporateTax": 0.09
+},
+{
+"country": "Albania",
+"basis": "Moody's Ba3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.04656,
+"crpJul2026": 0.044512,
+"corporateTax": 0.15
+},
+{
+"country": "Algeria",
+"basis": "PRS score 67",
+"region": null,
+"crpJan2026": 0.058277,
+"crpJul2026": 0.055713,
+"corporateTax": 0.26
+},
+{
+"country": "Andorra (Principality of)",
+"basis": "Moody's Baa1",
+"region": "Western Europe",
+"crpJan2026": 0.020694,
+"crpJul2026": 0.019783,
+"corporateTax": 0.1
+},
+{
+"country": "Angola",
+"basis": "Moody's B3",
+"region": "Africa",
+"crpJan2026": 0.084143,
+"crpJul2026": 0.080442,
+"corporateTax": 0.25
+},
+{
+"country": "Argentina",
+"basis": "Moody's Caa1",
+"region": "Central and South America",
+"crpJan2026": 0.097077,
+"crpJul2026": 0.092806,
+"corporateTax": 0.35
+},
+{
+"country": "Armenia",
+"basis": "Moody's Ba3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.04656,
+"crpJul2026": 0.044512,
+"corporateTax": 0.18
+},
+{
+"country": "Aruba",
+"basis": "Moody's Baa3",
+"region": "Caribbean",
+"crpJan2026": 0.028454,
+"crpJul2026": 0.027202,
+"corporateTax": 0.22
+},
+{
+"country": "Australia",
+"basis": "Moody's Aaa",
+"region": "Australia & New Zealand",
+"crpJan2026": 0,
+"crpJul2026": 0,
+"corporateTax": 0.3
+},
+{
+"country": "Austria",
+"basis": "Moody's Aa1",
+"region": "Western Europe",
+"crpJan2026": 0.003555,
+"crpJul2026": 0.003399,
+"corporateTax": 0.23
+},
+{
+"country": "Azerbaijan",
+"basis": "Moody's Baa3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.028454,
+"crpJul2026": 0.027202,
+"corporateTax": 0.2
+},
+{
+"country": "Bahamas",
+"basis": "Moody's B1",
+"region": "Caribbean",
+"crpJan2026": 0.058277,
+"crpJul2026": 0.044512,
+"corporateTax": 0.0
+},
+{
+"country": "Bahrain",
+"basis": "Moody's B2",
+"region": "Middle East",
+"crpJan2026": 0.07121,
+"crpJul2026": 0.068077,
+"corporateTax": 0.0
+},
+{
+"country": "Bangladesh",
+"basis": "Moody's B2",
+"region": "Asia",
+"crpJan2026": 0.07121,
+"crpJul2026": 0.068077,
+"corporateTax": 0.275
+},
+{
+"country": "Barbados",
+"basis": "Moody's B2",
+"region": "Caribbean",
+"crpJan2026": 0.07121,
+"crpJul2026": 0.272037,
+"corporateTax": 0.09
+},
+{
+"country": "Belarus",
+"basis": "Moody's C",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.266591,
+"crpJul2026": 0.272037,
+"corporateTax": 0.25
+},
+{
+"country": "Belgium",
+"basis": "Moody's Aa3",
+"region": "Western Europe",
+"crpJan2026": 0.00776,
+"crpJul2026": 0.008728,
+"corporateTax": 0.25
+},
+{
+"country": "Belize",
+"basis": "Moody's Caa1",
+"region": "Central and South America",
+"crpJan2026": 0.097077,
+"crpJul2026": 0.092806,
+"corporateTax": 0.0
+},
+{
+"country": "Benin",
+"basis": "Moody's B1",
+"region": "Africa",
+"crpJan2026": 0.058277,
+"crpJul2026": 0.055713,
+"corporateTax": 0.3
+},
+{
+"country": "Bermuda",
+"basis": "Moody's A2",
+"region": "Caribbean",
+"crpJan2026": 0.010955,
+"crpJul2026": 0.008728,
+"corporateTax": 0.0
+},
+{
+"country": "Bolivia",
+"basis": "Moody's Ca",
+"region": "Central and South America",
+"crpJan2026": 0.155354,
+"crpJul2026": 0.12379,
+"corporateTax": 0.25
+},
+{
+"country": "Bosnia and Herzegovina",
+"basis": "Moody's B3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.084143,
+"crpJul2026": 0.080442,
+"corporateTax": 0.1
+},
+{
+"country": "Botswana",
+"basis": "Moody's Baa1",
+"region": "Africa",
+"crpJan2026": 0.020694,
+"crpJul2026": 0.019783,
+"corporateTax": 0.22
+},
+{
+"country": "Brazil",
+"basis": "Moody's Ba1",
+"region": "Central and South America",
+"crpJan2026": 0.03241,
+"crpJul2026": 0.030984,
+"corporateTax": 0.34
+},
+{
+"country": "Brunei",
+"basis": "PRS score 80.75",
+"region": null,
+"crpJan2026": 0.00776,
+"crpJul2026": 0.007419,
+"corporateTax": 0.1468
+},
+{
+"country": "Bulgaria",
+"basis": "Moody's Baa1",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.020694,
+"crpJul2026": 0.019783,
+"corporateTax": 0.1
+},
+{
+"country": "Burkina Faso",
+"basis": "Moody's Caa1",
+"region": "Africa",
+"crpJan2026": 0.097077,
+"crpJul2026": 0.092806,
+"corporateTax": 0.275
+},
+{
+"country": "Cambodia",
+"basis": "Moody's B2",
+"region": "Asia",
+"crpJan2026": 0.07121,
+"crpJul2026": 0.068077,
+"corporateTax": 0.2
+},
+{
+"country": "Cameroon",
+"basis": "Moody's Caa1",
+"region": "Africa",
+"crpJan2026": 0.097077,
+"crpJul2026": 0.092806,
+"corporateTax": 0.33
+},
+{
+"country": "Canada",
+"basis": "Moody's Aaa",
+"region": "North America",
+"crpJan2026": 0,
+"crpJul2026": 0,
+"corporateTax": 0.2614
+},
+{
+"country": "Cape Verde",
+"basis": "Moody's B2",
+"region": "Africa",
+"crpJan2026": 0.07121,
+"crpJul2026": 0.055713,
+"corporateTax": 0.2686
+},
+{
+"country": "Cayman Islands",
+"basis": "Moody's Aa3",
+"region": "Caribbean",
+"crpJan2026": 0.00776,
+"crpJul2026": 0.007419,
+"corporateTax": 0.0
+},
+{
+"country": "Chile",
+"basis": "Moody's A2",
+"region": "Central and South America",
+"crpJan2026": 0.010955,
+"crpJul2026": 0.010473,
+"corporateTax": 0.27
+},
+{
+"country": "China",
+"basis": "Moody's A1",
+"region": "Asia",
+"crpJan2026": 0.009129,
+"crpJul2026": 0.008728,
+"corporateTax": 0.25
+},
+{
+"country": "Colombia",
+"basis": "Moody's Baa3",
+"region": "Central and South America",
+"crpJan2026": 0.028454,
+"crpJul2026": 0.027202,
+"corporateTax": 0.35
+},
+{
+"country": "Congo (Democratic Republic of)",
+"basis": "Moody's B3",
+"region": "Africa",
+"crpJan2026": 0.084143,
+"crpJul2026": 0.080442,
+"corporateTax": 0.3
+},
+{
+"country": "Congo (Republic of)",
+"basis": "Moody's Caa2",
+"region": "Africa",
+"crpJan2026": 0.116553,
+"crpJul2026": 0.111426,
+"corporateTax": 0.2686
+},
+{
+"country": "Cook Islands",
+"basis": "Moody's B1",
+"region": "Australia & New Zealand",
+"crpJan2026": 0.058277,
+"crpJul2026": 0.044512,
+"corporateTax": 0.2
+},
+{
+"country": "Costa Rica",
+"basis": "Moody's Ba2",
+"region": "Central and South America",
+"crpJan2026": 0.038953,
+"crpJul2026": 0.044512,
+"corporateTax": 0.3
+},
+{
+"country": "Croatia",
+"basis": "Moody's A3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.01552,
+"crpJul2026": 0.014837,
+"corporateTax": 0.18
+},
+{
+"country": "Cuba",
+"basis": "Moody's Ca",
+"region": "Caribbean",
+"crpJan2026": 0.155354,
+"crpJul2026": 0.148519,
+"corporateTax": 0.35
+},
+{
+"country": "Curacao",
+"basis": "Moody's Baa3",
+"region": "Caribbean",
+"crpJan2026": 0.028454,
+"crpJul2026": 0.027202,
+"corporateTax": 0.22
+},
+{
+"country": "Cyprus",
+"basis": "Moody's A3",
+"region": "Western Europe",
+"crpJan2026": 0.01552,
+"crpJul2026": 0.014837,
+"corporateTax": 0.125
+},
+{
+"country": "Czech Republic",
+"basis": "Moody's Aa3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.00776,
+"crpJul2026": 0.007419,
+"corporateTax": 0.21
+},
+{
+"country": "Côte d'Ivoire",
+"basis": "Moody's Ba2",
+"region": "Africa",
+"crpJan2026": 0.038953,
+"crpJul2026": 0.037239,
+"corporateTax": 0.25
+},
+{
+"country": "Denmark",
+"basis": "Moody's Aaa",
+"region": "Western Europe",
+"crpJan2026": 0,
+"crpJul2026": 0,
+"corporateTax": 0.22
+},
+{
+"country": "Dominican Republic",
+"basis": "Moody's Ba2",
+"region": "Caribbean",
+"crpJan2026": 0.038953,
+"crpJul2026": 0.037239,
+"corporateTax": 0.27
+},
+{
+"country": "Ecuador",
+"basis": "Moody's Caa3",
+"region": "Central and South America",
+"crpJan2026": 0.129487,
+"crpJul2026": 0.092806,
+"corporateTax": 0.25
+},
+{
+"country": "Egypt",
+"basis": "Moody's Caa1",
+"region": "Africa",
+"crpJan2026": 0.097077,
+"crpJul2026": 0.092806,
+"corporateTax": 0.225
+},
+{
+"country": "El Salvador",
+"basis": "Moody's B3",
+"region": "Central and South America",
+"crpJan2026": 0.084143,
+"crpJul2026": 0.080442,
+"corporateTax": 0.3
+},
+{
+"country": "Estonia",
+"basis": "Moody's A1",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.009129,
+"crpJul2026": 0.008728,
+"corporateTax": 0.2
+},
+{
+"country": "Ethiopia",
+"basis": "Moody's Caa2",
+"region": "Africa",
+"crpJan2026": 0.116553,
+"crpJul2026": 0.12379,
+"corporateTax": 0.3
+},
+{
+"country": "Fiji",
+"basis": "Moody's B1",
+"region": "Asia",
+"crpJan2026": 0.058277,
+"crpJul2026": 0.055713,
+"corporateTax": 0.25
+},
+{
+"country": "Finland",
+"basis": "Moody's Aa1",
+"region": "Western Europe",
+"crpJan2026": 0.003555,
+"crpJul2026": 0.003399,
+"corporateTax": 0.2
+},
+{
+"country": "France",
+"basis": "Moody's Aa3",
+"region": "Western Europe",
+"crpJan2026": 0.00776,
+"crpJul2026": 0.007419,
+"corporateTax": 0.2583
+},
+{
+"country": "Gabon",
+"basis": "Moody's Caa2",
+"region": "Africa",
+"crpJan2026": 0.116553,
+"crpJul2026": 0.111426,
+"corporateTax": 0.3
+},
+{
+"country": "Gambia",
+"basis": "PRS score 65.5",
+"region": null,
+"crpJan2026": 0.07121,
+"crpJul2026": 0.055713,
+"corporateTax": 0.27
+},
+{
+"country": "Georgia",
+"basis": "Moody's Ba2",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.038953,
+"crpJul2026": 0.037239,
+"corporateTax": 0.15
+},
+{
+"country": "Germany",
+"basis": "Moody's Aaa",
+"region": "Western Europe",
+"crpJan2026": 0,
+"crpJul2026": 0,
+"corporateTax": 0.2993
+},
+{
+"country": "Ghana",
+"basis": "Moody's Caa1",
+"region": "Africa",
+"crpJan2026": 0.097077,
+"crpJul2026": 0.092806,
+"corporateTax": 0.25
+},
+{
+"country": "Greece",
+"basis": "Moody's Baa3",
+"region": "Western Europe",
+"crpJan2026": 0.028454,
+"crpJul2026": 0.027202,
+"corporateTax": 0.22
+},
+{
+"country": "Guatemala",
+"basis": "Moody's Ba1",
+"region": "Central and South America",
+"crpJan2026": 0.03241,
+"crpJul2026": 0.030984,
+"corporateTax": 0.25
+},
+{
+"country": "Guernsey (States of)",
+"basis": "Moody's A1",
+"region": "Western Europe",
+"crpJan2026": 0.009129,
+"crpJul2026": 0.008728,
+"corporateTax": 0.0
+},
+{
+"country": "Guinea",
+"basis": "PRS score 59.5",
+"region": null,
+"crpJan2026": 0.116553,
+"crpJul2026": 0.111426,
+"corporateTax": 0.2759
+},
+{
+"country": "Guinea-Bissau",
+"basis": "PRS score 60.75",
+"region": null,
+"crpJan2026": 0.097077,
+"crpJul2026": 0.092806,
+"corporateTax": 0.2759
+},
+{
+"country": "Guyana",
+"basis": "PRS score 75.5",
+"region": null,
+"crpJan2026": 0.020694,
+"crpJul2026": 0.019783,
+"corporateTax": 0.2713
+},
+{
+"country": "Haiti",
+"basis": "PRS score 56.75",
+"region": null,
+"crpJan2026": 0.129487,
+"crpJul2026": 0.12379,
+"corporateTax": 0.1771
+},
+{
+"country": "Honduras",
+"basis": "Moody's B1",
+"region": "Central and South America",
+"crpJan2026": 0.058277,
+"crpJul2026": 0.055713,
+"corporateTax": 0.3
+},
+{
+"country": "Hong Kong",
+"basis": "Moody's Aa3",
+"region": "Asia",
+"crpJan2026": 0.00776,
+"crpJul2026": 0.007419,
+"corporateTax": 0.165
+},
+{
+"country": "Hungary",
+"basis": "Moody's Baa2",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.02465,
+"crpJul2026": 0.023565,
+"corporateTax": 0.09
+},
+{
+"country": "Iceland",
+"basis": "Moody's A1",
+"region": "Western Europe",
+"crpJan2026": 0.009129,
+"crpJul2026": 0.008728,
+"corporateTax": 0.21
+},
+{
+"country": "India",
+"basis": "Moody's Baa3",
+"region": "Asia",
+"crpJan2026": 0.028454,
+"crpJul2026": 0.027202,
+"corporateTax": 0.3
+},
+{
+"country": "Indonesia",
+"basis": "Moody's Baa2",
+"region": "Asia",
+"crpJan2026": 0.02465,
+"crpJul2026": 0.023565,
+"corporateTax": 0.22
+},
+{
+"country": "Iran",
+"basis": "PRS score 61.25",
+"region": null,
+"crpJan2026": 0.097077,
+"crpJul2026": 0.111426,
+"corporateTax": 0.1468
+},
+{
+"country": "Iraq",
+"basis": "Moody's Caa1",
+"region": "Middle East",
+"crpJan2026": 0.097077,
+"crpJul2026": 0.092806,
+"corporateTax": 0.15
+},
+{
+"country": "Ireland",
+"basis": "Moody's Aa3",
+"region": "Western Europe",
+"crpJan2026": 0.00776,
+"crpJul2026": 0.007419,
+"corporateTax": 0.125
+},
+{
+"country": "Isle of Man",
+"basis": "Moody's Aa3",
+"region": "Western Europe",
+"crpJan2026": 0.00776,
+"crpJul2026": 0.007419,
+"corporateTax": 0.0
+},
+{
+"country": "Israel",
+"basis": "Moody's Baa1",
+"region": "Middle East",
+"crpJan2026": 0.020694,
+"crpJul2026": 0.019783,
+"corporateTax": 0.23
+},
+{
+"country": "Italy",
+"basis": "Moody's Baa2",
+"region": "Western Europe",
+"crpJan2026": 0.02465,
+"crpJul2026": 0.023565,
+"corporateTax": 0.2781
+},
+{
+"country": "Jamaica",
+"basis": "Moody's Ba3",
+"region": "Caribbean",
+"crpJan2026": 0.04656,
+"crpJul2026": 0.044512,
+"corporateTax": 0.25
+},
+{
+"country": "Japan",
+"basis": "Moody's A1",
+"region": "Asia",
+"crpJan2026": 0.009129,
+"crpJul2026": 0.008728,
+"corporateTax": 0.2974
+},
+{
+"country": "Jersey (States of)",
+"basis": "Moody's Aa3",
+"region": "Western Europe",
+"crpJan2026": 0.00776,
+"crpJul2026": 0.007419,
+"corporateTax": 0.0
+},
+{
+"country": "Jordan",
+"basis": "Moody's Ba3",
+"region": "Middle East",
+"crpJan2026": 0.04656,
+"crpJul2026": 0.044512,
+"corporateTax": 0.2
+},
+{
+"country": "Kazakhstan",
+"basis": "Moody's Baa1",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.020694,
+"crpJul2026": 0.019783,
+"corporateTax": 0.2
+},
+{
+"country": "Kenya",
+"basis": "Moody's B3",
+"region": "Africa",
+"crpJan2026": 0.084143,
+"crpJul2026": 0.080442,
+"corporateTax": 0.3
+},
+{
+"country": "Korea",
+"basis": "Moody's Aa2",
+"region": "Asia",
+"crpJan2026": 0.006391,
+"crpJul2026": 0.00611,
+"corporateTax": 0.264
+},
+{
+"country": "Korea, D.P.R.",
+"basis": "PRS score 51",
+"region": null,
+"crpJan2026": 0.155354,
+"crpJul2026": 0.148519,
+"corporateTax": 0.2405
+},
+{
+"country": "Kuwait",
+"basis": "Moody's A1",
+"region": "Middle East",
+"crpJan2026": 0.009129,
+"crpJul2026": 0.008728,
+"corporateTax": 0.15
+},
+{
+"country": "Kyrgyzstan",
+"basis": "Moody's B3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.084143,
+"crpJul2026": 0.080442,
+"corporateTax": 0.1
+},
+{
+"country": "Laos",
+"basis": "Moody's Caa2",
+"region": "Asia",
+"crpJan2026": 0.116553,
+"crpJul2026": 0.111426,
+"corporateTax": 0.2
+},
+{
+"country": "Latvia",
+"basis": "Moody's A3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.01552,
+"crpJul2026": 0.014837,
+"corporateTax": 0.2
+},
+{
+"country": "Lebanon",
+"basis": "Moody's C",
+"region": "Middle East",
+"crpJan2026": 0.266591,
+"crpJul2026": 0.272037,
+"corporateTax": 0.17
+},
+{
+"country": "Liberia",
+"basis": "PRS score 57.75",
+"region": null,
+"crpJan2026": 0.116553,
+"crpJul2026": 0.111426,
+"corporateTax": 0.2759
+},
+{
+"country": "Libya",
+"basis": "PRS score 71.5",
+"region": null,
+"crpJan2026": 0.038953,
+"crpJul2026": 0.055713,
+"corporateTax": 0.24
+},
+{
+"country": "Liechtenstein",
+"basis": "Moody's Aaa",
+"region": "Western Europe",
+"crpJan2026": 0,
+"crpJul2026": 0,
+"corporateTax": 0.125
+},
+{
+"country": "Lithuania",
+"basis": "Moody's A2",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.010955,
+"crpJul2026": 0.010473,
+"corporateTax": 0.15
+},
+{
+"country": "Luxembourg",
+"basis": "Moody's Aaa",
+"region": "Western Europe",
+"crpJan2026": 0,
+"crpJul2026": 0,
+"corporateTax": 0.2494
+},
+{
+"country": "Macao",
+"basis": "Moody's Aa3",
+"region": "Asia",
+"crpJan2026": 0.00776,
+"crpJul2026": 0.007419,
+"corporateTax": 0.25
+},
+{
+"country": "Macedonia",
+"basis": "Moody's Ba3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.04656,
+"crpJul2026": 0.044512,
+"corporateTax": 0.1
+},
+{
+"country": "Madagascar",
+"basis": "PRS score 62.5",
+"region": null,
+"crpJan2026": 0.084143,
+"crpJul2026": 0.092806,
+"corporateTax": 0.2
+},
+{
+"country": "Malawi",
+"basis": "PRS score 56",
+"region": null,
+"crpJan2026": 0.129487,
+"crpJul2026": 0.148519,
+"corporateTax": 0.3
+},
+{
+"country": "Malaysia",
+"basis": "Moody's A3",
+"region": "Asia",
+"crpJan2026": 0.01552,
+"crpJul2026": 0.014837,
+"corporateTax": 0.24
+},
+{
+"country": "Maldives",
+"basis": "Moody's Caa2",
+"region": "Asia",
+"crpJan2026": 0.116553,
+"crpJul2026": 0.111426,
+"corporateTax": 0.15
+},
+{
+"country": "Mali",
+"basis": "Moody's Caa2",
+"region": "Africa",
+"crpJan2026": 0.116553,
+"crpJul2026": 0.111426,
+"corporateTax": 0.3
+},
+{
+"country": "Malta",
+"basis": "Moody's A2",
+"region": "Western Europe",
+"crpJan2026": 0.010955,
+"crpJul2026": 0.010473,
+"corporateTax": 0.35
+},
+{
+"country": "Mauritius",
+"basis": "Moody's Baa3",
+"region": "Africa",
+"crpJan2026": 0.028454,
+"crpJul2026": 0.027202,
+"corporateTax": 0.15
+},
+{
+"country": "Mexico",
+"basis": "Moody's Baa2",
+"region": "Central and South America",
+"crpJan2026": 0.02465,
+"crpJul2026": 0.027202,
+"corporateTax": 0.3
+},
+{
+"country": "Moldova",
+"basis": "Moody's B3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.084143,
+"crpJul2026": 0.068077,
+"corporateTax": 0.12
+},
+{
+"country": "Mongolia",
+"basis": "Moody's B1",
+"region": "Asia",
+"crpJan2026": 0.058277,
+"crpJul2026": 0.055713,
+"corporateTax": 0.25
+},
+{
+"country": "Montenegro",
+"basis": "Moody's B1",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.058277,
+"crpJul2026": 0.044512,
+"corporateTax": 0.15
+},
+{
+"country": "Montserrat",
+"basis": "Moody's Baa3",
+"region": "Caribbean",
+"crpJan2026": 0.028454,
+"crpJul2026": 0.027202,
+"corporateTax": 0.3
+},
+{
+"country": "Morocco",
+"basis": "Moody's Ba1",
+"region": "Africa",
+"crpJan2026": 0.03241,
+"crpJul2026": 0.030984,
+"corporateTax": 0.33
+},
+{
+"country": "Mozambique",
+"basis": "Moody's Caa3",
+"region": "Africa",
+"crpJan2026": 0.129487,
+"crpJul2026": 0.111426,
+"corporateTax": 0.32
+},
+{
+"country": "Myanmar",
+"basis": "PRS score 54.75",
+"region": null,
+"crpJan2026": 0.155354,
+"crpJul2026": 0.148519,
+"corporateTax": 0.22
+},
+{
+"country": "Namibia",
+"basis": "Moody's B1",
+"region": "Africa",
+"crpJan2026": 0.058277,
+"crpJul2026": 0.055713,
+"corporateTax": 0.32
+},
+{
+"country": "Nepal",
+"basis": "Moody's Ba3",
+"region": "Asia",
+"crpJan2026": 0.04656,
+"crpJul2026": 0.044512,
+"corporateTax": 0.25
+},
+{
+"country": "Netherlands",
+"basis": "Moody's Aaa",
+"region": "Western Europe",
+"crpJan2026": 0,
+"crpJul2026": 0,
+"corporateTax": 0.258
+},
+{
+"country": "New Zealand",
+"basis": "Moody's Aaa",
+"region": "Australia & New Zealand",
+"crpJan2026": 0,
+"crpJul2026": 0,
+"corporateTax": 0.28
+},
+{
+"country": "Nicaragua",
+"basis": "Moody's B2",
+"region": "Central and South America",
+"crpJan2026": 0.07121,
+"crpJul2026": 0.068077,
+"corporateTax": 0.3
+},
+{
+"country": "Niger",
+"basis": "Moody's Caa3",
+"region": "Africa",
+"crpJan2026": 0.129487,
+"crpJul2026": 0.12379,
+"corporateTax": 0.3
+},
+{
+"country": "Nigeria",
+"basis": "Moody's B3",
+"region": "Africa",
+"crpJan2026": 0.084143,
+"crpJul2026": 0.080442,
+"corporateTax": 0.3
+},
+{
+"country": "Norway",
+"basis": "Moody's Aaa",
+"region": "Western Europe",
+"crpJan2026": 0,
+"crpJul2026": 0,
+"corporateTax": 0.22
+},
+{
+"country": "Oman",
+"basis": "Moody's Baa3",
+"region": "Middle East",
+"crpJan2026": 0.028454,
+"crpJul2026": 0.027202,
+"corporateTax": 0.15
+},
+{
+"country": "Pakistan",
+"basis": "Moody's Caa1",
+"region": "Asia",
+"crpJan2026": 0.097077,
+"crpJul2026": 0.092806,
+"corporateTax": 0.29
+},
+{
+"country": "Panama",
+"basis": "Moody's Baa3",
+"region": "Central and South America",
+"crpJan2026": 0.028454,
+"crpJul2026": 0.027202,
+"corporateTax": 0.25
+},
+{
+"country": "Papua New Guinea",
+"basis": "Moody's B2",
+"region": "Asia",
+"crpJan2026": 0.07121,
+"crpJul2026": 0.068077,
+"corporateTax": 0.3
+},
+{
+"country": "Paraguay",
+"basis": "Moody's Baa3",
+"region": "Central and South America",
+"crpJan2026": 0.028454,
+"crpJul2026": 0.030984,
+"corporateTax": 0.1
+},
+{
+"country": "Peru",
+"basis": "Moody's Baa1",
+"region": "Central and South America",
+"crpJan2026": 0.020694,
+"crpJul2026": 0.019783,
+"corporateTax": 0.295
+},
+{
+"country": "Philippines",
+"basis": "Moody's Baa2",
+"region": "Asia",
+"crpJan2026": 0.02465,
+"crpJul2026": 0.023565,
+"corporateTax": 0.25
+},
+{
+"country": "Poland",
+"basis": "Moody's A2",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.010955,
+"crpJul2026": 0.010473,
+"corporateTax": 0.19
+},
+{
+"country": "Portugal",
+"basis": "Moody's A3",
+"region": "Western Europe",
+"crpJan2026": 0.01552,
+"crpJul2026": 0.014837,
+"corporateTax": 0.315
+},
+{
+"country": "Qatar",
+"basis": "Moody's Aa2",
+"region": "Middle East",
+"crpJan2026": 0.006391,
+"crpJul2026": 0.00611,
+"corporateTax": 0.1
+},
+{
+"country": "Ras Al Khaimah (Emirate of)",
+"basis": "Moody's A3",
+"region": "Middle East",
+"crpJan2026": 0.01552,
+"crpJul2026": 0.014837,
+"corporateTax": 0.1894
+},
+{
+"country": "Romania",
+"basis": "Moody's Baa3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.028454,
+"crpJul2026": 0.027202,
+"corporateTax": 0.16
+},
+{
+"country": "Russia",
+"basis": "PRS score 70.25",
+"region": null,
+"crpJan2026": 0.038953,
+"crpJul2026": 0.037239,
+"corporateTax": 0.2
+},
+{
+"country": "Rwanda",
+"basis": "Moody's B2",
+"region": "Africa",
+"crpJan2026": 0.07121,
+"crpJul2026": 0.068077,
+"corporateTax": 0.28
+},
+{
+"country": "Saudi Arabia",
+"basis": "Moody's Aa3",
+"region": "Middle East",
+"crpJan2026": 0.00776,
+"crpJul2026": 0.007419,
+"corporateTax": 0.2
+},
+{
+"country": "Senegal",
+"basis": "Moody's Caa1",
+"region": "Africa",
+"crpJan2026": 0.097077,
+"crpJul2026": 0.092806,
+"corporateTax": 0.3
+},
+{
+"country": "Serbia",
+"basis": "Moody's Ba2",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.038953,
+"crpJul2026": 0.037239,
+"corporateTax": 0.15
+},
+{
+"country": "Sharjah",
+"basis": "Moody's Ba1",
+"region": "Middle East",
+"crpJan2026": 0.03241,
+"crpJul2026": 0.030984,
+"corporateTax": 0.1894
+},
+{
+"country": "Sierra Leone",
+"basis": "PRS score 62.75",
+"region": null,
+"crpJan2026": 0.084143,
+"crpJul2026": 0.080442,
+"corporateTax": 0.25
+},
+{
+"country": "Singapore",
+"basis": "Moody's Aaa",
+"region": "Asia",
+"crpJan2026": 0,
+"crpJul2026": 0,
+"corporateTax": 0.17
+},
+{
+"country": "Slovakia",
+"basis": "Moody's A3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.01552,
+"crpJul2026": 0.014837,
+"corporateTax": 0.21
+},
+{
+"country": "Slovenia",
+"basis": "Moody's A3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.01552,
+"crpJul2026": 0.010473,
+"corporateTax": 0.22
+},
+{
+"country": "Solomon Islands",
+"basis": "Moody's Caa1",
+"region": "Asia",
+"crpJan2026": 0.097077,
+"crpJul2026": 0.092806,
+"corporateTax": 0.3
+},
+{
+"country": "Somalia",
+"basis": "PRS score 55.5",
+"region": null,
+"crpJan2026": 0.129487,
+"crpJul2026": 0.12379,
+"corporateTax": 0.2759
+},
+{
+"country": "South Africa",
+"basis": "Moody's Ba2",
+"region": "Africa",
+"crpJan2026": 0.038953,
+"crpJul2026": 0.037239,
+"corporateTax": 0.27
+},
+{
+"country": "Spain",
+"basis": "Moody's A3",
+"region": "Western Europe",
+"crpJan2026": 0.01552,
+"crpJul2026": 0.014837,
+"corporateTax": 0.25
+},
+{
+"country": "Sri Lanka",
+"basis": "Moody's Ca",
+"region": "Asia",
+"crpJan2026": 0.155354,
+"crpJul2026": 0.092806,
+"corporateTax": 0.3
+},
+{
+"country": "St. Maarten",
+"basis": "Moody's Ba2",
+"region": "Caribbean",
+"crpJan2026": 0.038953,
+"crpJul2026": 0.037239,
+"corporateTax": 0.2
+},
+{
+"country": "St. Vincent & the Grenadines",
+"basis": "Moody's B3",
+"region": "Caribbean",
+"crpJan2026": 0.084143,
+"crpJul2026": 0.080442,
+"corporateTax": 0.28
+},
+{
+"country": "Sudan",
+"basis": "PRS score 47.75",
+"region": null,
+"crpJan2026": 0.266591,
+"crpJul2026": 0.272037,
+"corporateTax": 0.35
+},
+{
+"country": "Suriname",
+"basis": "Moody's Caa1",
+"region": "Central and South America",
+"crpJan2026": 0.097077,
+"crpJul2026": 0.092806,
+"corporateTax": 0.36
+},
+{
+"country": "Swaziland",
+"basis": "Moody's B2",
+"region": "Africa",
+"crpJan2026": 0.07121,
+"crpJul2026": 0.068077,
+"corporateTax": 0.25
+},
+{
+"country": "Sweden",
+"basis": "Moody's Aaa",
+"region": "Western Europe",
+"crpJan2026": 0,
+"crpJul2026": 0,
+"corporateTax": 0.206
+},
+{
+"country": "Switzerland",
+"basis": "Moody's Aaa",
+"region": "Western Europe",
+"crpJan2026": 0,
+"crpJul2026": 0,
+"corporateTax": 0.1961
+},
+{
+"country": "Syria",
+"basis": "PRS score 51.5",
+"region": null,
+"crpJan2026": 0.155354,
+"crpJul2026": 0.111426,
+"corporateTax": 0.28
+},
+{
+"country": "Taiwan",
+"basis": "Moody's Aa3",
+"region": "Asia",
+"crpJan2026": 0.00776,
+"crpJul2026": 0.007419,
+"corporateTax": 0.2
+},
+{
+"country": "Tajikistan",
+"basis": "Moody's B3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.084143,
+"crpJul2026": 0.068077,
+"corporateTax": 0.18
+},
+{
+"country": "Tanzania",
+"basis": "Moody's B1",
+"region": "Africa",
+"crpJan2026": 0.058277,
+"crpJul2026": 0.055713,
+"corporateTax": 0.3
+},
+{
+"country": "Thailand",
+"basis": "Moody's Baa1",
+"region": "Asia",
+"crpJan2026": 0.020694,
+"crpJul2026": 0.019783,
+"corporateTax": 0.2
+},
+{
+"country": "Togo",
+"basis": "Moody's B3",
+"region": "Africa",
+"crpJan2026": 0.084143,
+"crpJul2026": 0.080442,
+"corporateTax": 0.27
+},
+{
+"country": "Trinidad and Tobago",
+"basis": "Moody's Ba2",
+"region": "Caribbean",
+"crpJan2026": 0.038953,
+"crpJul2026": 0.037239,
+"corporateTax": 0.3
+},
+{
+"country": "Tunisia",
+"basis": "Moody's Caa1",
+"region": "Africa",
+"crpJan2026": 0.097077,
+"crpJul2026": 0.092806,
+"corporateTax": 0.15
+},
+{
+"country": "Turkey",
+"basis": "Moody's Ba3",
+"region": "Western Europe",
+"crpJan2026": 0.04656,
+"crpJul2026": 0.044512,
+"corporateTax": 0.25
+},
+{
+"country": "Turks and Caicos Islands",
+"basis": "Moody's Baa1",
+"region": "Caribbean",
+"crpJan2026": 0.020694,
+"crpJul2026": 0.019783,
+"corporateTax": 0.0
+},
+{
+"country": "Uganda",
+"basis": "Moody's B3",
+"region": "Africa",
+"crpJan2026": 0.084143,
+"crpJul2026": 0.080442,
+"corporateTax": 0.3
+},
+{
+"country": "Ukraine",
+"basis": "Moody's Ca",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.155354,
+"crpJul2026": 0.148519,
+"corporateTax": 0.18
+},
+{
+"country": "United Arab Emirates",
+"basis": "Moody's Aa2",
+"region": "Middle East",
+"crpJan2026": 0.006391,
+"crpJul2026": 0.00611,
+"corporateTax": 0.09
+},
+{
+"country": "United Kingdom",
+"basis": "Moody's Aa3",
+"region": "Western Europe",
+"crpJan2026": 0.00776,
+"crpJul2026": 0.007419,
+"corporateTax": 0.25
+},
+{
+"country": "United States",
+"basis": "Moody's Aa1",
+"region": "North America",
+"crpJan2026": 0.002334,
+"crpJul2026": 0.002186,
+"corporateTax": 0.25
+},
+{
+"country": "Uruguay",
+"basis": "Moody's Baa1",
+"region": "Central and South America",
+"crpJan2026": 0.020694,
+"crpJul2026": 0.019783,
+"corporateTax": 0.25
+},
+{
+"country": "Uzbekistan",
+"basis": "Moody's Ba3",
+"region": "Eastern Europe & Russia",
+"crpJan2026": 0.04656,
+"crpJul2026": 0.037239,
+"corporateTax": 0.15
+},
+{
+"country": "Venezuela",
+"basis": "Moody's C",
+"region": "Central and South America",
+"crpJan2026": 0.266591,
+"crpJul2026": 0.12379,
+"corporateTax": 0.34
+},
+{
+"country": "Vietnam",
+"basis": "Moody's Ba2",
+"region": "Asia",
+"crpJan2026": 0.038953,
+"crpJul2026": 0.037239,
+"corporateTax": 0.2
+},
+{
+"country": "Yemen, Republic",
+"basis": "PRS score 51.75",
+"region": null,
+"crpJan2026": 0.155354,
+"crpJul2026": 0.148519,
+"corporateTax": 0.2759
+},
+{
+"country": "Zambia",
+"basis": "Moody's Caa2",
+"region": "Africa",
+"crpJan2026": 0.116553,
+"crpJul2026": 0.111426,
+"corporateTax": 0.3
+},
+{
+"country": "Zimbabwe",
+"basis": "PRS score 58.5",
+"region": null,
+"crpJan2026": 0.116553,
+"crpJul2026": 0.068077,
+"corporateTax": 0.2472
+}
+]
+}
