@@ -1,0 +1,1044 @@
+{
+ "id": "S05c",
+ "project": "Shaakichiuwaanaan Project, CV5 Pegmatite (Updated lithium-tantalum Feasibility Study)",
+ "company": "PMET Resources Inc. (TSX: PMET, ASX: PMT, OTCQX: PMETF, FSE: R9GA)",
+ "country": "Canada",
+ "location": "Eeyou Istchee James Bay region, Québec. ~220 km east of Radisson and 240 km north-northeast of Nemaska; CV5 lies ~13 km south of KM-270 of the Trans-Taiga Road, 14 km south of the powerline and ~50 km southwest of the LG-4 hydroelectric complex. Category III land under the JBNQA (Cree Nation of Chisasibi and Cree Nation of Mistissini) (p.8).",
+ "stage": "Updated Feasibility Study (lithium-tantalum, CV5 Pegmatite). Replaces the October 2025 lithium-only FS, reverses the phase order (underground first) and declares a maiden tantalum reserve (pp.1-4, 13).",
+ "study_date": "2026-11-10 (released 10 Nov 2026 in Montreal and 11 Nov 2026 in Sydney, p.1). Mineral Reserve effective 19 Oct 2026 (p.14); MRE effective 10 Jul 2026 (p.9).",
+ "currency": "CA$ (the document's '$' and 'CA$' mean Canadian dollars; US$ figures are converted at 1.37 CA$/US$) (p.3)",
+ "fx_assumption": {
+  "value": 1.37,
+  "unit": "CA$/US$",
+  "page": 3,
+  "note": "Held constant over the LOM (pp.3, 7, 50, 63-64). About 0.730 US$/CA$ (derived). Up 2% from 1.34 in the 2025 FS (Table 3, p.7). Reserve cut-offs used 1.35 CAD/USD (pp.14, 53-54); MRE constraints used 0.74 USD/CAD (p.11). Exchange rate is the second-largest sensitivity: -/+20% moves post-tax NPV8 by -1,772 / +1,756 CA$M (Fig 3, p.20)."
+ },
+ "real_or_nominal": "Real: 'carried out in real terms (i.e., without inflation factors) in 2025 Canadian dollars' (p.65); the base year is given as 2025 although the study is dated November 2026. The lithium price comes from Benchmark's real FOB Australia base case (p.18); the OnG tantalum forecasts cited are in nominal US$ (p.19).",
+ "ownership": [
+  {
+   "holder": "PMET Resources Inc. (wholly owned property; claims are now Exclusive Exploration Rights, formerly CDC claims)",
+   "share": {
+    "value": 100,
+    "unit": "%",
+    "page": 40,
+    "note": "'100%-owned' (p.40); 'wholly owned Shaakichiuwaanaan Property' (p.3); EERs held by the Company (pp.8, 13). Volkswagen and PowerCo have a right to take part in funding talks as a cornerstone investor at FID in exchange for more offtake (p.21)."
+   }
+  }
+ ],
+ "deposit": {
+  "resource": [
+   {
+    "scope": "CV5 (basis of the Updated FS; effective 10 Jul 2026)",
+    "category": "Indicated",
+    "tonnes_Mt": {
+     "value": 103.156,
+     "unit": "Mt",
+     "page": 10,
+     "note": "103,156,000 t: open-pit constrained 98.81 Mt at 1.40% and underground constrained 4.346 Mt at 1.15%; 162 ppm Ta2O5, 66 ppm Ga; 3.55 Mt LCE and 16.71 kt Ta2O5 contained (Table 4). Cut-offs 0.40% Li2O open pit, 0.60% underground for CV5; constraint price US$1,500/t SC6 FOB Bécancour at 0.74 USD/CAD (p.11). Inclusive of reserves."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.39,
+     "unit": "% Li2O",
+     "page": 10
+    }
+   },
+   {
+    "scope": "CV5",
+    "category": "Inferred",
+    "tonnes_Mt": {
+     "value": 14.454,
+     "unit": "Mt",
+     "page": 10,
+     "note": "Open pit 4.838 Mt at 1.27%, underground 9.616 Mt at 1.24%; 156 ppm Ta2O5; 0.45 Mt LCE (Table 4). Not used in the reserve or mine plan."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.25,
+     "unit": "% Li2O",
+     "page": 10
+    }
+   },
+   {
+    "scope": "CV13",
+    "category": "Indicated",
+    "tonnes_Mt": {
+     "value": 10.753,
+     "unit": "Mt",
+     "page": 10,
+     "note": "181 ppm Ta2O5; 0.49 Mt LCE. Underground cut-off for CV13 is 0.70% Li2O. Not in this FS."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.84,
+     "unit": "% Li2O",
+     "page": 10
+    }
+   },
+   {
+    "scope": "CV13",
+    "category": "Inferred",
+    "tonnes_Mt": {
+     "value": 17.571,
+     "unit": "Mt",
+     "page": 10,
+     "note": "151 ppm Ta2O5; 0.53 Mt LCE. Not in this FS."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.23,
+     "unit": "% Li2O",
+     "page": 10
+    }
+   },
+   {
+    "scope": "CV4 (new)",
+    "category": "Inferred",
+    "tonnes_Mt": {
+     "value": 1.748,
+     "unit": "Mt",
+     "page": 10,
+     "note": "Underground only; 91 ppm Ta2O5; 0.05 Mt LCE. Not in this FS."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.24,
+     "unit": "% Li2O",
+     "page": 10
+    }
+   },
+   {
+    "scope": "Consolidated MRE, CV5 + CV13 + CV4",
+    "category": "Indicated",
+    "tonnes_Mt": {
+     "value": 113.909,
+     "unit": "Mt",
+     "page": 10,
+     "note": "164 ppm Ta2O5, 67 ppm Ga; 4.03 Mt LCE and 18.68 kt Ta2O5 contained (Table 4). No Measured."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.43,
+     "unit": "% Li2O",
+     "page": 10
+    }
+   },
+   {
+    "scope": "Consolidated MRE, CV5 + CV13 + CV4",
+    "category": "Inferred",
+    "tonnes_Mt": {
+     "value": 33.773,
+     "unit": "Mt",
+     "page": 10,
+     "note": "150 ppm Ta2O5, 63 ppm Ga; 1.03 Mt LCE and 5.07 kt Ta2O5 contained (Table 4)."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.24,
+     "unit": "% Li2O",
+     "page": 10
+    }
+   }
+  ],
+  "reserve": [
+   {
+    "scope": "CV5 underground",
+    "category": "Probable",
+    "tonnes_Mt": {
+     "value": 34.9,
+     "unit": "Mt",
+     "page": 14,
+     "note": "172 ppm Ta2O5; 1.30 Mt LCE and 6.0 kt Ta2O5 contained. Stoping cut-off 0.70% Li2O; development tonnes above 0.4% Li2O included. No Proven."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.51,
+     "unit": "% Li2O",
+     "page": 14
+    }
+   },
+   {
+    "scope": "CV5 open pit",
+    "category": "Probable",
+    "tonnes_Mt": {
+     "value": 48.2,
+     "unit": "Mt",
+     "page": 14,
+     "note": "132 ppm Ta2O5; 1.31 Mt LCE and 6.3 kt Ta2O5 contained. Cut-off 0.40% Li2O."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.1,
+     "unit": "% Li2O",
+     "page": 14
+    }
+   },
+   {
+    "scope": "CV5 total",
+    "category": "Probable",
+    "tonnes_Mt": {
+     "value": 83.0,
+     "unit": "Mt",
+     "page": 14,
+     "note": "148 ppm Ta2O5; 2.61 Mt LCE and 12.3 kt Ta2O5 contained (maiden tantalum reserve). Effective 19 Oct 2026. Indicated only; estimated at US$1,221/t SC5.5 and 1.35 CAD/USD, with no value given to tantalum in the cut-offs; reported at plant feed (Table 6 notes)."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.27,
+     "unit": "% Li2O",
+     "page": 14
+    }
+   }
+  ],
+  "inferred_share_of_mine_plan": {
+   "value": 0,
+   "unit": "% of LOM plant feed",
+   "page": 13,
+   "note": "Reserves use Indicated material only; Inferred material inside the mine design is treated as waste at 0.0% Li2O (pp.13-14, 50, 55-56)."
+  },
+  "mining_method": "Hybrid, underground first. Phase 1 is underground long-hole open stoping with cemented paste backfill (96% transverse, 4% longitudinal stopes) from a single ramp and portal near the ROM pad, starting in the high-grade Nova Zone: about 5,700 t/d of ore at full production (5,375 t/d stopes plus 325 t/d development), 81.1 km lateral and 1.3 km vertical development, 18 t BEV loaders and 50 t BEV trucks, 34.9 Mt at 1.51% Li2O and 172 ppm Ta2O5; owner-operated after three years of contracted development; underground life 21 years including construction, 15 at full production (p.26). A small contractor-run Starter Pit (under 700 kt, 60 m from Lake 001, minimal pre-strip) adds feed in Year 1 and is then idled (pp.22, 26). Phase 2 restarts the main open pit at full scale with the expansion: diesel 15 m3 shovels for waste, 7 m3 excavators for ore and 140 t trucks, owner-operated; peak 23.0 Mtpa total material; 48.2 Mt at 1.10% Li2O and 132 ppm Ta2O5 (p.27). Lake 001 needs partial dewatering only for the full-scale Phase 2 pit (p.22); underground stopes in the crown pillar (0-85 m below the lake bottom) are excluded from reserves (p.13).",
+  "strip_ratio": {
+   "value": 3.5,
+   "unit": "t waste : t ore (open pit, LOM)",
+   "page": 6,
+   "note": "Table 2: 167.8 Mt waste including pre-strip against 48.2 Mt ore, 215.9 Mt total open-pit material (pp.6, 27). 2025 FS: 3.4."
+  },
+  "ore_type_notes": "CV5 is an LCT pegmatite in the Guyer Greenstone Belt; spodumene (decimetre- to metre-scale crystals) is the lithium mineral and tantalite (with or without columbite) the tantalum mineral (p.12). The principal dyke holds about 76% of CV5 resource tonnes, is traced at least 5.0 km, ranges from <10 m to >125 m true width and dips 70-80° north; mineralization is intersected to 450 m vertical depth (pp.12, 22). The Nova Zone is traced ~1.5 km with 2-25 m intersections above 5% Li2O inside a wider zone above 2% (pp.2, 12). Phase 1 underground feed runs ~1.7-1.85% Li2O in Years 1-3, falling to ~1.3% by Year 13 (Fig 7, p.24, read from the chart). The CV13 Caesium Zone MRE (Rigel, Vega, Helios) is 1.844 Mt at 4.40% Cs2O Indicated and 0.981 Mt at 3.00% Inferred (p.11), outside this FS. CV13 and CV4 are not in the reserve (p.35)."
+ },
+ "mining": {
+  "ore_mined_Mtpa": {
+   "value": 4.4,
+   "unit": "Mtpa (average process plant feed)",
+   "page": 6,
+   "note": "No mining-rate table; all reserve tonnes are processed. Nominal feed is 5.1 Mtpa (2.2 Mtpa DMS1 plus 2.9 Mtpa DMS2). Underground reaches about 5,700 t/d at full production, about 2.1 Mtpa (derived) (p.26); Fig 9 (p.25) shows about 2.0 Mt a year of stoping ore in Years 2-16. Open-pit peak total movement is 23.0 Mtpa (p.27), reached in Year 5 (Fig 10, p.25)."
+  },
+  "total_ore_mined_Mt": {
+   "value": 83.0,
+   "unit": "Mt (Probable reserve, mined and processed)",
+   "page": 6,
+   "note": "Underground 34.9 Mt plus open pit 48.2 Mt (Table 2; Table 6, p.14). Total material mined: underground 39.6 Mt (including 4.8 Mt waste), open pit 215.9 Mt. Site storage: 154.7 Mt waste rock, 17.8 Mt overburden, 52.0 Mt tailings (p.28)."
+  },
+  "life_of_mine_years": {
+   "value": 19,
+   "unit": "years",
+   "page": 6,
+   "note": "Table 2; 'near 20 year mine life' (p.23). Production in Years 1-19 (Fig 5, p.23). 2025 FS: 19 years; PEA: 24 years."
+  },
+  "dilution_pct": {
+   "value": 7.62,
+   "unit": "% (open pit)",
+   "page": 15,
+   "note": "Open-pit dilution 7.62% and ore loss 4.07%, from Deswik.SO mining solids (p.15 note 9; given as 7.6% and 4.1% on pp.50, 55). Underground average external dilution 16.7%: 2.5% backfill, 5.3% ELOS and 8.9% internal (p.15 note 10). Up from 2.0% (open pit) and 12.7% (underground) in the 2025 FS."
+  },
+  "mining_recovery_pct": {
+   "value": 98,
+   "unit": "% (open pit)",
+   "page": 55,
+   "note": "Open pit 98%, applied to diluted tonnes (pp.50, 55); underground stopes 95%, development 100% (p.15 note 11; pp.50, 56). 2025 FS: 97% open pit and 90% underground."
+  },
+  "mining_cost": {
+   "value": 262.5,
+   "unit": "CA$/t concentrate (SC5.5)",
+   "page": 17,
+   "note": "US$191.6/t (Table 8); CA$42.2/t processed (p.63). LOM open pit CA$6.45/t mined and LOM underground CA$62.52/t milled, both excluding pre-production (p.17). Cut-off inputs: open-pit ore and waste CA$6.40/t, overburden CA$4.00/t (p.54); underground CA$68.66/t mined (p.54). Contractors run the Starter Pit (Years -1 and 1) and the first three years of underground development (p.16). 2025 FS: CA$320.1/t."
+  }
+ },
+ "processing": {
+  "route": "DMS only (no flotation), in two largely independent trains: DMS1 at 2.2 Mtpa for Phase 1 (mainly high-grade underground ore) and DMS2 at 2.9 Mtpa from Year 4 (mainly open-pit ore), 5.1 Mtpa in total. Three-stage crushing to -9.5 mm closed with screens into fine-ore silos; coarse, fine and ultrafine DMS circuits; magnetic separation on the fine and ultrafine concentrates, both to control iron and to recover tantalum-bearing minerals; the -0.65 mm DMS bypass goes to pastefill preparation. A new tantalum circuit recovers tantalite from the bypass, DMS magnetics and, while only DMS1 runs, ground DMS floats (middlings), using gravity and magnetics to make a primary concentrate below 3% Ta2O5 that shaking tables upgrade to 20% Ta2O5. A ball mill prepares pastefill for the paste backfill plant; DMS rejects not used as pastefill are stacked and trucked to the tailings pile (pp.29-32). The lithium recovery curve changed to 38 + (85 - 38) x [1 - e^(-0.88 x Li2O feed %)] (pp.14, 31, 58).",
+  "throughput_Mtpa": {
+   "value": 4.4,
+   "unit": "Mtpa (average plant feed)",
+   "page": 6,
+   "note": "Nominal 5.1 Mtpa = DMS1 2.2 + DMS2 2.9 (Table 2; pp.15, 29). Fig 7 (p.24, read from the chart): ~1.7 Mt in Year 1, ~2.1-2.2 Mt in Years 2-3, ~4.8 Mt in Year 4, ~5.0-5.1 Mt in Years 5-16, falling to ~2.65 Mt in Year 19. The cut-off calculation used 2.8 Mt/yr (p.53)."
+  },
+  "head_grade_Li2O_pct": {
+   "value": 1.27,
+   "unit": "% Li2O (LOM average feed)",
+   "page": 6,
+   "note": "Underground 1.51%, open pit 1.10% (p.14). Ta2O5 feed grade 148 ppm (Table 2). 2025 FS: 1.26%; PEA: 1.31%."
+  },
+  "recovery_pct": {
+   "value": 69.7,
+   "unit": "% Li2O (LOM average)",
+   "page": 6,
+   "note": "'~69.7%' LOM global lithia recovery; testwork recoveries were adjusted downward to reflect real-world experience (p.31). Fig 5 (p.23, read from the chart): ~73-76% in Years 1-3 on high-grade underground feed, ~67-73% afterwards. Tantalum recovery is 44.6% over the LOM (51.6% with DMS1 only, 44.0% once DMS2 runs) (pp.6, 32). 2025 FS: 68.9%."
+  },
+  "concentrate_grade_Li2O_pct": {
+   "value": 5.5,
+   "unit": "% Li2O (SC5.5)",
+   "page": 6,
+   "note": "Fe2O3 below 2.0% (p.29). Tantalite concentrate grade is 20% Ta2O5 (p.6; p.29 misprints it as 'Ta2O3')."
+  },
+  "concentrate_output_ktpa": {
+   "value": 800.0,
+   "unit": "ktpa SC5.5 (nominal)",
+   "page": 6,
+   "note": "Nominal 800.0 ktpa; LOM average 702.8 ktpa; LOM total 13.4 Mt (Table 2). Phase 1 ramps up to ~560 ktpa in the first 3 years (pp.2, 15). Fig 5 (p.23, read from the chart): ~350 kt in Year 1, ~485 kt Year 2, ~560 kt Year 3, ~775-820 kt in Years 4-10, ~670-760 kt in Years 11-18, ~525 kt in Year 19. Daily output at nominal capacity is 2,302 t (p.33)."
+  },
+  "by_products": "Tantalite concentrate (20% Ta2O5), new in this study: 27.4 kt over the LOM, 1,625 tpa nominal and 1,441 tpa LOM average (Table 2, p.6); about 635,000 lb a year of contained Ta2O5 on average, and up to ~455,000 lb a year (~1,000 tpa of concentrate) in Phase 1 (pp.2, 15). Its revenue is a credit of CA$147.8/t (US$107.9/t) of spodumene concentrate (Table 8, p.17). Maiden tantalum reserve of 12.3 kt Ta2O5 (p.13). Caesium is excluded and will be assessed in a separate PEA (pp.2, 8).",
+  "processing_cost": {
+   "value": 78.1,
+   "unit": "CA$/t concentrate",
+   "page": 17,
+   "note": "US$57.0/t (Table 8). LOM CA$12.61/t milled, including the paste backfill plant and tailings and excluding pre-production (p.17); CA$12.6/t processed (p.63). Cut-off inputs: processing CA$12.50/t, tailings or rehandling CA$1.80/t (pp.53-54). 2025 FS: CA$91.2/t."
+  }
+ },
+ "overheads": {
+  "site_GA": {
+   "value": 98.4,
+   "unit": "CA$/t concentrate",
+   "page": 17,
+   "note": "Site administration, US$71.8/t (Table 8). G&A CA$15.81/t milled (p.17); CA$15.8/t processed (p.63). Cut-off input CA$15.83/t (p.53). 2025 FS: CA$100.7/t."
+  },
+  "power_source": "Hydro-Québec grid (hydroelectric): the 315 kV system from the Tilly substation at LG-4, a new off-site 315/120 kV, 50 MVA substation near Tilly and a new 54 km, 120 kV overhead line to site; the 120 kV line leaves headroom for expansion or midstream projects (p.33). A formal request for a power block was filed with Hydro-Québec and the Québec Government in April 2026; approval is pending (p.33).",
+  "power_cost": null,
+  "workforce_camp_fifo": "Permanent camp of 400 beds for Phase 1 plus 200 beds for Phase 2, a 250-bed temporary construction camp, and the 150-bed exploration camp (p.32). Personnel travel by chartered flights; access to the LG-4 airstrip was granted from May 2026 (pp.62-63). Construction runs 7 days x 11 h and operations 7 days x 12 h on two shifts, at ACQ remote/camp labour rates, with the first 50 h a week at regular time and the remaining 27 h at double time (p.62). Headcount is not stated."
+ },
+ "logistics": {
+  "product_route": "Contracted road haulage ~844 km from site to the Matagami Transshipment Center (290 km Trans-Taiga Road plus 554 km Billy Diamond Highway) in bi-train trucks carrying 72 t including 5% moisture (covered, side-discharge), which need special annual permits from MTMD, MRNF and SDBJ; about 32 trips a day from 2032 to 2048 including a 5% margin, 24/7 year-round; fleet of 80 trucks (25% buffer); lower spring-thaw payloads are included (p.33). A Letter of Intent with the City of Matagami covers truck-to-rail transshipment at Matagami's yard (news release of 4 Oct 2026) (p.33). CN rail then runs from Matagami to a Saint-Lawrence River maritime terminal for vessel loading: 2,700 cu ft gondolas carrying 86 t each, limited by a 263,000 lb (119,300 kg) gross-load restriction on the Matagami to Lebel-sur-Quévillon segment; about 9,300 car trips a year (~179 railcars a week over 52 weeks); a round trip of roughly 25 days; about 700 leased railcars. The cost uses the average of Montréal and Trois-Rivières port pricing; all port options remain under consideration and contracts are still to be negotiated (p.34). Tantalite ships in 1 t bulk bags as backhaul on 30 t flatbed supply trucks, costed incrementally (p.34).",
+  "mode": "Road (contracted trucks) to Matagami, then rail (CN) to a St Lawrence port (Montréal / Trois-Rivières average assumed)",
+  "distance_km": {
+   "value": 844,
+   "unit": "km by road, mine to Matagami Transshipment Center",
+   "page": 33,
+   "note": "290 km Trans-Taiga Road plus 554 km Billy Diamond Highway (p.33). The rail distance to Montréal or Trois-Rivières is not stated. 2025 FS: the same 844 km by road plus 1,075 km of rail to Grande-Anse."
+  },
+  "haulage_cost": {
+   "value": 302.3,
+   "unit": "CA$/t concentrate (dry), truck plus rail, mine to Québec port",
+   "page": 17,
+   "note": "US$220.7/t, LOM average, 'inclusive of trucking to Matagami and train to a port in Quebec' (p.17); CA$302.3/t dry (pp.63-64). No road, rail or port split. Based on quotations from road and rail transporters (p.63). Up 39% from CA$217.2/t in the 2025 FS (derived), which the study attributes to general inflation, diesel prices and surcharges, and wider scope: slightly lower truck and railcar capacity, seasonal haulage variation and loads, and transhipment and port costs (p.34). About 51% of the net total cash cost, or 41% before the tantalum credit (derived). Reserve cut-offs still used CA$226.74/t ('Transportation & Insurance', wet) (pp.53-54)."
+  },
+  "port": "A Saint-Lawrence River maritime terminal; costs use the average of Montréal and Trois-Rivières, with all port options still under consideration (pp.34, 63). Changed from Grande-Anse in the 2025 FS.",
+  "port_cost": null,
+  "ocean_freight": null,
+  "sale_basis": "FOB Québec ports. The price of US$1,788/t SC5.5 is 'FOB Quebec ports' (pp.1, 5, 18, 64), derived from Benchmark's real FOB Australia SC6 forecasts less a US$162/t grade adjustment (p.18). Total cash cost and AISC are also 'FOB Quebec ports', including transport to a port in Québec (p.1 footnotes; p.39). No ocean freight, treatment charges or penalties are modelled (p.64). Tantalite is priced at US$120/lb of contained Ta2O5 in a 20% Ta2O5 concentrate (pp.5, 18).",
+  "infrastructure_built": "Funded by the project (Table 7, p.16): 100 Infrastructure CA$162.7M in Phase 1 and CA$220.1M for total development (site roads, bridges, truck shop, camp, fuel and explosives storage); 200 Power and Electrical CA$173.0M and CA$202.1M (315/120 kV substation, 54 km 120 kV line, distribution); 300 Water Management CA$60.3M in Phase 1 and CA$86.7M in Phase 2 (against CA$128.2M in Phase 1 of the 2025 FS; partial dewatering of Lake 001 is now needed only for the Phase 2 pit, p.22); plus camps (400 + 200 permanent beds, 250 temporary), the pastefill plant and a First Nations cultural centre (p.32). Logistics is contracted or leased: a trucking contract, about 700 leased railcars, and transshipment through the LOI with the City of Matagami (pp.33-34); no rail or port capex is itemised. Existing infrastructure used: the Trans-Taiga Road, Billy Diamond Highway, CN rail and St Lawrence port terminals.",
+  "notes": "Logistics changes from the 2025 FS: the port moved from Grande-Anse (Saguenay) to the St Lawrence (Montréal / Trois-Rivières average); truck payload fell from 75 t to 72 t (now including moisture); railcar load fell from 93 t to 86 t because of the Matagami to Lebel-sur-Quévillon track limit; the rail round trip lengthened from 18 to ~25 days; leased railcars rose from 620 to ~700 and truck trips from ~30 to ~32 a day; and the cost basis changed from DAP Grande-Anse (port of loading) to FOB Québec ports, adding transhipment and port costs. Transport cost rose from CA$217.2/t to CA$302.3/t (+39%, derived), against CA$226/t by road and rail to Bécancour in the PEA. Port handling and ocean freight are not given separately."
+ },
+ "operating_costs": {
+  "breakdown": [
+   {
+    "item": "Mining",
+    "value": 262.5,
+    "unit": "CA$/t concentrate",
+    "page": 17,
+    "note": "US$191.6/t; LOM average; CA$42.2/t processed (p.63)"
+   },
+   {
+    "item": "Processing",
+    "value": 78.1,
+    "unit": "CA$/t concentrate",
+    "page": 17,
+    "note": "US$57.0/t; CA$12.6/t processed (p.63)"
+   },
+   {
+    "item": "Site administration",
+    "value": 98.4,
+    "unit": "CA$/t concentrate",
+    "page": 17,
+    "note": "US$71.8/t; CA$15.8/t processed (p.63)"
+   },
+   {
+    "item": "Spodumene cash operating cost at site",
+    "value": 439.0,
+    "unit": "CA$/t concentrate",
+    "page": 17,
+    "note": "US$320.4/t; before the tantalum credit"
+   },
+   {
+    "item": "Tantalum credit",
+    "value": -147.8,
+    "unit": "CA$/t concentrate",
+    "page": 17,
+    "note": "US$-107.9/t; total tantalum revenue divided by dry tonnes of spodumene concentrate"
+   },
+   {
+    "item": "Net cash operating cost at site",
+    "value": 291.2,
+    "unit": "CA$/t concentrate",
+    "page": 17,
+    "note": "US$212.5/t"
+   },
+   {
+    "item": "Transportation (truck to Matagami, rail to a Québec port)",
+    "value": 302.3,
+    "unit": "CA$/t concentrate",
+    "page": 17,
+    "note": "US$220.7/t"
+   },
+   {
+    "item": "Total cash operating cost (FOB Québec ports)",
+    "value": 593.5,
+    "unit": "CA$/t concentrate",
+    "page": 17,
+    "note": "US$433.2/t; net of tantalum credit; excludes royalties"
+   },
+   {
+    "item": "Sustaining capital",
+    "value": 63.6,
+    "unit": "CA$/t concentrate",
+    "page": 17,
+    "note": "US$46.4/t"
+   },
+   {
+    "item": "AISC (FOB Québec ports)",
+    "value": 657.1,
+    "unit": "CA$/t concentrate",
+    "page": 17,
+    "note": "US$479.6/t; net of tantalum credit; excludes royalties"
+   },
+   {
+    "item": "LOM open-pit mining cost",
+    "value": 6.45,
+    "unit": "CA$/t mined",
+    "page": 17,
+    "note": "Excludes pre-production"
+   },
+   {
+    "item": "LOM underground mining cost",
+    "value": 62.52,
+    "unit": "CA$/t milled",
+    "page": 17,
+    "note": "Excludes pre-production"
+   },
+   {
+    "item": "LOM processing cost",
+    "value": 12.61,
+    "unit": "CA$/t milled",
+    "page": 17,
+    "note": "Includes paste backfill plant and tailings; excludes pre-production"
+   },
+   {
+    "item": "G&A cost",
+    "value": 15.81,
+    "unit": "CA$/t milled",
+    "page": 17
+   }
+  ],
+  "C1_or_FOB_cost": {
+   "value": 593.5,
+   "unit": "CA$/t SC5.5 concentrate (net of tantalum credit)",
+   "page": 17,
+   "note": "Total cash operating cost, FOB Québec ports: mining, processing, site administration and transport to port, less the CA$147.8/t tantalum credit; US$433.2/t; LOM average; excludes royalties (Table 8; pp.1, 7). Before the tantalum credit it would be CA$741.3/t (439.0 + 302.3, derived), slightly above the 2025 FS figure of CA$729.1/t. Table 3 reports a 19% fall from the 2025 FS (p.7)."
+  },
+  "AISC": {
+   "value": 657.1,
+   "unit": "CA$/t SC5.5 concentrate (net of tantalum credit)",
+   "page": 17,
+   "note": "US$479.6/t, FOB Québec ports; includes CA$63.6/t of sustaining capital and excludes royalties (Table 8). About CA$804.9/t before the tantalum credit (derived). Table 3 reports an 18% fall from CA$799.8/t in the 2025 FS (p.7)."
+  }
+ },
+ "fiscal": {
+  "royalties": [
+   {
+    "name": "Royalty applied in the economic model",
+    "rate": {
+     "value": 2,
+     "unit": "%",
+     "page": 63,
+     "note": "'A 2% royalty is applicable in the economic model' (p.63); 2.00% in the open-pit and underground cut-off tables (pp.53-54). Reported net revenue is 'net of royalties & transportation losses' (p.65); operating costs and AISC exclude royalties."
+    },
+    "base": "Not specified. The claim-level NSR holders listed in the 2025 FS are not restated, because JORC Sections 1-3 refer to the 3 Nov 2026 release (p.52)."
+   }
+  ],
+  "income_tax": null,
+  "state_participation": null,
+  "other_levies": "No rate is stated for the Québec mining tax or for income tax; only pre- and after-tax results are given (after-tax NPV8 CA$5,100M against pre-tax CA$8,461M, about 40% lower, derived) (p.5). A 'reputable tax advisory firm' supplied the tax regime and inputs, and the economics QP did not independently validate the tax calculations (pp.44-45). Incentives: the CTM-ITC (refundable, up to 30%) on up to CA$880M of eligible costs, about CA$214M (Table 7: CA$135.7M Phase 1, CA$77.1M Phase 2, CA$1.6M sustaining, CA$214.4M in total); Québec's tax holiday for large investment projects, about CA$197M of income-tax savings; and the TCRR, about CA$45M (all in Phase 1); CA$456M in total (p.36; Table 7, p.16). New in this study: the federal Productivity Mega Deduction proposed in September 2026 (immediate deduction of eligible capital and Canadian development expenses) is included and adds about CA$44M to after-tax NPV; a harmonized Québec measure (about CA$32M of NPV) is excluded because Québec has not confirmed it (p.36). All credits depend on eligibility, approval and enactment, with no guarantee (pp.37, 42). GST and PST are excluded from the capex estimate (p.63)."
+ },
+ "capital": {
+  "initial_capex": {
+   "value": 1391.0,
+   "unit": "CA$M (Phase 1 initial capital, gross: underground mine + 2.2 Mtpa DMS1)",
+   "page": 16,
+   "note": "Table 7: includes CA$133.0M contingency and CA$74.4M of pre-production, start-up and commissioning costs, before the CA$130.6M pre-production revenue credit (spodumene and tantalite sold during ramp-up) and the tax credits. Net of the pre-production credit it is CA$1,260.4M, the company's comparison basis and 1% above CA$1,247.7M for the 2025 FS Phase 1 open pit; net of the pre-production credit, CTM-ITC and TCRR it is CA$1,079.8M (pp.1, 7, 15-16). Includes early engineering and procurement in 2027 before FID (p.15). Phase 2 expansion is CA$672.4M (CA$595.4M net of tax credits). Total development capital is CA$2,063.4M gross, CA$1,932.8M net of the pre-production credit and CA$1,675.1M net of all credits. The study says capex is similar to the 2025 FS despite the added tantalum scope, with optimisation offsetting 'broader inflationary pressures' (p.1)."
+  },
+  "breakdown": [
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - 100 Infrastructure",
+    "value": 162.7,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - 200 Power and Electrical",
+    "value": 173.0,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - 300 Water Management",
+    "value": 60.3,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - 400 Surface Operations",
+    "value": 45.6,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - 500 Mining",
+    "value": 232.8,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - 600 Process Plant",
+    "value": 204.9,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - 700 Construction Indirects",
+    "value": 201.9,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - 800 General Services / Owner's Cost",
+    "value": 102.2,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - 900 Pre-production, Start-up, Commissioning",
+    "value": 74.4,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - Total excl. contingency",
+    "value": 1258.0,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - 990 Contingency",
+    "value": 133.0,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - Total capital expenditures",
+    "value": 1391.0,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - Less pre-production revenue credit (net of TC/RC and royalties)",
+    "value": -130.6,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - Total net of pre-production credit",
+    "value": 1260.4,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - Less CTM-ITC tax credit",
+    "value": -135.7,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - Less TCRR tax credit",
+    "value": -45.0,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 1 initial (underground + 2.2 Mtpa DMS1) - Total net of pre-production credit, CTM-ITC and TCRR",
+    "value": 1079.8,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - 100 Infrastructure",
+    "value": 57.4,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - 200 Power and Electrical",
+    "value": 29.1,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - 300 Water Management",
+    "value": 86.7,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - 400 Surface Operations",
+    "value": 20.8,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - 500 Mining",
+    "value": 110.7,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - 600 Process Plant",
+    "value": 158.4,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - 700 Construction Indirects",
+    "value": 108.1,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - 800 General Services / Owner's Cost",
+    "value": 32.1,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - 900 Pre-production, Start-up, Commissioning",
+    "value": 0.9,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - Total excl. contingency",
+    "value": 604.2,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - 990 Contingency",
+    "value": 68.2,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - Total capital expenditures",
+    "value": 672.4,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - Total net of pre-production credit",
+    "value": 672.4,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - Less CTM-ITC tax credit",
+    "value": -77.1,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Phase 2 expansion (open pit + 2.9 Mtpa DMS2) - Total net of pre-production credit, CTM-ITC and TCRR",
+    "value": 595.4,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - 100 Infrastructure",
+    "value": 220.1,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - 200 Power and Electrical",
+    "value": 202.1,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - 300 Water Management",
+    "value": 147.0,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - 400 Surface Operations",
+    "value": 66.5,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - 500 Mining",
+    "value": 343.5,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - 600 Process Plant",
+    "value": 363.3,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - 700 Construction Indirects",
+    "value": 310.0,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - 800 General Services / Owner's Cost",
+    "value": 134.3,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - 900 Pre-production, Start-up, Commissioning",
+    "value": 75.3,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - Total excl. contingency",
+    "value": 1862.2,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - 990 Contingency",
+    "value": 201.2,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - Total capital expenditures",
+    "value": 2063.4,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - Less pre-production revenue credit (net of TC/RC and royalties)",
+    "value": -130.6,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - Total net of pre-production credit",
+    "value": 1932.8,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - Less CTM-ITC tax credit",
+    "value": -212.7,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - Less TCRR tax credit",
+    "value": -45.0,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total development capital - Total net of pre-production credit, CTM-ITC and TCRR",
+    "value": 1675.1,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "LOM sustaining capital - 100 Infrastructure",
+    "value": 0.2,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "LOM sustaining capital - 300 Water Management",
+    "value": 38.4,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "LOM sustaining capital - 400 Surface Operations",
+    "value": 6.4,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "LOM sustaining capital - 500 Mining",
+    "value": 780.5,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "LOM sustaining capital - 800 General Services / Owner's Cost",
+    "value": 23.5,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "LOM sustaining capital - Total excl. contingency",
+    "value": 849.1,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "LOM sustaining capital - Total capital expenditures",
+    "value": 849.1,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "LOM sustaining capital - Total net of pre-production credit",
+    "value": 849.1,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "LOM sustaining capital - Less CTM-ITC tax credit",
+    "value": -1.6,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "LOM sustaining capital - Total net of pre-production credit, CTM-ITC and TCRR",
+    "value": 847.4,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - Total excl. contingency",
+    "value": 2711.3,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - 990 Contingency",
+    "value": 201.2,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - Total capital expenditures",
+    "value": 2912.5,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - Less pre-production revenue credit (net of TC/RC and royalties)",
+    "value": -130.6,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - Total net of pre-production credit",
+    "value": 2781.9,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - Less CTM-ITC tax credit",
+    "value": -214.4,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - Less TCRR tax credit",
+    "value": -45.0,
+    "unit": "CA$M",
+    "page": 16
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - Total net of pre-production credit, CTM-ITC and TCRR",
+    "value": 2522.6,
+    "unit": "CA$M",
+    "page": 16
+   }
+  ],
+  "contingency": {
+   "value": 201.2,
+   "unit": "CA$M (total development capital)",
+   "page": 16,
+   "note": "An '11% Project contingency' applied to direct and indirect costs (pp.5, 63). Phase 1 CA$133.0M (10.6% of CA$1,258.0M, derived) and Phase 2 CA$68.2M (11.3%, derived); the total is 10.8% of CA$1,862.2M (derived). No contingency is carried on the CA$849.1M sustaining capital. Excluded from the estimate: a risk provision, delays from permitting or financing, labour or community stoppages, and skilled-labour shortages or wage increases (pp.62-63). 2025 FS: CA$194.4M; PEA: CA$242.9M."
+  },
+  "sustaining_capex": {
+   "value": 849.1,
+   "unit": "CA$M (LOM)",
+   "page": 16,
+   "note": "Table 7: 500 Mining CA$780.5M (mostly underground development and fleet), water management CA$38.4M, owner's costs CA$23.5M, surface operations CA$6.4M and infrastructure CA$0.2M; CA$847.4M net of CTM-ITC. Equal to CA$63.6/t (US$46.4/t) in AISC (Table 8). Down 9% from CA$936.4M in the 2025 FS (Table 3, p.7)."
+  },
+  "closure_cost": null,
+  "construction_period_months": {
+   "value": 27.6,
+   "unit": "months (Phase 1 underground construction and ramp-up, from breaking ground)",
+   "page": 6,
+   "note": "Table 2 gives 2.3 years (converted to months here); no figure including detailed engineering is given. Phase 2 construction starts in Year 3 with commissioning in Year 4 (pp.15, 23). DMS commissioning is targeted for late 2029 and commercial production for the end of Q1 2030 (p.37); FID is targeted for late 2027, subject to approvals and funding (pp.3, 8, 37). Underground development starts in Year -2 (Fig 9, p.25). 2025 FS: 2.5 years from breaking ground."
+  },
+  "ramp_up": "Phase 1: DMS1 (2.2 Mtpa) is fed with underground Nova Zone ore plus the Year-1 Starter Pit; concentrate is ~350 kt in Year 1, ~485 kt in Year 2 and ~560 kt in Year 3 (Fig 5, p.23, read from the chart; 'up to ~560,000 tpa ... in the first 3 years', p.2). Phase 2: DMS2 (2.9 Mtpa) is built from Year 3 and commissioned in Year 4 as the main pit restarts, giving ~775-820 kt a year in Years 4-10 (pp.15, 23). Underground ore: ~1.0 Mt in Year 1, ~2.1-2.3 Mt a year in Years 2-3 including development ore, ~2.0-2.1 Mt a year afterwards, ending in Year 18 (Fig 9, p.25). The CA$130.6M pre-production credit comes from ramp-up sales (Table 7). The study presents taking seasonally sensitive work off the Phase 1 critical path as de-risking (pp.2, 38)."
+ },
+ "economics": {
+  "price_deck": [
+   {
+    "period": "LOM flat long-term spodumene price (base case)",
+    "price": {
+     "value": 1788,
+     "unit": "US$/t SC5.5",
+     "page": 5,
+     "note": "CA$2,450/t (Table 1); FOB Québec ports. Benchmark's Q3 2026 base-case annual SC6 forecasts (real, FOB Australia) averaged over 2030-2036 give about US$1,950/t SC6, less a US$162/t grade adjustment; flat thereafter (pp.18, 64). 46% above the 2025 FS (Table 3, p.7)."
+    }
+   },
+   {
+    "period": "Spodumene price, SC6 equivalent",
+    "price": {
+     "value": 1950,
+     "unit": "US$/t SC6",
+     "page": 64,
+     "note": "Benchmark Q3 2026 base case, 2030-2036 average, before customer-specific adjustments (pp.18, 64)."
+    }
+   },
+   {
+    "period": "LOM flat long-term tantalum price (base case)",
+    "price": {
+     "value": 120,
+     "unit": "US$/lb contained Ta2O5",
+     "page": 5,
+     "note": "CA$164/lb (Table 1); 20% Ta2O5 concentrate; based mainly on OnG's October 2026 study. The midpoints of OnG's low-high range average about US$131/lb for 2026-2036 and US$105/lb for 2030-2036 (nominal). The assumption is about 50% below current spot (p.19)."
+    }
+   },
+   {
+    "period": "Broker consensus reference (alternative case)",
+    "price": {
+     "value": 1368,
+     "unit": "US$/t SC5.5",
+     "page": 18,
+     "note": "US$1,492/t SC6 (p.18). At about US$1,400/t SC5.5, after-tax NPV8 is about CA$3.29B (US$2.40B) (p.1); Fig 4 shows CA$3,289M at US$1,400 (p.21)."
+    }
+   },
+   {
+    "period": "Spot reference (not used in the model)",
+    "price": {
+     "value": 1305,
+     "unit": "US$/t SC6",
+     "page": 20,
+     "note": "FOB Australia, 26 Oct 2026, equal to US$1,196/t SC5.5 (p.20). Ta2O5 spot was US$240.50/lb (30% Ta2O5 basis, Shanghai Metal Markets, 6 Nov 2026) (p.19)."
+    }
+   },
+   {
+    "period": "Mineral Reserve estimation price",
+    "price": {
+     "value": 1221,
+     "unit": "US$/t SC5.5",
+     "page": 14,
+     "note": "At 1.35 CAD/USD; tantalum given no value in the cut-offs (pp.14, 53-54)."
+    }
+   }
+  ],
+  "discount_rate": {
+   "value": 8,
+   "unit": "%",
+   "page": 65,
+   "note": "Real, applied to pre- and after-tax cash flows (p.65). NPV0 is also reported (Table 1, p.5)."
+  },
+  "npv": [
+   {
+    "label": "pre-tax",
+    "value": 8461,
+    "unit": "CA$M",
+    "page": 5,
+    "note": "NPV8%; US$6,176M"
+   },
+   {
+    "label": "post-tax",
+    "value": 5100,
+    "unit": "CA$M",
+    "page": 5,
+    "note": "NPV8%; US$3,723M"
+   },
+   {
+    "label": "pre-tax",
+    "value": 6176,
+    "unit": "US$M",
+    "page": 5,
+    "note": "NPV8% at 1.37 CA$/US$"
+   },
+   {
+    "label": "post-tax",
+    "value": 3723,
+    "unit": "US$M",
+    "page": 5,
+    "note": "NPV8% at 1.37 CA$/US$"
+   },
+   {
+    "label": "pre-tax",
+    "value": 20793,
+    "unit": "CA$M",
+    "page": 5,
+    "note": "NPV0% (undiscounted); US$15,178M"
+   },
+   {
+    "label": "post-tax",
+    "value": 12538,
+    "unit": "CA$M",
+    "page": 5,
+    "note": "NPV0% (undiscounted); US$9,152M"
+   },
+   {
+    "label": "post-tax, at ~US$1,400/t SC5.5 (near broker consensus)",
+    "value": 3290,
+    "unit": "CA$M",
+    "page": 1,
+    "note": "NPV8%; 'CA$3.29B (US$2.40B)'; CA$3,289M in Fig 4 (p.21)"
+   },
+   {
+    "label": "post-tax, like-for-like at 2025-FS lithium price (US$1,221/t) and FX (1.34)",
+    "value": 2300,
+    "unit": "CA$M",
+    "page": 7,
+    "note": "NPV8%; 'CA$2.3 billion', CA$0.7B above the 2025 FS: CA$180M from mine-plan changes and CA$519M from tantalum"
+   }
+  ],
+  "irr": [
+   {
+    "label": "pre-tax",
+    "value": 47.2,
+    "unit": "%",
+    "page": 5
+   },
+   {
+    "label": "post-tax",
+    "value": 40.4,
+    "unit": "%",
+    "page": 5
+   },
+   {
+    "label": "post-tax, like-for-like at 2025-FS lithium price and FX",
+    "value": 24.6,
+    "unit": "%",
+    "page": 7
+   }
+  ],
+  "payback_years": {
+   "value": 2.7,
+   "unit": "years (after-tax)",
+   "page": 5,
+   "note": "Pre-tax 2.6 years (Table 1). The start point is not stated. 2025 FS: 4.7 years; PEA: 3.6 years."
+  },
+  "lom_revenue": {
+   "value": 31877,
+   "unit": "CA$M (net revenue from spodumene concentrate, LOM)",
+   "page": 65,
+   "note": "'The total net revenue (net of royalties & transportation losses) derived from the sale of spodumene concentrate at 5.5% Li2O was estimated at CA$31,877 million', including the US$162/t grade adjustment (p.65). Tantalum revenue is treated as a cost credit and excluded here (about CA$1.98B, i.e. CA$147.8/t x 13.4 Mt, derived). Not on the same basis as the 2025 FS figure of CA$18,371M."
+  },
+  "annual_ebitda": null,
+  "sensitivities": "Change in after-tax NPV8 in CA$M for -/+20% (Fig 3, p.20; downside / upside against the base of 5,100): DMS feed Li2O grade -1,793 / +1,841; CAD/USD -1,772 / +1,756; spodumene price -1,670 / +1,657; process recovery -1,472 / +1,465; capex -454 / +454; opex -305 / +304. Each US$100/t SC5.5 moves after-tax NPV8 by about CA$465M (p.20). Post-tax NPV8 in CA$M against SC5.5 price in US$/t real (Fig 4, p.21): 900: 821; 1,000: 1,342; 1,100: 1,843; 1,200: 2,333; 1,300: 2,815; 1,400: 3,289; 1,500: 3,760; 1,600: 4,228; 1,700: 4,693; 1,788 (base): 5,100; 1,800: 5,158; 1,900: 5,623; 2,000: 6,086; 2,100: 6,549; 2,200: 7,010; 2,300: 7,471; 2,400: 7,932; 2,500: 8,392; 2,600: 8,851; 2,700: 9,310; 2,800: 9,770. At the 2025-FS price (US$1,221) and FX (1.34), after-tax NPV8 is about CA$2.3B and IRR 24.6% (p.7). No tantalum-price sensitivity is shown."
+ },
+ "risks_noted": [
+  "Price: the base case of US$1,788/t SC5.5 is about 31% above broker consensus (US$1,368/t) and about 50% above spot (US$1,196/t SC5.5, 26 Oct 2026); post-tax NPV8 falls to about CA$3.29B at US$1,400/t and CA$821M at US$900/t (pp.1, 18, 20-21). About CA$2.8B of the CA$3.5B NPV gain over the 2025 FS comes from price and exchange rate (derived from p.7).",
+  "Tantalum: a small and opaque market, with a risk of not securing offtake on the assumed terms; OnG's forecast includes Shaakichiuwaanaan but leaves out other emerging projects, and shows surpluses in 2028-2034 (pp.19, 42, 64-65). The credit cuts cash cost by CA$147.8/t and adds CA$519M of NPV at 2025-FS prices (pp.7, 17).",
+  "Logistics: transport cost rose from CA$217.2/t to CA$302.3/t; the port and routing are not final and contracts are still to be negotiated; a track load limit applies between Matagami and Lebel-sur-Quévillon; trucks need special permits from MTMD, MRNF and SDBJ; the study flags the availability and capacity of road, rail and port infrastructure (pp.33-34, 42).",
+  "Capex: total development capital is CA$2,063M gross (CA$1,978M in the 2025 FS) with an 11% contingency; optimisation offset 'broader inflationary pressures' (p.1). The same exclusions apply: risk provision, schedule delays, and labour shortages or wage increases (pp.62-63).",
+  "Tax support (CTM-ITC ~CA$214M, TCRR ~CA$45M, Québec tax holiday ~CA$197M) depends on eligibility and approval; the proposed federal Productivity Mega Deduction (+CA$44M NPV) may not be enacted (pp.36-37, 42).",
+  "Permitting: the ESIA was filed in March 2026 with a decision expected 18-24 months later; the Updated FS changes still have to be introduced into the ESIA process; provincial information requests are expected in December 2026 (pp.34-35, 37, 66).",
+  "Power: the request for a Hydro-Québec power block was filed in April 2026 and approval is pending (p.33).",
+  "Social licence: there is no Impact Benefit Agreement yet, only a non-binding LOI with the Cree Nation of Chisasibi (June 2026) (p.65).",
+  "Funding: only non-binding letters of interest so far (Société Générale, EDC, KfW IPEX-Bank and another Canadian government-backed institution); FID late 2027 depends on approvals and funding (pp.8, 21).",
+  "Execution: the underground-first plan depends on early access to the high-grade Nova Zone; the bulk sample (a 2,300 m ramp) meant to validate geological, geotechnical and hydrogeological assumptions is awaiting approval (pp.37, 43).",
+  "Modifying factors are tougher than in 2025: open-pit dilution 7.6% with 4.1% ore loss, and underground dilution 16.7% (p.15).",
+  "The PowerCo offtake is conditional on commissioning by 30 Jun 2031 (pp.19, 66).",
+  "Natural hazards: forest fires and bad weather affecting the access road and flights (pp.43, 65-66).",
+  "Closure: a closure plan has been prepared (GCM, 2026); closure and reclamation are said to be included, but no cost is disclosed (pp.35, 58)."
+ ],
+ "pages_scanned": "All 67 pages read. Body pp.1-49: highlights, Tables 1-8, resource and reserve, capex and opex, pricing, sensitivities, funding, mining, processing, power, logistics, permitting, tax incentives, non-IFRS definitions and QP statements. ASX Listing Rule 5.9.1 summary pp.50-51. JORC Table 1 Section 4 pp.52-67; Sections 1-3 are not included and refer to the 3 Nov 2026 release. Key tables: Table 1 economics (p.5), Table 2 production (p.6), Table 3 comparison with the 2025 FS (p.7), Table 4 MRE (p.10), Table 5 caesium (p.11), Table 6 reserve (p.14), Table 7 capex (p.16), Table 8 cash costs (p.17), cut-off parameters (pp.53-54), cost assumptions (pp.62-63), revenue and economics (pp.64-65). Checked visually on the PDF: Tables 4 and 7 (pp.10, 16), Figs 3-4 sensitivities (pp.20-21) and Figs 5-10 schedules (pp.23-25)."
+}

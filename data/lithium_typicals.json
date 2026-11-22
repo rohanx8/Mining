@@ -665,6 +665,148 @@
      "working": ""
     }
    ]
+  },
+  "dilution_pct": {
+   "label": "Mining dilution",
+   "unit": "%",
+   "median": 5.75,
+   "low": 5,
+   "high": 16,
+   "n": 4,
+   "note": "",
+   "points": [
+    {
+     "study": "S02",
+     "name": "Ewoyaa DFS 2023 (Ghana)",
+     "value": 5,
+     "page": 21,
+     "working": ""
+    },
+    {
+     "study": "S05",
+     "name": "Shaakichiuwaanaan PEA 2024 (Quebec)",
+     "value": 16,
+     "page": 41,
+     "working": ""
+    },
+    {
+     "study": "S11",
+     "name": "Manna DFS 2025 (WA)",
+     "value": 5,
+     "page": 60,
+     "working": "open pit"
+    },
+    {
+     "study": "S06b",
+     "name": "Finniss DFS 2021 (NT)",
+     "value": 6.5,
+     "page": 80,
+     "working": "Grants open pit"
+    }
+   ]
+  },
+  "plan_share_of_resource": {
+   "label": "Share of resource tonnes in the mine plan",
+   "unit": "%",
+   "median": 48.243,
+   "low": 35.876,
+   "high": 77.337,
+   "n": 4,
+   "note": "PLS Pilgangoora: reserve 249 Mt is 62% of its 403 Mt resource (Sep 2026).",
+   "points": [
+    {
+     "study": "S02",
+     "name": "Ewoyaa DFS 2023 (Ghana)",
+     "value": 77.337,
+     "page": 18,
+     "working": "27.3 Mt processed ÷ 35.3 Mt resource"
+    },
+    {
+     "study": "S11",
+     "name": "Manna DFS 2025 (WA)",
+     "value": 45.93,
+     "page": 68,
+     "working": "23.7 Mt mill feed ÷ 51.6 Mt resource"
+    },
+    {
+     "study": "S06b",
+     "name": "Finniss DFS 2021 (NT)",
+     "value": 50.557,
+     "page": 23,
+     "working": "7.44 Mt plan ÷ 14.72 Mt resource"
+    },
+    {
+     "study": "S06",
+     "name": "Finniss restart study 2025 (NT)",
+     "value": 35.876,
+     "page": 40,
+     "working": "17.3 Mt plan ÷ 48.2 Mt resource"
+    }
+   ]
+  },
+  "closure_usd_m": {
+   "label": "Closure cost",
+   "unit": "US$M",
+   "median": 16.7,
+   "low": 5.6,
+   "high": 45.8,
+   "n": 5,
+   "note": "",
+   "points": [
+    {
+     "study": "S02",
+     "name": "Ewoyaa DFS 2023 (Ghana)",
+     "value": 45.8,
+     "page": 42,
+     "working": ""
+    },
+    {
+     "study": "S06b",
+     "name": "Finniss DFS 2021 (NT)",
+     "value": 5.6,
+     "page": 36,
+     "working": "A$8.0M × 0.70"
+    },
+    {
+     "study": "S07",
+     "name": "Rose FS 2023 (Quebec)",
+     "value": 16.7,
+     "page": 12,
+     "working": ""
+    },
+    {
+     "study": "S11",
+     "name": "Manna DFS 2025 (WA)",
+     "value": 6.7,
+     "page": 81,
+     "working": "A$10M × 0.67"
+    },
+    {
+     "study": "S11n",
+     "name": "Manna-Nova integration study 2026 (WA)",
+     "value": 36.57,
+     "page": 4,
+     "working": "A$53M × 0.69"
+    }
+   ]
+  },
+  "existing_plant_capex_ratio": {
+   "label": "Capex using an existing plant, as a share of building your own",
+   "unit": "%",
+   "median": 41.016,
+   "low": 41.016,
+   "high": 41.016,
+   "n": 1,
+   "note": "One case only; the integration study also buys the plant, camp, power and tailings at a price it does not disclose.",
+   "points": [
+    {
+     "study": "S11n",
+     "name": "Manna-Nova integration study 2026 (WA)",
+     "value": 41.016,
+     "page": 4,
+     "working": "Manna-Nova integration A$180.1M ÷ Manna standalone DFS A$439.1M"
+    }
+   ]
   }
  },
  "fiscal_presets": {

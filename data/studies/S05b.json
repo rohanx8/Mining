@@ -1,0 +1,1092 @@
+{
+ "id": "S05b",
+ "project": "Shaakichiuwaanaan Project, CV5 Spodumene Pegmatite (lithium-only Feasibility Study)",
+ "company": "PMET Resources Inc. (TSX: PMET, ASX: PMT, OTCQX: PMETF, FSE: R9GA). Same tickers as Patriot Battery Metals Inc. in the 2024 PEA (S05); the document does not describe the rename.",
+ "country": "Canada",
+ "location": "Eeyou Istchee James Bay region, Québec. ~220 km east of Radisson and 240 km north-northeast of Nemaska; CV5 lies ~13 km south of KM-270 of the all-season Trans-Taiga Road (13.5 km on p.41), 14 km south of the powerline and ~50 km southwest of the LG-4 hydroelectric complex. Category III land under the JBNQA (Cree Nation of Chisasibi and Cree Nation of Mistissini) (pp.14-15, 41).",
+ "stage": "Feasibility Study (lithium-only, CV5 Pegmatite). Declares the maiden Probable Mineral Reserve and defines the scope (up to 5.1 Mtpa) for the ESIA filings (pp.1, 3-4, 55).",
+ "study_date": "2025-10-20 (released 20 Oct 2025 in Montreal and 21 Oct 2025 in Sydney, p.1). Mineral Reserve effective 11 Sep 2025 (p.14); MRE effective 20 Jun 2025 (p.11).",
+ "currency": "CA$ (the document's '$' and 'CA$' mean Canadian dollars; US$ figures are converted at 1.34 CA$/US$) (p.4)",
+ "fx_assumption": {
+  "value": 1.34,
+  "unit": "CA$/US$",
+  "page": 4,
+  "note": "Held constant over the LOM ('1.34 CA$/US$', p.4; 'CAD 1.34/USD', pp.64-65). About 0.746 US$/CA$ (derived), against 0.76 US$/CA$ (about 1.316 CA$/US$) in the PEA. Mineral Reserve cut-offs used 1.32 CAD/USD (pp.14, 55-56); MRE constraints used 0.70 USD/CAD (p.11). Exchange rate is the second-largest sensitivity: -/+20% gives a post-tax NPV8 of CA$393M to CA$2,689M (Fig 1, p.10)."
+ },
+ "real_or_nominal": "Real: 'The economic analysis is carried out in real terms (i.e., without inflation factors) in 2025 Canadian dollars' (p.65). Operating costs are 'adjusted for inflation' to the estimate base (p.8).",
+ "ownership": [
+  {
+   "holder": "PMET Resources Inc., through its wholly owned subsidiary Lithium Innova Inc. (registered holder of all 463 CDC claims)",
+   "share": {
+    "value": 100,
+    "unit": "%",
+    "page": 41,
+    "note": "'The Company holds 100% interest in the Property subject to various royalty obligations' (pp.41-42); 'wholly owned' (p.3) and '100%-owned' (p.28). Volkswagen's financing subsidiary invested ~C$69M at a 65% premium to PMET's share price (an investment in the company; the property stays 100% owned) and has a right to negotiate to be a cornerstone investor at FID in return for additional offtake (p.10)."
+   }
+  }
+ ],
+ "deposit": {
+  "resource": [
+   {
+    "scope": "Consolidated MRE, CV5 + CV13 (effective 20 Jun 2025)",
+    "category": "Indicated",
+    "tonnes_Mt": {
+     "value": 108.0,
+     "unit": "Mt",
+     "page": 11,
+     "note": "Also 0.11% Cs2O, 166 ppm Ta2O5, 66 ppm Ga; 3.75 Mt contained LCE (Table 5). Cut-offs: 0.40% Li2O open pit (CV5 and CV13), 0.60% underground CV5, 0.70% underground CV13; constraint price US$1,500/t SC6 FOB Bécancour at 0.70 USD/CAD. No Measured. Inclusive of reserves (pp.11-12)."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.4,
+     "unit": "% Li2O",
+     "page": 11
+    }
+   },
+   {
+    "scope": "Consolidated MRE, CV5 + CV13 (effective 20 Jun 2025)",
+    "category": "Inferred",
+    "tonnes_Mt": {
+     "value": 33.4,
+     "unit": "Mt",
+     "page": 11,
+     "note": "Also 0.21% Cs2O, 155 ppm Ta2O5, 65 ppm Ga; 1.09 Mt contained LCE (Table 5)."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.33,
+     "unit": "% Li2O",
+     "page": 11
+    }
+   },
+   {
+    "scope": "CV5 component only (basis of the FS)",
+    "category": "Indicated",
+    "tonnes_Mt": {
+     "value": 101.8,
+     "unit": "Mt",
+     "page": 12,
+     "note": "'The FS ... has been completed for lithium only on the CV5 Pegmatite's Mineral Resource component' (p.12)."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.38,
+     "unit": "% Li2O",
+     "page": 12
+    }
+   },
+   {
+    "scope": "CV5 component only (basis of the FS)",
+    "category": "Inferred",
+    "tonnes_Mt": {
+     "value": 13.9,
+     "unit": "Mt",
+     "page": 12,
+     "note": "Not used in the reserve or mine plan."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.21,
+     "unit": "% Li2O",
+     "page": 12
+    }
+   }
+  ],
+  "reserve": [
+   {
+    "scope": "CV5 open pit",
+    "category": "Probable",
+    "tonnes_Mt": {
+     "value": 49.2,
+     "unit": "Mt",
+     "page": 14,
+     "note": "0.55 Mt contained Li2O and 1.36 Mt LCE (1,364.7 kt, p.54). Cut-off 0.40% Li2O; marginal material above 0.37% Li2O included. No Proven."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.12,
+     "unit": "% Li2O",
+     "page": 14
+    }
+   },
+   {
+    "scope": "CV5 underground",
+    "category": "Probable",
+    "tonnes_Mt": {
+     "value": 35.1,
+     "unit": "Mt",
+     "page": 14,
+     "note": "0.51 Mt contained Li2O and 1.26 Mt LCE. Stoping cut-off 0.70% Li2O; development tonnes above 0.37% included."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.45,
+     "unit": "% Li2O",
+     "page": 14
+    }
+   },
+   {
+    "scope": "CV5 total (maiden reserve)",
+    "category": "Probable",
+    "tonnes_Mt": {
+     "value": 84.3,
+     "unit": "Mt",
+     "page": 14,
+     "note": "1.06 Mt contained Li2O and 2.62 Mt LCE. Effective 11 Sep 2025. Based on Indicated resources only; estimated at US$1,303/t SC5.5 and 1.32 CAD/USD (Table 6 notes)."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.26,
+     "unit": "% Li2O",
+     "page": 14
+    }
+   }
+  ],
+  "inferred_share_of_mine_plan": {
+   "value": 0,
+   "unit": "% of LOM plant feed",
+   "page": 13,
+   "note": "Reserves and the mine plan use Indicated material only: 'Any Inferred Resources that fall within the mine design envelope have been treated as waste and assigned a grade of 0% Li2O' (p.13; also pp.14, 57-58, 66). Down from 25% in the 2024 PEA."
+  },
+  "mining_method": "Hybrid, open pit first. Phase 1 is a conventional open pit: a two-stage single pit mined as six sub-pits with diesel 15 m3 hydraulic shovels and 140 t trucks, owner-operated except for contractor overburden removal and explosives. Pre-production mining takes ~24 months (10.5 Mt waste and 1.5 Mt ore); peak 23.0 Mtpa total material; 49.2 Mt of ore at 1.12% Li2O (p.17). Phase 2 is underground long-hole open stoping (transverse and longitudinal) with cemented paste backfill from a single decline near the ROM pad: 5,475 t/d of ore on average (5,200 t/d stopes plus 275 t/d development), 96.7 km lateral and 1.4 km vertical development, 18 t BEV loaders and 55 t BEV trucks, 35.1 Mt at 1.45% Li2O; UG life 21 years including construction, 16 at full production; development in years 1-2 by contractor (pp.8, 18). Lake 001 needs partial dewatering for the pit (p.15); crown-pillar stopes are not converted to reserves (p.13).",
+  "strip_ratio": {
+   "value": 3.4,
+   "unit": "t waste : t ore (open pit, LOM)",
+   "page": 6,
+   "note": "Table 2: 167.5 Mt waste including pre-strip against 49.2 Mt ore, 216.7 Mt total open-pit material (pp.6, 17). The reserve notes give 3.40 (p.14). PEA: 3.7."
+  },
+  "ore_type_notes": "CV5 is a Li-Cs-Ta (LCT) pegmatite in the Guyer Greenstone Belt intruding amphibolite, metasediment and minor ultramafic rocks. Spodumene is the lithium mineral (decimetre- to metre-scale crystals), with no significant petalite, lepidolite or lithium phosphates; tantalite and pollucite are also present (pp.12, 43). The principal dyke is traced at least 4.6 km, ranges from <10 m to >125 m true width, is thickest above ~225 m depth and dips ~80° north; mineralization is modelled to 650 m depth (pp.12, 15). The high-grade Nova Zone is traced at least 1.1 km, with 2-25 m intersections above 5% Li2O inside a wider zone above 2% (p.12). A significant part of the orebody lies under Lake 001 (p.15). This FS credits lithium only. Bench tests made tantalite concentrates of 8.7% Ta2O5 at 45% and 6.6% at 49% global recovery from DMS tailings (p.45). The CV13 Rigel and Vega caesium zones hold 0.69 Mt at 4.40% Cs2O Indicated and 1.70 Mt at 2.40% Cs2O Inferred, outside this FS (p.28)."
+ },
+ "mining": {
+  "ore_mined_Mtpa": {
+   "value": 4.4,
+   "unit": "Mtpa (average process plant feed)",
+   "page": 6,
+   "note": "No annual ore-mining rate is tabulated; all reserve tonnes are mined and processed. Nominal plant feed is 5.1 Mtpa (Table 2). Underground averages 5,475 t/d of ore, about 2.0 Mtpa (derived) (p.18); open-pit peak total movement is 23.0 Mtpa (p.17). Fig 5 (p.16, read from the chart) shows about 4.9-5.1 Mt a year of feed from FY2033 to FY2046."
+  },
+  "total_ore_mined_Mt": {
+   "value": 84.3,
+   "unit": "Mt (diluted and recovered; Probable reserve)",
+   "page": 6,
+   "note": "Open pit 49.2 Mt at 1.12% plus underground 35.1 Mt at 1.45% (Table 2; Table 6, p.14). Total material mined: open pit 216.7 Mt, underground 40.3 Mt (including 5.2 Mt waste). Site storage: 155 Mt waste rock, 12 Mt overburden, 54 Mt tailings (p.19)."
+  },
+  "life_of_mine_years": {
+   "value": 19,
+   "unit": "years",
+   "page": 6,
+   "note": "Table 2; 'spanning ~20 years' (p.1). Processing runs FY2030 to FY2049, years ending 30 June (Figs 5-6, pp.16-17). Open pit 19 years including pre-production (p.17); underground 21 years including construction (p.18). PEA: 24 years."
+  },
+  "dilution_pct": {
+   "value": 2.0,
+   "unit": "% (open pit)",
+   "page": 14,
+   "note": "Open pit 2.0%, based on the smallest mining unit (p.14 note 7; p.57). Underground average external dilution 12.7%: 3.9% backfill plus 8.8% ELOS (p.14 note 8). No dilution on ore development (p.58)."
+  },
+  "mining_recovery_pct": {
+   "value": 97,
+   "unit": "% (open pit)",
+   "page": 14,
+   "note": "Open pit 97%; underground stopes 90%; development 100% (p.14 notes 7 and 9; pp.57-58). Minimum underground mining width 5 m."
+  },
+  "mining_cost": {
+   "value": 320.1,
+   "unit": "CA$/t concentrate (SC5.5)",
+   "page": 8,
+   "note": "LOM average, US$238.9/t (Table 4); CA$50.33/t processed (p.64). Cut-off inputs: open-pit ore and waste CA$6.81/t mined, overburden CA$5.00/t (p.55); underground mineralized material CA$68.66/t mined, all-in underground CA$103.87/t mined (p.56). Owner-operated except open-pit overburden and years 1-2 of underground development (p.8). PEA: CA$305/t."
+  }
+ },
+ "processing": {
+  "route": "DMS only, with no flotation or chemical reagents (p.1). ROM stockpiling, three-stage crushing, dense media separation, magnetic separation, dewatering, thickening, filtration, concentrate load-out and tailings handling, in two identical parallel trains (each 50% of capacity) housed in primary-crushing, secondary/tertiary-crushing and main process buildings; crushed ore stored under domes (pp.20-21). Phase 1 capex covers the first 2.5 Mtpa train plus early works on the second 2.5 Mtpa train (Table 3 note 600, p.7). Tailings are dry-stacked in stockpiles or used as paste backfill (pp.19, 61). Recovery curve: 75% x (1 - e^(-2 x Li2O feed %)) (p.21); the reserve and cut-off version uses -1.995 (pp.14, 59).",
+  "throughput_Mtpa": {
+   "value": 4.4,
+   "unit": "Mtpa (average plant feed)",
+   "page": 6,
+   "note": "Nominal 5.1 Mtpa (Table 2; 'up to 5.1 Mtpa', p.2), from two trains described as 2.5 Mtpa each (p.7 note 600). The cut-off calculation used 3.0 Mt/yr (p.55). PEA: 4.5 Mtpa average, 5.0 Mtpa design."
+  },
+  "head_grade_Li2O_pct": {
+   "value": 1.26,
+   "unit": "% Li2O (LOM average feed)",
+   "page": 6,
+   "note": "Open pit 1.12%, underground 1.45% (p.14). PEA: 1.31%."
+  },
+  "recovery_pct": {
+   "value": 68.9,
+   "unit": "% Li2O (LOM average)",
+   "page": 6,
+   "note": "Table 2; 'average Plant Recovery is at 68.9%' (p.59). Grade-dependent curve (p.21). Fig 6 (p.17) shows ~67-70% by year. PEA: 69.5%."
+  },
+  "concentrate_grade_Li2O_pct": {
+   "value": 5.5,
+   "unit": "% Li2O (SC5.5)",
+   "page": 6,
+   "note": "Target 5.5% Li2O and <2.0% Fe2O3 (p.59)."
+  },
+  "concentrate_output_ktpa": {
+   "value": 801.6,
+   "unit": "ktpa SC5.5 (nominal)",
+   "page": 6,
+   "note": "Nominal 801.6 ktpa; LOM average 693.8 ktpa; LOM total 13.3 Mt (Table 2). Phase 1 (open pit) gives ~400 ktpa and Phase 2 (underground) adds ~400 ktpa (pp.6-7). Fig 6 (p.17, read from the chart): ~75 kt FY2030, ~365 kt FY2031, ~425 kt FY2032, ~725 kt FY2033, about 800 kt FY2034-FY2047 (dips in FY2040 and FY2042), ~315 kt FY2048, ~210 kt FY2049. Daily output at nominal capacity is 2,191 t (p.23)."
+  },
+  "by_products": "None in the base case (lithium-only). A tantalum 'bolt-on' recovery circuit, caesium (pollucite) at CV13 and CV5, and flotation of DMS middlings and undersize are listed only as opportunities (pp.4, 24-25).",
+  "processing_cost": {
+   "value": 91.2,
+   "unit": "CA$/t concentrate",
+   "page": 8,
+   "note": "US$68.0/t (Table 4); CA$14.33/t processed (p.64). Cut-off inputs: processing CA$14.91/t milled, tailings CA$1.91/t, power and energy CA$1.41/t (p.55). PEA: CA$99/t."
+  }
+ },
+ "overheads": {
+  "site_GA": {
+   "value": 100.7,
+   "unit": "CA$/t concentrate",
+   "page": 8,
+   "note": "Site administration, US$75.1/t (Table 4); CA$15.83/t processed (p.64). Cut-off input CA$17.47/t milled (p.55). PEA: CA$106/t."
+  },
+  "power_source": "Hydro-Québec grid (hydroelectric). Supply from the 315 kV system at the Tilly substation near LG-4, through a new off-site 315/120 kV, 50 MVA substation ~2 km from the 735/315 kV Tilly substation and a new 54 km, 120 kV overhead line to site, routed along existing roads where feasible (pp.22-23). Access to power is subject to the Hydro-Québec and Québec Government application process (p.23). The PEA had a 69 kV line of ~55 km.",
+  "power_cost": {
+   "value": 1.41,
+   "unit": "CA$/t ore milled (cut-off input labelled 'Power and Energy')",
+   "page": 55,
+   "note": "No tariff (CA$/kWh) or MW demand is given. The 1.41 CA$/t figure appears in both the open-pit and underground cut-off tables (pp.55-56). The document says Québec electricity costs are 49% below the G7 average (p.61)."
+  },
+  "workforce_camp_fifo": "Remote camp-based operation with a permanent workers' camp for construction and operations (pp.22, 59); the cost estimate assumes personnel travel by chartered flights (pp.63-64). Roster: 7 days a week, 12 h a day, two shifts; labour at ACQ heavy-industry rates for remote or camp work, with the first 50 h a week at regular time and the remaining 34 h at double time (p.63). The existing exploration camp holds 88 people, with expansion to 150 planned (p.62). Headcount is not stated."
+ },
+ "logistics": {
+  "product_route": "Contracted road haulage ~844 km from the mine to the Matagami Transshipment Center: 290 km on the east-west Trans-Taiga Road and 554 km on the north-south Billy Diamond Highway. Trucks carry 75 t (four-axle tractor plus five-axle bi-train trailer, covered, side-discharge) and need special annual permits; about 30 trips a day from 2032 to 2048 (including a 5% margin), 24/7 year-round; fleet of 80 trucks (25% buffer); special conditions apply during the spring thaw. From Matagami, CN rail carries the concentrate 1,075 km to the maritime terminal at Grande-Anse (La Baie, Saguenay), Québec, for vessel loading: 93 t gondolas (52 ft, 31.4 t each including covers, maximum payload 98,430 kg); stated rail-corridor capacity 130 t; about 8,602 railcars a year (~172 a week over 50 weeks); 18-day round trip; 620 leased railcars (p.23).",
+  "mode": "Road (contracted bi-train trucks) to Matagami, then rail (CN) to the Grande-Anse port",
+  "distance_km": {
+   "value": 844,
+   "unit": "km by road, mine to Matagami Transshipment Center",
+   "page": 23,
+   "note": "290 km Trans-Taiga Road plus 554 km Billy Diamond Highway. Rail from Matagami to Grande-Anse is 1,075 km (p.23), so about 1,919 km in all (derived). PEA: ~834 km by road; rail distance not given."
+  },
+  "haulage_cost": {
+   "value": 217.2,
+   "unit": "CA$/t concentrate (dry), truck plus rail, mine to Grande-Anse",
+   "page": 8,
+   "note": "US$162.1/t, LOM average, 'inclusive of trucking to Matagami and train to Grande-Anse port' (p.8); CA$217.19/t dry (p.64). No road/rail split. Based on quotations from road and rail transporters (p.64). About 30% of the total cash cost (217.2/729.1, derived). Cut-off calculations used CA$226.22/t ('Transportation & Insurance', C$/wmt) (pp.55-56); the MRE used CA$226.74/t from the mine site to Bécancour (p.51). PEA: CA$226/t to Bécancour."
+  },
+  "port": "Grande-Anse maritime terminal, La Baie (Saguenay), Québec, used as the port of loading ('POL') for vessels (pp.1, 23). This replaces the PEA's rail delivery to Bécancour.",
+  "port_cost": null,
+  "ocean_freight": null,
+  "sale_basis": "Costs are reported 'DAP Grande-Anse as POL' (Incoterms Delivered at Place, with Grande-Anse as the port of loading) (pp.1, 8, 26). The price 'reflects pricing for FOB Australia terms as a comparable price for the Company's product excluding shipping costs' (p.8; also p.64). No ocean freight, port loading, treatment charges or penalties are modelled (p.64).",
+  "infrastructure_built": "Funded by the project (Table 3, p.7): site main access road, bridges, truck shop, camp, and fuel and explosives storage (100 Infrastructure: CA$124.9M in Phase 1, CA$149.7M for total development); the 315/120 kV substation, 54 km 120 kV line and site distribution (200 Power and Electrical: CA$173.8M Phase 1, CA$220.0M total); Lake 001 diversion dams and channel and water treatment (300 Water Management: CA$128.2M Phase 1, CA$146.9M total); plus the paste backfill plant, permanent camp and First Nation cultural centre (pp.21-22). Logistics is contracted: trucking is a contracted service and the 620 railcars are leased (p.23). No capex is itemised for a Matagami transshipment facility, rail or port. Existing public infrastructure used: the Trans-Taiga Road, Billy Diamond Highway, CN rail and the Grande-Anse terminal; an existing ~10 m-wide exploration road links the site to the Trans-Taiga (p.61).",
+  "notes": "Logistics changes from the PEA: the port moved from Bécancour on the St Lawrence to Grande-Anse on the Saguenay; the road distance is 844 km (PEA ~834 km); and transport cost eased to CA$217.2/t from CA$226/t. Port handling and ocean freight are not given separately, and the FOB-Australia-equivalent price is applied without a freight deduction. The 75 t payload needs special annual permits and spring-thaw conditions apply (p.23)."
+ },
+ "operating_costs": {
+  "breakdown": [
+   {
+    "item": "Mining",
+    "value": 320.1,
+    "unit": "CA$/t concentrate",
+    "page": 8,
+    "note": "US$238.9/t; LOM average; SC5.5; CA$50.33/t processed (p.64)"
+   },
+   {
+    "item": "Processing",
+    "value": 91.2,
+    "unit": "CA$/t concentrate",
+    "page": 8,
+    "note": "US$68.0/t; CA$14.33/t processed (p.64)"
+   },
+   {
+    "item": "Site administration",
+    "value": 100.7,
+    "unit": "CA$/t concentrate",
+    "page": 8,
+    "note": "US$75.1/t; CA$15.83/t processed (p.64)"
+   },
+   {
+    "item": "Cash operating cost at site",
+    "value": 511.9,
+    "unit": "CA$/t concentrate",
+    "page": 8,
+    "note": "US$382.0/t"
+   },
+   {
+    "item": "Transportation (truck to Matagami, rail to Grande-Anse)",
+    "value": 217.2,
+    "unit": "CA$/t concentrate",
+    "page": 8,
+    "note": "US$162.1/t"
+   },
+   {
+    "item": "Total cash operating cost (DAP Grande-Anse as POL)",
+    "value": 729.1,
+    "unit": "CA$/t concentrate",
+    "page": 8,
+    "note": "US$544.1/t; excludes royalties"
+   },
+   {
+    "item": "Sustaining capital",
+    "value": 70.7,
+    "unit": "CA$/t concentrate",
+    "page": 8,
+    "note": "US$52.7/t"
+   },
+   {
+    "item": "All-in sustaining cost (DAP Grande-Anse as POL)",
+    "value": 799.8,
+    "unit": "CA$/t concentrate",
+    "page": 8,
+    "note": "US$596.8/t; excludes royalties (p.26)"
+   }
+  ],
+  "C1_or_FOB_cost": {
+   "value": 729.1,
+   "unit": "CA$/t SC5.5 concentrate",
+   "page": 8,
+   "note": "Total cash operating cost on a DAP Grande-Anse (port of loading) basis: mining, processing, site administration and transport to Grande-Anse; US$544.1/t; LOM average; excludes royalties (the 2% royalty is applied separately in the model, p.64). Site cash cost is CA$511.9/t (US$382.0/t). PEA: CA$736/t FOB Bécancour."
+  },
+  "AISC": {
+   "value": 799.8,
+   "unit": "CA$/t SC5.5 concentrate",
+   "page": 8,
+   "note": "US$596.8/t, DAP Grande-Anse as POL; includes sustaining capital of CA$70.7/t and excludes royalties (p.26). PEA: CA$780/t."
+  }
+ },
+ "fiscal": {
+  "royalties": [
+   {
+    "name": "Royalty applied in the economic model",
+    "rate": {
+     "value": 2,
+     "unit": "%",
+     "page": 64,
+     "note": "'A 2% royalty is applicable in the economic model' (p.64). A 2.00% royalty is also used in the open-pit and underground cut-off tables (pp.55-56) and in the MRE (p.51). Operating costs and AISC exclude royalties (pp.26, 64)."
+    },
+    "base": "Not specified for the model; the underlying claim royalties below are NSRs"
+   },
+   {
+    "name": "DG Resources Management NSR (76 claims)",
+    "rate": {
+     "value": 2,
+     "unit": "% NSR",
+     "page": 42,
+     "note": "No buyback."
+    },
+    "base": "Net smelter return on 76 claims"
+   },
+   {
+    "name": "D.B.A. Canadian Mining House NSR (50 claims)",
+    "rate": {
+     "value": 2,
+     "unit": "% NSR",
+     "page": 42,
+     "note": "Half can be bought back for $2M."
+    },
+    "base": "Net smelter return on 50 claims"
+   },
+   {
+    "name": "OR Royalties NSR (111 claims)",
+    "rate": {
+     "value": 2,
+     "unit": "% NSR on all products other than precious metals",
+     "page": 42,
+     "note": "Sliding-scale 1.5-3.5% NSR on precious metals."
+    },
+    "base": "Net smelter return on 111 claims"
+   },
+   {
+    "name": "Azimut Exploration NSR (39 claims)",
+    "rate": {
+     "value": 2,
+     "unit": "% NSR",
+     "page": 42
+    },
+    "base": "Net smelter return on 39 claims"
+   }
+  ],
+  "income_tax": null,
+  "state_participation": null,
+  "other_levies": "No rate is stated for the Québec mining tax or for federal or provincial income tax; only pre- and after-tax results are given (post-tax NPV8 CA$1,594M against pre-tax CA$2,514M, about 37% lower, derived) (p.6). Incentives in the model: the federal CTM-ITC, a refundable credit of up to 30% on eligible property, for which up to CA$1.2B of costs may qualify, worth about CA$360M (Table 3: CA$210.1M Phase 1, CA$113.2M Phase 2 expansion, CA$36.5M sustaining, CA$359.8M in total) (pp.2, 7, 25); Québec's Tax Credit Relating to Resources (TCRR), refundable at up to 45% of eligible exploration and development expenses for critical and strategic minerals and capped at CA$100M of expenses per five-year period, worth about CA$57M (Table 3: CA$29.0M + CA$14.3M + CA$13.8M) (pp.2, 7, 25); and Québec's tax holiday for large investment projects, about CA$200M of income-tax savings over the first 4 years of production, included in the tax model (p.25). All are subject to eligibility and government approval, with no guarantee (p.25). GST and PST are excluded from the capex estimate (p.64)."
+ },
+ "capital": {
+  "initial_capex": {
+   "value": 1349.4,
+   "unit": "CA$M (Phase 1 open-pit initial capital, gross)",
+   "page": 7,
+   "note": "Table 3: Phase 1 open-pit initial capital including CA$130.7M contingency and CA$73.3M of pre-production, start-up and commissioning costs, before the CA$101.7M pre-production revenue credit and the tax credits. Net of the pre-production credit it is CA$1,247.7M, and net of all credits CA$1,008.6M. 'Total Initial Capital', which adds CA$148.3M of Phase 2 underground pre-investment, is CA$1,497.7M (CA$1,396.0M net of the pre-production credit, CA$1,142.6M net of all credits). Total development capital for both phases is CA$1,978.2M gross, CA$1,876.5M net of the pre-production credit and CA$1,509.9M net of all credits (pp.2, 5, 7). Initial capital includes early engineering and procurement in 2027 before FID (p.7). The study acknowledges 'higher capital intensity than outlined in the PEA' (p.5)."
+  },
+  "breakdown": [
+   {
+    "item": "Phase 1 OP initial - 100 Infrastructure",
+    "value": 124.9,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - 200 Power and Electrical",
+    "value": 173.8,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - 300 Water Management",
+    "value": 128.2,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - 400 Surface Operations",
+    "value": 18.6,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - 500 Mining",
+    "value": 120.0,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - 600 Process Plant",
+    "value": 217.3,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - 700 Construction Indirects",
+    "value": 262.8,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - 800 General Services / Owner's Cost",
+    "value": 99.8,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - 900 Pre-production, Start-up, Commissioning",
+    "value": 73.3,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - Total excl. contingency",
+    "value": 1218.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - 990 Contingency",
+    "value": 130.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - Total capital expenditures",
+    "value": 1349.4,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - Less pre-production revenue credit (net of TC/RC and royalties)",
+    "value": -101.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - Total net of pre-production credit",
+    "value": 1247.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - Less CTM-ITC tax credit",
+    "value": -210.1,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - Less TCRR tax credit",
+    "value": -29.0,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 1 OP initial - Total net of pre-production credit, CTM-ITC and TCRR",
+    "value": 1008.6,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG initial (pre-investment before commercial production) - 500 Mining",
+    "value": 99.1,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG initial (pre-investment before commercial production) - 600 Process Plant",
+    "value": 20.1,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG initial (pre-investment before commercial production) - 700 Construction Indirects",
+    "value": 0.1,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG initial (pre-investment before commercial production) - 800 General Services / Owner's Cost",
+    "value": 4.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG initial (pre-investment before commercial production) - 900 Pre-production, Start-up, Commissioning",
+    "value": 9.3,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG initial (pre-investment before commercial production) - Total excl. contingency",
+    "value": 133.3,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG initial (pre-investment before commercial production) - 990 Contingency",
+    "value": 15.0,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG initial (pre-investment before commercial production) - Total capital expenditures",
+    "value": 148.3,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG initial (pre-investment before commercial production) - Total net of pre-production credit",
+    "value": 148.3,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG initial (pre-investment before commercial production) - Less TCRR tax credit",
+    "value": -14.3,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG initial (pre-investment before commercial production) - Total net of pre-production credit, CTM-ITC and TCRR",
+    "value": 134.0,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total initial capital (Phase 1 OP + Phase 2 UG initial) - Total excl. contingency",
+    "value": 1352.0,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total initial capital (Phase 1 OP + Phase 2 UG initial) - 990 Contingency",
+    "value": 145.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total initial capital (Phase 1 OP + Phase 2 UG initial) - Total capital expenditures",
+    "value": 1497.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total initial capital (Phase 1 OP + Phase 2 UG initial) - Less pre-production revenue credit (net of TC/RC and royalties)",
+    "value": -101.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total initial capital (Phase 1 OP + Phase 2 UG initial) - Total net of pre-production credit",
+    "value": 1396.0,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total initial capital (Phase 1 OP + Phase 2 UG initial) - Less CTM-ITC tax credit",
+    "value": -210.1,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total initial capital (Phase 1 OP + Phase 2 UG initial) - Less TCRR tax credit",
+    "value": -43.3,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total initial capital (Phase 1 OP + Phase 2 UG initial) - Total net of pre-production credit, CTM-ITC and TCRR",
+    "value": 1142.6,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG expansion - 100 Infrastructure",
+    "value": 24.8,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG expansion - 200 Power and Electrical",
+    "value": 46.2,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG expansion - 300 Water Management",
+    "value": 18.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG expansion - 500 Mining",
+    "value": 36.4,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG expansion - 600 Process Plant",
+    "value": 167.0,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG expansion - 700 Construction Indirects",
+    "value": 123.8,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG expansion - 800 General Services / Owner's Cost",
+    "value": 13.4,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG expansion - 900 Pre-production, Start-up, Commissioning",
+    "value": 1.5,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG expansion - Total excl. contingency",
+    "value": 431.8,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG expansion - 990 Contingency",
+    "value": 48.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG expansion - Total capital expenditures",
+    "value": 480.5,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG expansion - Total net of pre-production credit",
+    "value": 480.5,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG expansion - Less CTM-ITC tax credit",
+    "value": -113.2,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Phase 2 UG expansion - Total net of pre-production credit, CTM-ITC and TCRR",
+    "value": 367.3,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - 100 Infrastructure",
+    "value": 149.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - 200 Power and Electrical",
+    "value": 220.0,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - 300 Water Management",
+    "value": 146.9,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - 400 Surface Operations",
+    "value": 18.6,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - 500 Mining",
+    "value": 255.5,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - 600 Process Plant",
+    "value": 404.4,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - 700 Construction Indirects",
+    "value": 386.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - 800 General Services / Owner's Cost",
+    "value": 117.9,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - 900 Pre-production, Start-up, Commissioning",
+    "value": 84.1,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - Total excl. contingency",
+    "value": 1783.8,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - 990 Contingency",
+    "value": 194.4,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - Total capital expenditures",
+    "value": 1978.2,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - Less pre-production revenue credit (net of TC/RC and royalties)",
+    "value": -101.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - Total net of pre-production credit",
+    "value": 1876.5,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - Less CTM-ITC tax credit",
+    "value": -323.3,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - Less TCRR tax credit",
+    "value": -43.3,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total development capital - Total net of pre-production credit, CTM-ITC and TCRR",
+    "value": 1509.9,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "LOM sustaining capital - 100 Infrastructure",
+    "value": 30.8,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "LOM sustaining capital - 200 Power and Electrical",
+    "value": 25.0,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "LOM sustaining capital - 300 Water Management",
+    "value": 100.5,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "LOM sustaining capital - 400 Surface Operations",
+    "value": 11.9,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "LOM sustaining capital - 500 Mining",
+    "value": 550.5,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "LOM sustaining capital - 800 General Services / Owner's Cost",
+    "value": 31.6,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "LOM sustaining capital - 900 Pre-production, Start-up, Commissioning",
+    "value": 186.1,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "LOM sustaining capital - Total excl. contingency",
+    "value": 936.4,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "LOM sustaining capital - Total capital expenditures",
+    "value": 936.4,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "LOM sustaining capital - Total net of pre-production credit",
+    "value": 936.4,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "LOM sustaining capital - Less CTM-ITC tax credit",
+    "value": -36.5,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "LOM sustaining capital - Less TCRR tax credit",
+    "value": -13.8,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "LOM sustaining capital - Total net of pre-production credit, CTM-ITC and TCRR",
+    "value": 886.1,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - Total excl. contingency",
+    "value": 2720.3,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - 990 Contingency",
+    "value": 194.4,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - Total capital expenditures",
+    "value": 2914.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - Less pre-production revenue credit (net of TC/RC and royalties)",
+    "value": -101.7,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - Total net of pre-production credit",
+    "value": 2813.0,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - Less CTM-ITC tax credit",
+    "value": -359.8,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - Less TCRR tax credit",
+    "value": -57.1,
+    "unit": "CA$M",
+    "page": 7
+   },
+   {
+    "item": "Total capital cost (development + sustaining) - Total net of pre-production credit, CTM-ITC and TCRR",
+    "value": 2396.0,
+    "unit": "CA$M",
+    "page": 7
+   }
+  ],
+  "contingency": {
+   "value": 194.4,
+   "unit": "CA$M (total development capital)",
+   "page": 7,
+   "note": "An '11% Project contingency' applied to direct and indirect costs (pp.5, 64). By phase: Phase 1 open pit CA$130.7M (10.7% of CA$1,218.7M, derived), Phase 2 underground initial CA$15.0M, Phase 2 expansion CA$48.7M; the total is 10.9% of CA$1,783.8M (derived). No contingency is carried on the CA$936.4M sustaining capital. Excluded from the estimate: a risk provision (mitigation plans), delays from permitting or financing and schedule deviations, labour or community stoppages, and skilled-trade shortages or wage increases (pp.63-64). PEA: CA$242.9M of development contingency, about 27% for Stage 1 and 24% combined (derived)."
+  },
+  "sustaining_capex": {
+   "value": 936.4,
+   "unit": "CA$M (LOM)",
+   "page": 7,
+   "note": "Table 3: mainly 500 Mining CA$550.5M, 900 'Pre-production, Start-up, Comm.' CA$186.1M and 300 Water Management CA$100.5M. CA$886.1M net of CTM-ITC and TCRR. Equal to CA$70.7/t (US$52.7/t) in AISC (p.8). PEA: CA$651.4M (CA$44/t)."
+  },
+  "closure_cost": null,
+  "construction_period_months": {
+   "value": 30,
+   "unit": "months (Phase 1 open-pit construction and ramp-up, from breaking ground)",
+   "page": 6,
+   "note": "Table 2 gives 2.5 years from breaking ground (converted to months here) and 3.4 years (about 41 months) including detailed engineering and procurement; the Phase 2 underground expansion construction and ramp-up takes 3.6 years. Open-pit pre-production mining takes about 24 months (p.17) and underground pre-production about 2 years (p.18). Overburden mining starts in the year ending June 2029 (4 months) and processing in the year ending June 2030 (Figs 4-5, p.16). FID targeted for H2 2027 (pp.2, 5; 'end 2027', p.26). PEA: 2 years for Stage 1 construction and ramp-up."
+  },
+  "ramp_up": "Phase 1 is the open pit with the first 2.5 Mtpa DMS train (~400 ktpa); Phase 2 adds the underground mine and second train for another ~400 ktpa, giving ~800 ktpa nameplate (pp.6-7). Processing schedule (Fig 5, p.16, read from the chart): ~0.5 Mt in FY2030, ~2.6 Mt FY2031, ~3.15 Mt FY2032, ~4.95 Mt FY2033, ~5.1 Mt a year FY2034-FY2045, ~4.9 Mt FY2046, then ~3.6, ~1.95 and ~1.45 Mt in FY2047-FY2049 (underground only at the end). Concentrate (Fig 6, p.17): ~75, ~365, ~425 and ~725 kt in FY2030-FY2033, then about 800 kt a year in FY2034-FY2047 (dips to ~780 kt in FY2040 and ~745 kt in FY2042). The CA$101.7M pre-production credit is revenue earned during ramp-up before commercial production (p.7). Trucking reaches ~30 trips a day from 2032 (p.23)."
+ },
+ "economics": {
+  "price_deck": [
+   {
+    "period": "LOM flat long-term price (base case)",
+    "price": {
+     "value": 1221,
+     "unit": "US$/t SC5.5",
+     "page": 6,
+     "note": "CA$1,636/t (Table 1); equivalent to US$1,332/t SC6 (p.64), with a pro-rata grade reduction of US$111/t (p.65). An FOB-Australia-equivalent price excluding shipping (p.8), in real terms. Drawn from Benchmark, broker consensus and NI 43-101 reports, which cluster at US$1,100-1,350/t SC5.5 (pp.5, 9)."
+    }
+   },
+   {
+    "period": "Mineral Reserve estimation price",
+    "price": {
+     "value": 1303,
+     "unit": "US$/t SC5.5",
+     "page": 14,
+     "note": "At 1.32 CAD/USD; used for reserve cut-offs only (pp.14, 55-56)."
+    }
+   },
+   {
+    "period": "Spot reference at study date (not used in the model)",
+    "price": {
+     "value": 830,
+     "unit": "US$/t SC6",
+     "page": 9,
+     "note": "FOB Australia, 19 Sep 2025 (pp.9-10)."
+    }
+   },
+   {
+    "period": "MRE constraint price",
+    "price": {
+     "value": 1500,
+     "unit": "US$/t SC6",
+     "page": 11,
+     "note": "FOB Bécancour at 0.70 USD/CAD; resource pit and stope constraints only."
+    }
+   }
+  ],
+  "discount_rate": {
+   "value": 8,
+   "unit": "%",
+   "page": 6,
+   "note": "Real, applied to pre- and after-tax cash flows (p.65). NPV0 is also reported (Table 1)."
+  },
+  "npv": [
+   {
+    "label": "pre-tax",
+    "value": 2514,
+    "unit": "CA$M",
+    "page": 6,
+    "note": "NPV8%; US$1,876M"
+   },
+   {
+    "label": "post-tax",
+    "value": 1594,
+    "unit": "CA$M",
+    "page": 6,
+    "note": "NPV8%; US$1,190M"
+   },
+   {
+    "label": "pre-tax",
+    "value": 1876,
+    "unit": "US$M",
+    "page": 6,
+    "note": "NPV8% at 1.34 CA$/US$"
+   },
+   {
+    "label": "post-tax",
+    "value": 1190,
+    "unit": "US$M",
+    "page": 6,
+    "note": "NPV8% at 1.34 CA$/US$"
+   },
+   {
+    "label": "pre-tax",
+    "value": 8358,
+    "unit": "CA$M",
+    "page": 6,
+    "note": "NPV0% (undiscounted); US$6,237M"
+   },
+   {
+    "label": "post-tax",
+    "value": 5418,
+    "unit": "CA$M",
+    "page": 6,
+    "note": "NPV0% (undiscounted); US$4,043M"
+   }
+  ],
+  "irr": [
+   {
+    "label": "pre-tax",
+    "value": 19.87,
+    "unit": "%",
+    "page": 6
+   },
+   {
+    "label": "post-tax",
+    "value": 18.06,
+    "unit": "%",
+    "page": 6,
+    "note": "'~18.1%' in the highlights (p.2)"
+   }
+  ],
+  "payback_years": {
+   "value": 4.7,
+   "unit": "years (after-tax)",
+   "page": 6,
+   "note": "Pre-tax 4.9 years (Table 1). The start point is not stated. PEA: 3.6 years."
+  },
+  "lom_revenue": {
+   "value": 18371,
+   "unit": "CA$M (total net revenue from spodumene concentrate, LOM)",
+   "page": 65,
+   "note": "'The total net revenue derived from the sale of spodumene concentrate at 5.5% Li2O was estimated at CAD 18,371 million, which includes a pro rata reduction in price for actual lithia content of USD 111/t' (p.65). Other deductions are not specified. Gross revenue would be about CA$21.8B (13.3 Mt x US$1,221 x 1.34, derived), so the figure appears to be net of transport and royalties as well (a derived check, not stated)."
+  },
+  "annual_ebitda": null,
+  "sensitivities": "Post-tax NPV8 in CA$M at -/+20% (Fig 1, p.10; low and high bar ends, base 1,594): Li2O grade 310 / 2,748; exchange rate 393 / 2,689; price (SC5.5) 399 / 2,686; recovery 570 / 2,546; operating cost 1,228 / 1,948; capital cost 1,320 / 1,868; sustaining capital 1,416 / 1,773. Capital cost -/+20% moves NPV8 by about CA$274M either way (derived). The project is most sensitive to grade, then price and exchange rate (pp.9, 65). No price-step chart or EBITDA break-even is given."
+ },
+ "risks_noted": [
+  "Capital intensity is higher than in the PEA: total development capital is CA$1,978M against CA$1,373.5M gross in the PEA, which the study attributes to seasonal and construction realities in northern Québec (p.5).",
+  "Capex estimate exclusions: risk provision, delays from permitting or financing and schedule deviations, labour or community stoppages, and skilled-trade shortages or wage escalation; concrete work is assumed only from June to October; contingency is 11% (pp.63-64).",
+  "Price: the base case of US$1,221/t SC5.5 compares with spot of US$830/t SC6 FOB Australia (19 Sep 2025); a 20% lower price cuts post-tax NPV8 to about CA$399M (pp.9-10).",
+  "Grade and exchange rate are the largest sensitivities: 20% lower grade cuts post-tax NPV8 to CA$310M (p.10).",
+  "Tax support of about CA$617M in total (derived sum of CTM-ITC ~CA$360M, TCRR ~CA$57M and the Québec tax holiday ~CA$200M) depends on eligibility and approval, with no guarantee (p.25). The CA$101.7M pre-production credit depends on ramp-up sales (p.7).",
+  "Permitting: the ESIAs were still to be filed; COMEX review takes 6-9 months per submission, with a decision about 18-24 months after the official submission; the federal IAAC process runs in parallel (pp.23-24, 60).",
+  "Power access depends on Hydro-Québec and Québec Government approval (p.23).",
+  "Logistics: the 75 t trucks need special annual permits and spring-thaw restrictions apply; about 30 truck trips a day on the Trans-Taiga Road and Billy Diamond Highway; 620 leased railcars; costs rest on quotations, not contracts (pp.23, 64).",
+  "Social licence: there is no Impact Benefit Agreement yet; an agreement with the Cree Nation Government and the Cree Nation of Chisasibi is expected before operations (p.65).",
+  "Lake 001 must be partly dewatered for the pit, and stopes in the crown pillar are excluded from reserves (pp.13, 15).",
+  "Natural hazards: forest fires and bad weather affecting the access road and flights; communities ask that helicopters not fly during the goose harvest (pp.42, 65).",
+  "The PowerCo offtake (binding term sheet, 100 ktpa SC5.5 for 10 years) is conditional on commissioning by 30 Jun 2031 (pp.9, 65).",
+  "Funding: FID is targeted for H2 2027 and no financing package is yet arranged (pp.10-11).",
+  "Closure: a closure plan under the MRNF (2024) guide was being prepared by GCM; closure and reclamation are said to be included in the FS outcomes, but no cost is disclosed (pp.24, 59).",
+  "Tenure: claim expiry dates run from January 2026 (renewals pending) to November 2027 (p.42)."
+ ],
+ "pages_scanned": "All 67 pages read. Body pp.1-34: highlights, Tables 1-6, operations, logistics, approvals, tax incentives and QP statements. JORC Table 1 pp.35-67: Section 1 sampling skimmed; Section 2 tenure and royalties pp.41-42; Section 3 MRE pp.46-54; Section 4 reserves and modifying factors pp.54-67. Key tables: Table 1 economics and Table 2 production (p.6), Table 3 capex (p.7), Table 4 cash costs (p.8), Table 5 MRE (p.11), Table 6 reserve (p.14), cut-off parameters (pp.55-56), cost assumptions (pp.63-64), economic basis (p.65). Checked visually on the PDF: Table 3 (p.7), Fig 1 sensitivity (p.10) and Figs 4-6 schedules (pp.16-17)."
+}

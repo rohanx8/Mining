@@ -28,6 +28,36 @@ Send me the filled rows or the PDFs and I'll load them, flag them, and add check
 
 ---
 
+## Lithium deposit screener
+
+### Received and loaded
+
+- [x] PLS and Liontown September 2026 quarterly reports (operating recovery, strip ratio, head grade; Kathleen Valley ramp-up)
+- [x] Damodaran country risk tables, January and July 2026 (`data/country_risk_2026.json`)
+- [x] *Resources and Energy Quarterly*, September 2026 (Australian Department of Industry, Science and Resources; the Forecast price deck)
+- [x] Studies, filed in `data/studies/`: Ewoyaa DFS (S02), Bougouni FS (S03), Shaakichiuwaanaan PEA and both feasibility studies (S05, S05b, S05c), Finniss restart study and Stage 1 DFS (S06, S06b), Rose FS (S07), Manna DFS (S11), Manna–Nova integration study (S11n), Kathleen Valley update (S01)
+
+### Next, most useful first
+
+- [ ] **EY *Global Mining and Metals Tax Guide*, country chapters.** Use the extraction prompt; start with Australia (WA and NT), Ghana, Mali (2023 code), Canada (Quebec mining tax), Brazil, Zimbabwe, Argentina, Chile and Namibia.
+  - Capture: royalty rate and base, income tax, state carry or participation, withholding tax, stability agreements, loss carry-forward limits.
+  - Defends: fiscal presets beyond today's five, and fixes Quebec (mining tax missing) and Mali (pre-2023 terms).
+- [ ] **Haulage rates other than road.** Rail tariffs (WA, Quebec), conveyor and barge costs per tonne-km, and port tariffs (Port Hedland, Esperance, Geraldton, Darwin East Arm, Takoradi, Quebec ports).
+  - Defends: typical values for rail, conveyor, barge and port in the Haulage step; today a leg without a rate counts as zero.
+- [ ] **More spodumene studies.** Goulamina (Mali), Mt Holland (WA), Bald Hill (WA), Grota do Cirilo (Brazil), Whabouchi (Quebec), Arcadia (Zimbabwe), the Kathleen Valley DFS.
+  - Capture: the same fields as the files in `data/studies/`, each with its page.
+  - Defends: the thin medians (underground mining and flotation processing rest on 2 studies each, ocean freight on 2, the existing-plant ratio on 1).
+- [ ] **Capex outcomes against studies.** Final capex against feasibility capex for recent builds (Kathleen Valley, Mt Holland, Goulamina, Finniss Stage 1).
+  - Defends: the Capex dial's +15% and +35% levels. Shaakichiuwaanaan's +44% from PEA to FS is the only case so far.
+- [ ] **Ramp-up outcomes.** The first eight quarterly reports after start-up for the same projects: recovery, throughput and cost against nameplate.
+  - Defends: the Recovery and People dials and the slow ramp-up option (50%, then 75%).
+- [ ] **Year-by-year schedules** from study appendices (grade, tonnes and cost by year).
+  - Defends: a grade profile in the screener, which would close most of the ±20% gap to studies.
+- [ ] **Infrastructure capex per kilometre** (access roads, power lines, rail spurs) from studies or public works data.
+  - Defends: a typical value for "roads, rail or port you must build".
+
+---
+
 ## Priority 1: Finish version 1
 
 ### A. Loulo-Gounkoto (Mali): give it an NPV
@@ -188,10 +218,8 @@ Every dial level is a starting assumption today. Base rates from comparable mine
 
 ## Priority 4: Extend scope
 
-- [ ] **Undeveloped deposit with a public feasibility study** (the spec's "Should").
-  - The spec suggests Assafou, using only public data.
-  - Collect: capex, construction schedule, life-of-mine production, AISC, recovery, permitting status and study date.
-  - Defends: exercises the Capex and schedule dial, which the engine already supports.
+- [x] **Undeveloped deposits.** Built as the lithium screener, with three studies loaded as examples (see above).
+- [ ] **A gold deposit with a public feasibility study** (for example Assafou), to run gold through the same seven steps.
 - [ ] **A second operating mine in a mid-risk jurisdiction** (for example Ghana or Burkina Faso).
   - Defends: fills out the cost curve between Australia and Mali.
 

@@ -1,6 +1,23 @@
 # Data gaps
 
-These are the gaps hit while building version 1, grouped by asset, with why each matters and where to look. Anything listed here is either flagged in the app as an assumption or keeps the asset at "data pending".
+These are the gaps hit while building the app, with why each matters and where to look. Anything listed here is either flagged in the app as an assumption or keeps an asset at "data pending".
+
+## Lithium deposit screener
+
+| Gap | Effect in the app | Where to look |
+|---|---|---|
+| Rail, conveyor and barge rates per tonne-km | No benchmark. A leg without a rate counts as zero, and the app says so. Only road haulage has a typical value (US$0.137/t-km, 4 studies). | Shaakichiuwaanaan feasibility studies (road to Matagami, then rail; CA$217–302/t combined); published rail tariffs in WA and Quebec; iron-ore and coal haulage studies |
+| Port charges separate from haulage | Studies often fold them into the haul rate (Manna: US$58/t for haulage and port combined), so the port field has no typical value | Port tariff schedules: Port Hedland, Esperance, Geraldton, Darwin East Arm, Takoradi, Quebec ports |
+| Infrastructure capex per km of road, rail or power line | Must be entered by hand in the Haulage step | Studies that build access roads or power lines (Rose, Shaakichiuwaanaan, Ewoyaa); public road-building cost benchmarks |
+| Fiscal terms beyond the five presets | Presets cover WA, NT, Ghana, Mali (pre-2023 terms) and Quebec. Elsewhere, tax is Damodaran's corporate rate and you enter the royalty. | EY *Global Mining and Metals Tax Guide*, country chapters (use the extraction prompt; the full guide is 2,147 pages) |
+| Quebec mining tax | Not modelled. Rose reports a 41.7% effective tax rate including it; the preset uses the 26.14% corporate rate, so Quebec values are too high. | Quebec Mining Tax Act; Rose FS tax section; EY guide, Canada chapter |
+| Mali's 2023 mining code | The Mali preset uses the 2020 Bougouni terms (3% + 0.5% royalties, 3% ISCP, 25% tax), which the 2023 code replaced with higher royalties and state stakes | The 2023 code and decrees; recent Goulamina or Bougouni filings; EY guide, Mali chapter |
+| Grade and cost profiles by year | The screener uses one grade and one cost set for every year, which explains most of the ±20% gap against studies (Manna −16%: its study mines 0.93% Li₂O early against a 0.88% average) | Year-by-year schedules in DFS appendices |
+| Ewoyaa's product mix | Entered as SC6 at 62.1% recovery; the study sells SC6 and SC5.5 (67.2% recovery to SC5.5) | Ewoyaa DFS product split by year |
+| Thin typical values | Several medians rest on few points: underground mining (2), flotation processing (2), ocean freight (2), existing-plant capex ratio (1) | More studies: Goulamina (Mali), Mt Holland, Bald Hill, Grota do Cirilo (Brazil), Whabouchi (Quebec), Arcadia (Zimbabwe). Kathleen Valley (`data/studies/S01.json`) is filed but not yet in the medians. |
+| Deposit dial calibration | The dial rules (Inferred share, testwork, strip ratio, haul distance, operator, capex basis, country premium, permits) are judgement | Study-to-outcome comparisons: Shaakichiuwaanaan PEA to FS (in the app), Finniss 2021 DFS to 2025 restart (in the app), Kathleen Valley ramp-up recovery (in the app); add Mt Cattlin, Bald Hill and Pilgangoora stage 1 |
+| Price decks | The forecast is one source (*Resources and Energy Quarterly*, Australian Department of Industry, Science and Resources, Sep 2026) and spot is a single print | Long-term price assumptions in recent studies; company guidance; public bank forecasts |
+| Capex phasing, ramp-up and years to construction | Assumptions (`BUILD_PHASING`, 50%/75% slow ramp-up, 0/1/2 years from permit status) | Construction schedules and ramp-up curves in the studies and in quarterly reports of recent starts |
 
 ## Loulo-Gounkoto (Mali): why it has no NPV yet
 
@@ -44,13 +61,14 @@ These come from the data pack's own Data gaps sheet, plus gaps the model hit.
 | Tropicana 2025 AISC in US$ (AngloGold basis) | No cross-check on the A$ calibration; 2024 was US$1,297/oz | AngloGold 2025 Form 20-F |
 | FX | 0.70 US$/A$ assumed (Regis uses 0.72; the reserve price implies 0.66) | House view |
 | Cost by ore source | Average cost per tonne milled overstates costs in stockpile-only years (no mining cost there). This matters little within reserves but more for the extension case. | Unit costs by source from the operator |
-| Australia's row in Damodaran's table | 0% assumed, as for any Aaa country | Damodaran Jan 2026 table |
+
+Closed: Australia's row in Damodaran's January 2026 table is confirmed at 0% (Moody's Aaa; `data/country_risk_2026.json`).
 
 ## Model-wide
 
 | Gap | Note |
 |---|---|
-| Dial calibration | Every dial level is a starting assumption. The honest calibration is base rates from comparable mines (grade reconciliation, recovery shortfalls, stoppage frequency), and those are slow to gather. |
-| Country premium vintage | The brief fixes Damodaran's January 2026 table. He published a July 2026 update; switching vintages is a one-line change per asset. |
-| Consensus deck after 2027 | Flat at US$4,500/oz is an assumption |
-| Undeveloped deposit | Not included yet. The spec suggests Assafou, using public feasibility data only. |
+| Dial calibration | Every dial level is a starting assumption. The honest calibration is base rates from comparable mines (grade reconciliation, recovery shortfalls, stoppage frequency, capex overruns), and those are slow to gather. |
+| Country premium vintage | The app uses Damodaran's January 2026 table, as the brief fixed. The July 2026 update is in `data/country_risk_2026.json` too; switching deposits to it is a one-line change (`cr[2]` to `cr[3]` in `depositDerived`). |
+| Consensus gold deck after 2027 | Flat at US$4,500/oz is an assumption |
+| Funding risk for deposits | No dial yet for whether the owner can raise the capex, or at what dilution |

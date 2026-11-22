@@ -65,6 +65,17 @@ T["strip_ratio_op"] = summarise("Open-pit strip ratio (waste : ore)", "x", [
     pt("PLS", 6.7, 2, "(11.5 - 1.5) ÷ 1.5, Sep Q 2026")])
 T["discount_rate"] = summarise("Discount rate used by the study (real)", "%", [
     pt("S02", 8, 4, ""), pt("S03", 7, 5, ""), pt("S05", 8, 11, ""), pt("S06b", 8, 2, ""), pt("S07", 8, 3, ""), pt("S11", 8, 84, ""), pt("S11n", 8, 4, "")])
+T["dilution_pct"] = summarise("Mining dilution", "%", [
+    pt("S02", 5, 21, ""), pt("S05", 16, 41, ""), pt("S11", 5, 60, "open pit"), pt("S06b", 6.5, 80, "Grants open pit")])
+T["plan_share_of_resource"] = summarise("Share of resource tonnes in the mine plan", "%", [
+    pt("S02", 27.3 / 35.3 * 100, 18, "27.3 Mt processed ÷ 35.3 Mt resource"), pt("S11", 23.7 / 51.6 * 100, 68, "23.7 Mt mill feed ÷ 51.6 Mt resource"),
+    pt("S06b", 7.442 / 14.72 * 100, 23, "7.44 Mt plan ÷ 14.72 Mt resource"), pt("S06", 17.292 / 48.2 * 100, 40, "17.3 Mt plan ÷ 48.2 Mt resource")],
+    "PLS Pilgangoora: reserve 249 Mt is 62% of its 403 Mt resource (Sep 2026).")
+T["closure_usd_m"] = summarise("Closure cost", "US$M", [
+    pt("S02", 45.8, 42, ""), pt("S06b", 8.0 * 0.70, 36, "A$8.0M × 0.70"), pt("S07", 16.7, 12, ""), pt("S11", 10.0 * 0.67, 81, "A$10M × 0.67"), pt("S11n", 53.0 * 0.69, 4, "A$53M × 0.69")])
+T["existing_plant_capex_ratio"] = summarise("Capex using an existing plant, as a share of building your own", "%", [
+    pt("S11n", 180.1 / 439.1 * 100, 4, "Manna-Nova integration A$180.1M ÷ Manna standalone DFS A$439.1M")],
+    "One case only; the integration study also buys the plant, camp, power and tailings at a price it does not disclose.")
 out = {"about": "Typical values for the lithium deposit screener, compiled from data/studies/*.json by tools/compile_typicals.py. Medians across studies; each point keeps its study and page. Converted to US$ at each study's own FX assumption.",
        "fx_used": FX, "typicals": T,
        "fiscal_presets": {

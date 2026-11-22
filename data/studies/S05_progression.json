@@ -1,0 +1,353 @@
+[
+ {
+  "metric": "Initial capex, Phase/Stage 1, gross",
+  "unit": "CA$M",
+  "PEA_Aug2024": 869.7,
+  "FS_Oct2025": 1349.4,
+  "FS_Nov2026": 1391.0,
+  "pages": "PEA pp.2, 12; FS25 p.7; FS26 p.16",
+  "note": "Includes contingency and pre-production costs, before pre-production revenue credits and tax credits. PEA Stage 1 = open pit + 2.5 Mtpa train (~400 ktpa): CA$761.4M capex plus CA$108.3M pre-production opex. FS25 Phase 1 = open pit + 2.5 Mtpa train (~400 ktpa). FS26 Phase 1 = underground + 2.2 Mtpa DMS1 (up to ~560 ktpa), so the scope differs. Change (derived): PEA to FS25 +55%, FS25 to FS26 +3%, PEA to FS26 +60%."
+ },
+ {
+  "metric": "Initial capex, Phase 1, net of pre-production revenue credit",
+  "unit": "CA$M",
+  "PEA_Aug2024": null,
+  "FS_Oct2025": 1247.7,
+  "FS_Nov2026": 1260.4,
+  "pages": "PEA p.12; FS25 p.7; FS26 pp.7, 16",
+  "note": "The company's own comparison basis in FS26 Table 3 (+1%). Pre-production credits are concentrate sales during ramp-up (CA$101.7M in FS25, CA$130.6M in FS26). The PEA deducted no pre-production revenue, so its comparable figure is the gross CA$869.7M."
+ },
+ {
+  "metric": "Initial capex, Phase/Stage 1, net of pre-production and tax credits",
+  "unit": "CA$M",
+  "PEA_Aug2024": 640.3,
+  "FS_Oct2025": 1008.6,
+  "FS_Nov2026": 1079.8,
+  "pages": "PEA p.12; FS25 p.7; FS26 p.16",
+  "note": "Bases differ: the PEA figure is Stage 1 capex net of the CTM-ITC (CA$121.1M) and excludes CA$108.3M of pre-production opex; the FS figures net out pre-production revenue, the CTM-ITC and the TCRR."
+ },
+ {
+  "metric": "Expansion capex, Phase/Stage 2, gross",
+  "unit": "CA$M",
+  "PEA_Aug2024": 503.9,
+  "FS_Oct2025": 480.5,
+  "FS_Nov2026": 672.4,
+  "pages": "PEA p.12; FS25 p.7; FS26 pp.7, 16",
+  "note": "PEA Stage 2 = underground + second train. FS25 Phase 2 underground expansion CA$480.5M, plus CA$148.3M of Phase 2 underground pre-investment counted in FS25 'Total Initial Capital'; FS26 Table 3 restates the FS25 Phase 2 total as CA$628.8M. FS26 Phase 2 = open pit + 2.9 Mtpa DMS2, +7% against CA$628.8M (FS26 Table 3)."
+ },
+ {
+  "metric": "Total development capex (both phases), gross",
+  "unit": "CA$M",
+  "PEA_Aug2024": 1373.5,
+  "FS_Oct2025": 1978.2,
+  "FS_Nov2026": 2063.4,
+  "pages": "PEA pp.2, 12; FS25 pp.2, 7; FS26 pp.5, 16",
+  "note": "Includes contingency and pre-production costs, before credits; the end state is ~800 ktpa from 5.0-5.1 Mtpa in all three. Change (derived): PEA to FS25 +44%, FS25 to FS26 +4%, PEA to FS26 +50%. FS25 says the estimate reflects 'higher capital intensity than outlined in the PEA' and allows for seasonal and construction realities in northern Québec (p.5); FS26 says optimisation offset 'broader inflationary pressures' (p.1)."
+ },
+ {
+  "metric": "Total development capex, net of pre-production and tax credits",
+  "unit": "CA$M",
+  "PEA_Aug2024": null,
+  "FS_Oct2025": 1509.9,
+  "FS_Nov2026": 1675.1,
+  "pages": "PEA p.12; FS25 p.7; FS26 p.16",
+  "note": "Not reported on this basis in the PEA: it gives Stage 1 CA$640.3M + Stage 2 CA$408.2M net of the CTM-ITC (excluding pre-production opex), and its headline net funding figure of CA$608.1M also deducts CA$548.7M of Stage 1 cash flow."
+ },
+ {
+  "metric": "Capital intensity, total development capex per tpa of nominal capacity (derived)",
+  "unit": "CA$ per tpa SC5.5",
+  "PEA_Aug2024": 1717,
+  "FS_Oct2025": 2468,
+  "FS_Nov2026": 2579,
+  "pages": "PEA pp.11-12; FS25 pp.6-7; FS26 pp.6, 16",
+  "note": "Derived: gross total development capex divided by nominal concentrate capacity (PEA ~800 ktpa, FS25 801.6 ktpa, FS26 800.0 ktpa). Not stated in any study."
+ },
+ {
+  "metric": "Contingency on development capital",
+  "unit": "CA$M",
+  "PEA_Aug2024": 242.9,
+  "FS_Oct2025": 194.4,
+  "FS_Nov2026": 201.2,
+  "pages": "PEA p.12; FS25 p.7; FS26 p.16",
+  "note": "PEA: Stage 1 CA$162.9M + Stage 2 CA$80.0M, plus CA$21.5M on sustaining capital (CA$264.4M in total). FS25: Phase 1 open pit CA$130.7M. FS26: Phase 1 CA$133.0M. Neither FS carries contingency on sustaining capital."
+ },
+ {
+  "metric": "Contingency rate on direct + indirect costs",
+  "unit": "%",
+  "PEA_Aug2024": 24,
+  "FS_Oct2025": 11,
+  "FS_Nov2026": 11,
+  "pages": "PEA pp.12-13; FS25 pp.5, 64; FS26 pp.5, 63",
+  "note": "Both FS state 11% (computed 10.9% and 10.8%). The PEA gives no rate: about 27% for Stage 1 (162.9/598.5) and about 24% combined (242.9/1,022.4), both derived. Both FS exclude a risk provision, permitting or financing delays and labour shortages (FS25 pp.63-64; FS26 pp.62-63)."
+ },
+ {
+  "metric": "Sustaining capex, LOM",
+  "unit": "CA$M",
+  "PEA_Aug2024": 651.4,
+  "FS_Oct2025": 936.4,
+  "FS_Nov2026": 849.1,
+  "pages": "PEA p.12; FS25 p.7; FS26 pp.7, 16",
+  "note": "The PEA mine life is 24 years against 19 in both FS. FS25 includes CA$186.1M under '900 Pre-production, Start-up, Comm.' within sustaining. FS26 is 9% below FS25 (Table 3)."
+ },
+ {
+  "metric": "Sustaining capex per tonne of concentrate",
+  "unit": "CA$/t SC5.5",
+  "PEA_Aug2024": 44,
+  "FS_Oct2025": 70.7,
+  "FS_Nov2026": 63.6,
+  "pages": "PEA p.14; FS25 p.8; FS26 p.17",
+  "note": "As used in AISC. US$: 33, 52.7, 46.4."
+ },
+ {
+  "metric": "Site cash operating cost (mining + processing + G&A)",
+  "unit": "CA$/t SC5.5",
+  "PEA_Aug2024": 510,
+  "FS_Oct2025": 511.9,
+  "FS_Nov2026": 439.0,
+  "pages": "PEA p.14; FS25 p.8; FS26 p.17",
+  "note": "FS26 is before the tantalum credit; net of the CA$147.8/t credit it is CA$291.2/t. Mining: FS25 CA$320.1/t (CA$50.33/t processed), FS26 CA$262.5/t (CA$42.2/t processed)."
+ },
+ {
+  "metric": "Total cash operating cost incl. transport (headline)",
+  "unit": "CA$/t SC5.5",
+  "PEA_Aug2024": 736,
+  "FS_Oct2025": 729.1,
+  "FS_Nov2026": 593.5,
+  "pages": "PEA p.14; FS25 p.8; FS26 pp.7, 17",
+  "note": "Bases differ: PEA FOB Bécancour; FS25 DAP Grande-Anse (port of loading); FS26 FOB Québec ports and net of the CA$147.8/t tantalum credit. All exclude royalties. FS26 is 19% below FS25 (Table 3)."
+ },
+ {
+  "metric": "Total cash operating cost before by-product credit",
+  "unit": "CA$/t SC5.5",
+  "PEA_Aug2024": 736,
+  "FS_Oct2025": 729.1,
+  "FS_Nov2026": 741.3,
+  "pages": "PEA p.14; FS25 p.8; FS26 p.17",
+  "note": "FS26 value derived as CA$439.0/t site cost + CA$302.3/t transport. On a lithium-only basis the cost is roughly flat across the three studies: site-cost savings in FS26 are offset by higher transport."
+ },
+ {
+  "metric": "Total cash operating cost (headline), US$",
+  "unit": "US$/t SC5.5",
+  "PEA_Aug2024": 560,
+  "FS_Oct2025": 544.1,
+  "FS_Nov2026": 433.2,
+  "pages": "PEA p.14; FS25 p.8; FS26 p.17",
+  "note": "Converted at 0.76 US$/CA$ (PEA), 1.34 CA$/US$ (FS25) and 1.37 CA$/US$ (FS26). FS26 is net of the tantalum credit."
+ },
+ {
+  "metric": "AISC (headline)",
+  "unit": "CA$/t SC5.5",
+  "PEA_Aug2024": 780,
+  "FS_Oct2025": 799.8,
+  "FS_Nov2026": 657.1,
+  "pages": "PEA p.14; FS25 p.8; FS26 p.17",
+  "note": "Excludes royalties in all three. FS26 is net of the tantalum credit (about CA$804.9/t before it, derived). US$: 593, 596.8, 479.6."
+ },
+ {
+  "metric": "Transport cost, road + rail to port",
+  "unit": "CA$/t SC5.5",
+  "PEA_Aug2024": 226,
+  "FS_Oct2025": 217.2,
+  "FS_Nov2026": 302.3,
+  "pages": "PEA p.14; FS25 pp.8, 64; FS26 pp.17, 34, 63",
+  "note": "PEA to Bécancour (~834 km road plus rail); FS25 to Grande-Anse (844 km road plus 1,075 km rail); FS26 to the Montréal / Trois-Rivières average (844 km road plus rail, distance not stated). US$: 173, 162.1, 220.7. FS25 to FS26 +39% (derived), attributed to inflation, diesel and surcharges, smaller truck and railcar payloads (75 to 72 t, 93 to 86 t), seasonal haulage, transhipment and port costs (FS26 p.34). Share of the headline cash cost (derived): 31%, 30%, 51%. No road/rail/port split in any study; all three are quotes or estimates, not contracts."
+ },
+ {
+  "metric": "Road haulage distance, mine to Matagami",
+  "unit": "km",
+  "PEA_Aug2024": 834,
+  "FS_Oct2025": 844,
+  "FS_Nov2026": 844,
+  "pages": "PEA p.64; FS25 p.23; FS26 p.33",
+  "note": "FS: 290 km Trans-Taiga Road + 554 km Billy Diamond Highway. Trucks: 75 t, ~30 trips a day (FS25); 72 t including moisture, ~32 trips a day (FS26); 80-truck fleet in both."
+ },
+ {
+  "metric": "Port and sale/cost basis",
+  "unit": "text",
+  "PEA_Aug2024": "Bécancour; costs and price FOB Bécancour",
+  "FS_Oct2025": "Grande-Anse (Saguenay); costs DAP Grande-Anse as port of loading; price FOB-Australia-equivalent",
+  "FS_Nov2026": "Montréal / Trois-Rivières average (all options open); costs and price FOB Québec ports",
+  "pages": "PEA pp.7, 14, 64; FS25 pp.1, 8, 23; FS26 pp.1, 18, 34",
+  "note": "No ocean freight is modelled in any study; port handling is not costed separately."
+ },
+ {
+  "metric": "Concentrate output, nominal / full production",
+  "unit": "ktpa SC5.5",
+  "PEA_Aug2024": 800,
+  "FS_Oct2025": 801.6,
+  "FS_Nov2026": 800.0,
+  "pages": "PEA p.11; FS25 p.6; FS26 p.6",
+  "note": "PEA: ~800 ktpa average in full production, Years 4-18."
+ },
+ {
+  "metric": "Concentrate output, LOM average",
+  "unit": "ktpa SC5.5",
+  "PEA_Aug2024": null,
+  "FS_Oct2025": 693.8,
+  "FS_Nov2026": 702.8,
+  "pages": "PEA p.11; FS25 p.6; FS26 p.6",
+  "note": "Not stated in the PEA (14.9 Mt over 24 years is about 621 ktpa, derived)."
+ },
+ {
+  "metric": "LOM concentrate",
+  "unit": "Mt SC5.5",
+  "PEA_Aug2024": 14.9,
+  "FS_Oct2025": 13.3,
+  "FS_Nov2026": 13.4,
+  "pages": "PEA p.11; FS25 p.6; FS26 p.6",
+  "note": "FS26 adds 27.4 kt of tantalite concentrate (20% Ta2O5)."
+ },
+ {
+  "metric": "Phase/Stage 1 concentrate capacity",
+  "unit": "ktpa SC5.5",
+  "PEA_Aug2024": 400,
+  "FS_Oct2025": 400,
+  "FS_Nov2026": 560,
+  "pages": "PEA p.3; FS25 p.6; FS26 pp.2, 15",
+  "note": "FS26 Phase 1 'ramping up to ~560,000 tpa ... in the first 3 years', from 2.2 Mtpa of high-grade underground feed."
+ },
+ {
+  "metric": "Li2O recovery, LOM average",
+  "unit": "%",
+  "PEA_Aug2024": 69.5,
+  "FS_Oct2025": 68.9,
+  "FS_Nov2026": 69.7,
+  "pages": "PEA p.11; FS25 p.6; FS26 pp.6, 31",
+  "note": "PEA and FS25 curve: 75 x (1 - e^(-1.995 x grade)). FS26 curve: 38 + 47 x (1 - e^(-0.88 x grade)). FS26 tantalum recovery 44.6%."
+ },
+ {
+  "metric": "Head grade, LOM average feed",
+  "unit": "% Li2O",
+  "PEA_Aug2024": 1.31,
+  "FS_Oct2025": 1.26,
+  "FS_Nov2026": 1.27,
+  "pages": "PEA p.11; FS25 p.6; FS26 p.6",
+  "note": "FS26 Ta2O5 feed 148 ppm."
+ },
+ {
+  "metric": "LOM plant feed",
+  "unit": "Mt",
+  "PEA_Aug2024": 90.2,
+  "FS_Oct2025": 84.3,
+  "FS_Nov2026": 83.0,
+  "pages": "PEA p.11; FS25 p.6; FS26 p.6",
+  "note": "The PEA figure is a production target that includes Inferred; both FS figures are Probable reserves."
+ },
+ {
+  "metric": "Mine life",
+  "unit": "years",
+  "PEA_Aug2024": 24,
+  "FS_Oct2025": 19,
+  "FS_Nov2026": 19,
+  "pages": "PEA p.11; FS25 p.6; FS26 p.6",
+  "note": "Both FS: 'spanning ~20 years' / 'near 20 year'."
+ },
+ {
+  "metric": "Spodumene price assumption (flat, real)",
+  "unit": "US$/t SC5.5",
+  "PEA_Aug2024": 1375,
+  "FS_Oct2025": 1221,
+  "FS_Nov2026": 1788,
+  "pages": "PEA p.11; FS25 pp.6, 8; FS26 pp.5, 18",
+  "note": "SC6 equivalents: 1,500, 1,332, 1,950. CA$/t: 1,809, 1,636, 2,450. PEA FOB Bécancour; FS25 FOB-Australia-equivalent; FS26 FOB Québec ports (Benchmark Q3 2026 base case). FS26 also prices tantalum at US$120/lb Ta2O5. Change (derived): PEA to FS25 -11%, FS25 to FS26 +46%."
+ },
+ {
+  "metric": "FX assumption",
+  "unit": "CA$/US$",
+  "PEA_Aug2024": 1.316,
+  "FS_Oct2025": 1.34,
+  "FS_Nov2026": 1.37,
+  "pages": "PEA p.5; FS25 p.4; FS26 p.3",
+  "note": "The PEA states 0.76 US$/CA$; 1.316 CA$/US$ is derived (1/0.76)."
+ },
+ {
+  "metric": "Discount rate",
+  "unit": "% (real)",
+  "PEA_Aug2024": 8,
+  "FS_Oct2025": 8,
+  "FS_Nov2026": 8,
+  "pages": "PEA p.11; FS25 pp.6, 65; FS26 pp.5, 65",
+  "note": "Real terms in all three."
+ },
+ {
+  "metric": "Post-tax NPV8",
+  "unit": "CA$M",
+  "PEA_Aug2024": 2937,
+  "FS_Oct2025": 1594,
+  "FS_Nov2026": 5100,
+  "pages": "PEA p.11; FS25 p.6; FS26 pp.5, 7",
+  "note": "Change: PEA to FS25 -46% (derived), FS25 to FS26 +220% (Table 3). FS26 at FS25 price and FX: about CA$2,300M (p.7); at ~US$1,400/t SC5.5: CA$3,290M (p.1). PEA to FS25 combines a lower price, higher capex, a shorter life and no Inferred material; FS25 to FS26 is mostly price and FX (about CA$2.8B, derived) plus tantalum (CA$519M) and mine-plan changes (CA$180M) (p.7)."
+ },
+ {
+  "metric": "Post-tax NPV8, US$",
+  "unit": "US$M",
+  "PEA_Aug2024": 2232,
+  "FS_Oct2025": 1190,
+  "FS_Nov2026": 3723,
+  "pages": "PEA p.11; FS25 p.6; FS26 p.5",
+  "note": "Converted at 0.76 US$/CA$ (PEA), 1.34 CA$/US$ (FS25) and 1.37 CA$/US$ (FS26)."
+ },
+ {
+  "metric": "Pre-tax NPV8",
+  "unit": "CA$M",
+  "PEA_Aug2024": 4699,
+  "FS_Oct2025": 2514,
+  "FS_Nov2026": 8461,
+  "pages": "PEA p.11; FS25 p.6; FS26 p.5",
+  "note": "Post-tax NPV8 is about 37% (PEA), 37% (FS25) and 40% (FS26) below pre-tax (derived). No study states mining-tax or income-tax rates."
+ },
+ {
+  "metric": "Post-tax IRR",
+  "unit": "%",
+  "PEA_Aug2024": 34,
+  "FS_Oct2025": 18.06,
+  "FS_Nov2026": 40.4,
+  "pages": "PEA p.11; FS25 p.6; FS26 pp.5, 7",
+  "note": "FS26 at the FS25 price and FX: 24.6% (p.7)."
+ },
+ {
+  "metric": "Pre-tax IRR",
+  "unit": "%",
+  "PEA_Aug2024": 38,
+  "FS_Oct2025": 19.87,
+  "FS_Nov2026": 47.2,
+  "pages": "PEA p.11; FS25 p.6; FS26 p.5",
+  "note": "FS25 shows 19.87% in Table 1 and 19.9% in FS26 Table 3."
+ },
+ {
+  "metric": "Payback, after-tax",
+  "unit": "years",
+  "PEA_Aug2024": 3.6,
+  "FS_Oct2025": 4.7,
+  "FS_Nov2026": 2.7,
+  "pages": "PEA p.11; FS25 p.6; FS26 p.5",
+  "note": "Pre-tax: 3.6, 4.9, 2.6. No study states the start point."
+ },
+ {
+  "metric": "Inferred share of the mine plan",
+  "unit": "% of LOM feed",
+  "PEA_Aug2024": 25,
+  "FS_Oct2025": 0,
+  "FS_Nov2026": 0,
+  "pages": "PEA p.1; FS25 p.13; FS26 p.13",
+  "note": "Both FS treat Inferred material inside the mine design as waste at 0% Li2O."
+ },
+ {
+  "metric": "Phase/Stage 1 construction and ramp-up period",
+  "unit": "years",
+  "PEA_Aug2024": 2,
+  "FS_Oct2025": 2.5,
+  "FS_Nov2026": 2.3,
+  "pages": "PEA p.11; FS25 p.6; FS26 p.6",
+  "note": "PEA: 'Stage 1 Construction and Ramp Up Phase' of 2 years. FS25: 2.5 years from breaking ground, 3.4 years including detailed engineering and procurement (Phase 2: 3.6 years). FS26: 2.3 years from breaking ground for the underground Phase 1; Phase 2 built in Year 3 and commissioned in Year 4."
+ },
+ {
+  "metric": "FID target and first production",
+  "unit": "text",
+  "PEA_Aug2024": "FID CY2027; construction through CY2028; first production early CY2029",
+  "FS_Oct2025": "FID H2 2027; overburden mining from FY2029; processing starts in the year ending June 2030",
+  "FS_Nov2026": "FID late 2027; DMS commissioning late 2029; commercial production end of Q1 2030",
+  "pages": "PEA p.4; FS25 pp.2, 5, 16; FS26 pp.3, 8, 37",
+  "note": "First production moved from early CY2029 (PEA) to late 2029 / H1 2030 in both FS, about 9-12 months later (derived), while the FID target stayed at 2027."
+ }
+]
