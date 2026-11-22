@@ -40,9 +40,8 @@ T["site_ga_per_t_ore"] = summarise("Site G&A per tonne of ore", "US$/t", [
 T["capex_per_annual_t_ore"] = summarise("Initial capex per tonne of annual ore capacity", "US$ per t/yr", [
     pt("S02", 185.2e6 / 2.7e6, 41, "US$185.2M ÷ 2.7 Mtpa"), pt("S03", 128.6e6 / 2.0e6, 4, "US$128.6M ÷ 2.0 Mtpa"),
     pt("S06b", 88.9e6 * 0.70 / 1.0e6, 32, "A$88.9M × 0.70 ÷ 1.0 Mtpa"), pt("S06", 187.5e6 * 0.70 / 1.2e6, 4, "A$175-200M mid × 0.70 ÷ 1.2 Mtpa (restart, underground)"),
-    pt("S07", 470.6e6 / 1.61e6, 12, "US$470.6M ÷ 1.61 Mtpa (remote Quebec)"), pt("S11", 439.1e6 * 0.67 / 1.8e6, 81, "A$439.1M × 0.67 ÷ 1.8 Mtpa"),
-    pt("S11n", 180.1e6 * 0.69 / 2.1e6, 4, "A$180.1M × 0.69 ÷ 2.1 Mtpa (converting an existing plant)")],
-    "Greenfield sites need their own power, camp and roads; the integration case shows how much existing infrastructure saves.")
+    pt("S07", 470.6e6 / 1.61e6, 12, "US$470.6M ÷ 1.61 Mtpa (remote Quebec)"), pt("S11", 439.1e6 * 0.67 / 1.8e6, 81, "A$439.1M × 0.67 ÷ 1.8 Mtpa")],
+    "Own-plant builds only; converting an existing plant has its own ratio (Manna-Nova, 41% of standalone). Greenfield sites need their own power, camp and roads.")
 T["contingency_pct"] = summarise("Capex contingency, % of initial capex", "%", [
     pt("S02", 12.2 / 185.2 * 100, 41, "US$12.2M ÷ 185.2M"), pt("S03", 11.7 / 116.9 * 100, 4, "10% on US$116.9M"),
     pt("S05", 162.9 / 761.4 * 100, 12, "C$162.9M ÷ 761.4M (PEA)"), pt("S07", 42.7 / 470.6 * 100, 12, ""),
@@ -76,7 +75,33 @@ T["closure_usd_m"] = summarise("Closure cost", "US$M", [
 T["existing_plant_capex_ratio"] = summarise("Capex using an existing plant, as a share of building your own", "%", [
     pt("S11n", 180.1 / 439.1 * 100, 4, "Manna-Nova integration A$180.1M ÷ Manna standalone DFS A$439.1M")],
     "One case only; the integration study also buys the plant, camp, power and tailings at a price it does not disclose.")
-out = {"about": "Typical values for the lithium deposit screener, compiled from data/studies/*.json by tools/compile_typicals.py. Medians across studies; each point keeps its study and page. Converted to US$ at each study's own FX assumption.",
+# Escalation: costs from studies dated before 2024 are brought to 2024 prices with US CPI-U annual averages
+# (US Bureau of Labor Statistics, CPI-U, U.S. city average, all items, 1982-84 = 100). Studies from 2024 on stay in their own year's dollars.
+CPI = {2020: 258.811, 2021: 270.970, 2022: 292.655, 2023: 304.702, 2024: 313.689}
+YEAR = {"S02": 2023, "S03": 2020, "S05": 2024, "S06": 2025, "S06b": 2021, "S07": 2023, "S11": 2025, "S11n": 2026, "PLS": 2026, "LTR": 2026}
+COST_KEYS = ["mining_cost_op_per_t_material", "mining_cost_ug_per_t_ore", "processing_cost_dms", "processing_cost_flotation", "site_ga_per_t_ore",
+             "capex_per_annual_t_ore", "road_haul_per_t_km", "sustaining_capex_per_t_conc", "closure_usd_m"]
+def escalate(key):
+    t = T[key]; pts = []
+    for p in t["points"]:
+        y = YEAR[p["study"]]; f = CPI[2024] / CPI[y] if y < 2024 else 1.0
+        q = dict(p)
+        if f > 1:
+            q["value"] = round(p["value"] * f, 3)
+            q["working"] = (p["working"] + "; " if p["working"] else "") + f"× CPI {f:.3f} ({y} to 2024 prices)"
+        pts.append(q)
+    T[key] = summarise(t["label"], t["unit"], pts, t["note"])
+for k in COST_KEYS: escalate(k)
+
+# Price received against the SC6 benchmark, from producers' reported realised prices (SC6-equivalent basis)
+T["realisation_discount_pct"] = summarise("Price received below the SC6 benchmark", "%", [
+    pt("LTR", (1 - 1966 / 2105) * 100, 2, "US$1,966/dmt SC6e realised vs US$2,105/t Fastmarkets SC6 CIF China, Jul-Sep 2026 average"),
+    pt("PLS", (1 - 2077 / 2105) * 100, 1, "US$2,077/t SC6-equivalent realised vs the same US$2,105/t benchmark")],
+    "Covers grade and impurity adjustments, contract terms and timing. PLS's September-quarter revenue also carried A$69M of negative provisional pricing adjustments (PLS note 4).")
+T["corporate_overhead_usd_m"] = summarise("Head-office overhead, per year", "US$M", [
+    pt("LTR", 5.557 * 4 * 0.67, 18, "Appendix 5B item 1.2(e) administration and corporate costs A$5.557M in the quarter × 4 × 0.67")],
+    "One producer's figure; a junior holding one project spends less, a multi-asset producer more.")
+out = {"about": "Typical values for the lithium deposit screener, compiled from data/studies/*.json by tools/compile_typicals.py. Medians across studies; each point keeps its study and page. Converted to US$ at each study's own FX assumption. Costs from studies before 2024 are escalated to 2024 prices with US CPI-U.",
        "fx_used": FX, "typicals": T,
        "fiscal_presets": {
           "Australia (WA)": {"royalty": "5% of revenue on spodumene concentrate (Manna-Nova p83)", "income_tax": "30%", "studies": ["S11", "S11n"]},

@@ -1,5 +1,5 @@
 {
- "about": "Typical values for the lithium deposit screener, compiled from data/studies/*.json by tools/compile_typicals.py. Medians across studies; each point keeps its study and page. Converted to US$ at each study's own FX assumption.",
+ "about": "Typical values for the lithium deposit screener, compiled from data/studies/*.json by tools/compile_typicals.py. Medians across studies; each point keeps its study and page. Converted to US$ at each study's own FX assumption. Costs from studies before 2024 are escalated to 2024 prices with US CPI-U.",
  "fx_used": {
   "S02": 1.0,
   "S03": 1.0,
@@ -166,32 +166,32 @@
   "mining_cost_op_per_t_material": {
    "label": "Open-pit mining cost per tonne of material moved (ore + waste)",
    "unit": "US$/t",
-   "median": 3.167,
-   "low": 2.63,
-   "high": 3.82,
+   "median": 3.272,
+   "low": 3.076,
+   "high": 3.933,
    "n": 4,
    "note": "",
    "points": [
     {
      "study": "S02",
      "name": "Ewoyaa DFS 2023 (Ghana)",
-     "value": 3.82,
+     "value": 3.933,
      "page": 38,
-     "working": "US$3.82/t mined"
+     "working": "US$3.82/t mined; × CPI 1.029 (2023 to 2024 prices)"
     },
     {
      "study": "S03",
      "name": "Bougouni FS 2020 (Mali)",
-     "value": 2.63,
+     "value": 3.188,
      "page": 3,
-     "working": "US$2.63/t material"
+     "working": "US$2.63/t material; × CPI 1.212 (2020 to 2024 prices)"
     },
     {
      "study": "S07",
      "name": "Rose FS 2023 (Quebec)",
-     "value": 3.259,
+     "value": 3.355,
      "page": 3,
-     "working": "US$27.05/t ore ÷ (1 + strip 7.3)"
+     "working": "US$27.05/t ore ÷ (1 + strip 7.3); × CPI 1.029 (2023 to 2024 prices)"
     },
     {
      "study": "S11",
@@ -231,7 +231,7 @@
    "label": "Processing cost, DMS route, per tonne of ore",
    "unit": "US$/t",
    "median": 19.848,
-   "low": 7.77,
+   "low": 7.999,
    "high": 30.1,
    "n": 4,
    "note": "",
@@ -239,9 +239,9 @@
     {
      "study": "S02",
      "name": "Ewoyaa DFS 2023 (Ghana)",
-     "value": 7.77,
+     "value": 7.999,
      "page": 38,
-     "working": ""
+     "working": "× CPI 1.029 (2023 to 2024 prices)"
     },
     {
      "study": "S06",
@@ -269,50 +269,50 @@
   "processing_cost_flotation": {
    "label": "Processing cost, flotation route, per tonne of ore",
    "unit": "US$/t",
-   "median": 18.56,
-   "low": 16.33,
-   "high": 20.79,
+   "median": 20.598,
+   "low": 19.793,
+   "high": 21.403,
    "n": 2,
    "note": "",
    "points": [
     {
      "study": "S03",
      "name": "Bougouni FS 2020 (Mali)",
-     "value": 16.33,
+     "value": 19.793,
      "page": 3,
-     "working": ""
+     "working": "× CPI 1.212 (2020 to 2024 prices)"
     },
     {
      "study": "S07",
      "name": "Rose FS 2023 (Quebec)",
-     "value": 20.79,
+     "value": 21.403,
      "page": 3,
-     "working": ""
+     "working": "× CPI 1.029 (2023 to 2024 prices)"
     }
    ]
   },
   "site_ga_per_t_ore": {
    "label": "Site G&A per tonne of ore",
    "unit": "US$/t",
-   "median": 6.075,
-   "low": 2.92,
-   "high": 15.94,
+   "median": 6.155,
+   "low": 3.539,
+   "high": 16.41,
    "n": 4,
    "note": "",
    "points": [
     {
      "study": "S02",
      "name": "Ewoyaa DFS 2023 (Ghana)",
-     "value": 5.499,
+     "value": 5.661,
      "page": 38,
-     "working": "US$47/t conc × 3.58 Mt conc ÷ 30.6 Mt ore"
+     "working": "US$47/t conc × 3.58 Mt conc ÷ 30.6 Mt ore; × CPI 1.029 (2023 to 2024 prices)"
     },
     {
      "study": "S03",
      "name": "Bougouni FS 2020 (Mali)",
-     "value": 2.92,
+     "value": 3.539,
      "page": 3,
-     "working": ""
+     "working": "× CPI 1.212 (2020 to 2024 prices)"
     },
     {
      "study": "S06",
@@ -324,41 +324,41 @@
     {
      "study": "S07",
      "name": "Rose FS 2023 (Quebec)",
-     "value": 15.94,
+     "value": 16.41,
      "page": 3,
-     "working": "remote James Bay"
+     "working": "remote James Bay; × CPI 1.029 (2023 to 2024 prices)"
     }
    ]
   },
   "capex_per_annual_t_ore": {
    "label": "Initial capex per tonne of annual ore capacity",
    "unit": "US$ per t/yr",
-   "median": 68.593,
-   "low": 59.176,
-   "high": 292.298,
-   "n": 7,
-   "note": "Greenfield sites need their own power, camp and roads; the integration case shows how much existing infrastructure saves.",
+   "median": 93.654,
+   "low": 70.616,
+   "high": 300.919,
+   "n": 6,
+   "note": "Own-plant builds only; converting an existing plant has its own ratio (Manna-Nova, 41% of standalone). Greenfield sites need their own power, camp and roads.",
    "points": [
     {
      "study": "S02",
      "name": "Ewoyaa DFS 2023 (Ghana)",
-     "value": 68.593,
+     "value": 70.616,
      "page": 41,
-     "working": "US$185.2M ÷ 2.7 Mtpa"
+     "working": "US$185.2M ÷ 2.7 Mtpa; × CPI 1.029 (2023 to 2024 prices)"
     },
     {
      "study": "S03",
      "name": "Bougouni FS 2020 (Mali)",
-     "value": 64.3,
+     "value": 77.934,
      "page": 4,
-     "working": "US$128.6M ÷ 2.0 Mtpa"
+     "working": "US$128.6M ÷ 2.0 Mtpa; × CPI 1.212 (2020 to 2024 prices)"
     },
     {
      "study": "S06b",
      "name": "Finniss DFS 2021 (NT)",
-     "value": 62.23,
+     "value": 72.041,
      "page": 32,
-     "working": "A$88.9M × 0.70 ÷ 1.0 Mtpa"
+     "working": "A$88.9M × 0.70 ÷ 1.0 Mtpa; × CPI 1.158 (2021 to 2024 prices)"
     },
     {
      "study": "S06",
@@ -370,9 +370,9 @@
     {
      "study": "S07",
      "name": "Rose FS 2023 (Quebec)",
-     "value": 292.298,
+     "value": 300.919,
      "page": 12,
-     "working": "US$470.6M ÷ 1.61 Mtpa (remote Quebec)"
+     "working": "US$470.6M ÷ 1.61 Mtpa (remote Quebec); × CPI 1.029 (2023 to 2024 prices)"
     },
     {
      "study": "S11",
@@ -380,13 +380,6 @@
      "value": 163.443,
      "page": 81,
      "working": "A$439.1M × 0.67 ÷ 1.8 Mtpa"
-    },
-    {
-     "study": "S11n",
-     "name": "Manna-Nova integration study 2026 (WA)",
-     "value": 59.176,
-     "page": 4,
-     "working": "A$180.1M × 0.69 ÷ 2.1 Mtpa (converting an existing plant)"
     }
    ]
   },
@@ -447,17 +440,17 @@
    "label": "Road haulage rate per tonne-kilometre",
    "unit": "US$/t-km",
    "median": 0.137,
-   "low": 0.068,
-   "high": 0.271,
+   "low": 0.079,
+   "high": 0.279,
    "n": 4,
    "note": "Long hauls: Shaakichiuwaanaan pays C$226/t (US$172) for 834 km of road plus a rail leg to Bécancour (PEA p14, p64).",
    "points": [
     {
      "study": "S06b",
      "name": "Finniss DFS 2021 (NT)",
-     "value": 0.068,
+     "value": 0.079,
      "page": 83,
-     "working": "A$8.62/t ÷ 88.31 km × 0.70 (2021, road only)"
+     "working": "A$8.62/t ÷ 88.31 km × 0.70 (2021, road only); × CPI 1.158 (2021 to 2024 prices)"
     },
     {
      "study": "S06",
@@ -476,9 +469,9 @@
     {
      "study": "S02",
      "name": "Ewoyaa DFS 2023 (Ghana)",
-     "value": 0.271,
+     "value": 0.279,
      "page": 39,
-     "working": "US$29.81/t ÷ ~110 km, site to ship incl. port loading"
+     "working": "US$29.81/t ÷ ~110 km, site to ship incl. port loading; × CPI 1.029 (2023 to 2024 prices)"
     }
    ]
   },
@@ -510,18 +503,18 @@
   "sustaining_capex_per_t_conc": {
    "label": "Sustaining capex per tonne of concentrate",
    "unit": "US$/t",
-   "median": 32.391,
-   "low": 9,
-   "high": 68.649,
+   "median": 32.852,
+   "low": 10.908,
+   "high": 70.674,
    "n": 6,
    "note": "",
    "points": [
     {
      "study": "S03",
      "name": "Bougouni FS 2020 (Mali)",
-     "value": 9,
+     "value": 10.908,
      "page": 4,
-     "working": ""
+     "working": "× CPI 1.212 (2020 to 2024 prices)"
     },
     {
      "study": "S05",
@@ -533,9 +526,9 @@
     {
      "study": "S06b",
      "name": "Finniss DFS 2021 (NT)",
-     "value": 41,
+     "value": 47.464,
      "page": 34,
-     "working": "incl. underground development"
+     "working": "incl. underground development; × CPI 1.158 (2021 to 2024 prices)"
     },
     {
      "study": "S11",
@@ -547,16 +540,16 @@
     {
      "study": "S02",
      "name": "Ewoyaa DFS 2023 (Ghana)",
-     "value": 31.341,
+     "value": 32.265,
      "page": 42,
-     "working": "US$112.2M ÷ 3.58 Mt conc (incl. US$98.9M resettlement)"
+     "working": "US$112.2M ÷ 3.58 Mt conc (incl. US$98.9M resettlement); × CPI 1.029 (2023 to 2024 prices)"
     },
     {
      "study": "S07",
      "name": "Rose FS 2023 (Quebec)",
-     "value": 68.649,
+     "value": 70.674,
      "page": 12,
-     "working": "US$237.8M ÷ (203.8 kt × 17 yr)"
+     "working": "US$237.8M ÷ (203.8 kt × 17 yr); × CPI 1.029 (2023 to 2024 prices)"
     }
    ]
   },
@@ -747,32 +740,32 @@
   "closure_usd_m": {
    "label": "Closure cost",
    "unit": "US$M",
-   "median": 16.7,
-   "low": 5.6,
-   "high": 45.8,
+   "median": 17.193,
+   "low": 6.483,
+   "high": 47.151,
    "n": 5,
    "note": "",
    "points": [
     {
      "study": "S02",
      "name": "Ewoyaa DFS 2023 (Ghana)",
-     "value": 45.8,
+     "value": 47.151,
      "page": 42,
-     "working": ""
+     "working": "× CPI 1.029 (2023 to 2024 prices)"
     },
     {
      "study": "S06b",
      "name": "Finniss DFS 2021 (NT)",
-     "value": 5.6,
+     "value": 6.483,
      "page": 36,
-     "working": "A$8.0M × 0.70"
+     "working": "A$8.0M × 0.70; × CPI 1.158 (2021 to 2024 prices)"
     },
     {
      "study": "S07",
      "name": "Rose FS 2023 (Quebec)",
-     "value": 16.7,
+     "value": 17.193,
      "page": 12,
-     "working": ""
+     "working": "× CPI 1.029 (2023 to 2024 prices)"
     },
     {
      "study": "S11",
@@ -805,6 +798,49 @@
      "value": 41.016,
      "page": 4,
      "working": "Manna-Nova integration A$180.1M ÷ Manna standalone DFS A$439.1M"
+    }
+   ]
+  },
+  "realisation_discount_pct": {
+   "label": "Price received below the SC6 benchmark",
+   "unit": "%",
+   "median": 3.966,
+   "low": 1.33,
+   "high": 6.603,
+   "n": 2,
+   "note": "Covers grade and impurity adjustments, contract terms and timing. PLS's September-quarter revenue also carried A$69M of negative provisional pricing adjustments (PLS note 4).",
+   "points": [
+    {
+     "study": "LTR",
+     "name": "Liontown Kathleen Valley, Sep Q 2026 actuals (WA)",
+     "value": 6.603,
+     "page": 2,
+     "working": "US$1,966/dmt SC6e realised vs US$2,105/t Fastmarkets SC6 CIF China, Jul-Sep 2026 average"
+    },
+    {
+     "study": "PLS",
+     "name": "PLS Pilgangoora, Sep Q 2026 actuals (WA)",
+     "value": 1.33,
+     "page": 1,
+     "working": "US$2,077/t SC6-equivalent realised vs the same US$2,105/t benchmark"
+    }
+   ]
+  },
+  "corporate_overhead_usd_m": {
+   "label": "Head-office overhead, per year",
+   "unit": "US$M",
+   "median": 14.893,
+   "low": 14.893,
+   "high": 14.893,
+   "n": 1,
+   "note": "One producer's figure; a junior holding one project spends less, a multi-asset producer more.",
+   "points": [
+    {
+     "study": "LTR",
+     "name": "Liontown Kathleen Valley, Sep Q 2026 actuals (WA)",
+     "value": 14.893,
+     "page": 18,
+     "working": "Appendix 5B item 1.2(e) administration and corporate costs A$5.557M in the quarter × 4 × 0.67"
     }
    ]
   }

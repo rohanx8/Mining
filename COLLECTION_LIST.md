@@ -53,6 +53,18 @@ Send me the filled rows or the PDFs and I'll load them, flag them, and add check
   - Defends: the Recovery and People dials and the slow ramp-up option (50%, then 75%).
 - [ ] **Year-by-year schedules** from study appendices (grade, tonnes and cost by year).
   - Defends: a grade profile in the screener, which would close most of the ±20% gap to studies.
+- [ ] **Head-office costs of lithium juniors and producers.** Appendix 5B item 1.2(e), administration and corporate costs, for five to ten ASX companies.
+  - Defends: the head-office overhead default, which rests on Liontown alone.
+- [ ] **Realised prices against the benchmark.** Quarterly realised prices on an SC6-equivalent basis and the matching benchmark average, for more producers and quarters.
+  - Defends: the 4% price-received discount (two points today).
+- [ ] **Financing terms of recent lithium builds.** Debt fees and rates, cost-overrun facilities, offtake prepayments, equity raised and its discount.
+  - Defends: the Funding dial's 10% and 20% financing costs and its delays.
+- [ ] **BLS CPI-U 2025 annual average, and a mining-cost index.**
+  - Defends: escalation of older study costs to 2026 prices (today it stops at 2024, and CPI is a floor).
+- [ ] **Primary sources for state actions** (Zimbabwe, Namibia, Mexico, Chile, Mali) and **dividend withholding rates and stamp duty** by country.
+  - Defends: the Fiscal dial's state-action rule and the zero defaults for withholding tax and duty.
+- [ ] **Market values and deal prices of lithium developers against their study NPVs.**
+  - Defends: the market check, and calibrating the dials against what buyers actually pay.
 - [ ] **Infrastructure capex per kilometre** (access roads, power lines, rail spurs) from studies or public works data.
   - Defends: a typical value for "roads, rail or port you must build".
 

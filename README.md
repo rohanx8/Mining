@@ -1,6 +1,6 @@
 # Mining Risk Explorer
 
-A first pass at a potential deposit. Enter what you know about a lithium (spodumene) deposit (tonnes, grade, location, how the concentrate reaches a port) in seven short steps. The app returns an NPV, an IRR and the most you could pay for it. Then turn nine plain-English risk dials to see what each risk takes away.
+A first pass at a potential deposit. Enter what you know about a lithium (spodumene) deposit (tonnes, grade, location, how the concentrate reaches a port) in seven short steps. The app returns an NPV, an IRR and the most you could pay for it. Then turn ten plain-English risk dials to see what each risk takes away, and see what moves the value most.
 
 Every input you leave blank starts at a typical value from published studies, with its range, the number of studies and the page each figure came from. Three real feasibility studies can be loaded into the steps to see how they were built. Three operating gold mines stay in as worked references, and one of them (Tongon) reconciles to its spreadsheet to the cent.
 
@@ -11,7 +11,7 @@ Three tabs, one question each. Each tab shows the essentials first and folds the
 | Tab | Its question | Shown first | Under Advanced |
 |---|---|---|---|
 | **Deposit** | What is it? | Seven short steps (Deposit, Mine plan, Processing, Haulage, Location, Capital, Price and deal), each asking one to three things, with a live summary of the value after risks, before risks and the most you could pay | The step's other inputs, each starting at a typical value with its range and sources |
-| **Result** | What is it worth, and what could go wrong? | Value after and before risks; the most you could pay for your target return; one sentence naming the biggest risks; the nine risks, biggest first, each with a Low–Medium–High slider and what it costs; four key numbers | Every number as a card, the risk bridge, the ladder from metal in the ground to value, one-at-a-time sensitivities, the annual cash flow, mine-plan options and dated events |
+| **Result** | What is it worth, and what could go wrong? | Value after and before risks (the value after risks is the most you could pay at your rate, country risk included), with a hurdle view beside it; the value as a range (stress case, after risks, before risks, whole resource); one sentence naming the biggest risks; the ten risks, biggest first, each with a Low–Medium–High slider and what it costs; what moves the value (long-term price, price × capex, delay, study ranges); key numbers with a market check | Every number as a card, the risk bridge, the ladder from metal in the ground to value, one-at-a-time sensitivities, the annual cash flow, mine-plan options and dated events |
 | **Compare** | How does it compare? | Cost per tonne (or ounce) after risks: first-year AISC plus the risk cost, ranked | The cost curve, the side-by-side table and the risk cost by dial |
 
 - **Sliders.** Each risk has a three-stop slider: left is Low, the middle is Medium, right is High. Arrow keys move it one stop. The amount updates when the slider settles. Rows keep their place while you slide, and re-sort biggest first each time you open the Result tab. **Details** under a risk shows what each level does, why it starts where it does, what would settle it, and its evidence and sources.
@@ -28,34 +28,40 @@ Each step shows its essential questions. The rest sit under Advanced and start a
 | Step | What it asks | Used when you leave it blank |
 |---|---|---|
 | 1. Deposit | Resource by category (Measured, Indicated, Inferred: Mt and % Li₂O); whether Inferred counts; mining method; underground share; strip ratio | Strip ratio 7.3 (median of 5) |
-| 2. Mine plan | Share of the resource in the plan and dilution, or plan tonnes and grade straight from a study; ore per year; mining costs | Plan share 48% (4 studies); dilution 5.75% (4); ore per year from Taylor's rule (life ≈ 0.2 × tonnes^0.25); open pit US$3.17 per tonne moved (4); underground US$51.77 per tonne of ore (2) |
-| 3. Processing | Route (DMS or flotation); testwork so far; recovery; concentrate grade; processing and site G&A cost; by-product credit | Recovery 72.3% DMS (6) or 74.7% with flotation (3); processing US$19.85/t (4) or US$18.56/t (2); G&A US$6.08/t (4) |
-| 4. Haulage | Own plant, or truck ore to an existing plant; up to two legs to port (truck, rail, conveyor or barge: km × rate); port and loading; ocean freight; roads, rail or port you must build | Road US$0.137 per t-km (4); ocean freight US$25/t (2); an existing plant costs 41% of building your own (1 case) |
-| 5. Location | Country or state; royalty and what it's charged on (gross revenue or FOB value); income tax; state free carry; power; permits; operator | Presets for Western Australia, Northern Territory, Ghana, Mali (pre-2023 terms) and Quebec, from the studies. Any other country: Damodaran's corporate tax rate, and you enter the royalty. The country risk premium comes from Damodaran (Jan 2026) for all 178 countries in his table. |
-| 6. Capital | Initial capex and where it comes from; sustaining capex; closure; years until construction; build period; ramp-up | Capex US$68.6 per tonne of annual ore capacity (7); sustaining US$32.4 per t of concentrate (6); closure US$16.7M (5); years to construction from permit status (granted 0, in progress 1, none 2) |
-| 7. Price and deal | Price deck; discount rate; your ownership share; asking price; the return you need | 8% real; hurdle 15% (Barrick's Tier One hurdle, AIF FY2025) |
+| 2. Mine plan | Share of the resource in the plan and dilution, or plan tonnes and grade straight from a study; ore per year; mining costs | Plan share 48% (4 studies); dilution 5.75% (4); ore per year from Taylor's rule (life ≈ 0.2 × tonnes^0.25); open pit US$3.27 per tonne moved (4); underground US$51.77 per tonne of ore (2) |
+| 3. Processing | Route (DMS or flotation); testwork so far; recovery; concentrate grade; processing and site G&A cost; by-product credit | Recovery 72.3% DMS (6) or 74.7% with flotation (3); processing US$19.85/t (4) or US$20.60/t (2); G&A US$6.16/t (4) |
+| 4. Haulage | Own plant, or truck ore to an existing plant; up to two legs to port (truck, rail, conveyor or barge: km × rate); port and loading; ocean freight; carbon, marketing and other costs per tonne; roads, rail or port you must build | Road US$0.137 per t-km (4); ocean freight US$25/t (2); an existing plant costs 41% of building your own (1 case) |
+| 5. Location | Country or state; royalty and what it's charged on (gross revenue or FOB value); income tax; state free carry; private royalties on the tenement; withholding tax on dividends; power; permits; operator | Presets for Western Australia, Northern Territory, Ghana, Mali (pre-2023 terms) and Quebec (41.7% effective income and mining tax, from the Rose study), from the studies. Private royalties and withholding tax are zero unless entered. Any other country: Damodaran's corporate tax rate, and you enter the royalty. The country risk premium comes from Damodaran (Jan 2026) for all 178 countries in his table. |
+| 6. Capital | Initial capex and where it comes from; how the build will be funded; years until construction; sustaining capex; closure; head-office overhead; receivables; build period; ramp-up | Capex US$93.7 per tonne of annual ore capacity (6 own-plant studies, 2024 prices); sustaining US$32.9 per t of concentrate (6); closure US$17.2M (5); head-office overhead US$14.9M a year (1: Liontown); receivables 30 days of revenue (an assumption); years to construction from permit status (granted 0, in progress 1, none 2) |
+| 7. Price and deal | Asking price; hurdle rate for the hurdle view; price deck; long-term price; price received below the benchmark; discount rate; ownership share; stamp duty and deal costs | 8% real; hurdle 15% (Barrick's Tier One hurdle, AIF FY2025); price received 4.0% below SC6 (2: Liontown 6.6%, PLS 1.3%, September quarter 2026) |
 
-Each typical value is the median of the study points in `data/lithium_typicals.json`, converted to US$ at each study's own FX assumption. The app shows the range and the source pages beside every field. The studies: Ewoyaa DFS (Jun 2023), Bougouni FS (Jan 2020), Shaakichiuwaanaan PEA (Aug 2024) and feasibility studies (Oct 2025, Nov 2026), Finniss Stage 1 DFS (Jul 2021) and restart study (May 2025), Rose FS (Aug 2023), Manna DFS (Dec 2025) and Manna–Nova integration study (Sep 2026), plus PLS and Liontown September 2026 quarterly actuals.
+Each typical value is the median of the study points in `data/lithium_typicals.json`, converted to US$ at each study's own FX assumption. Costs from studies dated before 2024 are brought to 2024 prices with US CPI-U annual averages (BLS: 2020 ×1.212, 2021 ×1.158, 2023 ×1.029); studies from 2024 on stay in their own year's dollars. CPI is a floor for mining costs, which rose faster. The own-plant capex median leaves out the Manna–Nova case, which has its own existing-plant ratio. The app shows the range and the source pages beside every field. The studies: Ewoyaa DFS (Jun 2023), Bougouni FS (Jan 2020), Shaakichiuwaanaan PEA (Aug 2024) and feasibility studies (Oct 2025, Nov 2026), Finniss Stage 1 DFS (Jul 2021) and restart study (May 2025), Rose FS (Aug 2023), Manna DFS (Dec 2025) and Manna–Nova integration study (Sep 2026), plus PLS and Liontown September 2026 quarterly actuals.
 
 ### What the screener calculates
 
 ```
 mine plan        = resource × plan share × (1 + dilution), at resource grade ÷ (1 + dilution)   [or the study's plan]
 concentrate t    = ore × grade % × recovery ÷ concentrate grade %
-price            = SC6 price × concentrate grade ÷ 6
+price            = SC6 price × concentrate grade ÷ 6 × (1 − price received below the benchmark)
 revenue          = concentrate × price + by-product credit
 royalties        = Σ rate × (gross revenue, or FOB value = revenue − ocean freight)
 mining per t ore = (1 − UG share) × open-pit cost per t moved × (1 + strip) + UG share × UG cost
 site costs       = (mining + processing + G&A) per t ore, 40% fixed during a stoppage
-logistics        = Σ legs (km × rate) + port, per t concentrate; ocean freight per t concentrate
-capex            = input, or typical intensity × ore per year (× 41% for an existing plant), + infrastructure you must build
+logistics        = Σ legs (km × rate) + port, per t concentrate; ocean freight per t concentrate; carbon and other per t
+head office      = overhead per year, from 2026 until the mine stops
+working capital  = receivables (days of revenue) + inventory 30 − payables 45 (days of site costs), released at the end
+capex            = input, or typical intensity × ore per year (× 41% for an existing plant), + infrastructure you must build;
+                   the Funding dial adds financing costs
 tax              = max(0, taxable income after losses carried forward) × rate; capex depreciated by units of production
-owner's FCF      = FCF × ownership × (1 − free carry) when positive; FCF × ownership when negative (the state funds nothing)
+owner's FCF      = FCF × ownership × (1 − free carry) × (1 − withholding tax) when positive; FCF × ownership when negative
+pause or close   = if the cash margin (EBITDA − sustaining capex) turns negative and the price never recovers, the mine
+                   closes and the rest of the ore stays in the ground; if it recovers, loss years are paused (care and
+                   maintenance at the fixed 40% of site costs) and that ore is mined later. The owner takes the better path.
 ```
 
 The build is spread over calendar years (`BUILD_PHASING`: 1 year 100%; 1.5 years 67/33; 2 years 40/60; 2.5 years 40/40/20; 3 years 25/45/30). Production starts when the build ends; a half-year build starts production mid-year. A slow ramp-up runs at 50% then 75% of nameplate.
 
-Outputs: owner's NPV; project IRR; payback year; NPV ÷ capex; the **most you could pay** for your target return (owner's cash flows, capex included, discounted at your hurdle); and, with an asking price, asking price ÷ base NAV. The Price and deal step shows the market's stage multiples beside these: scoping-stage projects typically trade at 0.10–0.25× study NPV, PFS 0.25–0.50× and feasibility 0.50–0.85× (Ren and Patel, *What Drives Mining Project Value*, note 5; analytical judgement, not a measured sample).
+Outputs: owner's NPV; project IRR; payback year; NPV ÷ capex. The **most you could pay** is the value after risks: the cash flows you expect (dials applied), discounted at your real rate plus the country premium, less any stamp duty and deal costs. It is never combined with a hurdle, which would count the risks twice. Beside it, the **hurdle view** applies your hurdle, plus the country premium, to the cash flows before risks. The two agree only when the hurdle's premium matches what the risks take out. An asking price is compared with both. The Price and deal step shows the market's stage multiples beside these: scoping-stage projects typically trade at 0.10–0.25× study NPV, PFS 0.25–0.50× and feasibility 0.50–0.85× (Ren and Patel, *What Drives Mining Project Value*, note 5; analytical judgement, not a measured sample).
 
 ### The screener against published studies
 
@@ -79,11 +85,28 @@ Each loaded study runs with its own price deck and discount rate, no dials, at 1
 | Infrastructure | Concentrate travels over 800 km to port High; diesel power Medium; otherwise Low |
 | People and operator | Has built and run a similar mine Low; has built a mine, but not spodumene, Medium; has not built a mine High |
 | Capex and schedule | Capex from a feasibility study Low, PFS Medium, scoping study or your own estimate High |
-| Fiscal and legal | Country risk premium under 3% Low, 3–8% Medium, over 8% High (a proxy for fiscal instability) |
+| Funding | Committed or in hand Low; not yet known Medium; no funding route yet High |
+| Fiscal and legal | Country risk premium under 3% Low, 3–8% Medium, over 8% High (a proxy for fiscal instability). Countries with a recent state action on lithium or mining terms start at High: Zimbabwe and Namibia (export bans on raw or unprocessed ore, 2022 and 2023), Mexico (nationalisation, 2022), Chile (state control of strategic projects, 2023) and Mali (new mining code, 2023). Export bans are bigger than the dial's royalty event, so treat High as a floor. |
 | Community and environment | Permits granted Low, in progress Medium, not applied for High |
 | Political and security | Medium: the country premium applied once in full |
 
 Calibration evidence already in the app: Shaakichiuwaanaan's total development capex rose 44% from PEA to feasibility study (CA$1,374M to CA$1,978M) even as contingency fell from 24% to 11%, more than the Capex dial's High setting of +35%. Finniss's capex doubled and its haulage cost per tonne nearly tripled between its 2021 DFS and its 2025 restart study. Kathleen Valley recovered 60–63% during ramp-up against a 72% median in studies.
+
+### The value as a range, and what moves it
+
+The Result tab never shows one number alone:
+
+- **Stress case:** the Downside price deck, with the Funding and Capex dials at High, other dials as set, and the mine free to close. These risks arrive together when prices fall, so this is a combined bad case, not an average.
+- **After risks** and **before risks**, as above.
+- **Whole resource mined:** the resource the plan leaves out, mined after it at the same rate (after risks). It's upside the plan doesn't count.
+- **Market check** (under Key numbers): feasibility-stage projects typically trade at 0.50–0.85× their value before risks, PFS 0.25–0.50× and scoping 0.10–0.25× (Ren and Patel, note 5; a judgement, not a measured sample). It's an independent cross-check on the dials.
+
+**What moves the value** shows the critical drivers, one view at a time:
+
+- **Long-term price:** value before and after risks from half to one and a half times the long-term price, with breakeven after risks marked.
+- **Price × capex** (deposits) or **price × rate** (operating mines): a table of value after risks.
+- **Delay:** value after risks if construction starts one to four years later than set.
+- **Study ranges:** a tornado that sets one input at a time to the lowest and highest value seen across studies. The longest bars show where better data is worth most. Inputs entered as zero because they're counted elsewhere (G&A inside processing, freight inside an FOB price) are skipped.
 
 ## Valuation engine
 
@@ -144,7 +167,7 @@ Tropicana checks: year-1 production is 420 koz (target 400–430). Year-1 AISC i
 
 ### Running the checks
 
-- In the app: **Run checks** in the footer. There are 50 checks:
+- In the app: **Run checks** in the footer. There are 58 checks:
   - the Tongon spreadsheet match: 15 cases, the 20-cell grid, FCF by year and AISC
   - the brief's Tongon targets
   - the three lithium studies, each within ±20% of its published NPV
@@ -153,6 +176,7 @@ Tropicana checks: year-1 production is 420 koz (target 400–430). Year-1 AISC i
   - each asset's value ladder adding up from in-situ value to risk-adjusted value
   - 312 model runs with no NaN and no negative production
   - a dial change updating all three tabs
+  - the fixes from the blind-spot review: the hurdle view includes the country premium; the most you could pay is the value after risks; Funding takes value from deposits only; a loss-making mine closes rather than mining at a loss; value rises with the long-term price; stress ≤ after risks ≤ before risks; each year of delay costs value; typical capex excludes the existing-plant case and is in 2024 prices
   - a horizontal-overflow check at the current width
 - Headless: `node tools/run-checks.js 375` (or `1280`). This needs Playwright and Chromium, and exits non-zero if any check fails.
 
@@ -162,9 +186,9 @@ Two posters supplied ideas: *From In-Situ Value to Equity Value* and *What Drive
 
 | From the posters | In the app |
 |---|---|
-| The value bridge from in-situ value to equity value | **From lithium (or gold) in the ground to value**, under Advanced on the Result tab. In-situ value (metal in the mine plan × spot) runs through recovery losses, the deck gap, by-products, royalties, costs, haulage, ocean freight, capex, closure, tax, discounting, the partners' share and the nine dials, ending at risk-adjusted value. Chevrons show each subtotal as a % of in-situ value. A check confirms it adds up. |
+| The value bridge from in-situ value to equity value | **From lithium (or gold) in the ground to value**, under Advanced on the Result tab. In-situ value (metal in the mine plan × spot) runs through recovery losses, the deck gap, by-products, royalties, costs, haulage, ocean freight, capex, closure, tax, discounting, the partners' share and the risk dials, ending at risk-adjusted value. Chevrons show each subtotal as a % of in-situ value. A check confirms it adds up. |
 | Market adjustment: equity = attributable NAV × P/NAV | **Price paid vs value (P/NAV)** for assets with a transaction, and asking price ÷ base NAV for a deposit. Tongon's price works out to 0.84× base NAV, against 0.45× from the dials. |
-| Stage P/NAV multiples (scoping 0.10–0.25× to feasibility 0.50–0.85×) | Beside the most you could pay, under Advanced on the Result tab and in the Price and deal step |
+| Stage P/NAV multiples (scoping 0.10–0.25× to feasibility 0.50–0.85×) | The market check under Key numbers, and in the Price and deal step |
 | Hurdle benchmarks (Barrick AIF FY2025: 15% Tier One, 10% long-life) | The default target return for a deposit, and beside the transaction IRR |
 | Screening criteria and what typically addresses each risk (framework 1.2) | **What would settle it** in the Details under each risk on the Result tab |
 | Key failure modes and interactions (framework 2.2, 2.4) | **How this risk destroys value** in each risk’s evidence and sources; the slow ramp-up option (interaction 8); the free carry that funds nothing (interaction 12) |
@@ -184,12 +208,13 @@ Every risk enters the DCF one way: as a range on an input, a delay, an event (ye
 | Infrastructure: power, water, supplies? | none | processing and site G&A +5% | +10%, plus a 2%/yr chance of a 1-month outage | processing and G&A; downtime |
 | People and operator: have they done this before? | none | site costs +5% | +10% (deposits also ramp up 6 months slower) | all site costs |
 | Capex and schedule (deposits only) | none | capex +15%, 6 months late | +35%, 12 months late | development capex; timing |
+| Funding (deposits only): can the owner pay for the build? | none | financing costs of 10% of capex, 6 months late | 20%, 12 months late | development capex; timing |
 | Fiscal and legal: will the rules change? | none | 25% chance of +2 pt royalty within 3 years | 50% chance of +2 pts and the state stake going to 30% | royalties; owner's share |
 | Community and environment | none | 3%/yr chance of a 1-month blockade | 10%/yr chance of a 3-month blockade (deposits also get a 1-year permit delay) | downtime |
 | Political and security | 0.5 × CRP | 1.0 × CRP | 1.5 × CRP | discount rate only, with no stoppage event as well |
 
 - **Events.** A p%/yr chance of an n-month stoppage cuts milled tonnes, and with them production and variable costs, by p × n/12 each year. 40% of site costs are fixed and continue.
-- **Bridge.** Dials are applied cumulatively in the order Resource, Recovery, Ground, Infrastructure, People, Capex, Fiscal, Community, Political. Each bar is the NPV change from adding that dial, so the bars sum exactly to risk-adjusted minus base.
+- **Bridge.** Dials are applied cumulatively in the order Resource, Recovery, Ground, Infrastructure, People, Capex, Funding, Fiscal, Community, Political. Each bar is the NPV change from adding that dial, so the bars sum exactly to risk-adjusted minus base.
 - **Risk cost per unit** on the cost curve = (base − risk-adjusted owner's NPV) ÷ the owner's share of base-case life-of-mine output (tonnes of concentrate or payable ounces).
 
 ## How to add a lithium study as an example
@@ -219,7 +244,7 @@ Assets live in `const ASSETS = [...]` in section 1 of the script. Copy the Tongo
 5. **Fiscal.** Set `{ royalties: [{name, rate}], taxRate, taxBase, closure, wc: {receivableDays, inventoryDays, payableDays}, wcReleaseHorizon }`. Set `wcReleaseHorizon` to `null` to always release working capital.
 6. **Optional.** Add a `stream` (`{holderPayment, tiers: [{upTo, rate}]}`) and a `transaction` (`{upfront, contingentTotal, contingentPaidShare, contingentYears}`).
 7. **Country premium.** Set `crp: { value, label, source, url, flag, note }`.
-8. **Dial defaults.** Set `dialDefaults`: for each of the nine dial ids, `{ level, reason, sources: [keys of S], question }`.
+8. **Dial defaults.** Set `dialDefaults`: for each of the ten dial ids (operating mines get a placeholder for Funding automatically), `{ level, reason, sources: [keys of S], question }`.
 9. **Evidence and events.** Fill `evidence: [{label, value, unit, source, url, flag, note?, input?, dial?}]` and `events: [{date, text, source, url}]`. Add new source records to `S`.
 10. **Missing data.** If key inputs are missing, set `dataStatus: 'pending'`, add a `pendingNote` and a `gaps` list, and leave out `schedule`, `costs` and `fiscal`.
 
@@ -256,11 +281,18 @@ These also appear in the app under **Assumptions list**.
 - Concentrate is priced pro rata to SC6 by its grade (SC5.5 earns 5.5/6 of the SC6 price). Studies that sell a mix of grades (Ewoyaa: SC6 and SC5.5) are entered at one grade.
 - The mine plan, when not given, is the resource × the typical plan share, plus dilution at zero grade.
 - Ore per year, when not given, comes from Taylor's rule: life ≈ 0.2 × (plan tonnes)^0.25.
-- Capex, when not given, is the median intensity across seven studies (US$68.6 per tonne of annual ore capacity). The range is wide (US$59–292), and remote greenfield sites sit at the top.
+- Capex, when not given, is the median intensity across six own-plant studies in 2024 prices (US$93.7 per tonne of annual ore capacity). The range is wide (US$71–301), and remote greenfield sites sit at the top.
+- Costs from studies before 2024 are escalated to 2024 prices with US CPI-U; 2025–2026 studies stay in their own dollars.
+- Price received is 4.0% below the SC6 benchmark (median of Liontown and PLS, September quarter 2026). Studies loaded as examples keep their own pricing.
+- Head-office overhead is US$14.9M a year from 2026 until the mine stops (Liontown's administration and corporate costs, one figure). Examples exclude it, as their studies do.
+- Working capital: receivables 30 days of revenue (an assumption); inventory 30 and payables 45 days of site costs (Tongon spreadsheet). Examples exclude it.
+- The Funding dial's financing costs (10% and 20% of capex) and delays (6 and 12 months) are starting assumptions.
+- A mine that loses cash closes, or pauses if prices recover; care and maintenance costs the fixed 40% of site costs.
+- Private royalties, withholding tax on dividends, carbon and other per-tonne costs, and stamp duty are zero unless entered.
 - Using an existing plant costs 41% of building your own: one case (Manna–Nova against the Manna DFS), and that study also buys the plant at an undisclosed price.
 - Capex phasing (`BUILD_PHASING`), the slow ramp-up (50% then 75%) and years to construction from permit status (0, 1 or 2) are assumptions.
 - Rail, conveyor and barge have no benchmark rate yet; a leg without a rate counts as zero, and the app says so.
-- Royalty presets come from the studies: WA 5% of FOB value; NT at its 2.5% of gross floor; Ghana 5% plus a 1% levy, 35% tax and a 10% free carry; Mali at pre-2023 terms; Quebec 2% with Damodaran's corporate tax (Quebec mining tax not yet modelled).
+- Royalty presets come from the studies: WA 5% of FOB value; NT at its 2.5% of gross floor; Ghana 5% plus a 1% levy, 35% tax and a 10% free carry; Mali at pre-2023 terms; Quebec 2% with a 41.7% effective income and mining tax rate (Rose feasibility study, p3).
 - A free carry takes its share of positive cash flows and funds nothing.
 - Studies are converted to US$ at their own FX assumption (Manna 0.67, Finniss 2021 0.70, Shaakichiuwaanaan 0.76 US$/CA$).
 - Tax losses carry forward without limit; a study's stated opening losses are used where given (Finniss 2021: US$52.7M).
@@ -289,7 +321,7 @@ These also appear in the app under **Assumptions list**.
 
 ## Not built yet
 
-- A tenth **Funding** dial for deposits (can the owner raise the capex, and at what dilution?).
+- Calibration of the dials against outcomes. The market check shows the dials can be harsher than market multiples.
 - Grade and cost profiles by year in the screener.
 - Benchmarks for rail, conveyor and barge rates, separate port charges, and infrastructure capex per kilometre.
 - Other commodities (iron ore is the natural next one: the haulage step already takes rail legs).

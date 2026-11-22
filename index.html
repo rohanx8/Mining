@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mining Risk Explorer</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="A first pass at a lithium deposit: enter tonnes, grade and location in seven steps, see its NPV, then turn nine plain-English risk dials to see what each risk takes away.">
+<meta name="description" content="A first pass at a lithium deposit: enter tonnes, grade and location in seven steps, see its NPV, then turn plain-English risk dials to see what each risk takes away.">
 <style>
 :root {
   /* Layout: an instrument panel. A sticky control bar holds the shared price deck and discount rate; one job per screen; tabs sit at the bottom on phones and in the bar on wide screens. */
@@ -514,6 +514,35 @@ input.lvl::-moz-range-thumb { box-sizing: border-box; width: 22px; height: 22px;
 .cbar-stack { display: flex; height: 14px; border-radius: 4px; overflow: hidden; background: var(--surface-2); }
 .cbar-stack .a { background: var(--aisc); }
 .cbar-stack .r { background: var(--riskcost); }
+/* Value range, value movers */
+.v-pay { color: var(--ink); max-width: 66ch; }
+.rg { display: grid; gap: 8px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; }
+.rg-h { font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.rg-row { display: grid; grid-template-columns: minmax(0, 1.3fr) auto minmax(90px, 1.6fr); align-items: center; gap: 4px 12px; }
+.rg-k { font-size: 13.5px; font-weight: 650; min-width: 0; }
+.rg-k small { display: block; font-weight: 500; font-size: 11.5px; color: var(--muted); }
+.rg-v { font-weight: 750; font-variant-numeric: tabular-nums; text-align: right; font-size: 14px; }
+.rg-v.neg { color: var(--bad-ink); }
+.rg-track { position: relative; height: 12px; background: var(--surface-2); border-radius: 3px; }
+.rg-bar { position: absolute; top: 0; bottom: 0; border-radius: 3px; background: var(--total); }
+.rg-bar.after { background: var(--ink); }
+.rg-bar.neg { background: var(--loss); }
+.rg-bar.up { background: var(--aisc); }
+.rg-zero { position: absolute; top: -3px; bottom: -3px; width: 1px; background: var(--line-strong); }
+@media (max-width: 560px) { .rg-row { grid-template-columns: minmax(0, 1fr) auto; } .rg-track { grid-column: 1 / -1; } }
+.mv-seg { flex-wrap: wrap; max-width: 100%; }
+.mv-intro { margin: 8px 0 6px; max-width: 70ch; }
+table.mv-grid td.neg { color: var(--bad-ink); }
+table.mv-grid td.cur { outline: 2px solid var(--ink); outline-offset: -2px; font-weight: 750; }
+table.mv-grid th { white-space: nowrap; }
+table.mv-ranges td, table.mv-ranges th { white-space: normal; }
+.s-before { stroke: var(--total); }
+.s-after { stroke: var(--ink); }
+.f-before { fill: var(--total); }
+.f-after { fill: var(--ink); }
+.sw-before { background: var(--total); }
+.sw-after { background: var(--ink); }
+.lt-in { width: 110px; min-height: 34px; padding: 4px 8px; border: 1px solid var(--line-strong); border-radius: 7px; background: var(--surface); color: var(--ink); font-size: 14px; }
 </style>
 </head>
 <body>
@@ -614,7 +643,7 @@ const LEVELS = ['L', 'M', 'H'];
 const LEVEL_NAME = { L: 'Low', M: 'Medium', H: 'High' };
 const LEVEL_SHORT = { L: 'Low', M: 'Med', H: 'High' };
 
-// The nine dials, in bridge order (discount rate last). Every number here is a starting assumption.
+// The dials, in bridge order (discount rate last). Every number here is a starting assumption.
 const DIALS = [
   { id: 'resource', name: 'Resource and grade', short: 'Resource', question: 'How sure are we about the tonnes and grade?',
     covers: 'Resource confidence, grade reconciliation, dilution, life extension', method: 'Range on an input', line: 'Head grade; tonnes and mine life',
@@ -640,6 +669,10 @@ const DIALS = [
     covers: 'Overrun, delay, ramp-up', method: 'Range on an input, plus a delay', line: 'Initial capex; production timing',
     basis: 'Study stage (PFS or DFS), contingency, contractor record',
     levels: { L: { text: 'No change', fx: {} }, M: { text: 'Capex +15%, six months late', fx: { capex: 0.15, depositDelay: 0.5 } }, H: { text: 'Capex +35%, twelve months late', fx: { capex: 0.35, depositDelay: 1 } } } },
+  { id: 'funding', name: 'Funding', short: 'Funding', question: 'Can the owner pay for the build?', depositsOnly: true,
+    covers: 'Raising the build cost from equity, debt and offtake prepayments; dilution and delay', method: 'Range on an input, plus a delay', line: 'Financing costs on initial capex; production timing',
+    basis: 'Funding committed or in hand, a strategic partner, where the lithium price cycle stands',
+    levels: { L: { text: 'No change', fx: {} }, M: { text: 'Financing costs of 10% of initial capex, and six months’ delay while the money is found', fx: { finCost: 0.10, depositDelay: 0.5 } }, H: { text: 'Financing costs of 20% of initial capex, and a year’s delay', fx: { finCost: 0.20, depositDelay: 1 } } } },
   { id: 'fiscal', name: 'Fiscal and legal', short: 'Fiscal', question: 'Will the rules change?',
     covers: 'Royalty, tax, state stake, permits', method: 'Event (probability × impact)', line: 'Royalties; owner’s share',
     basis: 'Recent code changes, stability agreement, licence term',
@@ -669,6 +702,8 @@ const DIAL_MECHANISMS = {
     retire: 'An operator with a record on similar mines, retained key staff and contractors, and signed labour agreements.' },
   capex: { why: 'Capex estimates often rise from scoping to feasibility, overruns against the feasibility estimate are common, and nameplate is often reached late. Each year of delay costs present value (interactions 6, 8 and 10).',
     retire: 'Funding closed at the construction decision, then construction to nameplate.' },
+  funding: { why: 'A junior pays for the build with equity, debt and offtake prepayments. When prices fall, money dries up or comes on worse terms: more dilution, higher fees and covenants, and months lost while it is found. Funding risk moves with the price cycle, so it bites when everything else does.',
+    retire: 'Committed funding at the construction decision: a debt package with a cost-overrun facility, a strategic partner or offtake prepayment, and the equity raised.' },
   fiscal: { why: 'Once capital is sunk, bargaining power moves to the host state, which may raise royalties or tax or take a bigger free carry. A free carry dilutes the owner without funding the project (interaction 12).',
     retire: 'A stability clause in the mining convention, a long licence term, and a state record of honouring terms.' },
   community: { why: 'Grievance leads to protest or legal challenge, then stoppages and delay, which leave less cash for local benefits and more grievance (interaction 13).',
@@ -1148,7 +1183,7 @@ function tierOz(tiers, cum, oz) {
 
 // Translate dial levels into model adjustments. Only enabled dials count.
 function dialParams(asset, levels, enabled) {
-  const P = { grade: 0, life: 0, recPts: 0, mining: 0, procGa: 0, site: 0, events: [], capex: 0, delay: 0,
+  const P = { grade: 0, life: 0, recPts: 0, mining: 0, procGa: 0, site: 0, events: [], capex: 0, finCost: 0, delay: 0,
     royaltyPts: 0, royaltyProb: 0, stateTo: null, stateProb: 0, crpMult: 0 };
   const isDeposit = asset.stage === 'deposit';
   for (const d of DIALS) {
@@ -1187,7 +1222,7 @@ const COMMODITY = {
   },
   spodumene: {
     units: (milledMt, grade, rec, pr) => milledMt * 1e6 * grade / 100 * rec / (pr.concGrade / 100),
-    unitPrice: (price, pr) => price * pr.concGrade / 6,
+    unitPrice: (price, pr) => price * pr.concGrade / 6 * (pr.realisation != null ? pr.realisation : 1),
     containedRef: (milledMt, grade) => milledMt * 1e6 * grade / 100 / 0.06,          // SC6-equivalent tonnes at full recovery
     refUnits: (units, pr) => units * pr.concGrade / 6                                // concentrate tonnes expressed as SC6 tonnes
   }
@@ -1202,7 +1237,7 @@ const commodityOf = (a) => (a && a.commodity) || 'gold';
  * Deposits add: construction years before production (devCapex by year), logistics and freight per unit,
  * by-product credits, royalties on FOB value, tax losses carried forward and a free carry on distributions.
  */
-function runModel(asset, o) {
+function runCore(asset, o) {
   const P = dialParams(asset, o.levels, o.enabled);
   const tw = o.tweak || {};
   const K = COMMODITY[commodityOf(asset)];
@@ -1211,10 +1246,22 @@ function runModel(asset, o) {
   let rows = buildSchedule(asset, o.ext, o.trimYears || 0);
   if (P.delay > 0) rows = shiftSchedule(rows, P.delay);
   rows = cutLife(rows, -P.life);
+  // Closing early: the rest of the ore stays in the ground and closure falls due at the stop.
+  if (o.closeFrom != null) {
+    rows = rows.filter((r) => r.year < o.closeFrom);
+    if (!rows.some((r) => r.ore > 0)) rows.push({ year: o.closeFrom, ore: 0, grade: 0, closeHere: true });
+  }
+  // Pausing: loss years go into care and maintenance (the fixed share of site costs continues) and their ore is mined later.
+  if (o.pause && o.pause.size) {
+    const moved = [];
+    rows = rows.map((r) => { if (o.pause.has(r.year) && r.ore > 0) { moved.push({ ore: r.ore, grade: r.grade }); return { ...r, ore: 0, cmOre: r.ore }; } return r; });
+    let y = rows.length ? rows[rows.length - 1].year : MODEL.firstYear;
+    for (const m of moved) rows.push({ year: ++y, ore: m.ore, grade: m.grade });
+  }
   // Add construction years (capex, no production) before the first production year, and fill any gaps.
   const capYears = Object.keys(c.devCapex || {}).map(Number).filter((y) => (c.devCapex[y] || 0) !== 0);
-  if (capYears.length) {
-    const firstY = Math.min(...capYears, rows.length ? rows[0].year : Infinity);
+  if (capYears.length || c.corporateFixed) {
+    const firstY = Math.min(...capYears, rows.length ? rows[0].year : Infinity, c.corporateFixed ? MODEL.firstYear : Infinity);
     const lastY = rows.length ? rows[rows.length - 1].year : Math.max(...capYears);
     const byY = new Map(rows.map((r) => [r.year, r]));
     const full = []; for (let y = firstY; y <= lastY; y++) full.push(byY.get(y) || { year: y, ore: 0, grade: 0 });
@@ -1222,6 +1269,7 @@ function runModel(asset, o) {
   }
   let lastProd = -1; rows.forEach((r, i) => { if (r.ore > 0) lastProd = i; });
   let firstProdYear = null; for (const r of rows) { if (r.ore > 0) { firstProdYear = r.year; break; } }
+  const endYear = lastProd >= 0 ? rows[lastProd].year : (rows.find((r) => r.closeHere) || { year: -Infinity }).year;   // head-office costs run until here
   const stop = sum(P.events, (e) => e.p * e.months / 12);
   const recovery = Math.max(0, pr.recovery + P.recPts / 100);
   const sp = c.split;
@@ -1234,7 +1282,7 @@ function runModel(asset, o) {
   let losses = f.lossCarryForward ? (f.openingLosses || 0) : 0;
   const years = [];
   rows.forEach((r, i) => {
-    const last = i === lastProd;
+    const last = i === lastProd || !!r.closeHere;
     const deck = o.deck;
     const basePrice = o.flatPrice != null ? o.flatPrice
       : (deck.byProdYear && firstProdYear != null && r.year >= firstProdYear ? (deck.byProdYear[r.year - firstProdYear] != null ? deck.byProdYear[r.year - firstProdYear] : deck.flat) : deckPrice(deck, r.year));
@@ -1253,13 +1301,14 @@ function runModel(asset, o) {
     const extraPts = (tw.royaltyPts || 0) / 100 + (P.royaltyPts / 100) * P.royaltyProb * ramp(r.year, MODEL.fiscalWithinYears);
     const royalties = sum(f.royalties, (q) => q.rate * (q.base === 'fob' ? gross - freight : gross)) + extraPts * gross;
     const royaltyRate = gross > 0 ? royalties / gross : 0;
-    const site = unitSite * 1e6 * (r.ore * MODEL.fixedShare + milled * (1 - MODEL.fixedShare));
-    const corporate = oz * c.corporatePerOz;
+    const site = unitSite * 1e6 * (r.ore * MODEL.fixedShare + milled * (1 - MODEL.fixedShare)) + (r.cmOre ? unitSite * 1e6 * r.cmOre * MODEL.fixedShare : 0);
+    const corporate = oz * c.corporatePerOz + (c.corporateFixed && r.year <= endYear ? c.corporateFixed : 0);
     const exploration = oz * c.explorationPerOz;
-    const ebitda = gross - streamCost - royalties - site - corporate - exploration - logistics - freight;
+    const other = oz * (c.otherPerUnit || 0);   // carbon, marketing and other costs per unit sold
+    const ebitda = gross - streamCost - royalties - site - corporate - exploration - logistics - freight - other;
     const sustaining = c.sustainingPerT * milled * 1e6 + (c.sustainingPerUnit || 0) * oz;
     const growth = c.growthCapex[r.year] || 0;
-    const development = (c.devCapex[r.year] || 0) * (1 + P.capex);
+    const development = (c.devCapex[r.year] || 0) * (1 + P.capex) * (1 + P.finCost);
     const capex = sustaining + growth + development;
     const share = last ? 1 : (remOre > 0 ? r.ore / remOre : 0);
     const depreciation = (taxBase + capex) * Math.min(1, share);
@@ -1276,13 +1325,13 @@ function runModel(asset, o) {
     const fcf = ebitda - capex - tax - dWC - closure;
     const ownerShare = asset.ownerShare * (1 - P.stateProb * ramp(r.year, MODEL.fiscalWithinYears) * dil);
     years.push({ year: r.year, ore: r.ore, milled, grade, recovery, oz, price, revenue, byproduct, streamOz: sOz, stream: streamCost, royaltyRate, royalties,
-      site, corporate, exploration, logistics, freight, ebitda, sustaining, growth, development, capex, depreciation, tax, wc, dWC, closure, fcf, ownerShare });
+      site, corporate, exploration, other, logistics, freight, ebitda, sustaining, growth, development, capex, depreciation, tax, wc, dWC, closure, fcf, ownerShare });
   });
   if (years.length) {
     const relYear = years[years.length - 1].year + 1;
     if (f.wcReleaseHorizon == null || relYear <= f.wcReleaseHorizon) {
       const z = { year: relYear, release: true, ore: 0, milled: 0, grade: 0, recovery: 0, oz: 0, price: 0, revenue: 0, byproduct: 0, streamOz: 0, stream: 0, royaltyRate: 0,
-        royalties: 0, site: 0, corporate: 0, exploration: 0, logistics: 0, freight: 0, ebitda: 0, sustaining: 0, growth: 0, development: 0, capex: 0, depreciation: 0, tax: 0,
+        royalties: 0, site: 0, corporate: 0, exploration: 0, other: 0, logistics: 0, freight: 0, ebitda: 0, sustaining: 0, growth: 0, development: 0, capex: 0, depreciation: 0, tax: 0,
         wc: 0, dWC: -wcPrev, closure: 0, fcf: wcPrev, ownerShare: years[years.length - 1].ownerShare };
       years.push(z);
     }
@@ -1292,7 +1341,7 @@ function runModel(asset, o) {
     y.t = yearFrac(y.year);
     y.df = 1 / Math.pow(1 + rate, y.t);
     // A free carry takes its share of distributions but funds nothing, so the owner bears all spending.
-    y.attrFcf = y.fcf >= 0 ? y.fcf * y.ownerShare * (1 - carry) : y.fcf * y.ownerShare;
+    y.attrFcf = y.fcf >= 0 ? y.fcf * y.ownerShare * (1 - carry) * (1 - (asset.wht || 0)) : y.fcf * y.ownerShare;   // withholding tax on distributions, if set
     y.pv = y.fcf * y.df; y.pvAttr = y.attrFcf * y.df;
     npv += y.pv; npvAttr += y.pvAttr;
   }
@@ -1307,10 +1356,10 @@ function runModel(asset, o) {
     life: peakOre > 0 ? totalOre / peakOre : 0,
     lastYear: prodYears.length ? prodYears[prodYears.length - 1].year : null,
     prod1: y1 ? y1.oz : 0,
-    aisc1: y1 && y1.oz > 0 ? (y1.site + y1.royalties + y1.sustaining + y1.corporate + y1.exploration + y1.logistics - y1.byproduct) / y1.oz : NaN,
-    aiscLom: lomOz > 0 ? sum(prodYears, (y) => y.site + y.royalties + y.sustaining + y.corporate + y.exploration + y.logistics - y.byproduct) / lomOz : NaN,
+    aisc1: y1 && y1.oz > 0 ? (y1.site + y1.royalties + y1.sustaining + y1.corporate + y1.exploration + y1.logistics + y1.other - y1.byproduct) / y1.oz : NaN,
+    aiscLom: lomOz > 0 ? sum(prodYears, (y) => y.site + y.royalties + y.sustaining + y.corporate + y.exploration + y.logistics + y.other - y.byproduct) / lomOz : NaN,
     initialCapex: totalCapex,
-    params: P, tx: null
+    params: P, tx: null, flex: null
   };
   res.irr = irr(years.map((y) => ({ t: y.t, cf: y.attrFcf })));
   res.pvAt = (h) => sum(years, (y) => y.attrFcf / Math.pow(1 + h, y.t));   // the most a buyer could pay today for a return of h
@@ -1318,6 +1367,27 @@ function runModel(asset, o) {
   for (const y of years) { cum += y.attrFcf; if (res.payback == null && cum >= 0 && y.oz > 0) res.payback = y.year; }
   if (asset.transaction) res.tx = transactionMetrics(asset, years, rate);
   return res;
+}
+
+// An owner stops mining when it stops paying. If the cash margin (EBITDA less sustaining capex) turns negative and the
+// price deck never recovers, the mine closes for good; if it recovers, loss years are paused and their ore mined later.
+// The owner takes whichever path is worth more, so the option never lowers value. o.flex === false turns it off.
+function runModel(asset, o) {
+  const r0 = runCore(asset, o);
+  if (o.flex === false || o.closeFrom != null || o.pause) return r0;
+  const margin = (y) => y.ebitda - y.sustaining;
+  const prod = r0.years.filter((y) => !y.release && y.ore > 0);
+  const loss = prod.filter((y) => margin(y) < 0);
+  if (!loss.length) return r0;
+  const t0 = loss[0].year;
+  if (!prod.some((y) => y.year > t0 && margin(y) > 0)) {
+    const r1 = runCore(asset, { ...o, closeFrom: t0 }); r1.flex = { closedFrom: t0, paused: [] };
+    return r1.npvAttr > r0.npvAttr ? r1 : r0;
+  }
+  const pause = new Set(loss.filter((y) => margin(y) + y.site * MODEL.fixedShare < 0).map((y) => y.year));   // pausing beats a loss bigger than the fixed costs
+  if (!pause.size) return r0;
+  const r1 = runCore(asset, { ...o, pause }); r1.flex = { closedFrom: null, paused: [...pause] };
+  return r1.npvAttr > r0.npvAttr ? r1 : r0;
 }
 
 function contingentByYear(t) {
@@ -1377,7 +1447,7 @@ const ALL_DIALS = () => new Set(DIALS.map((d) => d.id));
 // Everything the screens need for one asset under one set of controls.
 function analyse(asset, ctl) {
   if (asset.dataStatus === 'pending') return { pending: true };
-  const common = { deck: ctl.deck, rate: ctl.rate, levels: ctl.levels, ext: ctl.ext };
+  const common = { deck: ctl.deck, rate: ctl.rate, levels: ctl.levels, ext: ctl.ext, flex: ctl.flex };
   const base = runModel(asset, { ...common, enabled: new Set() });
   const risk = runModel(asset, { ...common, enabled: ALL_DIALS() });
   const bridge = []; const on = new Set(); let prev = base;
@@ -1399,7 +1469,7 @@ function analyse(asset, ctl) {
 }
 
 // Generated from data/lithium_typicals.json (tools/compile_typicals.py). Points are [study, value, page, working].
-const LI_TYPICALS = {"recovery_dms":{"label":"Lithia recovery, dense-media separation (DMS) only","unit":"%","median":72.25,"low":62.1,"high":78.0,"n":6,"note":"Operating benchmarks: Kathleen Valley 60-63% in ramp-up (Liontown Sep Q 2026, p2).","points":[["S02",62.1,38,"to SC6 (67.2% to SC5.5)"],["S05",69.5,11,"LOM average"],["S06",78.0,4,"global"],["S06b",71.7,2,"DFS"],["S11",72.8,46,"ore sorting + DMS, LOM"],["S11n",72.85,16,"ROM to product"]]},"recovery_flotation":{"label":"Lithia recovery, with flotation","unit":"%","median":74.7,"low":71.0,"high":87.4,"n":3,"note":"PLS last five quarters 74.7-78.2% (p8).","points":[["S03",71.0,4,"flotation, no DMS"],["S07",87.4,3,"conventional flotation"],["PLS",74.7,2,"Sep Q 2026 actual, DMS + flotation"]]},"head_grade":{"label":"Head grade to plant","unit":"% Li2O","median":1.245,"low":0.87,"high":1.31,"n":8,"note":"","points":[["S02",1.22,22,""],["S03",1.03,4,""],["S05",1.31,11,""],["S06",1.27,4,""],["S06b",1.31,2,""],["S07",0.87,3,""],["S11",0.88,68,""],["LTR",1.3,2,"Sep Q 2026 actual"]]},"mining_cost_op_per_t_material":{"label":"Open-pit mining cost per tonne of material moved (ore + waste)","unit":"US$/t","median":3.167,"low":2.63,"high":3.82,"n":4,"note":"","points":[["S02",3.82,38,"US$3.82/t mined"],["S03",2.63,3,"US$2.63/t material"],["S07",3.259,3,"US$27.05/t ore ÷ (1 + strip 7.3)"],["S11",3.076,9,"A$73/t ore × 0.67 ÷ (1 + strip 14.9)"]]},"mining_cost_ug_per_t_ore":{"label":"Underground mining cost per tonne of ore","unit":"US$/t","median":51.765,"low":47.25,"high":56.28,"n":2,"note":"","points":[["S06",47.25,4,"A$63-72/t mined, mid A$67.5 × 0.70"],["S11",56.28,9,"A$84/t ore × 0.67"]]},"processing_cost_dms":{"label":"Processing cost, DMS route, per tonne of ore","unit":"US$/t","median":19.848,"low":7.77,"high":30.1,"n":4,"note":"","points":[["S02",7.77,38,""],["S06",30.1,4,"A$40-46/t incl. tailings, mid × 0.70"],["S11",20.1,9,"A$30/t incl. site G&A × 0.67"],["S11n",19.596,16,"A$28.4/t crushed × 0.69"]]},"processing_cost_flotation":{"label":"Processing cost, flotation route, per tonne of ore","unit":"US$/t","median":18.56,"low":16.33,"high":20.79,"n":2,"note":"","points":[["S03",16.33,3,""],["S07",20.79,3,""]]},"site_ga_per_t_ore":{"label":"Site G&A per tonne of ore","unit":"US$/t","median":6.075,"low":2.92,"high":15.94,"n":4,"note":"","points":[["S02",5.499,38,"US$47/t conc × 3.58 Mt conc ÷ 30.6 Mt ore"],["S03",2.92,3,""],["S06",6.65,4,"A$9-10/t, mid × 0.70"],["S07",15.94,3,"remote James Bay"]]},"capex_per_annual_t_ore":{"label":"Initial capex per tonne of annual ore capacity","unit":"US$ per t/yr","median":68.593,"low":59.176,"high":292.298,"n":7,"note":"Greenfield sites need their own power, camp and roads; the integration case shows how much existing infrastructure saves.","points":[["S02",68.593,41,"US$185.2M ÷ 2.7 Mtpa"],["S03",64.3,4,"US$128.6M ÷ 2.0 Mtpa"],["S06b",62.23,32,"A$88.9M × 0.70 ÷ 1.0 Mtpa"],["S06",109.375,4,"A$175-200M mid × 0.70 ÷ 1.2 Mtpa (restart, underground)"],["S07",292.298,12,"US$470.6M ÷ 1.61 Mtpa (remote Quebec)"],["S11",163.443,81,"A$439.1M × 0.67 ÷ 1.8 Mtpa"],["S11n",59.176,4,"A$180.1M × 0.69 ÷ 2.1 Mtpa (converting an existing plant)"]]},"contingency_pct":{"label":"Capex contingency, % of initial capex","unit":"%","median":9.1,"low":6.587,"high":21.395,"n":6,"note":"PEA ~21%; feasibility studies 7-10%.","points":[["S02",6.587,41,"US$12.2M ÷ 185.2M"],["S03",10.009,4,"10% on US$116.9M"],["S05",21.395,12,"C$162.9M ÷ 761.4M (PEA)"],["S07",9.074,12,""],["S11",9.094,81,"growth + contingency"],["S11n",9.106,4,""]]},"road_haul_per_t_km":{"label":"Road haulage rate per tonne-kilometre","unit":"US$/t-km","median":0.137,"low":0.068,"high":0.271,"n":4,"note":"Long hauls: Shaakichiuwaanaan pays C$226/t (US$172) for 834 km of road plus a rail leg to Bécancour (PEA p14, p64).","points":[["S06b",0.068,83,"A$8.62/t ÷ 88.31 km × 0.70 (2021, road only)"],["S06",0.187,4,"A$22-25/t ÷ 88 km × 0.70 (2025; may include port charges)"],["S11n",0.087,80,"A$17.01/t ore ÷ 135 km × 0.69 (140 t road trains, dedicated corridor)"],["S02",0.271,39,"US$29.81/t ÷ ~110 km, site to ship incl. port loading"]]},"ocean_freight":{"label":"Ocean freight to Asia, per tonne of concentrate","unit":"US$/t","median":25.0,"low":20,"high":30,"n":2,"note":"","points":[["S06b",20,38,"Darwin, 2021"],["S11",30,84,"Esperance, 2025"]]},"sustaining_capex_per_t_conc":{"label":"Sustaining capex per tonne of concentrate","unit":"US$/t","median":32.391,"low":9,"high":68.649,"n":6,"note":"","points":[["S03",9,4,""],["S05",33.44,14,"C$44/t × 0.76"],["S06b",41,34,"incl. underground development"],["S11",19.095,83,"A$28.5/t incl. closure × 0.67"],["S02",31.341,42,"US$112.2M ÷ 3.58 Mt conc (incl. US$98.9M resettlement)"],["S07",68.649,12,"US$237.8M ÷ (203.8 kt × 17 yr)"]]},"strip_ratio_op":{"label":"Open-pit strip ratio (waste : ore)","unit":"x","median":7.3,"low":3.7,"high":14.9,"n":5,"note":"","points":[["S02",12.3,14,""],["S05",3.7,1,"open-pit portion"],["S07",7.3,6,""],["S11",14.9,57,""],["PLS",6.7,2,"(11.5 - 1.5) ÷ 1.5, Sep Q 2026"]]},"discount_rate":{"label":"Discount rate used by the study (real)","unit":"%","median":8,"low":7,"high":8,"n":7,"note":"","points":[["S02",8,4,""],["S03",7,5,""],["S05",8,11,""],["S06b",8,2,""],["S07",8,3,""],["S11",8,84,""],["S11n",8,4,""]]},"dilution_pct":{"label":"Mining dilution","unit":"%","median":5.75,"low":5,"high":16,"n":4,"note":"","points":[["S02",5,21,""],["S05",16,41,""],["S11",5,60,"open pit"],["S06b",6.5,80,"Grants open pit"]]},"plan_share_of_resource":{"label":"Share of resource tonnes in the mine plan","unit":"%","median":48.243,"low":35.876,"high":77.337,"n":4,"note":"PLS Pilgangoora: reserve 249 Mt is 62% of its 403 Mt resource (Sep 2026).","points":[["S02",77.337,18,"27.3 Mt processed ÷ 35.3 Mt resource"],["S11",45.93,68,"23.7 Mt mill feed ÷ 51.6 Mt resource"],["S06b",50.557,23,"7.44 Mt plan ÷ 14.72 Mt resource"],["S06",35.876,40,"17.3 Mt plan ÷ 48.2 Mt resource"]]},"closure_usd_m":{"label":"Closure cost","unit":"US$M","median":16.7,"low":5.6,"high":45.8,"n":5,"note":"","points":[["S02",45.8,42,""],["S06b",5.6,36,"A$8.0M × 0.70"],["S07",16.7,12,""],["S11",6.7,81,"A$10M × 0.67"],["S11n",36.57,4,"A$53M × 0.69"]]},"existing_plant_capex_ratio":{"label":"Capex using an existing plant, as a share of building your own","unit":"%","median":41.016,"low":41.016,"high":41.016,"n":1,"note":"One case only; the integration study also buys the plant, camp, power and tailings at a price it does not disclose.","points":[["S11n",41.016,4,"Manna-Nova integration A$180.1M ÷ Manna standalone DFS A$439.1M"]]}};
+const LI_TYPICALS = {"recovery_dms":{"label":"Lithia recovery, dense-media separation (DMS) only","unit":"%","median":72.25,"low":62.1,"high":78.0,"n":6,"note":"Operating benchmarks: Kathleen Valley 60-63% in ramp-up (Liontown Sep Q 2026, p2).","points":[["S02",62.1,38,"to SC6 (67.2% to SC5.5)"],["S05",69.5,11,"LOM average"],["S06",78.0,4,"global"],["S06b",71.7,2,"DFS"],["S11",72.8,46,"ore sorting + DMS, LOM"],["S11n",72.85,16,"ROM to product"]]},"recovery_flotation":{"label":"Lithia recovery, with flotation","unit":"%","median":74.7,"low":71.0,"high":87.4,"n":3,"note":"PLS last five quarters 74.7-78.2% (p8).","points":[["S03",71.0,4,"flotation, no DMS"],["S07",87.4,3,"conventional flotation"],["PLS",74.7,2,"Sep Q 2026 actual, DMS + flotation"]]},"head_grade":{"label":"Head grade to plant","unit":"% Li2O","median":1.245,"low":0.87,"high":1.31,"n":8,"note":"","points":[["S02",1.22,22,""],["S03",1.03,4,""],["S05",1.31,11,""],["S06",1.27,4,""],["S06b",1.31,2,""],["S07",0.87,3,""],["S11",0.88,68,""],["LTR",1.3,2,"Sep Q 2026 actual"]]},"mining_cost_op_per_t_material":{"label":"Open-pit mining cost per tonne of material moved (ore + waste)","unit":"US$/t","median":3.272,"low":3.076,"high":3.933,"n":4,"note":"","points":[["S02",3.933,38,"US$3.82/t mined; × CPI 1.029 (2023 to 2024 prices)"],["S03",3.188,3,"US$2.63/t material; × CPI 1.212 (2020 to 2024 prices)"],["S07",3.355,3,"US$27.05/t ore ÷ (1 + strip 7.3); × CPI 1.029 (2023 to 2024 prices)"],["S11",3.076,9,"A$73/t ore × 0.67 ÷ (1 + strip 14.9)"]]},"mining_cost_ug_per_t_ore":{"label":"Underground mining cost per tonne of ore","unit":"US$/t","median":51.765,"low":47.25,"high":56.28,"n":2,"note":"","points":[["S06",47.25,4,"A$63-72/t mined, mid A$67.5 × 0.70"],["S11",56.28,9,"A$84/t ore × 0.67"]]},"processing_cost_dms":{"label":"Processing cost, DMS route, per tonne of ore","unit":"US$/t","median":19.848,"low":7.999,"high":30.1,"n":4,"note":"","points":[["S02",7.999,38,"× CPI 1.029 (2023 to 2024 prices)"],["S06",30.1,4,"A$40-46/t incl. tailings, mid × 0.70"],["S11",20.1,9,"A$30/t incl. site G&A × 0.67"],["S11n",19.596,16,"A$28.4/t crushed × 0.69"]]},"processing_cost_flotation":{"label":"Processing cost, flotation route, per tonne of ore","unit":"US$/t","median":20.598,"low":19.793,"high":21.403,"n":2,"note":"","points":[["S03",19.793,3,"× CPI 1.212 (2020 to 2024 prices)"],["S07",21.403,3,"× CPI 1.029 (2023 to 2024 prices)"]]},"site_ga_per_t_ore":{"label":"Site G&A per tonne of ore","unit":"US$/t","median":6.155,"low":3.539,"high":16.41,"n":4,"note":"","points":[["S02",5.661,38,"US$47/t conc × 3.58 Mt conc ÷ 30.6 Mt ore; × CPI 1.029 (2023 to 2024 prices)"],["S03",3.539,3,"× CPI 1.212 (2020 to 2024 prices)"],["S06",6.65,4,"A$9-10/t, mid × 0.70"],["S07",16.41,3,"remote James Bay; × CPI 1.029 (2023 to 2024 prices)"]]},"capex_per_annual_t_ore":{"label":"Initial capex per tonne of annual ore capacity","unit":"US$ per t/yr","median":93.654,"low":70.616,"high":300.919,"n":6,"note":"Own-plant builds only; converting an existing plant has its own ratio (Manna-Nova, 41% of standalone). Greenfield sites need their own power, camp and roads.","points":[["S02",70.616,41,"US$185.2M ÷ 2.7 Mtpa; × CPI 1.029 (2023 to 2024 prices)"],["S03",77.934,4,"US$128.6M ÷ 2.0 Mtpa; × CPI 1.212 (2020 to 2024 prices)"],["S06b",72.041,32,"A$88.9M × 0.70 ÷ 1.0 Mtpa; × CPI 1.158 (2021 to 2024 prices)"],["S06",109.375,4,"A$175-200M mid × 0.70 ÷ 1.2 Mtpa (restart, underground)"],["S07",300.919,12,"US$470.6M ÷ 1.61 Mtpa (remote Quebec); × CPI 1.029 (2023 to 2024 prices)"],["S11",163.443,81,"A$439.1M × 0.67 ÷ 1.8 Mtpa"]]},"contingency_pct":{"label":"Capex contingency, % of initial capex","unit":"%","median":9.1,"low":6.587,"high":21.395,"n":6,"note":"PEA ~21%; feasibility studies 7-10%.","points":[["S02",6.587,41,"US$12.2M ÷ 185.2M"],["S03",10.009,4,"10% on US$116.9M"],["S05",21.395,12,"C$162.9M ÷ 761.4M (PEA)"],["S07",9.074,12,""],["S11",9.094,81,"growth + contingency"],["S11n",9.106,4,""]]},"road_haul_per_t_km":{"label":"Road haulage rate per tonne-kilometre","unit":"US$/t-km","median":0.137,"low":0.079,"high":0.279,"n":4,"note":"Long hauls: Shaakichiuwaanaan pays C$226/t (US$172) for 834 km of road plus a rail leg to Bécancour (PEA p14, p64).","points":[["S06b",0.079,83,"A$8.62/t ÷ 88.31 km × 0.70 (2021, road only); × CPI 1.158 (2021 to 2024 prices)"],["S06",0.187,4,"A$22-25/t ÷ 88 km × 0.70 (2025; may include port charges)"],["S11n",0.087,80,"A$17.01/t ore ÷ 135 km × 0.69 (140 t road trains, dedicated corridor)"],["S02",0.279,39,"US$29.81/t ÷ ~110 km, site to ship incl. port loading; × CPI 1.029 (2023 to 2024 prices)"]]},"ocean_freight":{"label":"Ocean freight to Asia, per tonne of concentrate","unit":"US$/t","median":25.0,"low":20,"high":30,"n":2,"note":"","points":[["S06b",20,38,"Darwin, 2021"],["S11",30,84,"Esperance, 2025"]]},"sustaining_capex_per_t_conc":{"label":"Sustaining capex per tonne of concentrate","unit":"US$/t","median":32.852,"low":10.908,"high":70.674,"n":6,"note":"","points":[["S03",10.908,4,"× CPI 1.212 (2020 to 2024 prices)"],["S05",33.44,14,"C$44/t × 0.76"],["S06b",47.464,34,"incl. underground development; × CPI 1.158 (2021 to 2024 prices)"],["S11",19.095,83,"A$28.5/t incl. closure × 0.67"],["S02",32.265,42,"US$112.2M ÷ 3.58 Mt conc (incl. US$98.9M resettlement); × CPI 1.029 (2023 to 2024 prices)"],["S07",70.674,12,"US$237.8M ÷ (203.8 kt × 17 yr); × CPI 1.029 (2023 to 2024 prices)"]]},"strip_ratio_op":{"label":"Open-pit strip ratio (waste : ore)","unit":"x","median":7.3,"low":3.7,"high":14.9,"n":5,"note":"","points":[["S02",12.3,14,""],["S05",3.7,1,"open-pit portion"],["S07",7.3,6,""],["S11",14.9,57,""],["PLS",6.7,2,"(11.5 - 1.5) ÷ 1.5, Sep Q 2026"]]},"discount_rate":{"label":"Discount rate used by the study (real)","unit":"%","median":8,"low":7,"high":8,"n":7,"note":"","points":[["S02",8,4,""],["S03",7,5,""],["S05",8,11,""],["S06b",8,2,""],["S07",8,3,""],["S11",8,84,""],["S11n",8,4,""]]},"dilution_pct":{"label":"Mining dilution","unit":"%","median":5.75,"low":5,"high":16,"n":4,"note":"","points":[["S02",5,21,""],["S05",16,41,""],["S11",5,60,"open pit"],["S06b",6.5,80,"Grants open pit"]]},"plan_share_of_resource":{"label":"Share of resource tonnes in the mine plan","unit":"%","median":48.243,"low":35.876,"high":77.337,"n":4,"note":"PLS Pilgangoora: reserve 249 Mt is 62% of its 403 Mt resource (Sep 2026).","points":[["S02",77.337,18,"27.3 Mt processed ÷ 35.3 Mt resource"],["S11",45.93,68,"23.7 Mt mill feed ÷ 51.6 Mt resource"],["S06b",50.557,23,"7.44 Mt plan ÷ 14.72 Mt resource"],["S06",35.876,40,"17.3 Mt plan ÷ 48.2 Mt resource"]]},"closure_usd_m":{"label":"Closure cost","unit":"US$M","median":17.193,"low":6.483,"high":47.151,"n":5,"note":"","points":[["S02",47.151,42,"× CPI 1.029 (2023 to 2024 prices)"],["S06b",6.483,36,"A$8.0M × 0.70; × CPI 1.158 (2021 to 2024 prices)"],["S07",17.193,12,"× CPI 1.029 (2023 to 2024 prices)"],["S11",6.7,81,"A$10M × 0.67"],["S11n",36.57,4,"A$53M × 0.69"]]},"existing_plant_capex_ratio":{"label":"Capex using an existing plant, as a share of building your own","unit":"%","median":41.016,"low":41.016,"high":41.016,"n":1,"note":"One case only; the integration study also buys the plant, camp, power and tailings at a price it does not disclose.","points":[["S11n",41.016,4,"Manna-Nova integration A$180.1M ÷ Manna standalone DFS A$439.1M"]]},"realisation_discount_pct":{"label":"Price received below the SC6 benchmark","unit":"%","median":3.966,"low":1.33,"high":6.603,"n":2,"note":"Covers grade and impurity adjustments, contract terms and timing. PLS's September-quarter revenue also carried A$69M of negative provisional pricing adjustments (PLS note 4).","points":[["LTR",6.603,2,"US$1,966/dmt SC6e realised vs US$2,105/t Fastmarkets SC6 CIF China, Jul-Sep 2026 average"],["PLS",1.33,1,"US$2,077/t SC6-equivalent realised vs the same US$2,105/t benchmark"]]},"corporate_overhead_usd_m":{"label":"Head-office overhead, per year","unit":"US$M","median":14.893,"low":14.893,"high":14.893,"n":1,"note":"One producer's figure; a junior holding one project spends less, a multi-asset producer more.","points":[["LTR",14.893,18,"Appendix 5B item 1.2(e) administration and corporate costs A$5.557M in the quarter × 4 × 0.67"]]}};
 // Generated from data/country_risk_2026.json (Damodaran, Jan and Jul 2026): [country, basis, CRP Jan 2026, CRP Jul 2026, corporate tax].
 const COUNTRY_RISK = [["Abu Dhabi","Moody's Aa2",0.006391,0.00611,0.09],["Albania","Moody's Ba3",0.04656,0.044512,0.15],["Algeria","PRS score 67",0.058277,0.055713,0.26],["Andorra (Principality of)","Moody's Baa1",0.020694,0.019783,0.1],["Angola","Moody's B3",0.084143,0.080442,0.25],["Argentina","Moody's Caa1",0.097077,0.092806,0.35],["Armenia","Moody's Ba3",0.04656,0.044512,0.18],["Aruba","Moody's Baa3",0.028454,0.027202,0.22],["Australia","Moody's Aaa",0,0,0.3],["Austria","Moody's Aa1",0.003555,0.003399,0.23],["Azerbaijan","Moody's Baa3",0.028454,0.027202,0.2],["Bahamas","Moody's B1",0.058277,0.044512,0.0],["Bahrain","Moody's B2",0.07121,0.068077,0.0],["Bangladesh","Moody's B2",0.07121,0.068077,0.275],["Barbados","Moody's B2",0.07121,0.272037,0.09],["Belarus","Moody's C",0.266591,0.272037,0.25],["Belgium","Moody's Aa3",0.00776,0.008728,0.25],["Belize","Moody's Caa1",0.097077,0.092806,0.0],["Benin","Moody's B1",0.058277,0.055713,0.3],["Bermuda","Moody's A2",0.010955,0.008728,0.0],["Bolivia","Moody's Ca",0.155354,0.12379,0.25],["Bosnia and Herzegovina","Moody's B3",0.084143,0.080442,0.1],["Botswana","Moody's Baa1",0.020694,0.019783,0.22],["Brazil","Moody's Ba1",0.03241,0.030984,0.34],["Brunei","PRS score 80.75",0.00776,0.007419,0.1468],["Bulgaria","Moody's Baa1",0.020694,0.019783,0.1],["Burkina Faso","Moody's Caa1",0.097077,0.092806,0.275],["Cambodia","Moody's B2",0.07121,0.068077,0.2],["Cameroon","Moody's Caa1",0.097077,0.092806,0.33],["Canada","Moody's Aaa",0,0,0.2614],["Cape Verde","Moody's B2",0.07121,0.055713,0.2686],["Cayman Islands","Moody's Aa3",0.00776,0.007419,0.0],["Chile","Moody's A2",0.010955,0.010473,0.27],["China","Moody's A1",0.009129,0.008728,0.25],["Colombia","Moody's Baa3",0.028454,0.027202,0.35],["Congo (Democratic Republic of)","Moody's B3",0.084143,0.080442,0.3],["Congo (Republic of)","Moody's Caa2",0.116553,0.111426,0.2686],["Cook Islands","Moody's B1",0.058277,0.044512,0.2],["Costa Rica","Moody's Ba2",0.038953,0.044512,0.3],["Croatia","Moody's A3",0.01552,0.014837,0.18],["Cuba","Moody's Ca",0.155354,0.148519,0.35],["Curacao","Moody's Baa3",0.028454,0.027202,0.22],["Cyprus","Moody's A3",0.01552,0.014837,0.125],["Czech Republic","Moody's Aa3",0.00776,0.007419,0.21],["Côte d'Ivoire","Moody's Ba2",0.038953,0.037239,0.25],["Denmark","Moody's Aaa",0,0,0.22],["Dominican Republic","Moody's Ba2",0.038953,0.037239,0.27],["Ecuador","Moody's Caa3",0.129487,0.092806,0.25],["Egypt","Moody's Caa1",0.097077,0.092806,0.225],["El Salvador","Moody's B3",0.084143,0.080442,0.3],["Estonia","Moody's A1",0.009129,0.008728,0.2],["Ethiopia","Moody's Caa2",0.116553,0.12379,0.3],["Fiji","Moody's B1",0.058277,0.055713,0.25],["Finland","Moody's Aa1",0.003555,0.003399,0.2],["France","Moody's Aa3",0.00776,0.007419,0.2583],["Gabon","Moody's Caa2",0.116553,0.111426,0.3],["Gambia","PRS score 65.5",0.07121,0.055713,0.27],["Georgia","Moody's Ba2",0.038953,0.037239,0.15],["Germany","Moody's Aaa",0,0,0.2993],["Ghana","Moody's Caa1",0.097077,0.092806,0.25],["Greece","Moody's Baa3",0.028454,0.027202,0.22],["Guatemala","Moody's Ba1",0.03241,0.030984,0.25],["Guernsey (States of)","Moody's A1",0.009129,0.008728,0.0],["Guinea","PRS score 59.5",0.116553,0.111426,0.2759],["Guinea-Bissau","PRS score 60.75",0.097077,0.092806,0.2759],["Guyana","PRS score 75.5",0.020694,0.019783,0.2713],["Haiti","PRS score 56.75",0.129487,0.12379,0.1771],["Honduras","Moody's B1",0.058277,0.055713,0.3],["Hong Kong","Moody's Aa3",0.00776,0.007419,0.165],["Hungary","Moody's Baa2",0.02465,0.023565,0.09],["Iceland","Moody's A1",0.009129,0.008728,0.21],["India","Moody's Baa3",0.028454,0.027202,0.3],["Indonesia","Moody's Baa2",0.02465,0.023565,0.22],["Iran","PRS score 61.25",0.097077,0.111426,0.1468],["Iraq","Moody's Caa1",0.097077,0.092806,0.15],["Ireland","Moody's Aa3",0.00776,0.007419,0.125],["Isle of Man","Moody's Aa3",0.00776,0.007419,0.0],["Israel","Moody's Baa1",0.020694,0.019783,0.23],["Italy","Moody's Baa2",0.02465,0.023565,0.2781],["Jamaica","Moody's Ba3",0.04656,0.044512,0.25],["Japan","Moody's A1",0.009129,0.008728,0.2974],["Jersey (States of)","Moody's Aa3",0.00776,0.007419,0.0],["Jordan","Moody's Ba3",0.04656,0.044512,0.2],["Kazakhstan","Moody's Baa1",0.020694,0.019783,0.2],["Kenya","Moody's B3",0.084143,0.080442,0.3],["Korea","Moody's Aa2",0.006391,0.00611,0.264],["Korea, D.P.R.","PRS score 51",0.155354,0.148519,0.2405],["Kuwait","Moody's A1",0.009129,0.008728,0.15],["Kyrgyzstan","Moody's B3",0.084143,0.080442,0.1],["Laos","Moody's Caa2",0.116553,0.111426,0.2],["Latvia","Moody's A3",0.01552,0.014837,0.2],["Lebanon","Moody's C",0.266591,0.272037,0.17],["Liberia","PRS score 57.75",0.116553,0.111426,0.2759],["Libya","PRS score 71.5",0.038953,0.055713,0.24],["Liechtenstein","Moody's Aaa",0,0,0.125],["Lithuania","Moody's A2",0.010955,0.010473,0.15],["Luxembourg","Moody's Aaa",0,0,0.2494],["Macao","Moody's Aa3",0.00776,0.007419,0.25],["Macedonia","Moody's Ba3",0.04656,0.044512,0.1],["Madagascar","PRS score 62.5",0.084143,0.092806,0.2],["Malawi","PRS score 56",0.129487,0.148519,0.3],["Malaysia","Moody's A3",0.01552,0.014837,0.24],["Maldives","Moody's Caa2",0.116553,0.111426,0.15],["Mali","Moody's Caa2",0.116553,0.111426,0.3],["Malta","Moody's A2",0.010955,0.010473,0.35],["Mauritius","Moody's Baa3",0.028454,0.027202,0.15],["Mexico","Moody's Baa2",0.02465,0.027202,0.3],["Moldova","Moody's B3",0.084143,0.068077,0.12],["Mongolia","Moody's B1",0.058277,0.055713,0.25],["Montenegro","Moody's B1",0.058277,0.044512,0.15],["Montserrat","Moody's Baa3",0.028454,0.027202,0.3],["Morocco","Moody's Ba1",0.03241,0.030984,0.33],["Mozambique","Moody's Caa3",0.129487,0.111426,0.32],["Myanmar","PRS score 54.75",0.155354,0.148519,0.22],["Namibia","Moody's B1",0.058277,0.055713,0.32],["Nepal","Moody's Ba3",0.04656,0.044512,0.25],["Netherlands","Moody's Aaa",0,0,0.258],["New Zealand","Moody's Aaa",0,0,0.28],["Nicaragua","Moody's B2",0.07121,0.068077,0.3],["Niger","Moody's Caa3",0.129487,0.12379,0.3],["Nigeria","Moody's B3",0.084143,0.080442,0.3],["Norway","Moody's Aaa",0,0,0.22],["Oman","Moody's Baa3",0.028454,0.027202,0.15],["Pakistan","Moody's Caa1",0.097077,0.092806,0.29],["Panama","Moody's Baa3",0.028454,0.027202,0.25],["Papua New Guinea","Moody's B2",0.07121,0.068077,0.3],["Paraguay","Moody's Baa3",0.028454,0.030984,0.1],["Peru","Moody's Baa1",0.020694,0.019783,0.295],["Philippines","Moody's Baa2",0.02465,0.023565,0.25],["Poland","Moody's A2",0.010955,0.010473,0.19],["Portugal","Moody's A3",0.01552,0.014837,0.315],["Qatar","Moody's Aa2",0.006391,0.00611,0.1],["Ras Al Khaimah (Emirate of)","Moody's A3",0.01552,0.014837,0.1894],["Romania","Moody's Baa3",0.028454,0.027202,0.16],["Russia","PRS score 70.25",0.038953,0.037239,0.2],["Rwanda","Moody's B2",0.07121,0.068077,0.28],["Saudi Arabia","Moody's Aa3",0.00776,0.007419,0.2],["Senegal","Moody's Caa1",0.097077,0.092806,0.3],["Serbia","Moody's Ba2",0.038953,0.037239,0.15],["Sharjah","Moody's Ba1",0.03241,0.030984,0.1894],["Sierra Leone","PRS score 62.75",0.084143,0.080442,0.25],["Singapore","Moody's Aaa",0,0,0.17],["Slovakia","Moody's A3",0.01552,0.014837,0.21],["Slovenia","Moody's A3",0.01552,0.010473,0.22],["Solomon Islands","Moody's Caa1",0.097077,0.092806,0.3],["Somalia","PRS score 55.5",0.129487,0.12379,0.2759],["South Africa","Moody's Ba2",0.038953,0.037239,0.27],["Spain","Moody's A3",0.01552,0.014837,0.25],["Sri Lanka","Moody's Ca",0.155354,0.092806,0.3],["St. Maarten","Moody's Ba2",0.038953,0.037239,0.2],["St. Vincent & the Grenadines","Moody's B3",0.084143,0.080442,0.28],["Sudan","PRS score 47.75",0.266591,0.272037,0.35],["Suriname","Moody's Caa1",0.097077,0.092806,0.36],["Swaziland","Moody's B2",0.07121,0.068077,0.25],["Sweden","Moody's Aaa",0,0,0.206],["Switzerland","Moody's Aaa",0,0,0.1961],["Syria","PRS score 51.5",0.155354,0.111426,0.28],["Taiwan","Moody's Aa3",0.00776,0.007419,0.2],["Tajikistan","Moody's B3",0.084143,0.068077,0.18],["Tanzania","Moody's B1",0.058277,0.055713,0.3],["Thailand","Moody's Baa1",0.020694,0.019783,0.2],["Togo","Moody's B3",0.084143,0.080442,0.27],["Trinidad and Tobago","Moody's Ba2",0.038953,0.037239,0.3],["Tunisia","Moody's Caa1",0.097077,0.092806,0.15],["Turkey","Moody's Ba3",0.04656,0.044512,0.25],["Turks and Caicos Islands","Moody's Baa1",0.020694,0.019783,0.0],["Uganda","Moody's B3",0.084143,0.080442,0.3],["Ukraine","Moody's Ca",0.155354,0.148519,0.18],["United Arab Emirates","Moody's Aa2",0.006391,0.00611,0.09],["United Kingdom","Moody's Aa3",0.00776,0.007419,0.25],["United States","Moody's Aa1",0.002334,0.002186,0.25],["Uruguay","Moody's Baa1",0.020694,0.019783,0.25],["Uzbekistan","Moody's Ba3",0.04656,0.037239,0.15],["Venezuela","Moody's C",0.266591,0.12379,0.34],["Vietnam","Moody's Ba2",0.038953,0.037239,0.2],["Yemen, Republic","PRS score 51.75",0.155354,0.148519,0.2759],["Zambia","Moody's Caa2",0.116553,0.111426,0.3],["Zimbabwe","PRS score 58.5",0.116553,0.068077,0.2472]];
 
@@ -1430,8 +1500,17 @@ const LI_JURIS = [
   { id: 'AU-NT', label: 'Australia: Northern Territory', country: 'Australia', royalties: [{ name: 'NT royalty, at its 2.5% of gross floor', rate: 0.025, base: 'gross' }], tax: 0.30, carry: 0, src: 'S06', page: 51, note: 'The NT charges the greater of 20% of net value or 2.5% of gross revenue; the screener uses the 2.5% floor.' },
   { id: 'GH', label: 'Ghana', country: 'Ghana', royalties: [{ name: 'Government royalty', rate: 0.05, base: 'gross' }, { name: 'Growth and Sustainability levy', rate: 0.01, base: 'gross' }], tax: 0.35, carry: 0.10, src: 'S02', page: 43, note: 'The state also takes a 10% free-carried interest once in production.' },
   { id: 'ML', label: 'Mali (terms before the 2023 code)', country: 'Mali', royalties: [{ name: 'Government royalty', rate: 0.03, base: 'gross' }, { name: 'Local partner royalty', rate: 0.005, base: 'gross' }, { name: 'ISCP turnover tax', rate: 0.03, base: 'gross' }], tax: 0.25, carry: 0, src: 'S03', page: 3, note: 'From the 2020 Bougouni study. Mali’s 2023 code raised royalties and state stakes; replace these when the EY chapter arrives.' },
-  { id: 'CA-QC', label: 'Canada: Quebec', country: 'Canada', royalties: [{ name: 'Royalty, as in the Shaakichiuwaanaan PEA', rate: 0.02, base: 'gross' }], tax: 0.2614, carry: 0, src: 'S05', page: 42, note: 'Quebec mining tax is not yet modelled (Rose reports a 41.7% effective tax rate including it); the tax rate here is Damodaran’s corporate rate.' }
+  { id: 'CA-QC', label: 'Canada: Quebec', country: 'Canada', royalties: [{ name: 'Royalty, as in the Shaakichiuwaanaan PEA', rate: 0.02, base: 'gross' }], tax: 0.417, carry: 0, src: 'S05', page: 42, note: 'Tax is the 41.7% effective rate, income and Quebec mining tax together, that the Rose feasibility study reports (p3); the mining tax is not modelled line by line.' }
 ];
+// Recent state actions on lithium or mining terms, from news reports (attach primary sources: see the collection list).
+// A country listed here starts the Fiscal dial at High. Export bans and nationalisation are bigger than the dial's royalty event; treat High as a floor.
+const LI_STATE_ACTIONS = {
+  Zimbabwe: { text: 'banned exports of raw lithium ore in December 2022' },
+  Namibia: { text: 'banned exports of unprocessed lithium ore in June 2023' },
+  Mexico: { text: 'nationalised lithium in April 2022' },
+  Chile: { text: 'announced state control of strategic lithium projects in April 2023' },
+  Mali: { text: 'adopted a new mining code in August 2023 that raised royalties and the state’s potential stake' }
+};
 const jurisOf = (id) => LI_JURIS.find((j) => j.id === id) || (() => {
   const r = countryRow(id); return { id, label: id, country: id, royalties: null, tax: r ? r[4] : null, carry: 0, src: null, page: null, note: 'No study covers this country yet: enter its royalty. Tax is Damodaran’s corporate rate.' };
 })();
@@ -1458,6 +1537,18 @@ function liAssumptions() {
     { label: 'Currency', value: 'Each study converted to US$ at its own FX assumption', note: 'Manna 0.67, Finniss 2021 0.70, Shaakichiuwaanaan 0.76 US$ per local unit.' },
     { label: 'Tax losses', value: 'Carried forward without limit', note: 'A study’s stated opening losses are used where given (Finniss 2021: US$52.7M).' },
     { label: 'Deposit dial rules', value: 'Thresholds such as 5% and 20% Inferred, a 12:1 strip ratio and an 800 km haul', note: 'Judgement, shown on each dial with its rule. Calibrate against study-to-outcome comparisons.' },
+    { label: 'Most you could pay', value: 'The value after risks: expected cash flows at your real rate plus the country premium', note: 'Never combined with a hurdle, which would count the risks twice. The hurdle view applies your hurdle, plus the country premium, to the cash flows before risks.' },
+    { label: 'Escalation', value: `Costs from studies before 2024 are brought to 2024 prices with US CPI-U`, note: '2020 ×1.212, 2021 ×1.158, 2023 ×1.029 (BLS annual averages). Studies from 2024 on stay in their own year’s dollars. CPI is a floor: mining costs rose faster (Finniss capex doubled from 2021 to 2025).' },
+    { label: 'Price received', value: `${t('realisation_discount_pct').median.toFixed(1)}% below the SC6 benchmark`, note: 'Median of Liontown (6.6%) and PLS (1.3%), September quarter 2026 realised prices against the Fastmarkets average. Studies loaded as examples keep their own pricing.' },
+    { label: 'Head-office overhead', value: `US$${t('corporate_overhead_usd_m').median.toFixed(1)}M a year, from 2026 until the mine stops`, note: 'One figure: Liontown’s administration and corporate costs (Appendix 5B, September quarter 2026). A junior holding one project spends less. Set it to zero if a buyer’s head office would run the mine.' },
+    { label: 'Working capital', value: '30 days of revenue in receivables; inventory 30 and payables 45 days of site costs', note: 'Receivables are an assumption; inventory and payables follow the Tongon spreadsheet. Examples keep their studies’ terms (none extracted).' },
+    { label: 'Funding dial', value: 'Medium: financing costs of 10% of initial capex and six months’ delay. High: 20% and a year', note: 'Starting levels to calibrate against how recent lithium builds were financed.' },
+    { label: 'Pause or close', value: 'Close when the cash margin turns negative and the deck never recovers; otherwise pause loss years', note: 'Care and maintenance costs the fixed share (40%) of site costs, the same share the stoppage events use.' },
+    { label: 'Stress case', value: 'Downside price deck, Funding and Capex at High, other dials as set, the mine free to close', note: 'A combined bad case: the risks that arrive together when prices fall.' },
+    { label: 'Whole resource mined', value: 'The resource outside the plan, mined after it at the same rate, grade less dilution and costs', note: 'Upside the plan leaves out; after risks, at your settings.' },
+    { label: 'Quebec tax', value: '41.7% effective rate, income and mining tax together', note: 'From the Rose feasibility study (p3). The Quebec mining tax is not modelled line by line.' },
+    { label: 'State actions', value: 'Zimbabwe, Namibia, Mexico, Chile and Mali start the Fiscal dial at High', note: 'From news reports of export bans, nationalisation and code changes; export bans are bigger than the dial’s royalty event.' },
+    { label: 'Not set unless you enter them', value: 'Private royalties, withholding tax on dividends, carbon and other per-tonne costs, stamp duty and deal costs', note: 'Each pushes value down when it applies.' },
     { label: 'Stage multiples', value: 'Scoping 0.10–0.25×, PFS 0.25–0.50×, feasibility 0.50–0.85× of study NPV', note: 'Ren and Patel, What Drives Mining Project Value, note 5: analytical judgement, not a measured sample.' }
   ];
 }
@@ -1498,14 +1589,18 @@ function depositDerived(d) {
   let rows = []; let left = planMt; let y = firstProd; let i = 0;
   while (left > 1e-9 && rows.length < 60) { const f = i < ramp.length ? ramp[i] : 1; const ore = Math.min(left, rate * f); rows.push({ year: y, ore, grade: planGrade }); left -= ore; y++; i++; }
   if (build % 1) rows = shiftSchedule(rows, build % 1);   // a half-year build starts production mid-year
-  const royalties = d.royalty != null ? [{ name: d.royaltyName || 'Royalty (your input)', rate: d.royalty / 100, base: d.royaltyBase || 'gross' }] : (juris.royalties || []);
+  let royalties = d.royalty != null ? [{ name: d.royaltyName || 'Royalty (your input)', rate: d.royalty / 100, base: d.royaltyBase || 'gross' }] : (juris.royalties || []);
+  if (d.privateRoyalty) royalties = royalties.concat([{ name: 'Private royalty on the tenement', rate: d.privateRoyalty / 100, base: 'gross' }]);
+  const realisation = (d.realisation != null ? d.realisation : typical('realisation_discount_pct').median) / 100;   // price received below the SC6 benchmark
+  const corporateM = d.corporate != null ? d.corporate : typical('corporate_overhead_usd_m').median;                 // head office, US$M a year
+  const wcDays = d.wcDays != null ? d.wcDays : 30;                                                                   // receivables, days of revenue (assumption)
   const tax = d.tax != null ? d.tax / 100 : (juris.tax != null ? juris.tax : 0.30);
   const carry = d.freeCarry != null ? d.freeCarry / 100 : juris.carry || 0;
   const cr = countryRow(juris.country);
   const conc = planMt * 1e6 * planGrade / 100 * (d.recovery / 100) / (d.concGrade / 100);
   const priceSC6 = (d.deckOverride && d.deckOverride.flat) || LITHIUM_DECKS[d.deck || 'req'].flat;
   return { juris, resMt, resGrade, infMt, planMt, planGrade, inferredShare, taylorLife, rate, life: rate > 0 ? planMt / rate : 0, strip, ug, miningPerTOre,
-    logisticsPerT, oreHaulPerT, missingRates, capexTypical, capexM, decision, build, firstProd, devCapex, rows, royalties, tax, carry,
+    logisticsPerT, oreHaulPerT, missingRates, capexTypical, capexM, decision, build, firstProd, devCapex, rows, royalties, tax, carry, realisation, corporateM, wcDays,
     crp: cr ? cr[2] : 0, crpBasis: cr ? cr[1] : 'not in Damodaran’s table', concLom: conc, concPerYear: d.recovery ? rate * 1e6 * planGrade / 100 * (d.recovery / 100) / (d.concGrade / 100) : 0,
     logisticsShare: priceSC6 > 0 ? (logisticsPerT + (d.freight || 0)) / (priceSC6 * d.concGrade / 6) : NaN };
 }
@@ -1532,10 +1627,18 @@ function depositDialDefaults(d, D) {
     'How mature is the capex estimate, how much contingency does it carry, and what has the contractor delivered before?');
   out.fiscal = pick(D.crp >= 0.08 ? 'H' : D.crp >= 0.03 ? 'M' : 'L', `${D.juris.country} carries a ${pct(D.crp, 2)} country risk premium (rule used as a proxy for fiscal instability: under 3% Low, 3–8% Medium, over 8% High).`,
     'Is there a stability agreement fixing royalty, tax and the state’s stake, and for how long?');
+  const act = LI_STATE_ACTIONS[D.juris.country];
+  if (act) out.fiscal = pick('H', `${D.juris.country} ${act.text} (rule: a recent state action on lithium or mining terms starts the dial at High).`,
+    'Is there a stability agreement fixing royalty, tax and the state’s stake, and would it survive a change of government?');
   out.community = pick(d.permits === 'granted' ? 'L' : d.permits === 'none' ? 'H' : 'M', `Permits: ${{ granted: 'granted', progress: 'in progress', none: 'not yet applied for' }[d.permits || 'progress']}.`,
     'Which permits are outstanding, what land access and community agreements are needed, and is anyone opposing the project?');
   out.political = pick('M', `${D.juris.country}’s country premium of ${pct(D.crp, 2)} is applied in full.`, 'What treaty protection or political-risk insurance is available?');
   out.capex.applies = true;
+  const fu = d.funding || 'unknown';
+  out.funding = pick(fu === 'committed' ? 'L' : fu === 'none' ? 'H' : 'M',
+    { committed: 'Funding for the build is committed or in hand.', unknown: 'How the build will be funded is not yet known (rule: unknown is Medium).', none: 'There is no funding route yet (rule: none is High).' }[fu],
+    'Who will fund the build, on what terms, and what happens if it overruns or prices fall before financial close?');
+  out.funding.applies = true;
   return out;
 }
 
@@ -1550,6 +1653,9 @@ function depositEvidence(d, D, study) {
     { input: true, label: 'Haulage to port', value: `US$${D.logisticsPerT.toFixed(2)}`, unit: 'per t concentrate', source: 'Σ distance × rate by mode, plus port charges', url: '', flag: 'derived', note: D.missingRates.length ? `No rate entered for: ${D.missingRates.join(', ')} (counted as zero).` : '' },
     { input: true, label: 'Initial capex', value: `US$${D.capexM.toFixed(0)}M`, unit: '', source: d.capex != null ? 'Your input' : `Typical capex per tonne of annual capacity × ${D.rate.toFixed(2)} Mtpa${d.plantMode === 'existing' ? ' × 41% for an existing plant (Manna–Nova vs Manna DFS)' : ''}`, url: '', flag: d.capex != null ? 'sourced' : 'derived' },
     { input: true, label: 'Royalties', value: D.royalties.map((r) => `${pct(r.rate, 1)} ${r.name} (${r.base === 'fob' ? 'on FOB value' : 'on gross revenue'})`).join('; ') || 'none entered', unit: '', source: d.royalty != null ? 'Your input' : (D.juris.src ? `${LI_STUDIES[D.juris.src].source}, p${D.juris.page}` : 'Not set'), url: '', flag: d.royalty != null || D.juris.src ? 'sourced' : 'assumption', note: D.juris.note },
+    { input: true, label: 'Price received below the SC6 benchmark', value: pct(D.realisation, 1), unit: '', source: d.realisation === 0 ? 'None, as in the study' : d.realisation != null ? 'Your input' : `Typical: ${typical('realisation_discount_pct').points.map((p) => `${p[0]} p${p[2]}`).join(', ')}`, url: '', flag: d.realisation != null ? 'sourced' : 'derived', note: typical('realisation_discount_pct').note },
+    { input: true, label: 'Head-office overhead', value: `US$${D.corporateM.toFixed(1)}M a year`, unit: '', source: d.corporate === 0 ? 'None: the study values the project before head-office costs' : d.corporate != null ? 'Your input' : 'Typical: Liontown, Sep Q 2026, Appendix 5B item 1.2(e), p18', url: '', flag: d.corporate != null ? 'sourced' : 'derived', note: 'Runs from 2026 until the mine stops.' },
+    { input: true, label: 'Working capital', value: D.wcDays > 0 ? `${D.wcDays} days of revenue in receivables; inventory 30 and payables 45 days of site costs` : 'None', unit: '', source: d.wcDays === 0 ? 'None: the study’s terms were not extracted' : d.wcDays != null ? 'Your input' : 'Assumption: concentrate is paid on provisional and final invoices; inventory and payables as in the Tongon spreadsheet', url: '', flag: d.wcDays != null ? 'sourced' : 'assumption' },
     { input: true, label: 'Income tax', value: pct(D.tax, 1), unit: '', source: d.tax != null ? 'Your input' : `${S.DAM.source} (${D.juris.country})`, url: '', flag: 'sourced' },
     { input: true, label: 'Construction and start', value: `${D.decision} year(s) to a decision, ${D.build}-year build, first production ${D.firstProd}`, unit: '', source: d.decisionYears != null ? 'Your input' : 'Years to decision set from permit status (granted 0, in progress 1, none 2): an assumption', url: '', flag: d.decisionYears != null ? 'sourced' : 'assumption' },
     T('recovery_dms', 'Recovery, DMS'), T('recovery_flotation', 'Recovery, flotation'), T('capex_per_annual_t_ore', 'Capex intensity'), T('road_haul_per_t_km', 'Road haulage rate'), T('ocean_freight', 'Ocean freight')
@@ -1575,12 +1681,13 @@ function depositAsset(d, id, opts = {}) {
     owners: [{ name: opts.ownerName || 'You', share: d.ownership }], ownerShare: d.ownership, stateStake: D.carry, freeCarry: D.carry,
     ownerLabel: `${pct(d.ownership, 0)} owner${D.carry ? `, ${pct(D.carry, 0)} state free carry` : ''}`,
     schedule: { kind: 'fixed', rows: D.rows },
-    processing: { recovery: d.recovery / 100, concGrade: d.concGrade, payability: 1 },
+    processing: { recovery: d.recovery / 100, concGrade: d.concGrade, payability: 1, realisation: 1 - D.realisation },
     resolved: { split: { mining: D.miningPerTOre, processing: d.processing, transport: D.oreHaulPerT, ga: d.ga || 0 }, sustainingPerT: 0, sustainingPerUnit: d.sustaining,
-      growthCapex: {}, devCapex: D.devCapex, corporatePerOz: 0, explorationPerOz: 0, haulagePerT: 0, logisticsPerUnit: D.logisticsPerT,
+      growthCapex: {}, devCapex: D.devCapex, corporatePerOz: 0, corporateFixed: D.corporateM * 1e6, explorationPerOz: 0, haulagePerT: 0, logisticsPerUnit: D.logisticsPerT, otherPerUnit: d.otherPerT || 0,
       freightPerUnit: d.freight || 0, byproductPerUnit: d.byproduct || 0, calibration: null },
     fiscal: { royalties: D.royalties, taxRate: D.tax, taxBase: 0, closure: (d.closure != null ? d.closure : typical('closure_usd_m').median) * 1e6,
-      wc: { receivableDays: 0, inventoryDays: 0, payableDays: 0 }, wcReleaseHorizon: null, lossCarryForward: true, openingLosses: (d.openingLosses || 0) * 1e6 },
+      wc: D.wcDays > 0 ? { receivableDays: D.wcDays, inventoryDays: 30, payableDays: 45 } : { receivableDays: 0, inventoryDays: 0, payableDays: 0 }, wcReleaseHorizon: null, lossCarryForward: true, openingLosses: (d.openingLosses || 0) * 1e6 },
+    wht: (d.wht || 0) / 100,
     stream: null,
     transaction: d.asking ? { buyer: 'You', upfront: d.asking * 1e6, contingentTotal: 0, contingentPaidShare: 0, contingentYears: [] } : null,
     crp: { value: D.crp, label: `${D.juris.country} (${D.crpBasis})`, ...S.DAM, flag: 'sourced', note: `${D.juris.country}’s row in Damodaran’s January 2026 file.` },
@@ -1599,7 +1706,7 @@ const LI_EXAMPLES = [
       plantMode: 'own', legs: [{ mode: 'truck', km: 0, rate: null }], port: 58.1, freight: 30, infraCapex: 0,
       royalty: 6.06, royaltyName: 'WA state and native-title royalties (derived from the study’s A$315M total)', royaltyBase: 'gross', tax: 30, freeCarry: 0,
       power: 'gas', permits: 'progress', operator: 'none', capex: 294.2, capexBasis: 'fs', sustaining: 16.7, closure: 6.7, decisionYears: 0, buildYears: 1.5, ramp: 'study',
-      deck: 'req', deckOverride: { flat: 1400, desc: 'US$1,400/t SC6 CIF flat (study)', source: 'Manna DFS, p4' }, ownership: 1, asking: null, hurdle: 15 },
+      deck: 'req', deckOverride: { flat: 1400, desc: 'US$1,400/t SC6 CIF flat (study)', source: 'Manna DFS, p4' }, ownership: 1, asking: null, hurdle: 15, corporate: 0, wcDays: 0, realisation: 0 },
     study: { label: 'Manna DFS (Dec 2025)', source: 'S11', npv: 472.4e6 * 0.67, irr: 0.257, rate: 0.08, npvText: 'post-tax NPV8 A$472.4M = US$316.5M at 0.67, IRR 25.7% (p84)',
       evidence: [
         { label: 'Mine plan (study)', value: '23.7 Mt at 0.88% Li₂O, 18% Inferred', unit: '', ...LI_STUDIES.S11, flag: 'sourced', note: 'p68' },
@@ -1617,7 +1724,7 @@ const LI_EXAMPLES = [
       plantMode: 'own', legs: [{ mode: 'truck', km: 110, rate: 0.271 }], port: 43, freight: 0, infraCapex: 0,
       royalty: 7, royaltyName: 'Government 5% + third-party 1% + levy 1%', royaltyBase: 'gross', tax: 35, freeCarry: 10,
       power: 'grid', permits: 'progress', operator: 'none', capex: 185.2, capexBasis: 'fs', sustaining: 31.3, closure: 45.8, decisionYears: 0, buildYears: 2, ramp: [0.75],
-      deck: 'req', deckOverride: { byProdYear: [3000, 2557, 2000, 1841, 1770, 1666, 1560, 1452, 1410, 1410, 1410, 1410], flat: 1410, desc: 'Study deck, US$/t SC6 FOB Ghana: US$3,000 falling to US$1,410', source: 'Ewoyaa DFS, p44' }, ownership: 1, asking: null, hurdle: 15 },
+      deck: 'req', deckOverride: { byProdYear: [3000, 2557, 2000, 1841, 1770, 1666, 1560, 1452, 1410, 1410, 1410, 1410], flat: 1410, desc: 'Study deck, US$/t SC6 FOB Ghana: US$3,000 falling to US$1,410', source: 'Ewoyaa DFS, p44' }, ownership: 1, asking: null, hurdle: 15, corporate: 0, wcDays: 0, realisation: 0 },
     study: { label: 'Ewoyaa DFS (Jun 2023)', source: 'S02', npv: 1498e6, irr: 1.05, rate: 0.08, npvText: 'post-tax NPV8 US$1,498M, IRR 105% (p4)',
       evidence: [
         { label: 'Plant feed (study)', value: '27.3 Mt at 1.22% Li₂O, 6% Inferred', unit: '', ...LI_STUDIES.S02, flag: 'sourced', note: 'p18' },
@@ -1634,7 +1741,7 @@ const LI_EXAMPLES = [
       plantMode: 'own', legs: [{ mode: 'truck', km: 88.31, rate: 0.136 }], port: 0, freight: 20, infraCapex: 0,
       royalty: 4.8, royaltyName: 'LRC 2.5% + NT royalty (derived from the study’s US$36/t)', royaltyBase: 'gross', tax: 30, freeCarry: 0, openingLosses: 52.7,
       power: 'diesel', permits: 'progress', operator: 'none', capex: 62.2, capexBasis: 'fs', sustaining: 40.5, closure: 5.6, decisionYears: 0, buildYears: 1, ramp: 'study',
-      deck: 'req', deckOverride: { byProdYear: [761, 708, 806, 872, 811, 787, 771, 723, 726], flat: 726, desc: 'Study deck (Roskill Apr 2021, SC6 CIF China, real): US$761 to US$726', source: 'Finniss DFS 2021, p38' }, ownership: 1, asking: null, hurdle: 15 },
+      deck: 'req', deckOverride: { byProdYear: [761, 708, 806, 872, 811, 787, 771, 723, 726], flat: 726, desc: 'Study deck (Roskill Apr 2021, SC6 CIF China, real): US$761 to US$726', source: 'Finniss DFS 2021, p38' }, ownership: 1, asking: null, hurdle: 15, corporate: 0, wcDays: 0, realisation: 0 },
     study: { label: 'Finniss DFS (Jul 2021)', source: 'S06b', npv: 170e6 * 0.70, irr: 0.471, rate: 0.08, npvText: 'post-tax NPV8 A$170M = US$119M at 0.70, IRR 47.1% (p2)',
       evidence: [
         { label: 'Mine plan (study)', value: '7.44 Mt at 1.31% Li₂O, 2% Inferred', unit: '', ...LI_STUDIES.S06b, flag: 'sourced', note: 'pp2, 23' },
@@ -1648,9 +1755,11 @@ const LI_EXAMPLES = [
 
 // The deposit the user is screening. It starts as a copy of the Manna example, clearly labelled, until the user changes it.
 const DEP_STORE = 'mre-deposit-v1';
+// An example loaded into the steps becomes your own deposit: the owner-level costs the study left out return to their typical values.
+function toMyDeposit(d, name) { return { ...JSON.parse(JSON.stringify(d)), name, deckOverride: null, corporate: null, wcDays: null, realisation: null }; }
 function loadDep() {
   try { const t = localStorage.getItem(DEP_STORE); if (t) return JSON.parse(t); } catch (e) { /* storage unavailable */ }
-  return { ...JSON.parse(JSON.stringify(LI_EXAMPLES[0].d)), name: 'My deposit (starts from the Manna DFS)', deckOverride: null };
+  return toMyDeposit(LI_EXAMPLES[0].d, 'My deposit (starts from the Manna DFS)');
 }
 function saveDep(d) { try { localStorage.setItem(DEP_STORE, JSON.stringify(d)); } catch (e) { /* storage unavailable */ } }
 
@@ -1668,6 +1777,8 @@ function initDeposits() {
 /* =====================================================================
    3. STATE
    ===================================================================== */
+// The Funding dial applies to deposits; operating mines carry a placeholder so every asset has a level for every dial.
+for (const a of ASSETS) if (a.dialDefaults && !a.dialDefaults.funding) a.dialDefaults.funding = { level: 'L', reason: 'Applies to undeveloped deposits only; this mine is already built.', sources: [], question: 'Is the build funded?' };
 for (const a of ASSETS) if (a.dataStatus !== 'pending' && !a.resolved) a.resolved = resolveCosts(a, ASSETS);
 
 const state = {
@@ -1681,15 +1792,23 @@ const state = {
   screen: 'deposit',
   riskOrder: null,
   tableMode: 'risk',
-  open: new Set()
+  open: new Set(),
+  lt: { gold: null, spodumene: null },   // long-term price override (null = the deck's own)
+  flex: true                              // the owner may pause or close a mine that loses cash
 };
 const assetById = (id) => ASSETS.find((a) => a.id === id);
 const currentAsset = () => assetById(state.assetId);
-const curDeckFor = (a) => { const c = commodityOf(a); const id = state.deckBy[c]; return id === 'studydeck' ? (a.deckOverride || DECKS[c].req) : DECKS[c][id]; };
+// A long-term price, if set, replaces the deck's flat tail (the near-term forecast years stay as they are).
+function withLongTerm(deck, lt) {
+  if (lt == null || !deck) return deck;
+  const prices = {}; for (const [y, p] of Object.entries(deck.prices || {})) if (p !== deck.flat) prices[y] = p;
+  return { ...deck, prices, flat: lt, byProdYear: deck.byProdYear ? deck.byProdYear.map((p) => (p === deck.flat ? lt : p)) : deck.byProdYear, ltSet: true };
+}
+const curDeckFor = (a) => { const c = commodityOf(a); const id = state.deckBy[c]; return withLongTerm(id === 'studydeck' ? (a.deckOverride || DECKS[c].req) : DECKS[c][id], state.lt[c]); };
 const curRateFor = (a) => state.rateBy[commodityOf(a)];
 const curDeck = () => curDeckFor(currentAsset());
 const curRate = () => curRateFor(currentAsset());
-const ctlFor = (a) => ({ deck: curDeckFor(a), rate: curRateFor(a), levels: state.levels[a.id], ext: state.ext[a.id] });
+const ctlFor = (a) => ({ deck: curDeckFor(a), rate: curRateFor(a), levels: state.levels[a.id], ext: state.ext[a.id], flex: state.flex });
 let ANALYSIS = {};
 function recompute() { ANALYSIS = {}; for (const a of ASSETS) ANALYSIS[a.id] = analyse(a, ctlFor(a)); }
 
@@ -1776,7 +1895,8 @@ const OPT = {
   operator: [['similar', 'Has built and run a similar mine'], ['other', 'Has built a mine, not spodumene'], ['none', 'Has not built a mine']],
   basis: [['own', 'Your own estimate or the typical value'], ['scoping', 'Scoping study'], ['pfs', 'Pre-feasibility study'], ['fs', 'Feasibility study']],
   build: [['1', '1 year'], ['1.5', '18 months'], ['2', '2 years'], ['2.5', '30 months'], ['3', '3 years']],
-  ramp: [['study', 'Full rate from year 1 (study convention)'], ['slow', 'Slow: 50%, then 75%, then full']]
+  ramp: [['study', 'Full rate from year 1 (study convention)'], ['slow', 'Slow: 50%, then 75%, then full']],
+  funding: [['committed', 'Committed or in hand'], ['unknown', 'Not yet known'], ['none', 'No funding route yet']]
 };
 // Field list. path = where the value lives in the deposit inputs; blank numbers fall back to the typical value or the derived one.
 const F = {
@@ -1814,18 +1934,27 @@ const F = {
   power: { label: 'Power supply', type: 'sel', opts: OPT.power },
   permits: { label: 'Mining and environmental permits', type: 'sel', opts: OPT.permits },
   operator: { label: 'Who will build and run it', type: 'sel', opts: OPT.operator },
-  capex: { label: 'Initial capex', unit: 'US$M', type: 'num', blank: 'typical', help: 'Blank uses the median capex per tonne of annual capacity across seven studies.' },
+  capex: { label: 'Initial capex', unit: 'US$M', type: 'num', blank: 'typical', help: 'Blank uses the median capex per tonne of annual capacity across six own-plant studies, in 2024 prices (range US$71–301).' },
   capexBasis: { label: 'Where the capex number comes from', type: 'sel', opts: OPT.basis },
   sustaining: { label: 'Sustaining capex per tonne of concentrate', unit: 'US$/t', type: 'num', typical: T('sustaining_capex_per_t_conc'), required: true },
   closure: { label: 'Closure cost', unit: 'US$M', type: 'num', typical: T('closure_usd_m') },
   decisionYears: { label: 'Years until construction starts', unit: 'yrs', type: 'num', blank: 'from permits', help: 'Blank: 0 if permits are granted, 1 if in progress, 2 if not applied for (an assumption).' },
   buildYears: { label: 'Construction period', type: 'sel', opts: OPT.build, num: true },
   ramp: { label: 'Ramp-up', type: 'sel', opts: OPT.ramp },
+  funding: { label: 'How the build will be funded', type: 'sel', opts: OPT.funding, help: 'Sets where the Funding risk starts.' },
+  corporate: { label: 'Head-office overhead', unit: 'US$M a year', type: 'num', typical: T('corporate_overhead_usd_m'), help: 'Runs from 2026 until the mine stops. Set it to zero if a buyer’s existing head office would run the mine.' },
+  wcDays: { label: 'Receivables', unit: 'days of revenue', type: 'num', blank: '30', help: 'Working capital. Blank uses 30 days (an assumption); inventory (30 days) and payables (45 days of site costs) follow the Tongon spreadsheet. Enter 0 for none.' },
+  privateRoyalty: { label: 'Private royalty on the tenement', unit: '% of revenue', type: 'num', blank: 'none', help: 'Owed to prospectors or royalty companies, on top of the state’s royalty.' },
+  wht: { label: 'Withholding tax on dividends', unit: '%', type: 'num', blank: 'none', help: 'Tax on distributions to a foreign owner; it depends on the owner and any treaty, and is not yet loaded by country.' },
+  otherPerT: { label: 'Carbon, marketing and other costs', unit: 'US$/t concentrate', type: 'num', blank: 'none', help: 'For example a carbon price on site emissions, or an offtaker’s marketing fee.' },
+  realisation: { label: 'Price received below the SC6 benchmark', unit: '%', type: 'num', typical: T('realisation_discount_pct'), help: 'Grade and impurity adjustments, contract terms and timing.' },
+  lt: { label: 'Long-term spodumene price (SC6, real)', unit: 'US$/t', type: 'lt', help: 'Replaces the deck’s flat tail; the near-term forecast years stay as they are.' },
+  duty: { label: 'Stamp duty and deal costs', unit: '% of the price', type: 'num', blank: 'none', help: 'Comes off the most you could pay.' },
   deck: { label: 'Spodumene price deck', type: 'deck' },
   rateIn: { label: 'Real discount rate', unit: '%', type: 'rate' },
   ownership: { label: 'Your ownership share', unit: '%', type: 'pct' },
   asking: { label: 'Asking price, if it’s for sale', unit: 'US$M', type: 'num', blank: 'none' },
-  hurdle: { label: 'Return you need', unit: '%', type: 'num', help: 'Barrick asks 15% of Tier One investments and 10% of long-life ones (AIF FY2025).' }
+  hurdle: { label: 'Hurdle rate, for the hurdle view', unit: '%', type: 'num', help: 'Applied to the cash flows before risks, plus the country premium. Barrick asks 15% of Tier One investments and 10% of long-life ones (AIF FY2025).' }
 };
 // Each step shows its essential questions; the rest sit under Advanced and start at typical values.
 const DEP_STEPS = [
@@ -1833,10 +1962,10 @@ const DEP_STEPS = [
   { id: 'plan', title: 'Mine plan', q: 'How much will be mined, and how fast?', essentials: [], advanced: ['planShare', 'dilution', 'planMt', 'planGrade', 'inferredShare', 'rate', 'miningOp', 'miningUg'],
     intro: 'Nothing to answer here unless you want to. The plan comes from step 1 and typical values, or from a study if you have one; change any of it under Advanced.' },
   { id: 'process', title: 'Processing', q: 'How much lithia does the plant recover, and at what cost?', essentials: ['route', 'testwork'], advanced: ['recovery', 'concGrade', 'processing', 'ga', 'byproduct'] },
-  { id: 'logistics', title: 'Haulage', q: 'How does the concentrate reach a buyer?', essentials: ['plantMode', 'oreHaulKm', 'LEGS', 'port'], advanced: ['oreHaulRate', 'freight', 'infraCapex'] },
-  { id: 'location', title: 'Location', q: 'Who takes a share, and how risky is the country?', essentials: ['juris', 'permits', 'operator'], advanced: ['royalty', 'royaltyBase', 'tax', 'freeCarry', 'power'] },
-  { id: 'capital', title: 'Capital', q: 'What does it cost to build, and when does it start?', essentials: ['capex', 'capexBasis'], advanced: ['sustaining', 'closure', 'decisionYears', 'buildYears', 'ramp'] },
-  { id: 'deal', title: 'Price and deal', q: 'What is it worth to you?', essentials: ['asking', 'hurdle'], advanced: ['deck', 'rateIn', 'ownership'] }
+  { id: 'logistics', title: 'Haulage', q: 'How does the concentrate reach a buyer?', essentials: ['plantMode', 'oreHaulKm', 'LEGS', 'port'], advanced: ['oreHaulRate', 'freight', 'otherPerT', 'infraCapex'] },
+  { id: 'location', title: 'Location', q: 'Who takes a share, and how risky is the country?', essentials: ['juris', 'permits', 'operator'], advanced: ['royalty', 'royaltyBase', 'tax', 'freeCarry', 'privateRoyalty', 'wht', 'power'] },
+  { id: 'capital', title: 'Capital', q: 'What does it cost to build, and when does it start?', essentials: ['capex', 'capexBasis', 'funding', 'decisionYears'], advanced: ['sustaining', 'closure', 'corporate', 'wcDays', 'buildYears', 'ramp'] },
+  { id: 'deal', title: 'Price and deal', q: 'What is it worth to you?', essentials: ['asking', 'hurdle'], advanced: ['deck', 'lt', 'realisation', 'rateIn', 'ownership', 'duty'] }
 ];
 for (const s of DEP_STEPS) s.fields = s.essentials.concat(s.advanced);
 const num1 = (x, dp = 2) => (x == null || !isFinite(x)) ? '—' : Number(x).toLocaleString('en-US', { maximumFractionDigits: dp });
@@ -1890,6 +2019,9 @@ function fieldHTML(key, d) {
     control = `<select id="${id}" data-dep-deck="1">${Object.values(LITHIUM_DECKS).map((k) => `<option value="${k.id}" ${state.deckBy.spodumene === k.id ? 'selected' : ''}>${esc(k.label)}: ${esc(k.desc)}</option>`).join('')}</select>`;
   } else if (f.type === 'rate') {
     control = `<input id="${id}" data-dep-rate="1" type="number" step="0.5" min="0" max="20" inputmode="decimal" value="${(state.rateBy.spodumene * 100).toFixed(1)}">`;
+  } else if (f.type === 'lt') {
+    const own = state.deckBy.spodumene === 'studydeck' ? null : LITHIUM_DECKS[state.deckBy.spodumene];
+    control = `<input id="${id}" data-dep-lt="1" type="number" step="any" min="0" inputmode="decimal" value="${state.lt.spodumene ?? ''}" placeholder="${own ? Math.round(own.flat) : ''}">`;
   } else if (f.type === 'pct') {
     control = `<input id="${id}" data-dep="${key}" data-type="pct" type="number" step="any" min="0" max="100" inputmode="decimal" value="${v != null ? +(v * 100).toFixed(4) : ''}">`;
   } else {
@@ -1911,12 +2043,15 @@ function derivedHTML(stepId, a, an) {
     + (D.missingRates.length ? `<p class="hint neg">No rate entered for: ${esc(D.missingRates.join(', '))}. Those legs count as zero.</p>` : '');
   if (stepId === 'location') return kv([['Country risk premium', `${pct(D.crp, 2)} (${esc(D.crpBasis)})`], ['Royalties', D.royalties.length ? D.royalties.map((r) => `${pct(r.rate, 1)} on ${r.base === 'fob' ? 'FOB value' : 'gross'}`).join(' + ') : '<span class="neg">none entered</span>'], ['Income tax; free carry', `${pct(D.tax, 1)}; ${pct(D.carry, 0)}`]])
     + (D.juris.note ? `<p class="hint muted">${esc(D.juris.note)}</p>` : '');
-  if (stepId === 'capital') return kv([['Initial capex', `US$${num1(D.capexM, 0)}M${d.capex == null ? ' (typical)' : ''}`], ['Capex per tonne of annual capacity', `US$${num1(D.rate > 0 ? D.capexM / D.rate : NaN, 0)}`], ['Construction', `${D.decision} year(s) to a decision, ${D.build}-year build, first production ${D.firstProd}`]]);
+  if (stepId === 'capital') return kv([['Initial capex', `US$${num1(D.capexM, 0)}M${d.capex == null ? ' (typical)' : ''}`], ['Capex per tonne of annual capacity', `US$${num1(D.rate > 0 ? D.capexM / D.rate : NaN, 0)}`], ['Construction', `${D.decision} year(s) to a decision, ${D.build}-year build, first production ${D.firstProd}`],
+    ...(an.pending ? [] : [['One more year before construction', `${money(scenarioValue(a, { mod: (dd) => { dd.decisionYears = D.decision + 1; }, before: true }) - an.base.npvAttr, { plus: true })} before risks`]])]);
   if (stepId === 'deal' && !an.pending) {
     const h = (d.hurdle != null ? d.hurdle : 15) / 100;
     return kv([['Owner’s NPV, base → risk-adjusted', `${money(an.base.npvAttr)} → ${money(an.risk.npvAttr)}`], ['Project IRR, base → risk-adjusted', `${irrText(an.base.irr)} → ${irrText(an.risk.irr)}`],
-      ['NPV ÷ capex (base)', `${num1(an.base.npvAttr / (D.capexM * 1e6), 2)}×`], [`Most you could pay for ${pct(h, 0)}`, `${money(an.base.pvAt(h))} base · ${money(an.risk.pvAt(h))} risk-adjusted`],
-      ...(d.asking ? [['Asking price ÷ base NAV', `${num1(d.asking * 1e6 / an.base.npvAttr, 2)}×`]] : [])])
+      ['NPV ÷ capex (base)', `${num1(an.base.npvAttr / (D.capexM * 1e6), 2)}×`],
+      ['Most you could pay (the value after risks)', money(an.risk.npvAttr / (1 + (d.duty || 0) / 100))],
+      [`Hurdle view: ${pct(h, 0)} on cash flows before risks`, money(an.base.pvAt(h + an.risk.rate - an.base.rate) / (1 + (d.duty || 0) / 100))],
+      ...(d.asking ? [['Asking price', `${money(d.asking * 1e6)}: ${d.asking * 1e6 <= an.risk.npvAttr / (1 + (d.duty || 0) / 100) ? 'within' : 'above'} the most you could pay`]] : [])])
       + `<p class="hint muted">Market check: scoping-stage projects typically trade at 0.10–0.25× study NPV, PFS 0.25–0.50×, feasibility 0.50–0.85× (${esc(S.RPFRAME.source)}, note 5).</p>`;
   }
   return '';
@@ -1929,7 +2064,7 @@ function renderDeposit() {
   const sumBar = an.pending ? '' : `<div class="sumbar" aria-live="polite">
       <span class="small muted">After risks</span><b>${money(an.risk.npvAttr)}</b>
       <span class="small muted">Before risks</span><b>${money(an.base.npvAttr)}</b>
-      <span class="small muted">Pay up to</span><b>${money(an.risk.pvAt(h))}</b>
+      <span class="small muted">IRR after risks</span><b>${irrText(an.risk.irr)}</b>
       <button type="button" class="btn" data-goto="result">See the result</button></div>`;
   const dots = DEP_STEPS.map((s, i) => `<button type="button" class="dot ${i < state.step ? 'done' : ''}" data-step="${i}" ${i === state.step ? 'aria-current="step"' : ''} aria-label="Step ${i + 1}: ${esc(s.title)}" title="${esc(s.title)}">${i + 1}</button>`).join('');
   const ess = step.essentials.map((k) => fieldHTML(k, d)).join('');
@@ -2088,6 +2223,7 @@ function valueLadder(asset, an) {
     revenue: sum(b.years, (y) => y.revenue),
     byproduct: sum(b.years, (y) => y.byproduct || 0),
     logistics: -sum(b.years, (y) => y.logistics || 0),
+    other: -sum(b.years, (y) => y.other || 0),
     freight: -sum(b.years, (y) => y.freight || 0),
     stream: -sum(b.years, (y) => y.stream),
     royalties: -sum(b.years, (y) => y.royalties),
@@ -2100,7 +2236,9 @@ function valueLadder(asset, an) {
     cash: sum(b.years, (y) => y.fcf),
     npv: b.npv, attr: b.npvAttr, risk: an.risk.npvAttr
   };
-  L.deckGap = L.revenue - payable * ref;
+  const realisation = pr.realisation != null ? pr.realisation : 1;
+  L.realLoss = realisation > 0 ? L.revenue - L.revenue / realisation : 0;   // what selling below the benchmark costs
+  L.deckGap = L.revenue - L.realLoss - payable * ref;
   L.discount = L.npv - L.cash;
   L.partners = L.attr - L.npv;
   L.dials = L.risk - L.attr;
@@ -2113,27 +2251,29 @@ function ladderSVG(asset, L, width) {
     { kind: 'total', label: 'In-situ value', value: L.inSitu },
     { kind: 'step', label: 'Not recovered', delta: L.metLoss },
     { kind: 'step', label: 'Not paid for', delta: L.payLoss },
-    { kind: 'step', label: 'Deck vs spot price', note: deck.id === 'spot' ? '' : deck.label, delta: L.deckGap },
-    { kind: 'total', label: 'Revenue', value: L.revenue }
+    { kind: 'step', label: 'Deck vs spot price', note: deck.id === 'spot' ? '' : deck.label, delta: L.deckGap }
   ];
+  if (Math.abs(L.realLoss) >= 0.05e6) rows.push({ kind: 'step', label: 'Price received', note: 'below benchmark', delta: L.realLoss });
+  rows.push({ kind: 'total', label: 'Revenue', value: L.revenue });
   if (Math.abs(L.byproduct) >= 0.05e6) rows.push({ kind: 'step', label: 'By-product credits', delta: L.byproduct });
   if (asset.stream) rows.push({ kind: 'step', label: 'Stream', delta: L.stream });
   rows.push({ kind: 'step', label: 'Royalties', delta: L.royalties }, { kind: 'step', label: 'Site costs', delta: L.site });
   if (Math.abs(L.logistics) >= 0.05e6) rows.push({ kind: 'step', label: 'Haulage to port', delta: L.logistics });
   if (Math.abs(L.freight) >= 0.05e6) rows.push({ kind: 'step', label: 'Ocean freight', delta: L.freight });
-  if (Math.abs(L.overhead) >= 0.05e6) rows.push({ kind: 'step', label: 'G&A, exploration', delta: L.overhead });
+  if (Math.abs(L.other) >= 0.05e6) rows.push({ kind: 'step', label: 'Carbon and other', delta: L.other });
+  if (Math.abs(L.overhead) >= 0.05e6) rows.push({ kind: 'step', label: 'Head office, exploration', delta: L.overhead });
   rows.push({ kind: 'step', label: 'Capex', delta: L.capex }, { kind: 'step', label: 'Closure', delta: L.closure }, { kind: 'step', label: 'Income tax', delta: L.tax });
   if (Math.abs(L.wc) >= 0.05e6) rows.push({ kind: 'step', label: 'Working capital', delta: L.wc });
   rows.push({ kind: 'total', label: 'Cash flow', value: L.cash }, { kind: 'step', label: 'Waiting (discount)', delta: L.discount }, { kind: 'total', label: 'Project NPV', value: L.npv });
   if (Math.abs(L.partners) >= 0.05e6) rows.push({ kind: 'step', label: 'Partners, state', delta: L.partners }, { kind: 'total', label: 'Owner’s NPV', value: L.attr });
-  rows.push({ kind: 'step', label: 'Nine risk dials', delta: L.dials }, { kind: 'total', label: 'Risk-adjusted', value: L.risk, final: true });
+  rows.push({ kind: 'step', label: 'Risk dials', delta: L.dials }, { kind: 'total', label: 'Risk-adjusted', value: L.risk, final: true });
   const desc = `From ${money(L.inSitu)} of ${UCTX === 'gold' ? 'gold' : 'lithia'} in the mine plan at spot to ${money(L.risk)} risk-adjusted value: revenue ${money(L.revenue)}, cash flow ${money(L.cash)}, project NPV ${money(L.npv)}.`;
   return waterfallSVG(rows, width, desc, { labelNarrow: 122, labelWide: 176 });
 }
 
 // One input at a time, around the base case (owner's NPV, no dials). Levers match the Tongon Sensitivity Engine.
 function tornadoCases(asset) {
-  const a = asset; const ctl = ctlFor(a); const base = { deck: ctl.deck, rate: ctl.rate, levels: ctl.levels, enabled: new Set(), ext: ctl.ext };
+  const a = asset; const ctl = ctlFor(a); const base = { deck: ctl.deck, rate: ctl.rate, levels: ctl.levels, enabled: new Set(), ext: ctl.ext, flex: ctl.flex };
   const v = (o) => runModel(a, { ...base, ...o }).npvAttr;
   const b0 = v({});
   const cases = [
@@ -2219,9 +2359,10 @@ function allMetrics(a, an) {
     metrics.push(`<button type="button" class="metric" data-trace="deposit"><span class="k">Capex and returns</span>
       <span class="v">US$${num1(a.derived.capexM, 0)}M · IRR ${irrText(an.base.irr)} → ${irrText(an.risk.irr)}</span>
       <span class="s">NPV ÷ capex ${num1(an.base.npvAttr / cx, 2)}× base, ${num1(an.risk.npvAttr / cx, 2)}× risk-adjusted (a common rule of thumb asks for more than 1×). First production ${a.derived.firstProd}; payback ${an.base.payback || 'not within the plan'}.</span></button>`);
-    metrics.push(`<button type="button" class="metric" data-trace="deposit"><span class="k">Most you could pay for a ${pct(h, 0)} return</span>
-      <span class="v">${money(an.base.pvAt(h))} → ${money(an.risk.pvAt(h))}</span>
-      <span class="s">Owner’s cash flows discounted at ${pct(h, 0)}, base and risk-adjusted. Scoping-stage projects typically trade at 0.10–0.25× study NPV; feasibility 0.50–0.85×.</span></button>`);
+    const crpAdd = an.risk.rate - an.base.rate; const duty = (a.deposit.duty || 0) / 100;
+    metrics.push(`<button type="button" class="metric" data-trace="deposit"><span class="k">Most you could pay</span>
+      <span class="v">${money(an.risk.npvAttr / (1 + duty))}</span>
+      <span class="s">The value after risks: expected cash flows at ${pct(an.risk.rate, 1)} (${pct(an.base.rate, 1)} real plus ${pct(crpAdd, 1)} country premium)${duty ? `, less ${pct(duty, 1)} stamp duty and deal costs` : ''}. Hurdle view, ${pct(h, 0)} on cash flows before risks: ${money(an.base.pvAt(h + crpAdd) / (1 + duty))}.</span></button>`);
     if (a.study) {
       const sr = runModel(a, { deck: a.deckOverride || curDeck(), rate: a.study.rate, levels: state.levels[a.id], enabled: new Set(), ext: 0 });
       metrics.push(`<button type="button" class="metric" data-trace="deposit"><span class="k">Screener against the study</span>
@@ -2245,46 +2386,232 @@ function allMetrics(a, an) {
 }
 
 function verdictHTML(a, an) {
-  const deck = curDeck(); const cmd = commodityOf(a);
-  const h = a.deposit && a.deposit.hurdle != null ? a.deposit.hurdle / 100 : 0.15;
+  const deck = curDeck(); const cmd = commodityOf(a); const dep = a.deposit || {};
   const ch = an.risk.npvAttr - an.base.npvAttr; const chp = pctChange(an.base.npvAttr, an.risk.npvAttr);
-  const payR = an.risk.pvAt(h); const payB = an.base.pvAt(h);
+  const crpAdd = an.risk.rate - an.base.rate;                 // the country premium the Political dial adds to the rate
+  const duty = (dep.duty || 0) / 100;
+  const maxPay = an.risk.npvAttr / (1 + duty);
+  const h = dep.hurdle != null ? dep.hurdle / 100 : 0.15;
+  const hurdlePay = an.base.pvAt(h + crpAdd) / (1 + duty);
   const top2 = an.bridge.filter((b) => b.applies && b.delta < -0.05e6).sort((x, y) => x.delta - y.delta).slice(0, 2);
   let sumTxt = 'No risk takes value at the current settings.';
   if (an.base.npvAttr <= 0) sumTxt = 'The value is negative even before risks at these prices.';
   else if (top2.length) sumTxt = `Risks take ${pct(-ch / an.base.npvAttr, 0)} of the value. The ${top2.length === 1 ? 'biggest is' : 'two biggest are'} ${top2.map((b) => `<b>${esc(b.dial.name.toLowerCase())}</b> (${money(b.delta)})`).join(' and ')}.`;
-  const payLine = payR > 0
-    ? `<span>To earn ${pct(h, 0)}, pay no more than</span><b>${money(payR)}</b><span class="small muted">(${money(payB)} before risks)</span>`
-    : `<span>At a ${pct(h, 0)} return, the cash flows after risks don’t cover the cost:</span><b>${money(payR)}</b><span class="small muted">(${money(payB)} before risks)</span>`;
-  let extra = '';
-  if (a.deposit && a.deposit.asking) { const ask = a.deposit.asking * 1e6; extra = `<p class="small">Asking price ${money(ask)}: ${ask <= payR ? 'within' : 'above'} the most you could pay after risks.</p>`; }
-  if (a.transaction && an.base.tx) { const pp = pricePaid(a, curRate()); extra = `<p class="small">Price paid ${money(pp)} in present value, ${(pp / an.base.npvAttr).toFixed(2)}× the value before risks. Transaction IRR ${irrText(an.base.tx.irr)} before risks, ${irrText(an.risk.tx.irr)} after.</p>`; }
+  const rateTxt = `${pct(an.base.rate, 1)} real${crpAdd > 0.0005 ? ` plus ${pct(crpAdd, 1)} for country risk` : ''}`;
+  const payTxt = an.risk.npvAttr > 0
+    ? `This is the most you could pay to earn ${rateTxt} on the cash flows you expect${duty ? `; after ${pct(duty, 1)} stamp duty and deal costs, ${money(maxPay)}` : ''}.`
+    : `The cash flows you expect don’t repay the build at ${rateTxt}. A rational owner would not build at these settings; the deposit is then worth only its option value, which this screen does not model.`;
+  let deal = '';
+  if (dep.asking) { const ask = dep.asking * 1e6; deal = `<p class="small"><b>Asking price ${money(ask)}:</b> ${ask <= maxPay ? 'within' : 'above'} the most you could pay after risks${ask > maxPay && ask <= hurdlePay ? ', though within the hurdle view' : ''}.</p>`; }
+  if (a.transaction && an.base.tx) { const pp = pricePaid(a, curRate()); deal = `<p class="small">Price paid ${money(pp)} in present value, ${(pp / an.base.npvAttr).toFixed(2)}× the value before risks. Transaction IRR ${irrText(an.base.tx.irr)} before risks, ${irrText(an.risk.tx.irr)} after.</p>`; }
   const deckList = Object.values(DECKS[cmd]).concat(a.deckOverride ? [a.deckOverride] : []);
   const seg = deckList.map((k) => `<input type="radio" name="deck" id="deck-${k.id}" value="${k.id}" data-role="deck" ${state.deckBy[cmd] === k.id ? 'checked' : ''}><label for="deck-${k.id}" title="${esc(k.desc)}">${esc(k.label)}</label>`).join('');
+  const rawDeck = state.deckBy[cmd] === 'studydeck' ? (a.deckOverride || DECKS[cmd].req) : DECKS[cmd][state.deckBy[cmd]];
   return `<section class="panel verdict" aria-labelledby="verdict-title">
     <h2 class="sr-only" id="verdict-title">The answer</h2>
     <div class="nums">
       <button type="button" class="v-tile" data-trace="npv-risk"><span class="lbl">Value after risks</span><span class="v-big">${money(an.risk.npvAttr)}</span></button>
       <button type="button" class="v-tile" data-trace="npv-base"><span class="lbl">Before risks</span><span class="v-mid">${money(an.base.npvAttr)}</span><span class="v-delta ${ch >= 0 ? 'pos' : ''}">${money(ch, { plus: true })} (${pct(chp, 0, true)})</span></button>
     </div>
-    <div class="pay">${payLine}</div>
-    ${extra}
+    <p class="v-pay">${payTxt}</p>
+    ${deal}
     <p class="v-sum">${sumTxt}</p>
+    ${rangeHTML(a, an)}
+    <p class="small muted">Hurdle view: at a ${pct(h, 0)} hurdle on the cash flows before risks${crpAdd > 0.0005 ? ', plus the country premium' : ''}, pay no more than ${money(hurdlePay)}. The two views agree only when the hurdle’s premium matches what the risks take out.</p>
     <details class="assume" data-open-id="assume" ${state.open.has('assume') ? 'open' : ''}>
-      <summary>${esc(deck.label)} ${cmd === 'gold' ? 'gold' : 'spodumene'} price · ${pct(curRate(), 1)} real · ${esc(a.ownerLabel)} <span aria-hidden="true">✎</span><span class="sr-only">Change</span></summary>
+      <summary>${esc(deck.label)} ${cmd === 'gold' ? 'gold' : 'spodumene'} price${state.lt[cmd] != null ? `, long-term ${esc(usd0(state.lt[cmd]))}` : ''} · ${pct(curRate(), 1)} real · ${esc(a.ownerLabel)} <span aria-hidden="true">✎</span><span class="sr-only">Change</span></summary>
       <div class="assume-body">
         <div class="ctl"><span class="ctl-label" id="deck-label">${cmd === 'gold' ? 'Gold price' : 'Spodumene price'}</span><fieldset class="seg" aria-labelledby="deck-label" id="deck-seg">${seg}</fieldset></div>
+        <div class="ctl"><label class="ctl-label" for="lt-in">Long-term price</label><input class="lt-in" id="lt-in" type="number" step="any" min="0" inputmode="decimal" data-role="lt" value="${state.lt[cmd] ?? ''}" placeholder="${esc(String(Math.round(rawDeck.flat)))}"><span class="small muted">${esc(UN().price)}${UCTX === 'spodumene' ? ' SC6' : ''}; blank keeps the deck’s ${esc(usd0(rawDeck.flat))}</span></div>
         <div class="ctl"><span class="ctl-label" id="rate-label">Real discount rate</span>
           <div class="stepper" role="group" aria-labelledby="rate-label">
             <button type="button" id="rate-down" aria-label="Lower the base real discount rate by 0.5 points">&minus;</button>
             <output id="rate-out" aria-live="polite">${pct(curRate(), 1)}</output>
             <button type="button" id="rate-up" aria-label="Raise the base real discount rate by 0.5 points">+</button></div></div>
+        <label class="check" for="flex-toggle"><input type="checkbox" id="flex-toggle" data-role="flex" ${state.flex ? 'checked' : ''}> Let the mine pause or close when it loses cash</label>
         <p class="small muted">${esc(deck.desc)}. ${srcLink(deck)}</p>
-        ${a.id === 'custom' ? '<p class="small muted">Ownership, the return you need and the asking price are in step 7 of the Deposit tab.</p>' : ''}
+        ${a.id === 'custom' ? '<p class="small muted">Ownership, the hurdle, stamp duty and the asking price are in step 7 of the Deposit tab.</p>' : ''}
       </div>
     </details>
   </section>`;
 }
+
+
+/* ---------- The value as a range, and what moves it ---------- */
+// One run of the model with something changed. Deposits are rebuilt from edited inputs; every run keeps your dial levels.
+function scenarioValue(a, opt = {}) {
+  const ctl = ctlFor(a); let asset = a;
+  if (opt.mod && a.deposit) { const d = JSON.parse(JSON.stringify(a.deposit)); opt.mod(d, a.derived); asset = depositAsset(d, a.id, { study: a.study }); }
+  return runModel(asset, { deck: opt.deck || ctl.deck, rate: opt.rate != null ? opt.rate : ctl.rate, levels: opt.levels || ctl.levels, ext: ctl.ext, flex: ctl.flex,
+    enabled: opt.before ? new Set() : ALL_DIALS() }).npvAttr;
+}
+
+// A combined bad case and the upside left out of the plan, beside the expected value and the value before risks.
+function scenarioRuns(a, an) {
+  const isDep = a.stage === 'deposit' && !!a.deposit; const c = commodityOf(a);
+  const lv = { ...state.levels[a.id] }; if (isDep) { lv.funding = 'H'; lv.capex = 'H'; }
+  const stress = scenarioValue(a, { deck: DECKS[c].downside, levels: lv });
+  let whole = null; let outside = 0;
+  if (isDep) {
+    const D = a.derived; const d0 = a.deposit;
+    const dil = (d0.dilution != null ? d0.dilution : typical('dilution_pct').median) / 100;
+    outside = Math.max(0, D.resMt * (1 + dil) - D.planMt);
+    if (outside > 0.05) whole = scenarioValue(a, { mod: (d) => { d.planMt = D.resMt * (1 + dil); d.planGrade = D.resGrade / (1 + dil); d.inferredShare = D.resMt > 0 ? D.infMt / D.resMt * 100 : 0; } });
+  }
+  return { stress, whole, outside };
+}
+
+function rangeHTML(a, an) {
+  const R = scenarioRuns(a, an); const isDep = a.stage === 'deposit';
+  const rows = [
+    ['Stress case', R.stress, `${isDep ? 'Downside price, funding and capex risks at High' : 'Downside price'}; the mine may close`, 'neg'],
+    ['After risks', an.risk.npvAttr, 'Your settings', 'after'],
+    ['Before risks', an.base.npvAttr, 'No risk adjustments', 'base']
+  ];
+  if (R.whole != null) rows.push(['Whole resource mined', R.whole, `After risks, if the ${num1(R.outside, 1)} Mt outside the plan were mined too`, 'up']);
+  const vals = rows.map((r) => r[1]).concat([0]); const lo = Math.min(...vals); const hi = Math.max(...vals); const span = (hi - lo) || 1;
+  const pos = (v) => (v - lo) / span * 100; const z = pos(0);
+  const html = rows.map(([k, v, note, cls]) => `<div class="rg-row"><span class="rg-k">${esc(k)}<small>${esc(note)}</small></span><span class="rg-v ${v < 0 ? 'neg' : ''}">${money(v)}</span>
+      <span class="rg-track" aria-hidden="true"><i class="rg-zero" style="left:${z.toFixed(1)}%"></i><i class="rg-bar ${v < 0 ? 'neg' : cls}" style="left:${Math.min(z, pos(v)).toFixed(1)}%;width:${Math.max(0.6, Math.abs(pos(v) - z)).toFixed(1)}%"></i></span></div>`).join('');
+  return `<div class="rg" role="group" aria-label="The value as a range"><p class="rg-h">The value as a range</p>${html}</div>`;
+}
+
+// Inputs swung across the range seen in published studies (deposits).
+const RANGE_INPUTS = [
+  { key: 'capex_per_annual_t_ore', label: 'Capex', apply: (d, v, D) => { d.capex = v * D.rate * (d.plantMode === 'existing' ? typical('existing_plant_capex_ratio').median / 100 : 1); } },
+  { key: (d) => (d.route === 'flot' ? 'recovery_flotation' : 'recovery_dms'), label: 'Recovery', apply: (d, v) => { d.recovery = v; } },
+  { key: (d) => (d.route === 'flot' ? 'processing_cost_flotation' : 'processing_cost_dms'), label: 'Processing cost', apply: (d, v) => { d.processing = v; } },
+  { key: 'mining_cost_op_per_t_material', label: 'Open-pit mining', when: (d) => d.method !== 'ug', apply: (d, v) => { d.miningOp = v; } },
+  { key: 'mining_cost_ug_per_t_ore', label: 'Underground mining', when: (d) => d.method !== 'op', apply: (d, v) => { d.miningUg = v; } },
+  { key: 'strip_ratio_op', label: 'Strip ratio', when: (d) => d.method !== 'ug', apply: (d, v) => { d.strip = v; } },
+  { key: 'site_ga_per_t_ore', label: 'Site G&A', zero: (d) => d.ga === 0, apply: (d, v) => { d.ga = v; } },
+  { key: 'sustaining_capex_per_t_conc', label: 'Sustaining capex', apply: (d, v) => { d.sustaining = v; } },
+  { key: 'realisation_discount_pct', label: 'Price received', apply: (d, v) => { d.realisation = v; } },
+  { key: 'ocean_freight', label: 'Ocean freight', zero: (d) => d.freight === 0, apply: (d, v) => { d.freight = v; } },
+  { key: 'road_haul_per_t_km', label: 'Road haul rate', when: (d) => (d.legs || []).some((l) => l && l.mode === 'truck' && l.km > 0), apply: (d, v) => { for (const l of d.legs || []) if (l && l.mode === 'truck' && l.km > 0) l.rate = v; } },
+  { key: 'closure_usd_m', label: 'Closure cost', apply: (d, v) => { d.closure = v; } },
+  { key: 'plan_share_of_resource', label: 'Share mined', when: (d) => d.planMt == null, apply: (d, v) => { d.planShare = v; } }
+];
+
+function moverViews(a) {
+  const dep = a.stage === 'deposit' && !!a.deposit;
+  return [['price', 'Long-term price'], ['grid', dep ? 'Price × capex' : 'Price × rate']].concat(dep ? [['delay', 'Delay'], ['ranges', 'Study ranges']] : []);
+}
+
+function moversHTML(a, an) {
+  const views = moverViews(a); const v = views.some((x) => x[0] === state.mover) ? state.mover : 'price';
+  const seg = views.map(([k, t]) => `<input type="radio" name="mover" id="mv-${k}" value="${k}" data-role="mover" ${k === v ? 'checked' : ''}><label for="mv-${k}">${t}</label>`).join('');
+  const intro = {
+    price: `Value before and after risks as the long-term ${esc(UN().priceName)} changes. The near-term forecast stays as it is.`,
+    grid: `Value after risks for the long-term ${esc(UN().priceName)} against ${a.stage === 'deposit' ? 'initial capex' : 'the real discount rate'}. The outlined cell is your current setting.`,
+    delay: 'Value after risks if construction starts later than you set. Each year costs a year of discounting and, on a falling price deck, a high-price early year.',
+    ranges: 'Each bar sets one input to the lowest and highest value seen across published studies, everything else as you entered it. The longest bars show where better data is worth most.'
+  }[v];
+  return `<section class="panel" aria-labelledby="movers-title">
+    <div class="panel-head"><h2 id="movers-title">What moves the value</h2></div>
+    <fieldset class="seg mv-seg"><legend class="sr-only">Which driver to show</legend>${seg}</fieldset>
+    <p class="small muted mv-intro">${intro}</p>
+    ${v === 'grid' ? gridHTML(a) : `<div class="chart" id="mv-chart" data-mover="${v}"></div>`}
+  </section>`;
+}
+
+function gridHTML(a) {
+  const deck = curDeckFor(a); const lt0 = deck.flat; const dep = a.stage === 'deposit' && !!a.deposit; const r0 = curRateFor(a);
+  const cols = [-0.3, -0.15, 0, 0.15, 0.3];
+  const rows = dep
+    ? [-0.2, 0, 0.2, 0.5].map((x) => ({ label: x === 0 ? 'Capex as set' : `Capex ${x > 0 ? '+' : '−'}${Math.round(Math.abs(x) * 100)}%`, cur: x === 0, mod: x === 0 ? null : (d, D) => { d.capex = (D.capexM - (d.infraCapex || 0)) * (1 + x); } }))
+    : [-0.02, 0, 0.02, 0.04].filter((x) => r0 + x >= 0).map((x) => ({ label: x === 0 ? `${pct(r0, 1)} as set` : `${pct(r0 + x, 1)} real`, cur: x === 0, rate: r0 + x }));
+  const head = cols.map((c) => `<th scope="col">${esc(usd0(lt0 * (1 + c)))}${c === 0 ? '<br><span class="muted small">now</span>' : ''}</th>`).join('');
+  const body = rows.map((row) => `<tr><th scope="row">${esc(row.label)}</th>${cols.map((c) => {
+    const v = scenarioValue(a, { deck: withLongTerm(deck, lt0 * (1 + c)), mod: row.mod, rate: row.rate });
+    return `<td class="n ${v < 0 ? 'neg' : ''} ${row.cur && c === 0 ? 'cur' : ''}">${money(v)}</td>`;
+  }).join('')}</tr>`).join('');
+  return `<div class="table-wrap"><table class="mv-grid"><thead><tr><th scope="col">Long-term price</th>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+
+function priceSeries(a) {
+  const deck = curDeckFor(a); const lt0 = deck.flat;
+  const pts = [0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5].map((f) => { const p = lt0 * f; const dk = withLongTerm(deck, p); return { p, b: scenarioValue(a, { deck: dk, before: true }), r: scenarioValue(a, { deck: dk }) }; });
+  return { lt0, pts };
+}
+
+function priceLineSVG(S, width) {
+  const W = Math.max(300, width); const narrow = W < 520; const H = narrow ? 220 : 250;
+  const m = { l: narrow ? 50 : 60, r: 16, t: 18, b: 40 };
+  const pts = S.pts; const x0 = pts[0].p; const x1 = pts[pts.length - 1].p;
+  const vals = pts.flatMap((q) => [q.b, q.r]).concat([0]);
+  const ticks = niceTicks(Math.min(...vals), Math.max(...vals), 5);
+  const yMin = Math.min(...vals, ticks[0]); const yMax = Math.max(...vals, ticks[ticks.length - 1]);
+  const sx = (v) => m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r);
+  const sy = (v) => m.t + (yMax - v) / ((yMax - yMin) || 1) * (H - m.t - m.b);
+  let g = '';
+  for (const t of ticks) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${sy(t)}" y2="${sy(t)}" class="${t === 0 ? 's-axis' : 's-grid'}"/><text x="${m.l - 6}" y="${sy(t) + 4}" text-anchor="end" font-size="11" class="t-muted">${esc(axisMoney(t))}</text>`;
+  for (const t of niceTicks(x0, x1, narrow ? 3 : 5)) g += `<text x="${sx(t)}" y="${H - m.b + 16}" text-anchor="middle" font-size="11" class="t-muted">${esc(usd0(t))}</text>`;
+  g += `<text x="${(m.l + W - m.r) / 2}" y="${H - 4}" text-anchor="middle" font-size="11" class="t-muted">Long-term ${esc(UN().priceName)}, ${esc(UN().price)}</text>`;
+  g += `<line x1="${sx(S.lt0)}" x2="${sx(S.lt0)}" y1="${m.t}" y2="${H - m.b}" class="s-gold" stroke-width="1.5" stroke-dasharray="5 4"/>`;
+  g += `<text x="${sx(S.lt0) + 5}" y="${m.t + 4}" font-size="11" class="t-ink">Now ${esc(usd0(S.lt0))}</text>`;
+  const path = (k) => pts.map((q, i) => `${i ? 'L' : 'M'}${sx(q.p).toFixed(1)},${sy(q[k]).toFixed(1)}`).join(' ');
+  g += `<path d="${path('b')}" fill="none" class="s-before" stroke-width="2"/><path d="${path('r')}" fill="none" class="s-after" stroke-width="2.6"/>`;
+  for (const q of pts) g += `<circle cx="${sx(q.p).toFixed(1)}" cy="${sy(q.r).toFixed(1)}" r="2.6" class="f-after"/>`;
+  let be = null;
+  for (let i = 1; i < pts.length; i++) { const p0 = pts[i - 1]; const p1 = pts[i]; if ((p0.r < 0) !== (p1.r < 0)) { be = p0.p + (0 - p0.r) * (p1.p - p0.p) / (p1.r - p0.r); break; } }
+  if (be != null) g += `<circle cx="${sx(be)}" cy="${sy(0)}" r="4.5" class="f-after"/><text x="${Math.min(W - m.r - 4, Math.max(m.l + 4, sx(be)))}" y="${sy(0) + 16}" text-anchor="middle" font-size="11" class="t-ink">Breaks even after risks ≈ ${esc(usd0(be))}</text>`;
+  const desc = `Value before and after risks against the long-term price: ${pts.map((q) => `${usd0(q.p)}: ${money(q.b)} before, ${money(q.r)} after`).join('; ')}.`;
+  return `<div class="legend"><span><i class="sw sw-before"></i>Before risks</span><span><i class="sw sw-after"></i>After risks</span><span><i class="sw sw-gold"></i>Long-term price now</span></div>
+    <svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(desc)}">${g}</svg>`;
+}
+
+function delaySeries(a) {
+  const D = a.derived;
+  return [0, 1, 2, 3, 4].map((k) => ({ k, v: k === 0 ? ANALYSIS[a.id].risk.npvAttr : scenarioValue(a, { mod: (d) => { d.decisionYears = D.decision + k; } }) }));
+}
+
+function delaySVG(series, width) {
+  const W = Math.max(300, width); const H = 220; const m = { l: 8, r: 8, t: 24, b: 58 };
+  const vals = series.map((s) => s.v).concat([0]); const vmin = Math.min(...vals); const vmax = Math.max(...vals);
+  const sy = (v) => m.t + (vmax - v) / ((vmax - vmin) || 1) * (H - m.t - m.b);
+  const slot = (W - m.l - m.r) / series.length; const bw = Math.min(70, slot * 0.6);
+  let g = `<line x1="${m.l}" x2="${W - m.r}" y1="${sy(0)}" y2="${sy(0)}" class="s-axis" stroke-width="1.5"/>`;
+  series.forEach((s, i) => {
+    const cx = m.l + slot * (i + 0.5); const y0 = sy(0); const y1 = sy(s.v);
+    g += `<rect x="${cx - bw / 2}" y="${Math.min(y0, y1)}" width="${bw}" height="${Math.max(1.5, Math.abs(y1 - y0))}" rx="3" class="${s.v < 0 ? 'f-loss' : i === 0 ? 'f-after' : 'f-before'}"/>`;
+    g += `<text x="${cx}" y="${s.v < 0 ? Math.max(y0, y1) + 15 : Math.min(y0, y1) - 6}" text-anchor="middle" font-size="11.5" class="t-ink">${esc(money(s.v))}</text>`;
+    g += `<text x="${cx}" y="${H - 10}" text-anchor="middle" font-size="11" class="t-muted">${i === 0 ? 'As set' : `+${s.k} year${s.k > 1 ? 's' : ''}`}</text>`;
+  });
+  const desc = 'Value after risks by delay before construction: ' + series.map((s) => `${s.k ? '+' + s.k + ' years' : 'as set'} ${money(s.v)}`).join('; ') + '.';
+  const step = series.length > 1 ? series[1].v - series[0].v : 0;
+  return `<p class="small"><b>One year’s delay costs ${esc(money(-step))}</b> after risks.</p><svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(desc)}">${g}</svg>`;
+}
+
+function rangesData(a) {
+  const d0 = a.deposit; const base = ANALYSIS[a.id].risk.npvAttr; const cases = [];
+  for (const ri of RANGE_INPUTS) {
+    if (ri.when && !ri.when(d0)) continue;
+    if (ri.zero && ri.zero(d0)) continue;   // entered as zero because it is counted elsewhere (G&A in processing, freight in an FOB price)
+    const key = typeof ri.key === 'function' ? ri.key(d0) : ri.key; const t = typical(key); if (!t || !(t.high > t.low)) continue;
+    const vLo = scenarioValue(a, { mod: (d, D) => ri.apply(d, t.low, D) });
+    const vHi = scenarioValue(a, { mod: (d, D) => ri.apply(d, t.high, D) });
+    const worse = Math.min(vLo, vHi) - base; const better = Math.max(vLo, vHi) - base;
+    const c = { label: ri.label, dlo: worse < 0 ? worse : null, dhi: better > 0 ? better : null, t };
+    c.mag = Math.max(Math.abs(c.dlo || 0), Math.abs(c.dhi || 0));
+    if (c.mag > 0) cases.push(c);
+  }
+  cases.sort((x, y) => y.mag - x.mag);
+  return { base, cases: cases.slice(0, 6) };
+}
+
+function moverChartHTML(a, view, width) {
+  if (view === 'price') return priceLineSVG(priceSeries(a), width);
+  if (view === 'delay') return delaySVG(delaySeries(a), width);
+  if (view === 'ranges') {
+    const T = rangesData(a);
+    if (!T.cases.length) return '<p class="muted">No input moves the value across the study ranges.</p>';
+    const rows = T.cases.map((c) => `<tr><th scope="row">${esc(c.label)}</th><td>${esc(num1(c.t.low))}–${esc(num1(c.t.high))} ${esc(c.t.unit)}</td><td class="n">${c.t.n}</td></tr>`).join('');
+    return tornadoSVG(T, width) + `<div class="table-wrap" style="margin-top:10px"><table class="mv-ranges"><thead><tr><th scope="col">Input</th><th scope="col">Range across studies</th><th scope="col">Studies</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  }
+  return '';
+}
+
 
 // Risks are listed biggest first. The order is set when the asset or its inputs change, not while you move a slider, so rows don't jump under your finger.
 function riskOrderFor(a, an) {
@@ -2351,10 +2678,10 @@ function risksSectionHTML(a, an) {
     <div class="panel-head"><h2 id="risks-title">What could go wrong</h2><p>Slide a risk between low and high to see what it costs.</p></div>
     <ol class="rk-list">${rows.slice(0, 3).join('')}</ol>
     <details class="fold" data-open-id="${moreKey}" ${state.open.has(moreKey) ? 'open' : ''}>
-      <summary><span class="sum-t">The other six risks</span><span class="sum-note">${restNote}</span></summary>
+      <summary><span class="sum-t">The other ${DIALS.length - 3} risks</span><span class="sum-note">${restNote}</span></summary>
       <ol class="rk-list">${rows.slice(3).join('')}</ol>
     </details>
-    <div class="rk-foot"><span>${an.pending ? 'No NPV yet, so the risks show their levels and evidence only.' : `Each amount is measured in a fixed order, resource first and political last, so the nine add up to ${money(an.risk.npvAttr - an.base.npvAttr, { plus: true })}.`}</span>
+    <div class="rk-foot"><span>${an.pending ? 'No NPV yet, so the risks show their levels and evidence only.' : `Each amount is measured in a fixed order, resource first and political last, so they add up to ${money(an.risk.npvAttr - an.base.npvAttr, { plus: true })}.`}</span>
       ${changed ? `<button type="button" class="link-btn" data-reset-all>Reset all to defaults (${changed})</button>` : ''}</div>
   </section>`;
 }
@@ -2367,14 +2694,21 @@ function keyNumbersHTML(a, an) {
     rows.push(row('deposit', 'Capex', `US$${num1(D.capexM, 0)}M`, `First production ${D.firstProd}; NPV ÷ capex ${num1(an.base.npvAttr / (D.capexM * 1e6), 2)}× before risks`));
     rows.push(row('deposit', 'Project IRR', `${irrText(an.base.irr)} → ${irrText(an.risk.irr)}`, 'Before and after risks'));
     rows.push(row('deposit', 'Payback', `${an.base.payback || 'Not within the plan'}`, 'The year cumulative cash turns positive, before risks'));
+    const band = { fs: [0.50, 0.85, 'Feasibility'], pfs: [0.25, 0.50, 'Pre-feasibility'], scoping: [0.10, 0.25, 'Scoping'], own: [0.10, 0.25, 'Scoping'] }[a.deposit.capexBasis || 'own'];
+    const nb = an.base.npvAttr;
+    rows.push(row('deposit', 'Market check', nb > 0 ? `${money(nb * band[0])}–${money(nb * band[1])}` : 'n/a',
+      `${band[2]}-stage projects typically trade at ${band[0].toFixed(2)}–${band[1].toFixed(2)}× their value before risks (a judgement from Ren and Patel, not a measured sample). This screen’s value after risks is ${nb > 0 ? (an.risk.npvAttr / nb).toFixed(2) + '×' : 'n/a'}.`));
   } else {
     rows.push(row('prod', 'Year-1 output and AISC', `${koz(an.base.prod1)} · ${perOz(an.base.aisc1)}`, `${cap1(UN().product)}, 100% basis, before risks`));
     rows.push(row('life', 'Mine life in the plan', `${yrs(an.base.life)} → ${yrs(an.risk.life)}`, 'Before and after risks'));
     if (a.transaction && an.base.tx) rows.push(row('tx', 'Transaction IRR', `${irrText(an.base.tx.irr)} → ${irrText(an.risk.tx.irr)}`, 'On the price paid, before and after risks'));
   }
   rows.push(row('breakeven', 'Breakeven price', `${perOz(an.beBase)} → ${perOz(an.beRisk)}`, `Flat ${UN().priceName} where the value hits zero, before and after risks. The ${esc(deck.label)} deck is ${perOz(deckPrice(deck, MODEL.firstYear))} in ${MODEL.firstYear}.`));
+  const fl = an.risk.flex || an.base.flex;
+  if (fl) rows.push(row('npv-risk', 'Pause or close', fl.closedFrom ? `Closes in ${fl.closedFrom}` : `Paused ${fl.paused.join(', ')}`, `${an.risk.flex ? 'After risks' : 'Before risks'}, the mine ${fl.closedFrom ? 'stops when its cash margin turns negative and the price never recovers; the rest of the ore stays in the ground' : 'pauses in loss years and mines that ore later'}.`));
   return `<section class="panel" aria-labelledby="key-title"><div class="panel-head"><h2 id="key-title">Key numbers</h2><p>Tap one for its formula and sources.</p></div><div class="keynums">${rows.join('')}</div></section>`;
 }
+
 
 const asH3 = (html) => html.replace(/<h2 /g, '<h3 ').replace(/<\/h2>/g, '</h3>');
 
@@ -2415,7 +2749,7 @@ function renderResult() {
       <p class="meta">${esc(a.country)} · ${esc(a.method.toLowerCase())} · NPV basis ${esc(a.ownerLabel)}</p>
     </div>`;
   if (an.pending) { $('#screen-result').innerHTML = viewing + head + renderPendingValue(a) + risksSectionHTML(a, an); return; }
-  $('#screen-result').innerHTML = viewing + head + verdictHTML(a, an) + risksSectionHTML(a, an) + keyNumbersHTML(a, an) + resultAdvancedHTML(a, an);
+  $('#screen-result').innerHTML = viewing + head + verdictHTML(a, an) + risksSectionHTML(a, an) + moversHTML(a, an) + keyNumbersHTML(a, an) + resultAdvancedHTML(a, an);
   drawCharts();
 }
 
@@ -2693,6 +3027,8 @@ function drawCharts() {
     const lc = document.getElementById('ladder-chart'); if (shownEl(lc)) lc.innerHTML = ladderSVG(a, valueLadder(a, an), lc.clientWidth || 640);
     const tc = document.getElementById('tornado-chart'); if (shownEl(tc)) tc.innerHTML = tornadoSVG(tornadoCases(a), tc.clientWidth || 640);
   }
+  const mv = document.getElementById('mv-chart');
+  if (shownEl(mv) && !an.pending) mv.innerHTML = moverChartHTML(a, mv.dataset.mover, mv.clientWidth || 640);
   const cc = document.getElementById('curve-chart');
   if (shownEl(cc)) cc.innerHTML = curveSVG(curveItems(), cc.clientWidth || 640, deckPrice(curDeck(), MODEL.firstYear)) + '<div class="tip" id="cc-tip" hidden></div>';
 }
@@ -2748,8 +3084,11 @@ function traceHTML(kind) {
       'Project IRR = the rate at which the owner’s cash flows, capex included, have zero present value',
       ` Base ${irrText(b.irr)}; risk-adjusted ${irrText(r.irr)}`,
       '',
-      `Most you could pay today for a ${pct(h, 0)} return = owner’s cash flows discounted at ${pct(h, 0)}`,
-      ` Base ${money(b.pvAt(h))}; risk-adjusted ${money(r.pvAt(h))}`
+      `Most you could pay = the value after risks: expected cash flows at ${pct(r.rate, 1)} (${pct(b.rate, 1)} real plus ${pct(r.rate - b.rate, 1)} country premium)${d.duty ? `, less ${pct(d.duty / 100, 1)} stamp duty and deal costs` : ''}`,
+      ` ${money(r.npvAttr / (1 + (d.duty || 0) / 100))}`,
+      '',
+      `Hurdle view = cash flows before risks at ${pct(h, 0)} plus the country premium`,
+      ` ${money(b.pvAt(h + r.rate - b.rate) / (1 + (d.duty || 0) / 100))}`
     ];
     return ['Capex, returns and the most you could pay', `<div class="formula">${esc(lines.join(String.fromCharCode(10)))}</div>
       ${a.study ? `<p>The study reported ${esc(a.study.npvText)}. The screener uses flat annual grade and costs, while studies schedule higher grade early and costlier mining late, so expect it within about ±20% of a detailed study.</p>` : ''}
@@ -2805,6 +3144,8 @@ function howHTML() {
       <li><b>Mine life cuts</b> remove the last tonnes of the schedule, pro rata in the final year.</li>
       <li><b>Political risk</b> is only the country premium on the discount rate (0.5×, 1×, 1.5×). It never also adds a stoppage, so country risk is counted once.</li>
       <li><b>Capex and schedule</b> applies to undeveloped deposits only. Delays shift production later; overruns scale development capex.</li>
+      <li><b>Funding</b> (deposits only) adds financing costs to the build and delays it while the money is found. The stress case on the Result tab sets it and Capex to High with the downside price.</li>
+      <li><b>Stopping when it stops paying.</b> If a mine’s cash margin (EBITDA less sustaining capex) turns negative and the price deck never recovers, the owner closes it and the rest of the ore stays in the ground. If prices recover, loss years go into care and maintenance at the fixed share of site costs and the ore is mined later. The owner takes whichever path is worth more. It can be turned off under the price chip on the Result tab.</li>
       <li><b>The bridge</b> applies dials cumulatively in this order: ${DIALS.map((d) => d.short).join(', ')} (discount rate last). Each bar is the NPV change from adding that dial, so the bars sum exactly to risk-adjusted minus base.</li>
     </ul>
     <h3>How each risk destroys value, and what retires it</h3>
@@ -2925,6 +3266,30 @@ function runChecks() {
   add('Tropicana reserve life ≈ 4.2 years', within(tb.life, 4.2, 0.05), yrs(tb.life));
   add('Tropicana site cost backs out near US$60/t', within(R.resolved.calibration.siteCostPerT, 60, 3), `US$${R.resolved.calibration.siteCostPerT.toFixed(2)}/t`);
   // 3. Bridge sums
+  group = 'Fixes from the blind-spot review';
+  {
+    const C = assetById('custom'); const E = assetById('ex-ewoyaa'); const anC = ANALYSIS.custom; const anE = ANALYSIS['ex-ewoyaa'];
+    const crpE = anE.risk.rate - anE.base.rate;
+    add('The hurdle view includes the country premium', anE.base.pvAt(0.15 + crpE) < anE.base.pvAt(0.15) && crpE > 0.05,
+      `Ewoyaa at 15% + ${pct(crpE, 1)}: ${money(anE.base.pvAt(0.15 + crpE))}, against ${money(anE.base.pvAt(0.15))} without the premium`);
+    add('The most you could pay is the value after risks, at the rate that includes country risk', Math.abs(anE.risk.npvAttr - anE.risk.pvAt(anE.risk.rate)) < 1e3,
+      `Ewoyaa ${money(anE.risk.npvAttr)} at ${pct(anE.risk.rate, 1)}`);
+    const ctlC = ctlFor(C); const lvH = { ...ctlC.levels, funding: 'H' }; const lvL = { ...ctlC.levels, funding: 'L' };
+    const fH = runModel(C, { ...ctlC, levels: lvH, enabled: ALL_DIALS() }).npvAttr; const fL = runModel(C, { ...ctlC, levels: lvL, enabled: ALL_DIALS() }).npvAttr;
+    const ctlT = ctlFor(T); const tH = runModel(T, { ...ctlT, levels: { ...ctlT.levels, funding: 'H' }, enabled: ALL_DIALS() }).npvAttr; const tL = runModel(T, { ...ctlT, levels: { ...ctlT.levels, funding: 'L' }, enabled: ALL_DIALS() }).npvAttr;
+    add('Funding takes value from deposits and none from operating mines', fH < fL && Math.abs(tH - tL) < 1, `My deposit: High ${money(fH)} vs Low ${money(fL)}; Tongon unchanged (${money(tH)})`);
+    const low = { ...ctlC, enabled: new Set(), flatPrice: 500 };
+    const withFlex = runModel(C, low); const noFlex = runModel(C, { ...low, flex: false });
+    add('A mine that loses cash closes rather than mining at a loss', withFlex.npvAttr >= noFlex.npvAttr && !!withFlex.flex,
+      `At US$500/t: ${money(withFlex.npvAttr)} with the option to close (${withFlex.flex ? 'closes ' + withFlex.flex.closedFrom : 'no stop'}), ${money(noFlex.npvAttr)} without`);
+    const ps = priceSeries(C).pts; const mono = ps.every((q, i) => i === 0 || q.r >= ps[i - 1].r - 1);
+    add('Value rises with the long-term price', mono, `${money(ps[0].r)} at ${usd0(ps[0].p)} to ${money(ps[ps.length - 1].r)} at ${usd0(ps[ps.length - 1].p)}`);
+    const R = scenarioRuns(C, anC);
+    add('Stress case ≤ after risks ≤ before risks', R.stress <= anC.risk.npvAttr + 1 && anC.risk.npvAttr <= anC.base.npvAttr + 1, `${money(R.stress)} ≤ ${money(anC.risk.npvAttr)} ≤ ${money(anC.base.npvAttr)}`);
+    const ds = delaySeries(C); add('Each year of delay costs value', ds.every((x, i) => i === 0 || x.v <= ds[i - 1].v + 1), ds.map((x) => money(x.v)).join(' → '));
+    const capT = typical('capex_per_annual_t_ore');
+    add('Typical capex excludes the existing-plant case and is in 2024 prices', !capT.points.some((p) => p[0] === 'S11n') && capT.points.some((p) => /CPI/.test(p[3])), `Median US$${capT.median.toFixed(1)} per t/yr across ${capT.n} own-plant studies`);
+  }
   group = 'Bridge, robustness and screens';
   for (const a of ASSETS) {
     const an = ANALYSIS[a.id]; if (an.pending) continue;
@@ -2934,8 +3299,8 @@ function runChecks() {
   for (const a of ASSETS) {
     const an = ANALYSIS[a.id]; if (an.pending) continue;
     const L = valueLadder(a, an);
-    const g1 = L.inSitu + L.metLoss + L.payLoss + L.deckGap - L.revenue;
-    const g2 = L.revenue + L.byproduct + L.stream + L.royalties + L.site + L.overhead + L.logistics + L.freight + L.capex + L.closure + L.tax + L.wc - L.cash;
+    const g1 = L.inSitu + L.metLoss + L.payLoss + L.deckGap + L.realLoss - L.revenue;
+    const g2 = L.revenue + L.byproduct + L.stream + L.royalties + L.site + L.overhead + L.logistics + L.freight + L.other + L.capex + L.closure + L.tax + L.wc - L.cash;
     const g3 = L.cash + L.discount + L.partners + L.dials - L.risk;
     const worstL = Math.max(Math.abs(g1), Math.abs(g2), Math.abs(g3));
     add(`${a.name}: value ladder adds up from in-situ value to risk-adjusted value`, worstL < 1e3, `${money(L.inSitu)} in-situ → ${money(L.revenue)} revenue → ${money(L.cash)} cash flow → ${money(L.risk)}; largest gap US$${worstL.toFixed(2)}`);
@@ -2949,7 +3314,7 @@ function runChecks() {
     const exts = a.schedule.kind === 'fixed' ? [0, 1] : [0, 2, a.schedule.extension.maxYears];
     for (const deck of Object.values(PRICE_DECKS)) for (const [nm, lv] of Object.entries(sets)) for (const ext of exts) for (const en of [new Set(), ALL_DIALS()]) {
       const res = runModel(a, { deck, rate: 0.05, levels: lv, enabled: en, ext }); runs++;
-      const nums = [res.npv, res.npvAttr, res.prod1, res.aisc1, res.lomOz, res.life];
+      const nums = [res.npv, res.npvAttr, res.prod1, res.lomOz, res.life].concat(res.prod1 > 0 ? [res.aisc1] : []);   // a mine closed before it produces has no AISC
       for (const y of res.years) nums.push(y.oz, y.fcf, y.tax, y.revenue, y.site, y.capex, y.df, y.milled, y.ore);
       if (nums.some((x) => !isFinite(x))) bad.push(`${a.name}/${deck.id}/${nm}/ext${ext}: non-finite value`);
       if (res.years.some((y) => y.oz < 0 || y.ore < 0 || y.milled < 0)) bad.push(`${a.name}/${deck.id}/${nm}/ext${ext}: negative production`);
@@ -3029,6 +3394,9 @@ document.addEventListener('input', (e) => {
 document.addEventListener('change', (e) => {
   const t = e.target; const ds = t.dataset || {}; const role = ds.role;
   if (role === 'level-slider') { state.levels[state.assetId][ds.dial] = LEVELS[Number(t.value)]; renderAll(); return; }
+  if (role === 'mover') { state.mover = t.value; renderAll(); return; }
+  if (role === 'flex') { state.flex = t.checked; state.riskOrder = null; renderAll(); return; }
+  if (role === 'lt' || ds.depLt) { const v = t.value === '' ? null : Number(t.value); if (v == null || (isFinite(v) && v > 0)) { state.lt[ds.depLt ? 'spodumene' : commodityOf(currentAsset())] = v; state.riskOrder = null; renderAll(); } return; }
   if (role === 'deck') { state.deckBy[commodityOf(currentAsset())] = t.value; state.riskOrder = null; renderAll(); return; }
   if (role === 'tablemode') { state.tableMode = t.value; renderAll(); return; }
   if (role === 'ext-fixed') { state.ext[state.assetId] = t.checked ? 1 : 0; state.riskOrder = null; renderAll(); return; }
@@ -3054,10 +3422,10 @@ document.addEventListener('click', (e) => {
   if (el.dataset.goto) { go(el.dataset.goto); return; }
   if (el.dataset.pick) { state.assetId = el.dataset.pick; state.riskOrder = null; renderAll(true); go('result'); return; }
   if (el.dataset.step != null && el.closest('#screen-deposit')) { state.step = Number(el.dataset.step); renderAll(true); const st = document.getElementById('step-title'); if (st) st.closest('section').scrollIntoView({ block: 'start' }); return; }
-  if (el.dataset.loadEx) { const ex = LI_EXAMPLES.find((x) => x.id === el.dataset.loadEx); state.dep = { ...JSON.parse(JSON.stringify(ex.d)), name: `${ex.d.name.split(':')[0]} (from the study; edit freely)`, deckOverride: null }; state.assetId = 'custom'; rebuildCustom(); state.step = 0; state.riskOrder = null; renderAll(true); go('deposit'); return; }
+  if (el.dataset.loadEx) { const ex = LI_EXAMPLES.find((x) => x.id === el.dataset.loadEx); state.dep = toMyDeposit(ex.d, `${ex.d.name.split(':')[0]} (from the study; edit freely)`); state.assetId = 'custom'; rebuildCustom(); state.step = 0; state.riskOrder = null; renderAll(true); go('deposit'); return; }
   if (el.dataset.depTyp) { setPath(state.dep, el.dataset.depTyp, null); rebuildCustom(); state.riskOrder = null; renderAll(); return; }
   if (el.dataset.depSrc) { evidenceSheet(el.dataset.depSrc); return; }
-  if (el.dataset.depReset) { state.dep = { ...JSON.parse(JSON.stringify(LI_EXAMPLES[0].d)), name: 'My deposit (starts from the Manna DFS)', deckOverride: null }; state.assetId = 'custom'; rebuildCustom(); state.step = 0; state.riskOrder = null; renderAll(true); go('deposit'); return; }
+  if (el.dataset.depReset) { state.dep = toMyDeposit(LI_EXAMPLES[0].d, 'My deposit (starts from the Manna DFS)'); state.assetId = 'custom'; rebuildCustom(); state.step = 0; state.riskOrder = null; renderAll(true); go('deposit'); return; }
   if (el.dataset.gotoDial) { focusDial(el.dataset.gotoDial); return; }
   if (el.dataset.why) {
     const k = el.dataset.why; const box = document.getElementById(k); const open = !state.open.has(k);
