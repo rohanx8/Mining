@@ -64,7 +64,7 @@ Send me the filled rows or the PDFs and I'll load them, flag them, and add check
 - [ ] **Primary sources for state actions** (Zimbabwe, Namibia, Mexico, Chile, Mali) and **dividend withholding rates and stamp duty** by country.
   - Defends: the Fiscal dial's state-action rule and the zero defaults for withholding tax and duty.
 - [ ] **Market values and deal prices of lithium developers against their study NPVs.**
-  - Defends: the market check, and calibrating the dials against what buyers actually pay.
+  - Defends: calibrating the risk settings against what buyers actually pay.
 - [ ] **Infrastructure capex per kilometre** (access roads, power lines, rail spurs) from studies or public works data.
   - Defends: a typical value for "roads, rail or port you must build".
 
@@ -231,7 +231,7 @@ Every dial level is a starting assumption today. Base rates from comparable mine
 ## Priority 4: Extend scope
 
 - [x] **Undeveloped deposits.** Built as the lithium screener, with three studies loaded as examples (see above).
-- [ ] **A gold deposit with a public feasibility study** (for example Assafou), to run gold through the same seven steps.
+- [ ] **A gold deposit with a public feasibility study** (for example Assafou), to run gold through the same inputs.
 - [ ] **A second operating mine in a mid-risk jurisdiction** (for example Ghana or Burkina Faso).
   - Defends: fills out the cost curve between Australia and Mali.
 
