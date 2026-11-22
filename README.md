@@ -4,7 +4,7 @@ A calculator for pricing a new spodumene (lithium) mine. Enter what you know abo
 
 The engine is tested against three published feasibility studies, and it reconciles to the Tongon gold mine's spreadsheet to the cent. Those tests run under **Checks** at the foot of the page.
 
-Everything lives in one file, `index.html`: inline CSS and JavaScript, SVG charts, no libraries and no network calls. Open it in any browser, on a phone or a laptop. It follows the system's light or dark setting. Your inputs are saved in this browser only (`localStorage`), and nothing leaves the page.
+Everything lives in one file, `index.html`: inline CSS and JavaScript, SVG charts, no libraries and no network calls. Open it in any browser, on a phone or a laptop. It follows the system's light or dark setting. Inputs apply as you type. Your inputs, risk settings, what-ifs, deck and rate are saved in this browser only (`localStorage`), and nothing leaves the page.
 
 ## The page
 
@@ -13,7 +13,7 @@ One page, no tabs.
 | Part | What it does |
 |---|---|
 | **Value bar** (stays at the top) | Owner's NPV after risks, NPV before risks, IRR, capex and first production. NPV after risks is the most you could pay at your rate, country risk included. With a what-if on, the bar shows the change against your inputs. |
-| **Start from** | Loads a published study (Manna DFS, Ewoyaa DFS or Finniss DFS) or a blank new deposit. **Undo** puts your previous inputs back. |
+| **Start from** | Loads a published study (Manna DFS, Ewoyaa DFS or Finniss DFS) or a blank new deposit. A message then offers **Undo** for ten seconds. |
 | **Inputs** (left on a laptop, first on a phone) | Seven folding groups: Deposit, Mine plan, Processing, Haulage, Fiscal, Capital, Price and rate. Each shows a one-line summary when folded. A blank field uses the value shown in grey. |
 | **Risks** | Ten standard risks, each a Low–Medium–High slider (left Low, middle Medium, right High), with what it costs. The amounts add up to the gap between value before and after risks. |
 | **What if** | Seven sliders that each move one driver on top of your inputs. The value bar updates while a slider moves. |
@@ -107,24 +107,24 @@ Calibration evidence: Shaakichiuwaanaan's total development capex rose 44% from 
 | Slider | Range | What it moves |
 |---|---|---|
 | Price | −40% to +40% | Every year of the price deck |
-| Capex | −30% to +60% | Initial capex, including infrastructure |
-| Operating cost | −30% to +30% | Mining, processing and site G&A per tonne |
+| Capex | −50% to +50% | Initial capex, including infrastructure |
+| Opex | −30% to +30% | Operating cost: mining, processing and site G&A per tonne |
 | Recovery | −10 to +10 points | Lithia recovery |
-| Head grade | −20% to +20% | Grade of the ore sent to the plant |
+| Grade | −20% to +20% | Head grade of the ore sent to the plant |
 | Start delay | 0 to 4 years | Years before construction starts |
-| Discount rate | −4 to +6 points | The real discount rate |
+| Discount rate | −5 to +5 points | The real discount rate |
 
 The value bar updates while a slider moves and shows the change against your inputs. **Reset what-ifs** clears them.
 
 **Sensitivities** are centred on the what-if case:
 
-- **Tornado:** value after risks with price ±20%, capex ±20%, operating cost ±20%, recovery ±5 points, grade ±10%, discount rate ±2 points and one year's delay, each on its own, longest bar first.
+- **Tornado:** value after risks with price ±20%, capex ±20%, opex ±20%, recovery ±5 points, grade ±10%, discount rate ±2 points and one year's delay, each on its own, longest bar first. The labels match the sliders.
 - **Price × capex:** value after risks, in US$M, for price −30% to +30% and capex −20% to +50%.
 - **Price curve:** value before and after risks as the whole price deck moves from −50% to +50%, with breakeven after risks marked.
 
 ## Valuation engine
 
-The engine is a set of pure functions in section 2 of the script: `buildSchedule`, `cutLife`, `shiftSchedule`, `tierOz`, `dialParams`, `runModel`, `transactionMetrics`, `irr`, `breakeven` and `analyse`. A product adapter (`COMMODITY`) handles gold (payable ounces) and spodumene (tonnes of concentrate), so the same engine and risks serve both. It runs annually, in real US$. Cash flows are dated 31 December and discounted from the valuation date, 1 Jan 2026, by actual days ÷ 365, the way Excel's XNPV does in the Tongon spreadsheet: NPV = Σ FCFₜ / (1+r)^tₜ, with t = 364/365 for 2026. IRR uses the same dates, like XIRR.
+The engine is a set of pure functions in section 2 of the script: `buildSchedule`, `cutLife`, `shiftSchedule`, `tierOz`, `dialParams`, `runModel`, `transactionMetrics`, `irr` and `analyse`. A product adapter (`COMMODITY`) handles gold (payable ounces) and spodumene (tonnes of concentrate), so the same engine and risks serve both. It runs annually, in real US$. Cash flows are dated 31 December and discounted from the valuation date, 1 Jan 2026, by actual days ÷ 365, the way Excel's XNPV does in the Tongon spreadsheet: NPV = Σ FCFₜ / (1+r)^tₜ, with t = 364/365 for 2026. IRR uses the same dates, like XIRR.
 
 The deposit layer (`depositDerived`, `depositDialDefaults`, `depositEvidence`, `depositAsset`) turns the inputs, plus any what-ifs, into an asset object the engine runs like any other. Gold is no longer on the page, but the gold assets stay in the engine as references the checks run against.
 
@@ -175,7 +175,6 @@ Three spreadsheet conventions the engine follows:
 2. **That unwind only counts inside the 2026–2030 columns.** With the 2030 extension year on, it would fall in 2031, so it isn't counted. This is part of why +1 year is worth +US$56.6M.
 3. **Discounting uses XNPV and XIRR with 31 December dates.** AISC includes exploration (stream cost is a memo line).
 
-The app's breakeven is an exact solve. The spreadsheet's is a straight-line estimate from the ±10% cases (US$2,572/oz). The exact figure is higher (US$2,656/oz) because tax floors at zero in loss years. Payback on the purchase price falls in 2028 (year 3), as in the spreadsheet.
 
 Tropicana checks: year-1 production is 420 koz (target 400–430). Year-1 AISC is US$1,939/oz at Spot, 0.7% below the US$1,953 target, because royalties move with price. Reserve life is 4.17 years. Site cost backs out at US$60.40/t.
 
@@ -231,7 +230,7 @@ Examples live in `const LI_EXAMPLES = [...]` in the lithium block of the script.
 
 1. **`d`**: the study's inputs in the same fields as the inputs on the page (`juris`, `mea`/`ind`/`inf`, `method`, `planMt`, `planGrade`, `inferredShare`, `rate`, unit costs, `recovery`, `concGrade`, `legs`, `port`, `freight`, `royalty`, `tax`, `freeCarry`, `capex`, `sustaining`, `closure`, `buildYears`, `ramp` and so on). Convert to US$ at the study's own FX.
 2. **`deckOverride`**: the study's price deck, either `flat` or `byProdYear` (one price per production year).
-3. **`study`**: its published post-tax NPV in US$ at 100%, IRR, discount rate, a one-line `npvText` with the page, and an `evidence` list with page numbers.
+3. **`study`**: its published post-tax NPV in US$ at 100%, IRR, discount rate and a one-line `npvText` with the page.
 
 Add it to `PRESETS` so it appears under **Start from**. Open **Checks**: the new study joins the ±20% reconciliation automatically. If it misses, look first at grade and cost profiles by year, capex phasing and ramp-up, which the screener flattens.
 
@@ -245,7 +244,7 @@ Gold assets don't appear on the page. They stay in the engine as references the 
 
 Assets live in `const ASSETS = [...]` in section 1 of the script. Copy the Tongon object (fixed schedule) or the Tropicana object (schedule built from reserves), then:
 
-1. **Identity.** Set `id`, `name`, `country`, `region`, `stage` (`'operating'` or `'deposit'`), `metal`, `method`, `owners`, `ownerShare` (the NPV basis), `ownerLabel` and `stateStake`.
+1. **Identity.** Set `id`, `name`, `stage` (`'operating'` or `'deposit'`), `ownerShare` (the NPV basis) and `stateStake`.
 2. **Schedule.** Use either
    - `{ kind: 'fixed', rows: [{year, ore (Mt), grade (g/t)}], extension? }`, or
    - `{ kind: 'sources', startYear, millRate, groupCaps, sources: [{id, tonnes, grade, group?, priority}], extension? }`. The scheduler fills the mill in priority order each year, within the caps for each group (for example underground and open pit), and stops when the sources run out.
@@ -253,12 +252,9 @@ Assets live in `const ASSETS = [...]` in section 1 of the script. Copy the Tongo
 4. **Costs.** Either give unit costs directly as `{ split: {mining, processing, transport, ga} (US$/t milled), corporatePerOz, explorationPerOz, sustainingPerT, growthCapex: {year: US$}, devCapex: {year: US$} }`, or use `calibrate: {...}` to back out site cost per tonne from guided AISC, as Tropicana does.
 5. **Fiscal.** Set `{ royalties: [{name, rate}], taxRate, taxBase, closure, wc: {receivableDays, inventoryDays, payableDays}, wcReleaseHorizon }`. Set `wcReleaseHorizon` to `null` to always release working capital.
 6. **Optional.** Add a `stream` (`{holderPayment, tiers: [{upTo, rate}]}`) and a `transaction` (`{upfront, contingentTotal, contingentPaidShare, contingentYears}`).
-7. **Country premium.** Set `crp: { value, label, source, url, flag, note }`.
-8. **Dial defaults.** Set `dialDefaults`: for each of the ten risk ids (operating mines get a placeholder for Funding automatically), `{ level, reason, sources: [keys of S], question }`.
-9. **Evidence and events.** Fill `evidence: [{label, value, unit, source, url, flag, note?, input?, dial?}]` and `events: [{date, text, source, url}]`. Add new source records to `S`.
-10. **Missing data.** If key inputs are missing, set `dataStatus: 'pending'`, add a `pendingNote` and a `gaps` list, and leave out `schedule`, `costs` and `fiscal`.
-
-Flags: `sourced` means taken directly from a document, `derived` means computed from sourced figures (say how in `note`), and `assumption` means judgement (say why).
+7. **Country premium.** Set `crp: { value }`, the premium as a fraction (Damodaran's table).
+8. **Starting risk levels.** Set `dialDefaults: startAt({ resource: 'L', recovery: 'M', ... })` with a level for each risk (Funding gets Low automatically for an operating mine).
+9. **Sources.** Record where each input came from in the README's assumptions list, as for Tongon and Tropicana.
 
 ## Data files
 

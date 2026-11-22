@@ -28,7 +28,7 @@ Send me the filled rows or the PDFs and I'll load them, flag them, and add check
 
 ---
 
-## Lithium deposit screener
+## Lithium calculator
 
 ### Received and loaded
 
@@ -70,40 +70,11 @@ Send me the filled rows or the PDFs and I'll load them, flag them, and add check
 
 ---
 
-## Priority 1: Finish version 1
+## Priority 1: Gold test cases
 
-### A. Loulo-Gounkoto (Mali): give it an NPV
+Tongon and Tropicana now serve only as test cases for the engine (Loulo-Gounkoto has been removed), so these matter less than the lithium items above.
 
-Barrick's site and SEC filings are blocked from my environment, but you can download them directly. This group unlocks the definition-of-done item: showing why Loulo-Gounkoto sits higher on the risk-adjusted cost curve than Tropicana.
-
-- [ ] **Barrick Mineral Reserves and Resources at 31 Dec 2025.**
-  - Where: barrick.com, Operations, Mineral Reserves and Resources; also in the 2025 Annual Information Form (AIF) on SEDAR+ (sedarplus.ca) or EDGAR (Form 40-F).
-  - Collect: tonnes, grade and ounces for each Loulo-Gounkoto source (Yalea underground, Gara underground, Gounkoto open pit and underground, Loulo open pits, stockpiles), at 100% and attributable, plus the reserve gold price.
-  - Defends: the schedule and mine life. Today, secondary sources disagree (6.9 vs 7.3 Moz).
-- [ ] **Barrick 2025 AIF, Loulo-Gounkoto section.**
-  - Where: SEDAR+ or EDGAR (exhibit to the 40-F).
-  - Collect: life-of-mine plan summary; royalties, tax and state interest under the conventions and the 2023 code; the "tested under the 2023 code" statement; any priority dividend.
-  - Defends: the royalty, tax and owner's share lines.
-- [ ] **Barrick Q4 2024 MD&A and the 2024 and 2026 quarterly "Mine Stats".**
-  - Where: barrick.com, Investors, Quarterly results.
-  - Collect, by year: tonnes processed, head grade, recovery, production, cash cost, AISC and sustaining capex for Loulo-Gounkoto (2023, 2024, and Q1–Q3 2026).
-  - Defends: calibrating site cost per tonne, the same way Tropicana is calibrated to AISC.
-- [ ] **Loulo-Gounkoto NI 43-101 technical report** (latest; one effective 31 Dec 2022 exists).
-  - Where: SEDAR+ or EDGAR exhibits.
-  - Collect: the year-by-year life-of-mine schedule; unit costs (mining US$/t, processing US$/t, G&A); recovery by ore type; sustaining and expansion capex (the 6.2 Mtpa plant); closure cost estimate.
-  - Defends: every cost line, and the split the Ground, Infrastructure and People dials act on.
-- [ ] **Closure provision for Loulo-Gounkoto.**
-  - Where: the provisions note in Barrick's 2025 audited financial statements.
-  - Defends: the closure line.
-- [ ] **Settlement and new convention terms (24 Nov 2025).**
-  - Where: Barrick's 24 Nov 2025 release and Q4 2025 MD&A (US$559M of related adjustments); Mali government communiqués; law-firm notes (search "Mali mining code 2023 decree 2024-0396").
-  - Collect: royalty rate, state stake after settlement, tax rate, stability period, and how the US$430M (or US$253M cash tranche) splits.
-  - Defends: the Fiscal dial default and the base fiscal terms.
-- [ ] **Mali 2023 Mining Code and Decree 2024-0396 (full text).**
-  - Collect: the full royalty schedule by gold-price band (the US$1,000–1,600 band is still missing), income tax, state participation tiers, and the priority dividend mechanics.
-  - Defends: the royalty line at every price deck, not just today's.
-
-### B. Tongon (Côte d'Ivoire): replace the spreadsheet's own assumptions
+### A. Tongon (Côte d'Ivoire): replace the spreadsheet's own assumptions
 
 The spreadsheet says it is "best guesses from public information, not Tongon's actual mine plan". Barrick disclosed Tongon operating data every quarter until the sale, so most of the guesses can be replaced.
 
@@ -132,7 +103,7 @@ The spreadsheet says it is "best guesses from public information, not Tongon's a
   - Where: ANDE (Côte d'Ivoire environment agency) notices, Atlantic Group releases, local press.
   - Defends: US$40M closure, the People dial (Medium because the owner hasn't run a mine), and the Community and Infrastructure dials, which have no public evidence yet.
 
-### C. Tropicana (Western Australia): replace back-solved costs
+### B. Tropicana (Western Australia): replace back-solved costs
 
 - [ ] **AngloGold Ashanti 2025 Form 20-F, Tropicana section.**
   - Where: reports.anglogoldashanti.com/25/download/AGA-20F25.pdf.
@@ -239,9 +210,8 @@ Every dial level is a starting assumption today. Base rates from comparable mine
 
 ## Fastest wins
 
-If you only have an afternoon, these four remove the most flagged assumptions:
+If you only have an afternoon, these three remove the most flagged assumptions:
 
-1. Barrick's 31 Dec 2025 reserves table and the Q4 2025 MD&A, which together nearly unblock Loulo-Gounkoto.
-2. Barrick Tongon quarterly Mine Stats for 2019–2025, which replace Tongon's throughput, grade and recovery guesses.
-3. ~~Damodaran's January 2026 archived file~~ (received; Côte d'Ivoire is 3.895%, Ba2).
-4. AngloGold's 2025 Form 20-F, Tropicana section, which cross-checks the Tropicana cost calibration.
+1. Barrick Tongon quarterly Mine Stats for 2019–2025, which replace Tongon's throughput, grade and recovery guesses.
+2. ~~Damodaran's January 2026 archived file~~ (received; Côte d'Ivoire is 3.895%, Ba2).
+3. AngloGold's 2025 Form 20-F, Tropicana section, which cross-checks the Tropicana cost calibration.

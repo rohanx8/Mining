@@ -1,8 +1,8 @@
 # Data gaps
 
-These are the gaps hit while building the app, with why each matters and where to look. Anything listed here is either flagged in the app as an assumption or keeps an asset at "data pending".
+These are the gaps hit while building the app, with why each matters and where to look. Tongon and Tropicana are no longer on the page; they stay in the engine as test cases, so their gaps matter only for those checks. Loulo-Gounkoto, which never had enough public data for an NPV, has been removed.
 
-## Lithium deposit screener
+## Lithium calculator
 
 | Gap | Effect in the app | Where to look |
 |---|---|---|
@@ -27,21 +27,6 @@ These are the gaps hit while building the app, with why each matters and where t
 | State actions on lithium | From news reports; primary sources not yet attached | Government gazettes and statements: Zimbabwe (Dec 2022), Namibia (Jun 2023), Mexico (Apr 2022), Chile (Apr 2023), Mali (Aug 2023) |
 | Care-and-maintenance cost | Uses the 40% fixed share of site costs as a proxy | Care-and-maintenance costs reported by paused lithium operations (Finniss and others, 2024) |
 | Dials against market multiples | After risks, a feasibility-stage deposit can sit far below the 0.50–0.85× of value before risks that the market typically pays, so the dials may be too harsh in combination | Acquisition prices and market values of lithium developers against their study NPVs |
-
-## Loulo-Gounkoto (Mali): why it has no NPV yet
-
-The public sources reached so far are enough for the event timeline, the country premium, plant capacity, historic grade and recovery, and the old fiscal terms. They aren't enough to build a schedule or costs. This environment can't reach barrick.com, s25.q4cdn.com (Barrick's document host) or sec.gov, so the Loulo-Gounkoto figures in the app come from search-result excerpts. Check them against the documents before relying on them.
-
-| Missing | Why it matters | Where to look |
-|---|---|---|
-| Ore Reserves by mine and source at 31 Dec 2025 (Yalea, Gara, Gounkoto open pit and underground, stockpiles) | Sets the schedule and mine life. Secondary sources disagree on the whole-complex reserve: 6.9 Moz @ 4.16 g/t vs 7.3 Moz @ 4.02 g/t. | Barrick 2025 reserves table; Barrick 2025 Annual Information Form |
-| Ore milled, head grade and recovery, 2023–2026 | Calibrates the schedule and the Recovery dial (we have only 2022: 5.1 Mt @ 4.59 g/t, 91.2%) | Barrick quarterly "Mine Stats" PDFs |
-| Site AISC for 2024 (actual) and 2026; sustaining capex by year | Lets site cost per tonne be calibrated the way Tropicana's is. We have only 2023 AISC (US$1,166/oz, secondary). | Barrick Q4 2024 MD&A; 2026 quarterly MD&A segment tables |
-| Unit costs (US$/t mined, milled; G&A) | Lets the Ground, Infrastructure and People dials act on real cost lines | Loulo-Gounkoto technical report |
-| Royalty, income tax and state stake after the Nov 2025 settlement | The settlement accepted the 2023 code, but its terms aren't published. The code's sliding royalty gives about 9.5% at US$4,500/oz; other outlets say 10% or 10.5%. The US$1,000–1,600 band wasn't found. | Settlement and convention texts; Decree 2024-0396; law-firm guides |
-| Priority dividend on the state's free-carried 10% | Affects cash to the owner | 2023 code implementing decree; Barrick filings |
-| Closure provision | Closure line | Provisions note in Barrick's 2025 financial statements; technical report |
-| Settlement amount | Context only. Bloomberg/Reuters report about US$430M (244bn CFA). Ecofin reports US$253M, which matches the 144bn CFA cash tranche. | Barrick 24 Nov 2025 release; Q4 2025 MD&A (US$559M of related adjustments) |
 
 ## Tongon (Côte d'Ivoire)
 
