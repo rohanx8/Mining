@@ -7,7 +7,7 @@ Everything lives in one file, `index.html`: inline CSS and JavaScript, SVG chart
 | Screen | Its one job |
 |---|---|
 | **Pick** | One card per asset: country, stage, base NPV and risk-adjusted NPV. |
-| **Value** | Base and risk-adjusted NPV side by side, transaction IRR where a price was paid, breakeven gold price, the bridge (one bar per dial), the top three risks with their diligence questions, and the annual cash flow. Tap any number to see its formula, inputs and sources. |
+| **Value** | Base and risk-adjusted NPV side by side; transaction IRR and price paid vs NAV where a price was paid; breakeven gold price; the bridge (one bar per dial); the top three risks, each with its diligence question and what typically settles it; the ladder from gold in the ground to value; one-at-a-time sensitivities; and the annual cash flow. Tap any number to see its formula, inputs and sources. |
 | **Dials** | Nine questions, each set to Low, Medium or High. Each starts at an evidence-based default with a one-line reason; evidence and sources are one tap away. Every change updates every screen. |
 | **Compare** | Risk-adjusted cost curve. Bar width is year-1 output; height is AISC plus risk cost per ounce. Below it: a side-by-side table and the risk cost per ounce broken down by dial. |
 
@@ -78,15 +78,35 @@ Tropicana checks: year-1 production is 420 koz (target 400–430). Year-1 AISC i
 
 ### Running the checks
 
-- In the app: **Run checks** in the footer. There are 37 checks:
+- In the app: **Run checks** in the footer. There are 39 checks:
   - the Tongon spreadsheet match: 15 cases, the 20-cell grid, FCF by year and AISC
   - the brief's Tongon targets
   - the Tropicana calibration
   - bridge bars summing to the change (within US$0.1M)
+  - each asset's value ladder adding up from in-situ value to risk-adjusted value
   - 120 model runs with no NaN and no negative production
   - a dial change updating all four screens
   - a horizontal-overflow check at the current width
 - Headless: `node tools/run-checks.js`. This needs Playwright and Chromium, and exits non-zero if any check fails.
+
+## Ideas adapted from the posters
+
+Two posters supplied ideas: *From In-Situ Value to Equity Value* and *What Drives Mining Project Value* (Ren and Patel, Nov 2026).
+
+| From the posters | In the app |
+|---|---|
+| The value bridge from in-situ value to equity value | **From gold in the ground to value** on the Value screen. In-situ value (gold in the mine plan × spot) runs through recovery and payability losses, the deck gap, stream, royalties, costs, capex, closure, tax, discounting, the partners' share and the nine dials, ending at risk-adjusted value. Chevrons show each subtotal as a % of in-situ value. A check confirms it adds up. |
+| Market adjustment: equity = attributable NAV × P/NAV | **Price paid vs value (P/NAV)** for assets with a transaction. Tongon's price works out to 0.84× base NAV, against 0.45× from the dials. That gap is the most direct calibration test the app has. |
+| Hurdle benchmarks (Barrick AIF FY2025: 15% Tier One, 10% long-life) | Shown beside the transaction IRR |
+| Screening criteria and what typically addresses each risk (framework 1.2) | **What typically settles it** under each top-three risk and on each dial card |
+| Key failure modes and interactions (framework 2.2, 2.4) | **How this risk destroys value** on each dial card and in "How the dials work" |
+| One-input-at-a-time sensitivities (poster 3.1) | **What moves value most**: a tornado chart using the levers that are reconciled to the Tongon Sensitivity Engine |
+
+Not brought in:
+- **The copper worked example.** It's a different metal, and the spec rules out other commodities.
+- **The metal-flow ribbon.** Gold doré loses little beyond recovery; the ladder shows those losses.
+- **Stage P/NAV multiples (scoping 0.10–0.25× to operating 1.0–1.3×).** These will matter once an undeveloped deposit is added.
+- **The full linkage matrix and the in-situ yardsticks.** The matrix is reference material, and the yardsticks are for undeveloped base-metal resources.
 
 ## How the dials map to the model
 

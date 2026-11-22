@@ -234,6 +234,15 @@ main { padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
 .f-aisc { fill: var(--aisc); }
 .f-risk { fill: var(--riskcost); }
 .f-surface { fill: var(--surface); }
+.f-final { fill: var(--ink); }
+.ladder { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 6px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); }
+.ladder li { position: relative; display: grid; gap: 1px; padding: 8px 18px 8px 12px; background: var(--surface-2); clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%); }
+.ladder li:last-child { background: var(--ink); color: var(--surface); }
+.ladder li:last-child .k, .ladder li:last-child .p { color: var(--surface); opacity: .85; }
+.ladder .k { font-size: 11.5px; font-weight: 700; color: var(--muted); }
+.ladder .v { font-size: 1.05rem; font-weight: 780; font-variant-numeric: tabular-nums; }
+.ladder .p { font-size: 11.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.risk-item .settle { font-size: 13px; color: var(--ink-2); }
 .s-grid { stroke: var(--line); }
 .s-axis { stroke: var(--line-strong); }
 .s-gold { stroke: var(--accent-fill); }
@@ -485,6 +494,29 @@ const DIALS = [
     levels: { L: { text: 'Half the country risk premium', fx: { crpMult: 0.5 } }, M: { text: 'The full country risk premium', fx: { crpMult: 1 } }, H: { text: '1.5× the country risk premium', fx: { crpMult: 1.5 } } } }
 ];
 
+// How each risk destroys value, and what typically retires it. Paraphrased from "What Drives Mining Project Value"
+// (sections 1.2 and 2.4); the interaction numbers refer to that framework.
+const DIAL_MECHANISMS = {
+  resource: { why: 'Grade or continuity below the model means less gold per tonne at the same cost, a reserve downgrade and a shorter life. It is common where drill spacing is wide or dilution is underestimated (interaction 7).',
+    retire: 'Infill drilling to Measured and Indicated; grade-control or trial-mining reconciliation against the resource model.' },
+  recovery: { why: 'A plant below design recovery, often because of ore variability, loses revenue against costs that are largely fixed (interaction 8).',
+    retire: 'Variability testwork across the ore types ahead, pilot-plant runs, and plant data on that ore.' },
+  ground: { why: 'Depth, slope angles and groundwater set how much waste is moved, how much ore is diluted or lost, and what mining costs; a wall failure stops production.',
+    retire: 'Geotechnical drilling and slope, ground-support and dewatering design to accepted standards, backed by a record of wall performance.' },
+  infra: { why: 'Where power, water or transport are not secure, the mine pays to build or back them up, and outages stop the plant.',
+    retire: 'Contracted power and water with backup, fuel stocks on site, and more than one supply route.' },
+  people: { why: 'Overruns and slow ramp-ups add cost and push cash flow later; the operator’s experience with similar ore and methods drives both (interaction 8).',
+    retire: 'An operator with a record on similar mines, retained key staff and contractors, and signed labour agreements.' },
+  capex: { why: 'Capex estimates often rise from scoping to feasibility, overruns against the feasibility estimate are common, and nameplate is often reached late. Each year of delay costs present value (interactions 6, 8 and 10).',
+    retire: 'Funding closed at the construction decision, then construction to nameplate.' },
+  fiscal: { why: 'Once capital is sunk, bargaining power moves to the host state, which may raise royalties or tax or take a bigger free carry. A free carry dilutes the owner without funding the project (interaction 12).',
+    retire: 'A stability clause in the mining convention, a long licence term, and a state record of honouring terms.' },
+  community: { why: 'Grievance leads to protest or legal challenge, then stoppages and delay, which leave less cash for local benefits and more grievance (interaction 13).',
+    retire: 'Land-access and community agreements signed, permits granted, and a closure and rehabilitation plan accepted.' },
+  political: { why: 'Instability, seizure or forced renegotiation can stop the mine. Investors price this through a higher required return, the risk discount.',
+    retire: 'Treaty protection, political-risk insurance and a record of stable government; the premium narrows only as the country’s risk falls.' }
+};
+
 // Source records, spread into evidence items so each carries {source, url}.
 const S = {
   TM:     { source: 'Tongon_Mining_Model.xlsx (CFI layout), Mining Model sheet: illustrative best guesses from public information, not Tongon’s actual mine plan', url: '' },
@@ -496,6 +528,9 @@ const S = {
   EITICI: { source: 'EITI, Côte d’Ivoire country page', url: 'https://eiti.org/countries/cote-divoire' },
   L500CI: { source: 'Legal 500, Ivory Coast mining guide 2026', url: 'https://www.legal500.com/guides/chapter/ivory-coast-mining/' },
   GOLDARK:{ source: 'Golden Ark Reserve, gold price forecast round-up (Nov 2026), citing Goldman Sachs', url: 'https://goldenarkreserve.com/insights/gold-price-forecast-november-2026/' },
+  RPPOSTER:{ source: 'Ren and Patel, From In-Situ Value to Equity Value (poster, v7, Nov 2026)', url: '' },
+  RPFRAME:{ source: 'Ren and Patel, What Drives Mining Project Value (framework, v7.2, Nov 2026)', url: '' },
+  BRKAIF: { source: 'Barrick, Annual Information Form FY2025: required IRR of 15% on Tier One investments, 10% on long-life (20+ year) investments (as cited in the poster)', url: 'https://s25.q4cdn.com/322814910/files/doc_downloads/agm/2026/Barrick_AIF_2025.pdf' },
   BRIEF:  { source: 'Build brief for this MVP (21 Nov 2026)', url: '' },
   CIROY:  { source: 'Africa Sustainability Matters, West Africa reassesses gold royalties (2025)', url: 'https://africasustainabilitymatters.com/west-africa-reassesses-gold-royalties-amid-record-breaking-prices/' },
   DAM:    { source: 'Damodaran (NYU), Country Default Spreads and Risk Premiums, Jan 2026', url: 'https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/ctryprem.html' },
@@ -1170,10 +1205,10 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '
 function money(x, opts = {}) {
   if (x == null || !isFinite(x)) return '—';
   const m = x / 1e6; const a = Math.abs(m);
-  if (a < 0.05) return opts.plus ? 'US$0.0M' : 'US$0.0M';
-  const s = a >= 100 ? Math.round(a).toLocaleString('en-US') : a.toFixed(1);
+  if (a < 0.05) return 'US$0.0M';
+  const s = a >= 1000 ? (a / 1000).toFixed(2) + 'B' : (a >= 100 ? Math.round(a).toLocaleString('en-US') : a.toFixed(1)) + 'M';
   const sign = m < 0 ? MINUS : (opts.plus ? '+' : '');
-  return `${sign}US$${s}M`;
+  return `${sign}US$${s}`;
 }
 const mnum = (x, d = 1) => (x == null || !isFinite(x)) ? '—' : ((x < 0 ? MINUS : '') + Math.abs(x / 1e6).toFixed(d));
 const pct = (x, d = 1, plus = false) => (x == null || !isFinite(x)) ? '—' : ((x < 0 ? MINUS : (plus && x > 0 ? '+' : '')) + Math.abs(x * 100).toFixed(d) + '%');
@@ -1244,16 +1279,22 @@ function renderPick() {
 }
 
 /* ---------- Value ---------- */
-function bridgeSVG(asset, an, width) {
-  const rows = [{ kind: 'total', label: 'Base value', value: an.base.npvAttr }];
-  let run = an.base.npvAttr;
-  for (const b of an.bridge) { rows.push({ kind: 'step', b, start: run, end: run + b.delta }); run += b.delta; }
-  rows.push({ kind: 'total', label: 'Risk-adjusted', value: an.risk.npvAttr });
-  const vals = [0]; for (const r of rows) { if (r.kind === 'total') vals.push(r.value); else vals.push(r.start, r.end); }
+/**
+ * Horizontal waterfall drawn to one scale.
+ * rows: { kind: 'total' | 'step', label, note?, value? (totals), delta? (steps), dial? (row opens that dial),
+ *         na? (not applicable), aria?, final? (emphasise the result bar) }
+ */
+function waterfallSVG(rows, width, desc, opts = {}) {
+  let run = 0; const pts = [];
+  for (const r of rows) {
+    if (r.kind === 'total') { pts.push({ r, start: 0, end: r.value }); run = r.value; }
+    else { pts.push({ r, start: run, end: run + (r.delta || 0) }); run += (r.delta || 0); }
+  }
+  const vals = [0]; for (const p of pts) vals.push(p.start, p.end);
   let lo = Math.min(...vals); let hi = Math.max(...vals);
   const span = hi - lo || 1; lo -= span * 0.02; hi += span * 0.02;
   const W = Math.max(300, width); const narrow = W < 520;
-  const labelW = narrow ? 104 : 168; const valW = narrow ? 70 : 92;
+  const labelW = narrow ? (opts.labelNarrow || 104) : (opts.labelWide || 168); const valW = narrow ? 70 : 92;
   const x0 = labelW + 6; const x1 = W - valW - 6;
   const rowH = 30; const barH = 16; const top = 6; const axisH = 22;
   const H = top + rows.length * rowH + axisH;
@@ -1266,32 +1307,136 @@ function bridgeSVG(asset, an, width) {
     g += `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="11" class="t-muted">${esc(axisMoney(t))}</text>`;
   }
   if (lo < 0 && hi > 0) g += `<line x1="${sx(0)}" x2="${sx(0)}" y1="${top}" y2="${top + rows.length * rowH}" class="s-axis" stroke-width="1.5"/>`;
-  rows.forEach((r, i) => {
-    const yMid = top + i * rowH + rowH / 2; const yb = yMid - barH / 2;
+  const short = (s) => narrow ? s.replace('US$', '') : s;
+  pts.forEach((p, i) => {
+    const r = p.r; const yMid = top + i * rowH + rowH / 2; const yb = yMid - barH / 2;
+    const xa = sx(Math.min(p.start, p.end)); const xb = sx(Math.max(p.start, p.end));
     if (r.kind === 'total') {
-      const xa = sx(Math.min(0, r.value)); const xb = sx(Math.max(0, r.value));
-      g += `<g><text x="0" y="${yMid + 4}" font-size="12.5" font-weight="700" class="t-ink">${esc(r.label)}</text>
-        <rect x="${xa}" y="${yb}" width="${Math.max(1.5, xb - xa)}" height="${barH}" rx="3" class="f-total"/>
-        <text x="${W}" y="${yMid + 4}" text-anchor="end" font-size="12.5" font-weight="700" class="t-ink">${esc(money(r.value))}</text></g>`;
+      g += `<g><text x="0" y="${yMid + 4}" font-size="12.5" font-weight="700" class="t-ink">${esc(r.label)}${r.note ? ` <tspan class="t-muted" font-size="11" font-weight="400">${esc(r.note)}</tspan>` : ''}</text>
+        <rect x="${xa}" y="${yb}" width="${Math.max(1.5, xb - xa)}" height="${barH}" rx="3" class="${r.final ? 'f-final' : 'f-total'}"/>
+        <text x="${W}" y="${yMid + 4}" text-anchor="end" font-size="12.5" font-weight="700" class="t-ink">${esc(short(money(r.value)))}</text></g>`;
     } else {
-      const b = r.b; const xa = sx(Math.min(r.start, r.end)); const xb = sx(Math.max(r.start, r.end));
-      const zero = Math.abs(b.delta) < 0.05e6;
-      const cls = b.delta < 0 ? 'f-loss' : 'f-gain';
-      const lvl = b.applies ? LEVEL_NAME[b.level].slice(0, narrow ? 1 : 3) : 'n/a';
-      const valTxt = !b.applies ? 'n/a' : zero ? '0.0' : money(b.delta, { plus: true }).replace('US$', narrow ? '' : 'US$');
-      g += `<g class="wf-row" tabindex="0" role="button" data-goto-dial="${b.dial.id}" aria-label="${esc(`${b.dial.name}, ${b.applies ? LEVEL_NAME[b.level] : 'not applicable'}: ${b.applies ? money(b.delta, { plus: true }) : 'no effect'}. Open this dial.`)}">
-        <rect class="wf-hit" x="0" y="${yMid - rowH / 2 + 1}" width="${W}" height="${rowH - 2}" rx="5"/>
-        <text x="0" y="${yMid + 4}" font-size="12.5" class="t-ink">${esc(b.dial.short)} <tspan class="t-muted" font-size="11">${esc(lvl)}</tspan></text>
-        ${zero ? `<line x1="${sx(r.start)}" x2="${sx(r.start)}" y1="${yb}" y2="${yb + barH}" class="s-axis" stroke-width="1.5"/>` : `<rect x="${xa}" y="${yb}" width="${Math.max(1.5, xb - xa)}" height="${barH}" rx="3" class="${cls}"/>`}
-        <text x="${W}" y="${yMid + 4}" text-anchor="end" font-size="12.5" class="${zero || !b.applies ? 't-muted' : 't-ink'}">${esc(valTxt)}</text></g>`;
+      const zero = r.na || Math.abs(r.delta) < 0.05e6;
+      const valTxt = r.na ? 'n/a' : zero ? '0.0' : short(money(r.delta, { plus: true }));
+      const bar = zero ? `<line x1="${sx(p.start)}" x2="${sx(p.start)}" y1="${yb}" y2="${yb + barH}" class="s-axis" stroke-width="1.5"/>`
+        : `<rect x="${xa}" y="${yb}" width="${Math.max(1.5, xb - xa)}" height="${barH}" rx="3" class="${r.delta < 0 ? 'f-loss' : 'f-gain'}"/>`;
+      const label = `<text x="0" y="${yMid + 4}" font-size="12.5" class="t-ink">${esc(r.label)}${r.note ? ` <tspan class="t-muted" font-size="11">${esc(r.note)}</tspan>` : ''}</text>`;
+      const val = `<text x="${W}" y="${yMid + 4}" text-anchor="end" font-size="12.5" class="${zero ? 't-muted' : 't-ink'}">${esc(valTxt)}</text>`;
+      g += r.dial
+        ? `<g class="wf-row" tabindex="0" role="button" data-goto-dial="${r.dial}" aria-label="${esc(r.aria || r.label)}"><rect class="wf-hit" x="0" y="${yMid - rowH / 2 + 1}" width="${W}" height="${rowH - 2}" rx="5"/>${label}${bar}${val}</g>`
+        : `<g>${label}${bar}${val}</g>`;
     }
-    if (i < rows.length - 1) {
-      const endVal = r.kind === 'total' ? r.value : r.end;
-      g += `<line x1="${sx(endVal)}" x2="${sx(endVal)}" y1="${yMid + barH / 2}" y2="${yMid + rowH - barH / 2}" class="s-axis" stroke-width="1" stroke-dasharray="2 2"/>`;
-    }
+    if (i < pts.length - 1) g += `<line x1="${sx(p.end)}" x2="${sx(p.end)}" y1="${yMid + barH / 2}" y2="${yMid + rowH - barH / 2}" class="s-axis" stroke-width="1" stroke-dasharray="2 2"/>`;
   });
+  return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(desc)}">${g}</svg>`;
+}
+
+function bridgeSVG(asset, an, width) {
+  const narrow = width < 520;
+  const rows = [{ kind: 'total', label: 'Base value', value: an.base.npvAttr }];
+  for (const b of an.bridge) {
+    rows.push({ kind: 'step', label: b.dial.short, note: b.applies ? LEVEL_NAME[b.level].slice(0, narrow ? 1 : 3) : 'n/a', delta: b.delta, na: !b.applies, dial: b.dial.id,
+      aria: `${b.dial.name}, ${b.applies ? LEVEL_NAME[b.level] : 'not applicable'}: ${b.applies ? money(b.delta, { plus: true }) : 'no effect'}. Open this dial.` });
+  }
+  rows.push({ kind: 'total', label: 'Risk-adjusted', value: an.risk.npvAttr, final: true });
   const desc = `Waterfall from base value ${money(an.base.npvAttr)} to risk-adjusted value ${money(an.risk.npvAttr)}. ` +
     an.bridge.map((b) => `${b.dial.name}: ${b.applies ? money(b.delta, { plus: true }) : 'not applicable'}`).join('; ') + '.';
+  return waterfallSVG(rows, width, desc);
+}
+
+// From gold in the ground to value: in-situ value of the mine plan at spot, then each deduction to the risk-adjusted value.
+function valueLadder(asset, an) {
+  const b = an.base; const prod = b.years.filter((y) => !y.release); const ref = PRICE_DECKS.spot.flat;
+  const contained = sum(prod, (y) => y.milled * 1e6 * y.grade / G_PER_OZ);
+  const recovered = sum(prod, (y) => y.milled * 1e6 * y.grade / G_PER_OZ * y.recovery);
+  const payable = sum(prod, (y) => y.oz);
+  const L = {
+    ref, contained, recovered, payable,
+    inSitu: contained * ref,
+    metLoss: -(contained - recovered) * ref,
+    payLoss: -(recovered - payable) * ref,
+    revenue: sum(b.years, (y) => y.revenue),
+    stream: -sum(b.years, (y) => y.stream),
+    royalties: -sum(b.years, (y) => y.royalties),
+    site: -sum(b.years, (y) => y.site),
+    overhead: -sum(b.years, (y) => y.corporate + y.exploration),
+    capex: -sum(b.years, (y) => y.capex),
+    closure: -sum(b.years, (y) => y.closure),
+    tax: -sum(b.years, (y) => y.tax),
+    wc: -sum(b.years, (y) => y.dWC),
+    cash: sum(b.years, (y) => y.fcf),
+    npv: b.npv, attr: b.npvAttr, risk: an.risk.npvAttr
+  };
+  L.deckGap = L.revenue - payable * ref;
+  L.discount = L.npv - L.cash;
+  L.partners = L.attr - L.npv;
+  L.dials = L.risk - L.attr;
+  return L;
+}
+
+function ladderSVG(asset, L, width) {
+  const deck = PRICE_DECKS[state.deck];
+  const rows = [
+    { kind: 'total', label: 'In-situ value', value: L.inSitu },
+    { kind: 'step', label: 'Not recovered', delta: L.metLoss },
+    { kind: 'step', label: 'Not paid for', delta: L.payLoss },
+    { kind: 'step', label: 'Deck vs spot price', note: deck.id === 'spot' ? '' : deck.label, delta: L.deckGap },
+    { kind: 'total', label: 'Revenue', value: L.revenue }
+  ];
+  if (asset.stream) rows.push({ kind: 'step', label: 'Stream', delta: L.stream });
+  rows.push({ kind: 'step', label: 'Royalties', delta: L.royalties }, { kind: 'step', label: 'Site costs', delta: L.site });
+  if (Math.abs(L.overhead) >= 0.05e6) rows.push({ kind: 'step', label: 'G&A, exploration', delta: L.overhead });
+  rows.push({ kind: 'step', label: 'Capex', delta: L.capex }, { kind: 'step', label: 'Closure', delta: L.closure }, { kind: 'step', label: 'Income tax', delta: L.tax });
+  if (Math.abs(L.wc) >= 0.05e6) rows.push({ kind: 'step', label: 'Working capital', delta: L.wc });
+  rows.push({ kind: 'total', label: 'Cash flow', value: L.cash }, { kind: 'step', label: 'Waiting (discount)', delta: L.discount }, { kind: 'total', label: 'Project NPV', value: L.npv });
+  if (Math.abs(L.partners) >= 0.05e6) rows.push({ kind: 'step', label: 'Partners, state', delta: L.partners }, { kind: 'total', label: 'Owner’s NPV', value: L.attr });
+  rows.push({ kind: 'step', label: 'Nine risk dials', delta: L.dials }, { kind: 'total', label: 'Risk-adjusted', value: L.risk, final: true });
+  const desc = `From ${money(L.inSitu)} of gold in the mine plan at spot to ${money(L.risk)} risk-adjusted value: revenue ${money(L.revenue)}, cash flow ${money(L.cash)}, project NPV ${money(L.npv)}.`;
+  return waterfallSVG(rows, width, desc, { labelNarrow: 122, labelWide: 176 });
+}
+
+// One input at a time, around the base case (owner's NPV, no dials). Levers match the Tongon Sensitivity Engine.
+function tornadoCases(asset) {
+  const a = asset; const ctl = ctlFor(a); const base = { deck: ctl.deck, rate: ctl.rate, levels: ctl.levels, enabled: new Set(), ext: ctl.ext };
+  const v = (o) => runModel(a, { ...base, ...o }).npvAttr;
+  const b0 = v({});
+  const cases = [
+    { label: 'Gold price ±10%', lo: v({ tweak: { gold: 0.9 } }), hi: v({ tweak: { gold: 1.1 } }) },
+    { label: 'Head grade ±10%', lo: v({ tweak: { grade: 0.9 } }), hi: v({ tweak: { grade: 1.1 } }) },
+    { label: 'Site cost ±10%', lo: v({ tweak: { site: 1.1 } }), hi: v({ tweak: { site: 0.9 } }), note: '+10% left, −10% right' }
+  ];
+  const ext = a.schedule.extension; const canExtend = ext && (a.schedule.kind === 'fixed' ? !ctl.ext : ctl.ext < ext.maxYears);
+  cases.push({ label: 'Mine life ±1 year', lo: v({ trimYears: 1 }), hi: canExtend ? v({ ext: (ctl.ext || 0) + 1 }) : null, note: 'drop the last year; add one extension year' });
+  cases.push({ label: 'Discount rate +3 points', lo: v({ rate: ctl.rate + 0.03 }), hi: null });
+  cases.push({ label: 'Royalty +2 points', lo: v({ tweak: { royaltyPts: 2 } }), hi: null });
+  cases.push({ label: 'Closure cost +50%', lo: v({ tweak: { closure: 1.5 } }), hi: null });
+  if (a.stream) cases.push({ label: 'Stream removed', lo: null, hi: v({ tweak: { stream: false } }) });
+  for (const c of cases) { c.dlo = c.lo == null ? null : c.lo - b0; c.dhi = c.hi == null ? null : c.hi - b0; c.mag = Math.max(Math.abs(c.dlo || 0), Math.abs(c.dhi || 0)); }
+  cases.sort((x, y) => y.mag - x.mag);
+  return { base: b0, cases };
+}
+
+function tornadoSVG(T, width) {
+  const W = Math.max(300, width); const narrow = W < 520;
+  const labelW = narrow ? 118 : 176; const rowH = 30; const barH = 14; const top = 6; const axisH = 22;
+  const H = top + T.cases.length * rowH + axisH;
+  const max = Math.max(1, ...T.cases.map((c) => c.mag)) * (narrow ? 1.7 : 1.45);
+  const x0 = labelW + 6; const x1 = W - 4; const mid = (x0 + x1) / 2;
+  const sx = (d) => mid + d / max * (x1 - x0) / 2;
+  const short = (s) => narrow ? s.replace('US$', '') : s;
+  let g = `<line x1="${mid}" x2="${mid}" y1="${top}" y2="${top + T.cases.length * rowH}" class="s-axis" stroke-width="1.5"/>`;
+  g += `<text x="${mid}" y="${H - 6}" text-anchor="middle" font-size="11" class="t-muted">Base ${esc(short(money(T.base)))}</text>`;
+  T.cases.forEach((c, i) => {
+    const yMid = top + i * rowH + rowH / 2; const yb = yMid - barH / 2;
+    g += `<text x="0" y="${yMid + 4}" font-size="12.5" class="t-ink">${esc(c.label)}</text>`;
+    for (const d of [c.dlo, c.dhi]) {
+      if (d == null) continue;
+      const xa = Math.min(sx(0), sx(d)); const w = Math.max(1.5, Math.abs(sx(d) - sx(0)));
+      g += `<rect x="${xa}" y="${yb}" width="${w}" height="${barH}" rx="2" class="${d < 0 ? 'f-loss' : 'f-gain'}"/>`;
+      g += `<text x="${d < 0 ? xa - 4 : xa + w + 4}" y="${yMid + 4}" text-anchor="${d < 0 ? 'end' : 'start'}" font-size="11.5" class="t-ink">${esc(short(money(d, { plus: true })))}</text>`;
+    }
+  });
+  const desc = 'Change in owner’s NPV from one input at a time: ' + T.cases.map((c) => `${c.label}: ${c.dlo != null ? money(c.dlo, { plus: true }) : ''}${c.dlo != null && c.dhi != null ? ' / ' : ''}${c.dhi != null ? money(c.dhi, { plus: true }) : ''}`).join('; ') + '.';
   return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(desc)}">${g}</svg>`;
 }
 
@@ -1338,7 +1483,11 @@ function renderValue() {
     const lossNote = an.risk.tx.irr != null && an.risk.tx.irr < 0 ? ' Risk-adjusted, the buyer gets back less cash than it paid.' : '';
     metrics.push(`<button type="button" class="metric" data-trace="tx"><span class="k">Transaction IRR (price paid)</span>
       <span class="v">${irrText(an.base.tx.irr)} → ${irrText(an.risk.tx.irr)}</span>
-      <span class="s">NPV ${money(an.base.tx.npv)} → ${money(an.risk.tx.npv)} · paid ${money(t.upfront)} + ${money(contTotal)} contingent · hurdle ${pct(an.risk.rate, 1)}.${lossNote}</span></button>`);
+      <span class="s">NPV ${money(an.base.tx.npv)} → ${money(an.risk.tx.npv)} · paid ${money(t.upfront)} + ${money(contTotal)} contingent · discount rate ${pct(an.risk.rate, 1)}; Barrick’s hurdles 10–15%.${lossNote}</span></button>`);
+    const pp = pricePaid(a, state.rate);
+    metrics.push(`<button type="button" class="metric" data-trace="market"><span class="k">Price paid vs value (P/NAV)</span>
+      <span class="v">${(pp / an.base.npvAttr).toFixed(2)}× base · ${(an.risk.npvAttr / an.base.npvAttr).toFixed(2)}× from the dials</span>
+      <span class="s">${money(pp)} paid in present value against ${money(an.base.npvAttr)} base NAV. The gap between the two multiples is a calibration signal.</span></button>`);
   }
   metrics.push(`<button type="button" class="metric" data-trace="breakeven"><span class="k">Breakeven gold price (flat)</span>
     <span class="v">${perOz(an.beBase)} → ${perOz(an.beRisk)}</span>
@@ -1359,6 +1508,7 @@ function renderValue() {
         <h3>${esc(b.dial.name)} ${levelPill(b.level)}</h3>
         <p>${esc(riskSentence(a, b, an))}</p>
         <p class="q"><b>Diligence question:</b> ${esc(a.dialDefaults[b.dial.id].question)}</p>
+        <p class="settle"><b>What typically settles it:</b> ${esc(DIAL_MECHANISMS[b.dial.id].retire)}</p>
         <div><button type="button" class="btn-quiet btn" data-goto-dial="${b.dial.id}">Adjust this dial</button></div>
       </div>`).join('') : '<p class="muted">No dial takes value at the current settings.</p>';
   const fewer = top.length && top.length < 3 ? `<p class="small muted">Only ${top.length === 1 ? 'one dial takes' : 'two dials take'} value at the current settings.</p>` : '';
@@ -1387,6 +1537,12 @@ function renderValue() {
       <div class="panel-head"><h2 id="risks-title">Top three risks</h2><p>Largest bars in the bridge, with the question that would settle each.</p></div>
       <div class="risks">${risks}</div>${fewer}
     </section>
+    ${ladderPanel(a, an)}
+    <section class="panel" aria-labelledby="tornado-title">
+      <div class="panel-head"><h2 id="tornado-title">What moves value most</h2><p>One input at a time from the base case, owner’s NPV, all dials off.</p></div>
+      <div class="chart" id="tornado-chart"></div>
+      <p class="small muted" style="margin-top:8px">Same levers as the Tongon spreadsheet’s Sensitivity Engine, checked against it to the dollar. Site cost: +10% on the left, −10% on the right. Mine life: drop the last production year, or add one extension year where the plan allows. Unlike the dials, these are what-ifs, not expected values.</p>
+    </section>
     <section class="panel" aria-labelledby="cf-title">
       <div class="panel-head"><h2 id="cf-title">Annual cash flow</h2>
         <fieldset class="seg" aria-label="Which case to show">
@@ -1398,6 +1554,27 @@ function renderValue() {
     </section>
     ${eventsPanel(a)}`;
   drawCharts();
+}
+
+// Present value of the price paid: upfront at close plus contingent payments, at the given rate.
+function pricePaid(asset, rate) {
+  const t = asset.transaction; if (!t) return null;
+  const cont = contingentByYear(t);
+  return t.upfront + sum(Object.keys(cont), (yr) => cont[yr] / Math.pow(1 + rate, yearFrac(Number(yr))));
+}
+
+function ladderPanel(a, an) {
+  const L = valueLadder(a, an);
+  const steps = [['In-situ value', L.inSitu], ['Revenue', L.revenue], ['Cash flow', L.cash], ['Project NPV', L.npv]];
+  if (Math.abs(L.partners) >= 0.05e6) steps.push(['Owner’s NPV', L.attr]);
+  steps.push(['Risk-adjusted', L.risk]);
+  const chips = steps.map(([k, v]) => `<li><span class="k">${esc(k)}</span><span class="v">${esc(money(v))}</span><span class="p">${pct(v / L.inSitu, v / L.inSitu < 0.1 ? 1 : 0)} of in-situ</span></li>`).join('');
+  return `<section class="panel" aria-labelledby="ladder-title">
+      <div class="panel-head"><h2 id="ladder-title">From gold in the ground to value</h2><p>In-situ value is not value. Each step takes out something in-situ value ignores.</p></div>
+      <ol class="ladder">${chips}</ol>
+      <div class="chart" id="ladder-chart"></div>
+      <p class="small muted" style="margin-top:8px">In-situ value = ${koz(L.contained)} of gold in the mine plan × ${perOz(L.ref)} spot. Revenue uses the ${esc(PRICE_DECKS[state.deck].label)} deck. Cash flow is undiscounted and after tax, at 100%. Resources outside the plan are not counted. The JORC and VALMIN codes bar in-situ valuations from public reports, so this is a teaching device, not a valuation. The risk bridge above zooms in on the last step. Adapted from ${esc(S.RPPOSTER.source)}.</p>
+    </section>`;
 }
 
 function eventsPanel(a) {
@@ -1494,6 +1671,8 @@ function renderDials() {
         <summary>Evidence and sources (${ev.length + srcs.length})</summary>
         ${ev.length ? `<ul class="ev-list">${ev.map(evidenceItem).join('')}</ul>` : ''}
         <p class="small" style="margin-top:8px"><b>Sources for the default:</b> ${srcs.map(srcLink).join('; ') || '—'}</p>
+        <p class="small" style="margin-top:10px"><b>How this risk destroys value:</b> ${esc(DIAL_MECHANISMS[d.id].why)}</p>
+        <p class="small" style="margin-top:6px"><b>What typically retires it:</b> ${esc(DIAL_MECHANISMS[d.id].retire)} <span class="muted">(${esc(S.RPFRAME.source)})</span></p>
         <p class="small muted" style="margin-top:6px"><b>Diligence question:</b> ${esc(def.question)}</p>
         <p class="small muted" style="margin-top:6px"><b>Covers:</b> ${esc(d.covers)}. <b>Moves:</b> ${esc(d.line)} (${esc(d.method.toLowerCase())}). <b>Evidence that sets it:</b> ${esc(d.basis)}.</p>
       </details>
@@ -1669,7 +1848,13 @@ function drawCharts() {
   const bc = document.getElementById('bridge-chart');
   if (bc && !bc.closest('[hidden]')) {
     const a = currentAsset(); const an = ANALYSIS[a.id];
-    if (!an.pending) bc.innerHTML = bridgeSVG(a, an, bc.clientWidth || 640);
+    if (!an.pending) {
+      bc.innerHTML = bridgeSVG(a, an, bc.clientWidth || 640);
+      const lc = document.getElementById('ladder-chart');
+      if (lc) lc.innerHTML = ladderSVG(a, valueLadder(a, an), lc.clientWidth || 640);
+      const tc = document.getElementById('tornado-chart');
+      if (tc) tc.innerHTML = tornadoSVG(tornadoCases(a), tc.clientWidth || 640);
+    }
   }
   const cc = document.getElementById('curve-chart');
   if (cc && !cc.closest('[hidden]')) {
@@ -1715,8 +1900,16 @@ function traceHTML(kind) {
     const t = a.transaction; const fl = (res) => res.tx.flows.map((x) => `<span>${x.year === MODEL.firstYear - 1 ? 'Close (t = 0)' : x.year}</span><span>${money(x.cf)}</span>`).join('');
     return ['Transaction NPV and IRR', `<div class="formula">${esc(`Cash flow to the buyer = owner’s FCF − price paid\n Upfront ${money(t.upfront)} at close (t = 0)\n Contingent: ${pct(t.contingentPaidShare, 0)} of ${money(t.contingentTotal)}, paid evenly ${t.contingentYears[0]}–${t.contingentYears[t.contingentYears.length - 1]}\n IRR is the rate where NPV = 0; compare it with the hurdle ${pct(r.rate, 1)}`)}</div>
       <div class="kv"><span>Base NPV at ${pct(b.rate, 1)}</span><span>${money(b.tx.npv)}</span><span>Base IRR</span><span>${irrText(b.tx.irr)}</span><span>Base payback</span><span>${b.tx.payback ? `${b.tx.payback} (year ${b.tx.payback - MODEL.firstYear + 1})` : 'not within the plan'}</span><span>Risk-adjusted NPV at ${pct(r.rate, 1)}</span><span>${money(r.tx.npv)}</span><span>Risk-adjusted IRR</span><span>${irrText(r.tx.irr)}</span><span>Risk-adjusted payback</span><span>${r.tx.payback ? `${r.tx.payback} (year ${r.tx.payback - MODEL.firstYear + 1})` : 'not within the plan'}</span></div>
+      <p class="small">Hurdles for comparison: ${flagPill('sourced')} ${srcLink(S.BRKAIF)}.</p>
       <h3>Base-case cash flows to the buyer</h3><div class="kv">${fl(b)}</div><h3>Risk-adjusted cash flows to the buyer</h3><div class="kv">${fl(r)}</div>
-      <p class="small">${flagPill('sourced')} ${srcLink(S.TM)}</p>`];
+      <p class="small">${flagPill('sourced')} ${srcLink(S.BRKTON)} · ${flagPill('assumption')} Half the contingent paid, evenly ${t.contingentYears[0]}–${t.contingentYears[t.contingentYears.length - 1]} (${srcLink(S.TM)})</p>`];
+  }
+  if (kind === 'market') {
+    const pp = pricePaid(a, state.rate); const paidX = pp / b.npvAttr; const dialX = r.npvAttr / b.npvAttr;
+    return ['Price paid vs value (P/NAV)', `<div class="formula">${esc(`P/NAV = price paid, in present value ÷ attributable NAV\n Price paid = ${money(a.transaction.upfront)} at close + contingent payments discounted at ${pct(state.rate, 1)} = ${money(pp)}\n Base NAV (owner’s NPV, no dials) = ${money(b.npvAttr)}\n Paid: ${paidX.toFixed(2)}× base NAV\n Dials: ${money(r.npvAttr)} ÷ ${money(b.npvAttr)} = ${dialX.toFixed(2)}× base NAV`)}</div>
+      <p>The framework values equity as attributable NAV × P/NAV, the market’s price for time, the risk that remains and expected dilution. Operating mines typically trade at 1.0–1.3× NAV. That range is analytical judgement drawn from market practice, not a measured sample.</p>
+      <p>The buyer paid ${paidX.toFixed(2)}× base NAV, a ${pct(1 - paidX, 0)} discount. The dials take ${pct(1 - dialX, 0)} off. If the dials are right, the price was full; if the price was right, the dials are set too harsh for this asset. Either way, this is the most direct calibration test the app has: a real price against the model’s risk-adjusted value.</p>
+      <p class="small">${srcLink(S.RPFRAME)}, section 1.1. ${srcLink(S.BRKTON)}.</p>`];
   }
   if (kind === 'breakeven') {
     return ['Breakeven gold price', `<div class="formula">${esc(`Flat real gold price where the owner’s NPV = 0\n Solved by bisection between US$0 and US$${MODEL.breakevenMax.toLocaleString('en-US')}/oz\n Base: ${perOz(an.beBase)} at ${pct(b.rate, 1)}\n Risk-adjusted: ${perOz(an.beRisk)} at ${pct(r.rate, 1)}`)}</div>
@@ -1755,6 +1948,9 @@ function howHTML() {
       <li><b>Capex and schedule</b> applies to undeveloped deposits only. Delays shift production later; overruns scale development capex.</li>
       <li><b>The bridge</b> applies dials cumulatively in this order: ${DIALS.map((d) => d.short).join(', ')} (discount rate last). Each bar is the NPV change from adding that dial, so the bars sum exactly to risk-adjusted minus base.</li>
     </ul>
+    <h3>How each risk destroys value, and what retires it</h3>
+    <ul>${DIALS.map((d) => `<li><b>${esc(d.name)}.</b> ${esc(DIAL_MECHANISMS[d.id].why)} <span class="muted">Retired by: ${esc(DIAL_MECHANISMS[d.id].retire)}</span></li>`).join('')}</ul>
+    <p class="small muted">Mechanisms paraphrased from ${esc(S.RPFRAME.source)}, sections 1.2 and 2.4.</p>
     <p class="banner"><b>Starting assumptions.</b> Every number on this page is a starting assumption to calibrate against what actually happened at comparable mines, not an industry statistic.</p>`;
 }
 
@@ -1862,6 +2058,15 @@ function runChecks() {
     const an = ANALYSIS[a.id]; if (an.pending) continue;
     const s = sum(an.bridge, (x) => x.delta); const d = an.risk.npvAttr - an.base.npvAttr;
     add(`${a.name}: bridge bars sum to risk-adjusted minus base`, Math.abs(s - d) < 0.1e6, `${money(s)} vs ${money(d)} (diff ${(Math.abs(s - d) / 1e6).toFixed(6)}M)`);
+  }
+  for (const a of ASSETS) {
+    const an = ANALYSIS[a.id]; if (an.pending) continue;
+    const L = valueLadder(a, an);
+    const g1 = L.inSitu + L.metLoss + L.payLoss + L.deckGap - L.revenue;
+    const g2 = L.revenue + L.stream + L.royalties + L.site + L.overhead + L.capex + L.closure + L.tax + L.wc - L.cash;
+    const g3 = L.cash + L.discount + L.partners + L.dials - L.risk;
+    const worstL = Math.max(Math.abs(g1), Math.abs(g2), Math.abs(g3));
+    add(`${a.name}: value ladder adds up from in-situ value to risk-adjusted value`, worstL < 1e3, `${money(L.inSitu)} in-situ → ${money(L.revenue)} revenue → ${money(L.cash)} cash flow → ${money(L.risk)}; largest gap US$${worstL.toFixed(2)}`);
   }
   // 4. No NaN, no negative production across decks, dial sets and plan options
   let runs = 0; let bad = [];
