@@ -6,18 +6,24 @@ Every input you leave blank starts at a typical value from published studies, wi
 
 Everything lives in one file, `index.html`: inline CSS and JavaScript, SVG charts, no libraries and no network calls. Open it in any browser, on a phone or a laptop. It follows the system's light or dark setting. Your deposit inputs are saved in this browser only (`localStorage`), and nothing leaves the page.
 
-| Screen | Its one job |
-|---|---|
-| **Screen** | Seven steps for a deposit: Deposit, Mine plan, Processing, Haulage, Location, Capital, Price and deal. One step at a time; a live summary shows owner's NPV, risk-adjusted NPV, IRR and capex as you type. Below the steps: three studies you can load, and the gold reference mines. |
-| **Value** | Base and risk-adjusted NPV side by side. For a deposit: capex, NPV ÷ capex, project IRR and payback; the most you could pay for your target return; and, for a loaded study, the screener against the study's own NPV. Then the breakeven price, the bridge (one bar per dial), the top three risks with the question that would settle each, the ladder from metal in the ground to value, one-at-a-time sensitivities and the annual cash flow. Tap any number to see its formula, inputs and sources. |
-| **Dials** | Nine questions, each set to Low, Medium or High. For a deposit, each starts at a level set by a stated rule from your step inputs (for example the Inferred share of the plan), with the rule shown. Evidence and sources are one tap away. Every change updates every screen. |
-| **Compare** | Risk-adjusted cost curve for assets of the same commodity: bar width is first-year output, height is AISC plus the risk cost per unit (per tonne of concentrate for lithium, per ounce for gold). Below it: a side-by-side table and the risk cost broken down by dial. |
+Three tabs, one question each. Each tab shows the essentials first and folds the detail into an **Advanced** dropdown, so nothing is lost but nothing crowds the answer.
 
-The top bar holds the price deck and the base real discount rate. Lithium decks: **Forecast** (*Resources and Energy Quarterly* (Australian Department of Industry, Science and Resources), Sep 2026, real: US$2,411/t SC6 in 2026 falling to US$1,498 from 2031), **Spot** (US$2,105), **Study LT** (US$1,620, the long-term price in PLS's P2000 feasibility study) and **Downside** (US$817); a loaded study adds its own **Study deck**. Gold decks: Spot, Consensus and Downside. The default rate is 8% for lithium (the median rate across the studies) and 5% for gold. **Run checks** in the footer reruns the validation suite.
+| Tab | Its question | Shown first | Under Advanced |
+|---|---|---|---|
+| **Deposit** | What is it? | Seven short steps (Deposit, Mine plan, Processing, Haulage, Location, Capital, Price and deal), each asking one to three things, with a live summary of the value after risks, before risks and the most you could pay | The step's other inputs, each starting at a typical value with its range and sources |
+| **Result** | What is it worth, and what could go wrong? | Value after and before risks; the most you could pay for your target return; one sentence naming the biggest risks; the nine risks, biggest first, each with a Low–Medium–High slider and what it costs; four key numbers | Every number as a card, the risk bridge, the ladder from metal in the ground to value, one-at-a-time sensitivities, the annual cash flow, mine-plan options and dated events |
+| **Compare** | How does it compare? | Cost per tonne (or ounce) after risks: first-year AISC plus the risk cost, ranked | The cost curve, the side-by-side table and the risk cost by dial |
+
+- **Sliders.** Each risk has a three-stop slider: left is Low, the middle is Medium, right is High. Arrow keys move it one stop. The amount updates when the slider settles. Rows keep their place while you slide, and re-sort biggest first each time you open the Result tab. **Details** under a risk shows what each level does, why it starts where it does, what would settle it, and its evidence and sources.
+- **Price deck and discount rate.** These sit behind the chip under the result ("Forecast spodumene price · 8.0% real · 100% owner") and in step 7. Lithium decks: **Forecast** (*Resources and Energy Quarterly*, Australian Department of Industry, Science and Resources, Sep 2026, real: US$2,411/t SC6 in 2026 falling to US$1,498 from 2031), **Spot** (US$2,105), **Study LT** (US$1,620, the long-term price in PLS's P2000 feasibility study) and **Downside** (US$817); a loaded study adds its own **Study deck**. Gold decks: Spot, Consensus and Downside. The default rate is 8% for lithium (the median rate across the studies) and 5% for gold.
+- **The ⋯ menu** holds everything secondary: loading a published study into the steps or seeing its result, the gold reference mines, How the dials work, the Assumptions list and Run checks.
+- **Tap any number** on the Result tab to see its formula, inputs and sources.
 
 ## Screening a deposit
 
 ### The seven steps
+
+Each step shows its essential questions. The rest sit under Advanced and start at the values in the right-hand column until you change them.
 
 | Step | What it asks | Used when you leave it blank |
 |---|---|---|
@@ -146,7 +152,7 @@ Tropicana checks: year-1 production is 420 koz (target 400–430). Year-1 AISC i
   - bridge bars summing to the change (within US$0.1M) for every asset
   - each asset's value ladder adding up from in-situ value to risk-adjusted value
   - 312 model runs with no NaN and no negative production
-  - a dial change updating all four screens
+  - a dial change updating all three tabs
   - a horizontal-overflow check at the current width
 - Headless: `node tools/run-checks.js 375` (or `1280`). This needs Playwright and Chromium, and exits non-zero if any check fails.
 
@@ -156,12 +162,12 @@ Two posters supplied ideas: *From In-Situ Value to Equity Value* and *What Drive
 
 | From the posters | In the app |
 |---|---|
-| The value bridge from in-situ value to equity value | **From lithium (or gold) in the ground to value** on the Value screen. In-situ value (metal in the mine plan × spot) runs through recovery losses, the deck gap, by-products, royalties, costs, haulage, ocean freight, capex, closure, tax, discounting, the partners' share and the nine dials, ending at risk-adjusted value. Chevrons show each subtotal as a % of in-situ value. A check confirms it adds up. |
+| The value bridge from in-situ value to equity value | **From lithium (or gold) in the ground to value**, under Advanced on the Result tab. In-situ value (metal in the mine plan × spot) runs through recovery losses, the deck gap, by-products, royalties, costs, haulage, ocean freight, capex, closure, tax, discounting, the partners' share and the nine dials, ending at risk-adjusted value. Chevrons show each subtotal as a % of in-situ value. A check confirms it adds up. |
 | Market adjustment: equity = attributable NAV × P/NAV | **Price paid vs value (P/NAV)** for assets with a transaction, and asking price ÷ base NAV for a deposit. Tongon's price works out to 0.84× base NAV, against 0.45× from the dials. |
-| Stage P/NAV multiples (scoping 0.10–0.25× to feasibility 0.50–0.85×) | Beside the most you could pay, on the Value screen and in the Price and deal step |
+| Stage P/NAV multiples (scoping 0.10–0.25× to feasibility 0.50–0.85×) | Beside the most you could pay, under Advanced on the Result tab and in the Price and deal step |
 | Hurdle benchmarks (Barrick AIF FY2025: 15% Tier One, 10% long-life) | The default target return for a deposit, and beside the transaction IRR |
-| Screening criteria and what typically addresses each risk (framework 1.2) | **What typically settles it** under each top-three risk and on each dial card |
-| Key failure modes and interactions (framework 2.2, 2.4) | **How this risk destroys value** on each dial card; the slow ramp-up option (interaction 8); the free carry that funds nothing (interaction 12) |
+| Screening criteria and what typically addresses each risk (framework 1.2) | **What would settle it** in the Details under each risk on the Result tab |
+| Key failure modes and interactions (framework 2.2, 2.4) | **How this risk destroys value** in each risk’s evidence and sources; the slow ramp-up option (interaction 8); the free carry that funds nothing (interaction 12) |
 | One-input-at-a-time sensitivities (poster 3.1) | **What moves value most**: a tornado chart |
 
 Not brought in: the copper worked example (a different metal), the metal-flow ribbon, the full linkage matrix, and the in-situ yardsticks for base-metal resources.

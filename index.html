@@ -388,6 +388,132 @@ pre.log { font-family: var(--font-num); font-size: 12px; background: var(--surfa
 @media (prefers-reduced-motion: no-preference) {
   .dial, .asset-card, .hl-tile, .metric { transition: border-color .15s ease, box-shadow .2s ease; }
 }
+
+/* ---------- Simpler layout: one question per tab, Advanced folds, risk sliders ---------- */
+.tabs { grid-template-columns: repeat(3, 1fr); }
+.topbar .wrap { flex-wrap: nowrap; }
+.brand { flex: 0 1 auto; min-width: 0; }
+.brand > span { min-width: 0; overflow: hidden; }
+.brand small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.menu-wrap { position: relative; margin-left: auto; flex: none; }
+@media (min-width: 900px) { .menu-wrap { order: 3; } }
+.icon-btn { min-width: 40px; min-height: 40px; padding: 0 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); cursor: pointer; font-size: 18px; font-weight: 700; line-height: 1; color: var(--ink); }
+.icon-btn:hover, .icon-btn[aria-expanded="true"] { background: var(--surface-2); }
+.menu { position: absolute; right: 0; top: calc(100% + 6px); z-index: 50; width: min(340px, calc(100vw - 32px)); max-height: min(75vh, 620px); overflow-y: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 6px; display: grid; gap: 1px; }
+.menu-h { font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 8px 10px 2px; }
+.mi { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; width: 100%; padding: 9px 10px; border: 0; border-radius: 7px; background: transparent; text-align: left; font-size: 14px; color: var(--ink); cursor: pointer; }
+.mi:hover { background: var(--surface-2); }
+.mi span { color: var(--muted); font-size: 12.5px; text-align: right; }
+.mi-ex { display: grid; gap: 5px; padding: 8px 10px; }
+.mi-ex b { font-size: 14px; }
+.mi-ex .btn { min-height: 30px; padding: 3px 10px; font-size: 12.5px; }
+.menu hr { border: 0; border-top: 1px solid var(--line); margin: 4px 6px; }
+.btn-primary { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.btn-primary:hover { background: var(--ink-2); border-color: var(--ink-2); }
+
+/* Folds: the Advanced areas, and other detail one tap away */
+details.fold { border-top: 1px solid var(--line); min-width: 0; }
+details.fold > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 12px 0; font-weight: 700; font-size: 14.5px; }
+details.fold > summary::-webkit-details-marker { display: none; }
+details.fold > summary .sum-t { margin-right: auto; }
+details.fold > summary .sum-note { font-weight: 500; font-size: 12.5px; color: var(--muted); text-align: right; }
+details.fold > summary::after { content: ""; flex: none; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); margin: 0 4px 4px 0; transition: transform .15s ease; }
+details.fold[open] > summary::after { transform: rotate(-135deg); margin: 4px 4px 0 0; }
+details.fold > summary:hover .sum-t { text-decoration: underline; text-underline-offset: 3px; }
+.fold-body { display: grid; gap: 14px; padding: 0 0 16px; min-width: 0; }
+details.fold.panel-fold { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 0 16px; }
+details.fold.panel-fold > summary { padding: 15px 0; font-size: 15.5px; }
+.adv .panel { border: 0; padding: 0; background: transparent; }
+.adv-sec { display: grid; gap: 10px; padding-top: 16px; border-top: 1px solid var(--line); min-width: 0; }
+.adv-sec:first-child { border-top: 0; padding-top: 0; }
+.adv-sec .panel-head { margin-bottom: 0; }
+
+/* Deposit tab */
+.sumbar { position: sticky; top: var(--topbar-h, 64px); z-index: 5; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; padding: 9px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+.sumbar b { font-size: 1.02rem; font-variant-numeric: tabular-nums; margin-right: 8px; }
+.sumbar .btn { margin-left: auto; min-height: 32px; padding: 3px 12px; align-self: center; }
+.dep-step { display: grid; gap: 14px; }
+.dots { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.dot { width: 34px; height: 34px; padding: 0; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); font-weight: 750; font-size: 13px; cursor: pointer; display: grid; place-items: center; }
+.dot:hover { background: var(--surface-2); }
+.dot.done { background: var(--surface-2); border-color: var(--line); color: var(--ink-2); }
+.dot[aria-current="step"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.dot-label { font-size: 13px; color: var(--muted); margin-left: 4px; }
+.step-head { display: grid; gap: 2px; }
+
+/* Result tab */
+.viewing { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 10px 14px; border-radius: var(--radius); background: var(--der-bg); }
+.verdict { display: grid; gap: 14px; }
+.nums { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 32px; }
+.v-tile { border: 0; background: none; padding: 0; text-align: left; color: inherit; cursor: pointer; display: grid; gap: 2px; }
+.v-tile:hover .lbl { text-decoration: underline; text-underline-offset: 2px; }
+.v-tile .lbl { font-size: 12.5px; font-weight: 650; color: var(--muted); }
+.v-big { font-size: clamp(2.1rem, 9vw, 2.8rem); font-weight: 780; letter-spacing: -.025em; line-height: 1.04; font-variant-numeric: tabular-nums; }
+.v-mid { font-size: 1.3rem; font-weight: 720; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.v-delta { font-size: 13px; font-weight: 650; color: var(--bad-ink); font-variant-numeric: tabular-nums; }
+.v-delta.pos { color: var(--ok-ink); }
+.pay { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; padding: 10px 12px; background: var(--surface-2); border-radius: 8px; }
+.pay b { font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+.v-sum { color: var(--ink-2); max-width: 66ch; }
+details.assume > summary { list-style: none; display: inline-flex; align-items: center; gap: 8px; max-width: 100%; border: 1px solid var(--line-strong); border-radius: 999px; padding: 5px 12px; font-size: 13px; font-weight: 600; color: var(--ink-2); background: var(--surface); cursor: pointer; }
+details.assume > summary::-webkit-details-marker { display: none; }
+details.assume > summary:hover, details.assume[open] > summary { background: var(--surface-2); }
+.assume-body { display: grid; gap: 10px; margin-top: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; }
+.assume-body .ctl { flex-wrap: wrap; }
+.rk-list { list-style: none; margin: 0; padding: 0; display: grid; }
+.rk { display: grid; gap: 8px; padding: 14px 0; border-top: 1px solid var(--line); transition: background .4s ease; }
+.rk-list > .rk:first-child { border-top: 0; padding-top: 2px; }
+.rk.flash { background: var(--accent-soft); }
+.rk-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.rk-name { display: grid; min-width: 0; }
+.rk-name b { font-size: 15px; }
+.rk-name span { font-size: 13px; color: var(--muted); }
+.rk-amt { flex: none; font-weight: 750; font-size: 15px; color: var(--bad-ink); font-variant-numeric: tabular-nums; }
+.rk-amt.zero { color: var(--muted); font-weight: 600; font-size: 13.5px; }
+.rk-amt.gain { color: var(--ok-ink); }
+.rk-bar { height: 8px; border-radius: 4px; background: var(--surface-2); overflow: hidden; }
+.rk-bar i { display: block; height: 100%; background: var(--loss); border-radius: 4px; }
+.rk-ctl { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 6px 16px; }
+.lvl-wrap { flex: 1 1 220px; max-width: 340px; display: grid; gap: 1px; }
+input.lvl { -webkit-appearance: none; appearance: none; width: 100%; height: 28px; margin: 0; background: transparent; cursor: pointer; --c: var(--asm-ink); }
+input.lvl.L { --c: var(--ok-ink); }
+input.lvl.M { --c: var(--asm-ink); }
+input.lvl.H { --c: var(--bad-ink); }
+input.lvl:disabled { cursor: not-allowed; opacity: .45; }
+input.lvl:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+input.lvl::-webkit-slider-runnable-track { box-sizing: content-box; height: 6px; border-radius: 4px; border: 1px solid var(--line-strong); background: linear-gradient(90deg, var(--ok-bg), var(--asm-bg) 50%, var(--bad-bg)); }
+input.lvl::-moz-range-track { box-sizing: content-box; height: 6px; border-radius: 4px; border: 1px solid var(--line-strong); background: linear-gradient(90deg, var(--ok-bg), var(--asm-bg) 50%, var(--bad-bg)); }
+input.lvl::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; box-sizing: border-box; width: 22px; height: 22px; margin-top: -8px; border-radius: 50%; background: var(--c); border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--line-strong), 0 1px 3px rgba(0, 0, 0, .3); }
+input.lvl::-moz-range-thumb { box-sizing: border-box; width: 22px; height: 22px; border-radius: 50%; background: var(--c); border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--line-strong), 0 1px 3px rgba(0, 0, 0, .3); }
+.lvl-scale { display: grid; grid-template-columns: 1fr auto 1fr; font-size: 12px; color: var(--muted); }
+.lvl-scale span:nth-child(2) { text-align: center; }
+.lvl-scale span:last-child { text-align: right; }
+.lvl-scale .on { font-weight: 750; }
+.lvl-scale .on.L { color: var(--ok-ink); }
+.lvl-scale .on.M { color: var(--asm-ink); }
+.lvl-scale .on.H { color: var(--bad-ink); }
+.rk-def { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.rk-more { border: 0; background: none; padding: 4px 0; color: var(--der-ink); font-weight: 650; font-size: 13.5px; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.rk-why { display: grid; gap: 7px; padding: 12px 14px; background: var(--surface-2); border-radius: 8px; font-size: 13.5px; color: var(--ink-2); }
+.rk-why b { color: var(--ink); }
+.rk-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 12px; font-size: 13px; color: var(--muted); padding-top: 12px; border-top: 1px solid var(--line); }
+.keynums { display: grid; }
+.kn { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; width: 100%; padding: 10px 2px; border: 0; border-top: 1px solid var(--line); background: none; text-align: left; color: var(--ink); cursor: pointer; }
+.kn:first-child { border-top: 0; padding-top: 2px; }
+.kn:hover .k { text-decoration: underline; text-underline-offset: 2px; }
+.kn .k { font-weight: 650; font-size: 14px; }
+.kn .v { font-weight: 750; text-align: right; font-variant-numeric: tabular-nums; }
+.kn .s { grid-column: 1 / -1; font-size: 12.5px; color: var(--muted); }
+
+/* Compare tab */
+.cbars { display: grid; gap: 12px; }
+.cbar { display: grid; gap: 4px; }
+.cbar-top { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+.cbar-top b { font-variant-numeric: tabular-nums; }
+.cbar.me .cbar-top span { font-weight: 750; }
+.cbar-stack { display: flex; height: 14px; border-radius: 4px; overflow: hidden; background: var(--surface-2); }
+.cbar-stack .a { background: var(--aisc); }
+.cbar-stack .r { background: var(--riskcost); }
 </style>
 </head>
 <body>
@@ -398,32 +524,20 @@ pre.log { font-family: var(--font-num); font-size: 12px; background: var(--surfa
       <span>Mining Risk Explorer<small id="brand-asset">Gold · version 1</small></span>
     </div>
     <nav class="tabs" aria-label="Screens">
-      <a href="#pick" data-screen="pick"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 15l4-5 3 3 4-6 3 4"/><path d="M3 17h14"/></svg>Screen</a>
-      <a href="#value" data-screen="value"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 16.5h14"/><path d="M5 14V8"/><path d="M9 14V5"/><path d="M13 14v-3"/><path d="M17 14V9"/></svg>Value</a>
-      <a href="#dials" data-screen="dials"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 6h14M3 14h14"/><circle cx="8" cy="6" r="2.2" fill="var(--surface)"/><circle cx="13" cy="14" r="2.2" fill="var(--surface)"/></svg>Dials</a>
+      <a href="#deposit" data-screen="deposit"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 15l4-5 3 3 4-6 3 4"/><path d="M3 17h14"/></svg>Deposit</a>
+      <a href="#result" data-screen="result"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 16.5h14"/><path d="M5 14V8"/><path d="M9 14V5"/><path d="M13 14v-3"/><path d="M17 14V9"/></svg>Result</a>
       <a href="#compare" data-screen="compare"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 17h14"/><rect x="4" y="9" width="3.5" height="8"/><rect x="8.5" y="6" width="3.5" height="11"/><rect x="13" y="3" width="3.5" height="14"/></svg>Compare</a>
     </nav>
-    <div class="controls">
-      <div class="ctl">
-        <span class="ctl-label" id="deck-label">Gold price</span>
-        <fieldset class="seg" aria-labelledby="deck-label" id="deck-seg"></fieldset>
-      </div>
-      <div class="ctl">
-        <span class="ctl-label" id="rate-label">Real rate</span>
-        <div class="stepper" role="group" aria-labelledby="rate-label">
-          <button type="button" id="rate-down" aria-label="Lower the base real discount rate by 0.5 points">&minus;</button>
-          <output id="rate-out" aria-live="polite">5.0%</output>
-          <button type="button" id="rate-up" aria-label="Raise the base real discount rate by 0.5 points">+</button>
-        </div>
-      </div>
+    <div class="menu-wrap">
+      <button type="button" class="icon-btn" id="menu-btn" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="More: published studies, reference mines, assumptions and checks">⋯</button>
+      <div class="menu" id="menu" hidden></div>
     </div>
   </div>
 </header>
 
 <main class="wrap" id="main">
-  <section class="screen" id="screen-pick" aria-labelledby="pick-title"></section>
-  <section class="screen" id="screen-value" aria-labelledby="value-title" hidden></section>
-  <section class="screen" id="screen-dials" aria-labelledby="dials-title" hidden></section>
+  <section class="screen" id="screen-deposit" aria-labelledby="deposit-title"></section>
+  <section class="screen" id="screen-result" aria-labelledby="result-title" hidden></section>
   <section class="screen" id="screen-compare" aria-labelledby="compare-title" hidden></section>
   <footer class="footer">
     <div class="btn-row">
@@ -1564,7 +1678,8 @@ const state = {
   rateBy: { gold: MODEL.defaultRate, spodumene: 0.08 },
   levels: Object.fromEntries(ASSETS.map((a) => [a.id, Object.fromEntries(DIALS.map((d) => [d.id, a.dialDefaults[d.id].level]))])),
   ext: Object.fromEntries(ASSETS.map((a) => [a.id, 0])),
-  screen: 'pick',
+  screen: 'deposit',
+  riskOrder: null,
   tableMode: 'risk',
   open: new Set()
 };
@@ -1612,27 +1727,31 @@ function pctChange(a, b) { return Math.abs(a) > 1e-9 ? (b - a) / Math.abs(a) : N
    ===================================================================== */
 const $ = (sel, root = document) => root.querySelector(sel);
 
+const SCREENS = ['deposit', 'result', 'compare'];
+const SCREEN_ALIAS = { pick: 'deposit', value: 'result', dials: 'result' };   // old links keep working
+
 function renderControls() {
-  const cmd = commodityOf(currentAsset());
-  $('#deck-label').textContent = cmd === 'gold' ? 'Gold price' : 'Spodumene price';
-  const deckList = Object.values(DECKS[cmd]).concat(currentAsset().deckOverride ? [currentAsset().deckOverride] : []);
-  $('#deck-seg').innerHTML = deckList.map((d) => `
-    <input type="radio" name="deck" id="deck-${d.id}" value="${d.id}" data-role="deck" ${state.deckBy[cmd] === d.id ? 'checked' : ''}>
-    <label for="deck-${d.id}" title="${esc(d.desc)}">${esc(d.label)}</label>`).join('');
-  $('#rate-out').textContent = pct(curRate(), 1);
   const a = currentAsset();
   $('#brand-asset').textContent = `${a.name} · ${a.country}`;
+  const ex = LI_EXAMPLES.map((x) => `<div class="mi-ex"><b>${esc(x.study.label)}</b><span class="small muted">${esc(assetById(x.id).region)}</span>
+      <span class="btn-row"><button type="button" class="btn" data-load-ex="${x.id}">Load into the steps</button><button type="button" class="btn" data-pick="${x.id}">See its result</button></span></div>`).join('');
+  const gold = ASSETS.filter((x) => commodityOf(x) === 'gold').map((x) => `<button type="button" class="mi" data-pick="${x.id}">${esc(x.name)}<span>${esc(x.country)}${x.dataStatus === 'pending' ? ' · data pending' : ''}</span></button>`).join('');
+  $('#menu').innerHTML = `
+    <button type="button" class="mi" data-pick="custom">My deposit<span>Your seven steps</span></button>
+    <hr><p class="menu-h">Start from a published study</p>${ex}
+    <hr><p class="menu-h">Reference gold mines</p>${gold}
+    <hr><button type="button" class="mi" data-open="how">How the dials work</button>
+    <button type="button" class="mi" data-open="assumptions">Assumptions list</button>
+    <button type="button" class="mi" data-open="checks">Run checks</button>
+    <button type="button" class="mi" data-dep-reset="1">Start my deposit again<span>From the Manna example</span></button>`;
 }
 
 function renderTabs() {
   document.querySelectorAll('.tabs a').forEach((el) => {
     if (el.dataset.screen === state.screen) el.setAttribute('aria-current', 'page'); else el.removeAttribute('aria-current');
   });
-  for (const s of ['pick', 'value', 'dials', 'compare']) $(`#screen-${s}`).hidden = s !== state.screen;
+  for (const s of SCREENS) $(`#screen-${s}`).hidden = s !== state.screen;
 }
-
-/* ---------- Pick ---------- */
-function renderPick() { renderScreen(); }
 
 /* ---------- Screen a deposit: the step-by-step inputs ---------- */
 const getPath = (o, path) => path.split('.').reduce((x, k) => (x == null ? undefined : x[k]), o);
@@ -1708,15 +1827,18 @@ const F = {
   asking: { label: 'Asking price, if it’s for sale', unit: 'US$M', type: 'num', blank: 'none' },
   hurdle: { label: 'Return you need', unit: '%', type: 'num', help: 'Barrick asks 15% of Tier One investments and 10% of long-life ones (AIF FY2025).' }
 };
+// Each step shows its essential questions; the rest sit under Advanced and start at typical values.
 const DEP_STEPS = [
-  { id: 'deposit', title: 'Deposit', q: 'What is in the ground?', fields: ['name', 'RESOURCE', 'includeInferred', 'method', 'ugShare', 'strip'] },
-  { id: 'plan', title: 'Mine plan', q: 'How much will be mined, and how fast?', fields: ['planShare', 'dilution', 'planMt', 'planGrade', 'inferredShare', 'rate', 'miningOp', 'miningUg'] },
-  { id: 'process', title: 'Processing', q: 'How much lithia does the plant recover, and at what cost?', fields: ['route', 'testwork', 'recovery', 'concGrade', 'processing', 'ga', 'byproduct'] },
-  { id: 'logistics', title: 'Haulage', q: 'How does the concentrate reach a buyer?', fields: ['plantMode', 'oreHaulKm', 'oreHaulRate', 'LEGS', 'port', 'freight', 'infraCapex'] },
-  { id: 'location', title: 'Location', q: 'Who takes a share, and how risky is the country?', fields: ['juris', 'royalty', 'royaltyBase', 'tax', 'freeCarry', 'power', 'permits', 'operator'] },
-  { id: 'capital', title: 'Capital', q: 'What does it cost to build, and when does it start?', fields: ['capex', 'capexBasis', 'sustaining', 'closure', 'decisionYears', 'buildYears', 'ramp'] },
-  { id: 'deal', title: 'Price and deal', q: 'What is it worth to you?', fields: ['deck', 'rateIn', 'ownership', 'asking', 'hurdle'] }
+  { id: 'deposit', title: 'Deposit', q: 'What is in the ground?', essentials: ['name', 'RESOURCE', 'method'], advanced: ['includeInferred', 'ugShare', 'strip'] },
+  { id: 'plan', title: 'Mine plan', q: 'How much will be mined, and how fast?', essentials: [], advanced: ['planShare', 'dilution', 'planMt', 'planGrade', 'inferredShare', 'rate', 'miningOp', 'miningUg'],
+    intro: 'Nothing to answer here unless you want to. The plan comes from step 1 and typical values, or from a study if you have one; change any of it under Advanced.' },
+  { id: 'process', title: 'Processing', q: 'How much lithia does the plant recover, and at what cost?', essentials: ['route', 'testwork'], advanced: ['recovery', 'concGrade', 'processing', 'ga', 'byproduct'] },
+  { id: 'logistics', title: 'Haulage', q: 'How does the concentrate reach a buyer?', essentials: ['plantMode', 'oreHaulKm', 'LEGS', 'port'], advanced: ['oreHaulRate', 'freight', 'infraCapex'] },
+  { id: 'location', title: 'Location', q: 'Who takes a share, and how risky is the country?', essentials: ['juris', 'permits', 'operator'], advanced: ['royalty', 'royaltyBase', 'tax', 'freeCarry', 'power'] },
+  { id: 'capital', title: 'Capital', q: 'What does it cost to build, and when does it start?', essentials: ['capex', 'capexBasis'], advanced: ['sustaining', 'closure', 'decisionYears', 'buildYears', 'ramp'] },
+  { id: 'deal', title: 'Price and deal', q: 'What is it worth to you?', essentials: ['asking', 'hurdle'], advanced: ['deck', 'rateIn', 'ownership'] }
 ];
+for (const s of DEP_STEPS) s.fields = s.essentials.concat(s.advanced);
 const num1 = (x, dp = 2) => (x == null || !isFinite(x)) ? '—' : Number(x).toLocaleString('en-US', { maximumFractionDigits: dp });
 
 function typicalHint(key, f, d) {
@@ -1800,48 +1922,52 @@ function derivedHTML(stepId, a, an) {
   return '';
 }
 
-function renderScreen() {
+function renderDeposit() {
   const a = assetById('custom'); const an = ANALYSIS.custom; const d = state.dep; UCTX = 'spodumene';
   const step = DEP_STEPS[state.step] || DEP_STEPS[0];
-  const stepper = DEP_STEPS.map((s, i) => `<button type="button" class="stp" data-step="${i}" ${i === state.step ? 'aria-current="step"' : ''}><span class="n">${i + 1}</span><span class="t">${esc(s.title)}</span></button>`).join('');
-  const sum0 = an.pending ? '' : `<div class="vals"><span class="muted small">Owner’s NPV</span><b>${money(an.base.npvAttr)}</b><span aria-hidden="true">→</span><span class="muted small">risk-adjusted</span><b>${money(an.risk.npvAttr)}</b>
-    <span class="muted small">· IRR</span><b>${irrText(an.base.irr)}</b><span class="muted small">· capex</span><b>US$${num1(a.derived.capexM, 0)}M</b></div>`;
+  const h = (d.hurdle != null ? d.hurdle : 15) / 100;
+  const sumBar = an.pending ? '' : `<div class="sumbar" aria-live="polite">
+      <span class="small muted">After risks</span><b>${money(an.risk.npvAttr)}</b>
+      <span class="small muted">Before risks</span><b>${money(an.base.npvAttr)}</b>
+      <span class="small muted">Pay up to</span><b>${money(an.risk.pvAt(h))}</b>
+      <button type="button" class="btn" data-goto="result">See the result</button></div>`;
+  const dots = DEP_STEPS.map((s, i) => `<button type="button" class="dot ${i < state.step ? 'done' : ''}" data-step="${i}" ${i === state.step ? 'aria-current="step"' : ''} aria-label="Step ${i + 1}: ${esc(s.title)}" title="${esc(s.title)}">${i + 1}</button>`).join('');
+  const ess = step.essentials.map((k) => fieldHTML(k, d)).join('');
+  const adv = step.advanced.map((k) => fieldHTML(k, d)).filter(Boolean);
+  const advKey = `adv-step-${step.id}`;
   const exCards = LI_EXAMPLES.map((ex) => {
     const ea = assetById(ex.id); const ean = ANALYSIS[ex.id];
     return `<div class="ex-card"><b>${esc(ex.study.label)}</b><span class="small muted">${esc(ea.region)} · ${esc(ea.method.toLowerCase())}</span>
-      <span class="small">Study: ${esc(ex.study.npvText)}</span><span class="small">Screener at the current deck: ${money(ean.base.npvAttr)} base, ${money(ean.risk.npvAttr)} risk-adjusted</span>
-      <span class="btn-row"><button type="button" class="btn" data-load-ex="${ex.id}">Load into the steps</button><button type="button" class="btn btn-quiet" data-pick="${ex.id}">View</button></span></div>`;
+      <span class="small">Study: ${esc(ex.study.npvText)}</span><span class="small">Screener at the current deck: ${money(ean.base.npvAttr)} before risks, ${money(ean.risk.npvAttr)} after</span>
+      <span class="btn-row"><button type="button" class="btn" data-load-ex="${ex.id}">Load into the steps</button><button type="button" class="btn btn-quiet" data-pick="${ex.id}">See its result</button></span></div>`;
   }).join('');
-  const goldCards = ASSETS.filter((x) => commodityOf(x) === 'gold').map((x) => `<button type="button" class="btn" data-pick="${x.id}">${esc(x.name)} <span class="muted small">${esc(x.country)}</span></button>`).join('');
-  $('#screen-pick').innerHTML = `
+  $('#screen-deposit').innerHTML = `
     <div class="screen-head">
       <p class="eyebrow">Screen a deposit · lithium (spodumene)</p>
-      <h1 id="pick-title">First pass on a deposit</h1>
-      <p>Seven short steps from rock in the ground to value. Every input starts at a typical value from published studies, with its sources; change what you know. A first pass needs only tonnes, grade and location.</p>
+      <h1 id="deposit-title">${esc(d.name || 'My deposit')}</h1>
+      <p>Seven short steps from rock in the ground to value. Answer what you know. Everything else starts at a typical value from published studies, under Advanced.</p>
     </div>
-    <div class="dial-summary" aria-live="polite">${sum0}<div class="btn-row"><button type="button" class="btn" data-pick="custom">See the value</button></div></div>
-    <nav class="dep-steps" aria-label="Steps">${stepper}</nav>
-    <section class="panel step" aria-labelledby="step-title">
-      <div class="panel-head"><h2 id="step-title">${state.step + 1}. ${esc(step.title)}</h2><p>${esc(step.q)}</p></div>
-      <div class="fields">${step.fields.map((k) => fieldHTML(k, d)).join('')}</div>
+    ${sumBar}
+    <section class="panel dep-step" aria-labelledby="step-title">
+      <div class="dots" role="group" aria-label="Steps">${dots}<span class="dot-label">Step ${state.step + 1} of ${DEP_STEPS.length}</span></div>
+      <div class="step-head"><h2 id="step-title">${esc(step.title)}</h2><p class="muted">${esc(step.q)}</p></div>
+      ${step.intro ? `<p class="hint">${esc(step.intro)}</p>` : ''}
+      ${ess ? `<div class="fields">${ess}</div>` : ''}
       <div class="derived"><p class="eyebrow">What this gives</p>${derivedHTML(step.id, a, an)}</div>
+      ${adv.length ? `<details class="fold" data-open-id="${advKey}" ${state.open.has(advKey) ? 'open' : ''}>
+        <summary><span class="sum-t">Advanced</span><span class="sum-note">${adv.length} more input${adv.length === 1 ? '' : 's'}</span></summary>
+        <div class="fold-body"><p class="hint">Each starts at a typical value from published studies, or the preset for the location, until you change it.</p><div class="fields">${adv.join('')}</div></div></details>` : ''}
       <div class="btn-row step-nav">
         ${state.step > 0 ? `<button type="button" class="btn" data-step="${state.step - 1}">Back</button>` : ''}
-        ${state.step < DEP_STEPS.length - 1 ? `<button type="button" class="btn" data-step="${state.step + 1}">Next: ${esc(DEP_STEPS[state.step + 1].title)}</button>` : `<button type="button" class="btn" data-pick="custom">See the value, risks and dials</button>`}
-        <button type="button" class="btn btn-quiet" data-dep-reset="1">Start again from the Manna example</button>
+        ${state.step < DEP_STEPS.length - 1 ? `<button type="button" class="btn btn-primary" data-step="${state.step + 1}">Next: ${esc(DEP_STEPS[state.step + 1].title)}</button>` : '<button type="button" class="btn btn-primary" data-goto="result">See the result</button>'}
       </div>
     </section>
-    <section class="panel" aria-labelledby="ex-title">
-      <div class="panel-head"><h2 id="ex-title">Start from a study</h2><p>Real spodumene studies, entered in the same steps. Load one to see how it was built, then change it.</p></div>
-      <div class="ex-grid">${exCards}</div>
-    </section>
-    <section class="panel" aria-labelledby="ref-title">
-      <div class="panel-head"><h2 id="ref-title">Reference gold mines</h2><p>Operating mines modelled in full; Tongon reconciles to its spreadsheet to the dollar.</p></div>
-      <div class="btn-row">${goldCards}</div>
-    </section>`;
-  // On a phone the step list scrolls sideways: keep the current step in view
-  const nav = $('#screen-pick .dep-steps'); const cur = nav && nav.querySelector('[aria-current="step"]');
-  if (cur && nav.scrollWidth > nav.clientWidth) nav.scrollLeft += cur.getBoundingClientRect().left - nav.getBoundingClientRect().left - 16;
+    <details class="fold panel-fold" data-open-id="dep-examples" ${state.open.has('dep-examples') ? 'open' : ''}>
+      <summary><span class="sum-t">Start from a published study</span><span class="sum-note">Manna, Ewoyaa or Finniss</span></summary>
+      <div class="fold-body"><p class="small muted">Real spodumene studies, entered in the same steps. Load one to see how it was built, then change it.</p>
+        <div class="ex-grid">${exCards}</div>
+        <div><button type="button" class="btn btn-quiet" data-dep-reset="1">Start again from the Manna example</button></div></div>
+    </details>`;
 }
 
 function rebuildCustom() {
@@ -2073,19 +2199,8 @@ function riskSentence(asset, b, an) {
   return `${detail}. Takes ${money(-b.delta)}${isFinite(share) ? `, ${pct(share, 0)} of base value` : ''}.`;
 }
 
-function renderValue() {
-  const a = currentAsset(); const an = ANALYSIS[a.id]; UCTX = commodityOf(a);
-  const head = `
-    <div class="asset-head">
-      <div class="screen-head">
-        <p class="eyebrow">Value</p>
-        <h1 id="value-title">${esc(a.name)}</h1>
-        <p class="meta">${esc(a.country)} · ${a.stage === 'operating' ? 'operating mine' : 'undeveloped deposit'} · ${esc(a.method.toLowerCase())} · NPV basis ${esc(a.ownerLabel)}</p>
-      </div>
-      <div class="btn-row"><a class="btn" href="#pick">Change mine</a><a class="btn" href="#dials">Adjust the dials</a></div>
-    </div>`;
-  if (an.pending) { $('#screen-value').innerHTML = head + renderPendingValue(a); return; }
-  const ch = an.risk.npvAttr - an.base.npvAttr;
+/* ---------- Result: the answer, the risks with their sliders, key numbers, and Advanced ---------- */
+function allMetrics(a, an) {
   const deck = curDeck();
   const metrics = [];
   if (a.transaction && an.base.tx) {
@@ -2126,60 +2241,184 @@ function renderValue() {
   metrics.push(`<button type="button" class="metric" data-trace="rate"><span class="k">Discount rate (real)</span>
     <span class="v">${pct(curRate(), 1)} → ${pct(an.risk.rate, 1)}</span>
     <span class="s">Political dial adds ${an.risk.params.crpMult}× the ${pct(a.crp.value, 2)} country premium</span></button>`);
-  const top = an.bridge.filter((b) => b.applies && b.delta < -0.05e6).sort((x, y) => x.delta - y.delta).slice(0, 3);
-  const risks = top.length ? top.map((b, i) => `
-      <div class="risk-item">
-        <span class="risk-rank" aria-hidden="true">${i + 1}</span>
-        <h3>${esc(b.dial.name)} ${levelPill(b.level)}</h3>
-        <p>${esc(riskSentence(a, b, an))}</p>
-        <p class="q"><b>Diligence question:</b> ${esc(a.dialDefaults[b.dial.id].question)}</p>
-        <p class="settle"><b>What typically settles it:</b> ${esc(DIAL_MECHANISMS[b.dial.id].retire)}</p>
-        <div><button type="button" class="btn-quiet btn" data-goto-dial="${b.dial.id}">Adjust this dial</button></div>
-      </div>`).join('') : '<p class="muted">No dial takes value at the current settings.</p>';
-  const fewer = top.length && top.length < 3 ? `<p class="small muted">Only ${top.length === 1 ? 'one dial takes' : 'two dials take'} value at the current settings.</p>` : '';
-  $('#screen-value').innerHTML = head + `
-    <div class="headline">
-      <button type="button" class="hl-tile" data-trace="npv-base">
-        <span class="eyebrow">Base value</span>
-        <span class="big">${money(an.base.npvAttr)}</span>
-        <span class="sub">NPV at ${pct(curRate(), 1)} real, ${esc(deck.label)} deck, no risk adjustments. Asset at 100%: ${money(an.base.npv)}.</span>
-        <span class="trace">See inputs and sources</span>
-      </button>
-      <div class="hl-delta" aria-hidden="true"><span class="arrowline">→</span><span class="d ${ch < 0 ? 'neg' : 'pos'}">${money(ch, { plus: true })}</span><span class="small muted">${pct(pctChange(an.base.npvAttr, an.risk.npvAttr), 0, true)}</span></div>
-      <button type="button" class="hl-tile risk" data-trace="npv-risk">
-        <span class="eyebrow">Risk-adjusted value</span>
-        <span class="big">${money(an.risk.npvAttr)}</span>
-        <span class="sub">After nine risk dials, discounted at ${pct(an.risk.rate, 1)} real. Change ${money(ch, { plus: true })} (${pct(pctChange(an.base.npvAttr, an.risk.npvAttr), 0, true)}).</span>
-        <span class="trace">See what moved it</span>
-      </button>
+  return metrics.join('');
+}
+
+function verdictHTML(a, an) {
+  const deck = curDeck(); const cmd = commodityOf(a);
+  const h = a.deposit && a.deposit.hurdle != null ? a.deposit.hurdle / 100 : 0.15;
+  const ch = an.risk.npvAttr - an.base.npvAttr; const chp = pctChange(an.base.npvAttr, an.risk.npvAttr);
+  const payR = an.risk.pvAt(h); const payB = an.base.pvAt(h);
+  const top2 = an.bridge.filter((b) => b.applies && b.delta < -0.05e6).sort((x, y) => x.delta - y.delta).slice(0, 2);
+  let sumTxt = 'No risk takes value at the current settings.';
+  if (an.base.npvAttr <= 0) sumTxt = 'The value is negative even before risks at these prices.';
+  else if (top2.length) sumTxt = `Risks take ${pct(-ch / an.base.npvAttr, 0)} of the value. The ${top2.length === 1 ? 'biggest is' : 'two biggest are'} ${top2.map((b) => `<b>${esc(b.dial.name.toLowerCase())}</b> (${money(b.delta)})`).join(' and ')}.`;
+  const payLine = payR > 0
+    ? `<span>To earn ${pct(h, 0)}, pay no more than</span><b>${money(payR)}</b><span class="small muted">(${money(payB)} before risks)</span>`
+    : `<span>At a ${pct(h, 0)} return, the cash flows after risks don’t cover the cost:</span><b>${money(payR)}</b><span class="small muted">(${money(payB)} before risks)</span>`;
+  let extra = '';
+  if (a.deposit && a.deposit.asking) { const ask = a.deposit.asking * 1e6; extra = `<p class="small">Asking price ${money(ask)}: ${ask <= payR ? 'within' : 'above'} the most you could pay after risks.</p>`; }
+  if (a.transaction && an.base.tx) { const pp = pricePaid(a, curRate()); extra = `<p class="small">Price paid ${money(pp)} in present value, ${(pp / an.base.npvAttr).toFixed(2)}× the value before risks. Transaction IRR ${irrText(an.base.tx.irr)} before risks, ${irrText(an.risk.tx.irr)} after.</p>`; }
+  const deckList = Object.values(DECKS[cmd]).concat(a.deckOverride ? [a.deckOverride] : []);
+  const seg = deckList.map((k) => `<input type="radio" name="deck" id="deck-${k.id}" value="${k.id}" data-role="deck" ${state.deckBy[cmd] === k.id ? 'checked' : ''}><label for="deck-${k.id}" title="${esc(k.desc)}">${esc(k.label)}</label>`).join('');
+  return `<section class="panel verdict" aria-labelledby="verdict-title">
+    <h2 class="sr-only" id="verdict-title">The answer</h2>
+    <div class="nums">
+      <button type="button" class="v-tile" data-trace="npv-risk"><span class="lbl">Value after risks</span><span class="v-big">${money(an.risk.npvAttr)}</span></button>
+      <button type="button" class="v-tile" data-trace="npv-base"><span class="lbl">Before risks</span><span class="v-mid">${money(an.base.npvAttr)}</span><span class="v-delta ${ch >= 0 ? 'pos' : ''}">${money(ch, { plus: true })} (${pct(chp, 0, true)})</span></button>
     </div>
-    <div class="metrics">${metrics.join('')}</div>
-    <section class="panel" aria-labelledby="bridge-title">
-      <div class="panel-head"><h2 id="bridge-title">What each risk takes away</h2><p>Dials applied in order, discount rate last. Bars add up to the change. Tap a bar to open its dial.</p></div>
-      <div class="chart" id="bridge-chart" data-chart="bridge"></div>
-    </section>
-    <section class="panel" aria-labelledby="risks-title">
-      <div class="panel-head"><h2 id="risks-title">Top three risks</h2><p>Largest bars in the bridge, with the question that would settle each.</p></div>
-      <div class="risks">${risks}</div>${fewer}
-    </section>
-    ${ladderPanel(a, an)}
-    <section class="panel" aria-labelledby="tornado-title">
-      <div class="panel-head"><h2 id="tornado-title">What moves value most</h2><p>One input at a time from the base case, owner’s NPV, all dials off.</p></div>
-      <div class="chart" id="tornado-chart"></div>
-      <p class="small muted" style="margin-top:8px">Same levers as the Tongon spreadsheet’s Sensitivity Engine, checked against it to the dollar. Site cost: +10% on the left, −10% on the right. Mine life: drop the last production year, or add one extension year where the plan allows. Unlike the dials, these are what-ifs, not expected values.</p>
-    </section>
-    <section class="panel" aria-labelledby="cf-title">
-      <div class="panel-head"><h2 id="cf-title">Annual cash flow</h2>
-        <fieldset class="seg" aria-label="Which case to show">
-          <input type="radio" name="tablemode" id="tm-risk" value="risk" data-role="tablemode" ${state.tableMode === 'risk' ? 'checked' : ''}><label for="tm-risk">Risk-adjusted</label>
-          <input type="radio" name="tablemode" id="tm-base" value="base" data-role="tablemode" ${state.tableMode === 'base' ? 'checked' : ''}><label for="tm-base">Base</label>
-        </fieldset>
+    <div class="pay">${payLine}</div>
+    ${extra}
+    <p class="v-sum">${sumTxt}</p>
+    <details class="assume" data-open-id="assume" ${state.open.has('assume') ? 'open' : ''}>
+      <summary>${esc(deck.label)} ${cmd === 'gold' ? 'gold' : 'spodumene'} price · ${pct(curRate(), 1)} real · ${esc(a.ownerLabel)} <span aria-hidden="true">✎</span><span class="sr-only">Change</span></summary>
+      <div class="assume-body">
+        <div class="ctl"><span class="ctl-label" id="deck-label">${cmd === 'gold' ? 'Gold price' : 'Spodumene price'}</span><fieldset class="seg" aria-labelledby="deck-label" id="deck-seg">${seg}</fieldset></div>
+        <div class="ctl"><span class="ctl-label" id="rate-label">Real discount rate</span>
+          <div class="stepper" role="group" aria-labelledby="rate-label">
+            <button type="button" id="rate-down" aria-label="Lower the base real discount rate by 0.5 points">&minus;</button>
+            <output id="rate-out" aria-live="polite">${pct(curRate(), 1)}</output>
+            <button type="button" id="rate-up" aria-label="Raise the base real discount rate by 0.5 points">+</button></div></div>
+        <p class="small muted">${esc(deck.desc)}. ${srcLink(deck)}</p>
+        ${a.id === 'custom' ? '<p class="small muted">Ownership, the return you need and the asking price are in step 7 of the Deposit tab.</p>' : ''}
       </div>
-      ${cashTable(a, state.tableMode === 'risk' ? an.risk : an.base)}
-    </section>
-    ${eventsPanel(a)}`;
+    </details>
+  </section>`;
+}
+
+// Risks are listed biggest first. The order is set when the asset or its inputs change, not while you move a slider, so rows don't jump under your finger.
+function riskOrderFor(a, an) {
+  const o = state.riskOrder;
+  if (!o || o.id !== a.id) {
+    const order = an.pending ? DIALS.map((d) => d.id) : an.bridge.slice().sort((x, y) => (x.applies ? x.delta : 1) - (y.applies ? y.delta : 1)).map((b) => b.dial.id);
+    state.riskOrder = { id: a.id, order };
+  }
+  return state.riskOrder.order;
+}
+
+function riskRowHTML(a, an, d, maxAbs) {
+  const def = a.dialDefaults[d.id]; const cur = state.levels[a.id][d.id];
+  const applies = !(d.depositsOnly && a.stage !== 'deposit');
+  const b = an.pending ? null : an.bridge.find((x) => x.dial.id === d.id);
+  const delta = b && applies ? b.delta : 0; const tiny = Math.abs(delta) < 0.05e6;
+  const amt = !applies ? 'Not applicable' : !b ? 'No NPV yet' : tiny ? 'No change' : money(delta, { plus: true });
+  const amtCls = !applies || !b || tiny ? 'zero' : delta > 0 ? 'gain' : '';
+  const w = maxAbs > 0 ? Math.min(100, Math.abs(delta) / maxAbs * 100) : 0;
+  const whyKey = `why-${a.id}-${d.id}`; const open = state.open.has(whyKey);
+  const evKey = `ev-${a.id}-${d.id}`;
+  const ev = (a.evidence || []).filter((e) => e.dial === d.id);
+  const srcs = (def.sources || []).map((k) => S[k]).filter(Boolean);
+  const scale = LEVELS.map((L) => `<span class="${L === cur ? `on ${L}` : ''}">${LEVEL_NAME[L]}</span>`).join('');
+  return `<li class="rk" id="rk-${d.id}">
+    <div class="rk-top"><div class="rk-name"><b>${esc(d.name)}</b><span>${esc(d.question)}</span></div><span class="rk-amt ${amtCls}">${amt}</span></div>
+    ${b ? `<div class="rk-bar" aria-hidden="true"><i style="width:${w.toFixed(1)}%"></i></div>` : ''}
+    <div class="rk-ctl">
+      <div class="lvl-wrap">
+        <input type="range" class="lvl ${cur}" id="lvl-${d.id}" min="0" max="2" step="1" value="${LEVELS.indexOf(cur)}" data-role="level-slider" data-dial="${d.id}"
+          aria-label="${esc(d.name)}: risk level, low to high" aria-valuetext="${LEVEL_NAME[cur]}" ${applies ? '' : 'disabled'}>
+        <div class="lvl-scale" aria-hidden="true">${scale}</div>
+        ${applies && cur !== def.level ? `<p class="rk-def">Default is ${LEVEL_NAME[def.level]}. <button type="button" class="link-btn" data-reset-dial="${d.id}">Back to default</button></p>` : ''}
+      </div>
+      <button type="button" class="rk-more" data-why="${whyKey}" aria-expanded="${open}" aria-controls="${whyKey}">${open ? 'Hide details' : 'Details'}</button>
+    </div>
+    <div class="rk-why" id="${whyKey}" ${open ? '' : 'hidden'}>
+      ${applies ? `<p><b>At ${LEVEL_NAME[cur]}:</b> ${esc(d.levels[cur].text)}.</p>` : '<p>Applies to undeveloped deposits only. This is an operating mine, so it has no effect.</p>'}
+      <p class="small muted">Low: ${esc(d.levels.L.text)}. Medium: ${esc(d.levels.M.text)}. High: ${esc(d.levels.H.text)}.</p>
+      <p><b>Why ${LEVEL_NAME[def.level]} by default:</b> ${esc(def.reason)}</p>
+      <p><b>What would settle it:</b> ${esc(DIAL_MECHANISMS[d.id].retire)}</p>
+      <details class="more" data-open-id="${evKey}" ${state.open.has(evKey) ? 'open' : ''}>
+        <summary>Evidence and sources (${ev.length + srcs.length})</summary>
+        ${ev.length ? `<ul class="ev-list">${ev.map(evidenceItem).join('')}</ul>` : ''}
+        <p class="small" style="margin-top:8px"><b>Sources for the default:</b> ${srcs.map(srcLink).join('; ') || '—'}</p>
+        <p class="small" style="margin-top:8px"><b>How this risk destroys value:</b> ${esc(DIAL_MECHANISMS[d.id].why)}</p>
+        <p class="small muted" style="margin-top:6px"><b>Diligence question:</b> ${esc(def.question)}</p>
+        <p class="small muted" style="margin-top:6px"><b>Moves:</b> ${esc(d.line)} (${esc(d.method.toLowerCase())}). <b>Evidence that sets it:</b> ${esc(d.basis)}.</p>
+      </details>
+    </div>
+  </li>`;
+}
+
+function risksSectionHTML(a, an) {
+  const order = riskOrderFor(a, an);
+  const maxAbs = an.pending ? 0 : Math.max(0, ...an.bridge.filter((b) => b.applies).map((b) => Math.abs(b.delta)));
+  const rows = order.map((id) => riskRowHTML(a, an, DIALS.find((d) => d.id === id), maxAbs));
+  const rest = order.slice(3);
+  const restSum = an.pending ? 0 : sum(an.bridge.filter((b) => b.applies && rest.includes(b.dial.id)), (b) => b.delta);
+  const moreKey = `more-risks-${a.id}`;
+  const lv = state.levels[a.id]; const changed = DIALS.filter((d) => lv[d.id] !== a.dialDefaults[d.id].level).length;
+  const restNote = an.pending ? '' : Math.abs(restSum) < 0.05e6 ? 'No change between them' : `${money(restSum, { plus: true })} between them`;
+  return `<section class="panel" aria-labelledby="risks-title">
+    <div class="panel-head"><h2 id="risks-title">What could go wrong</h2><p>Slide a risk between low and high to see what it costs.</p></div>
+    <ol class="rk-list">${rows.slice(0, 3).join('')}</ol>
+    <details class="fold" data-open-id="${moreKey}" ${state.open.has(moreKey) ? 'open' : ''}>
+      <summary><span class="sum-t">The other six risks</span><span class="sum-note">${restNote}</span></summary>
+      <ol class="rk-list">${rows.slice(3).join('')}</ol>
+    </details>
+    <div class="rk-foot"><span>${an.pending ? 'No NPV yet, so the risks show their levels and evidence only.' : `Each amount is measured in a fixed order, resource first and political last, so the nine add up to ${money(an.risk.npvAttr - an.base.npvAttr, { plus: true })}.`}</span>
+      ${changed ? `<button type="button" class="link-btn" data-reset-all>Reset all to defaults (${changed})</button>` : ''}</div>
+  </section>`;
+}
+
+function keyNumbersHTML(a, an) {
+  const deck = curDeck(); const rows = [];
+  const row = (trace, k, v, s) => `<button type="button" class="kn" data-trace="${trace}"><span class="k">${k}</span><span class="v">${v}</span><span class="s">${s}</span></button>`;
+  if (a.stage === 'deposit' && a.derived) {
+    const D = a.derived;
+    rows.push(row('deposit', 'Capex', `US$${num1(D.capexM, 0)}M`, `First production ${D.firstProd}; NPV ÷ capex ${num1(an.base.npvAttr / (D.capexM * 1e6), 2)}× before risks`));
+    rows.push(row('deposit', 'Project IRR', `${irrText(an.base.irr)} → ${irrText(an.risk.irr)}`, 'Before and after risks'));
+    rows.push(row('deposit', 'Payback', `${an.base.payback || 'Not within the plan'}`, 'The year cumulative cash turns positive, before risks'));
+  } else {
+    rows.push(row('prod', 'Year-1 output and AISC', `${koz(an.base.prod1)} · ${perOz(an.base.aisc1)}`, `${cap1(UN().product)}, 100% basis, before risks`));
+    rows.push(row('life', 'Mine life in the plan', `${yrs(an.base.life)} → ${yrs(an.risk.life)}`, 'Before and after risks'));
+    if (a.transaction && an.base.tx) rows.push(row('tx', 'Transaction IRR', `${irrText(an.base.tx.irr)} → ${irrText(an.risk.tx.irr)}`, 'On the price paid, before and after risks'));
+  }
+  rows.push(row('breakeven', 'Breakeven price', `${perOz(an.beBase)} → ${perOz(an.beRisk)}`, `Flat ${UN().priceName} where the value hits zero, before and after risks. The ${esc(deck.label)} deck is ${perOz(deckPrice(deck, MODEL.firstYear))} in ${MODEL.firstYear}.`));
+  return `<section class="panel" aria-labelledby="key-title"><div class="panel-head"><h2 id="key-title">Key numbers</h2><p>Tap one for its formula and sources.</p></div><div class="keynums">${rows.join('')}</div></section>`;
+}
+
+const asH3 = (html) => html.replace(/<h2 /g, '<h3 ').replace(/<\/h2>/g, '</h3>');
+
+function resultAdvancedHTML(a, an) {
+  const key = 'adv-result'; const plan = planOptions(a);
+  return `<details class="fold panel-fold" data-open-id="${key}" ${state.open.has(key) ? 'open' : ''}>
+    <summary><span class="sum-t">Advanced</span><span class="sum-note">Charts, cash flow and every number</span></summary>
+    <div class="fold-body adv">
+      <section class="adv-sec" aria-labelledby="adv-num-title"><h3 id="adv-num-title">Every number</h3><div class="metrics">${allMetrics(a, an)}</div></section>
+      <section class="adv-sec" aria-labelledby="bridge-title"><h3 id="bridge-title">What each risk takes away</h3>
+        <p class="small muted">Risks applied in order, discount rate last. Bars add up to the change. Tap a bar to open that risk.</p>
+        <div class="chart" id="bridge-chart" data-chart="bridge"></div></section>
+      <section class="adv-sec">${asH3(ladderPanel(a, an))}</section>
+      <section class="adv-sec" aria-labelledby="tornado-title"><h3 id="tornado-title">What moves value most</h3>
+        <p class="small muted">One input at a time from the base case, owner’s NPV, all risks off.</p>
+        <div class="chart" id="tornado-chart"></div>
+        <p class="small muted">Same levers as the Tongon spreadsheet’s Sensitivity Engine, checked against it to the dollar. Site cost: +10% on the left, −10% on the right. Mine life: drop the last production year, or add one extension year where the plan allows. Unlike the dials, these are what-ifs, not expected values.</p></section>
+      <section class="adv-sec" aria-labelledby="cf-title"><div class="panel-head"><h3 id="cf-title">Annual cash flow</h3>
+        <fieldset class="seg" aria-label="Which case to show">
+          <input type="radio" name="tablemode" id="tm-risk" value="risk" data-role="tablemode" ${state.tableMode === 'risk' ? 'checked' : ''}><label for="tm-risk">After risks</label>
+          <input type="radio" name="tablemode" id="tm-base" value="base" data-role="tablemode" ${state.tableMode === 'base' ? 'checked' : ''}><label for="tm-base">Before risks</label>
+        </fieldset></div>
+        ${cashTable(a, state.tableMode === 'risk' ? an.risk : an.base)}</section>
+      ${plan ? `<section class="adv-sec">${asH3(plan)}</section>` : ''}
+      ${a.events && a.events.length ? `<section class="adv-sec">${asH3(eventsPanel(a))}</section>` : ''}
+    </div>
+  </details>`;
+}
+
+function renderResult() {
+  const a = currentAsset(); const an = ANALYSIS[a.id]; UCTX = commodityOf(a);
+  const isEx = a.id.startsWith('ex-');
+  const viewing = a.id === 'custom' ? '' : `<div class="viewing"><span>Showing ${isEx ? 'a published study' : 'a reference gold mine'}: <b>${esc(a.name)}</b></span>
+      <span class="btn-row">${isEx ? `<button type="button" class="btn" data-load-ex="${a.id}">Load into the steps</button>` : ''}<button type="button" class="btn" data-pick="custom">Back to my deposit</button></span></div>`;
+  const head = `<div class="screen-head">
+      <p class="eyebrow">${UCTX === 'gold' ? 'Gold' : 'Lithium (spodumene)'} · ${a.stage === 'operating' ? 'operating mine' : 'undeveloped deposit'}</p>
+      <h1 id="result-title">${esc(a.name)}</h1>
+      <p class="meta">${esc(a.country)} · ${esc(a.method.toLowerCase())} · NPV basis ${esc(a.ownerLabel)}</p>
+    </div>`;
+  if (an.pending) { $('#screen-result').innerHTML = viewing + head + renderPendingValue(a) + risksSectionHTML(a, an); return; }
+  $('#screen-result').innerHTML = viewing + head + verdictHTML(a, an) + risksSectionHTML(a, an) + keyNumbersHTML(a, an) + resultAdvancedHTML(a, an);
   drawCharts();
 }
+
 
 // Present value of the price paid: upfront at close plus contingent payments, at the given rate.
 function pricePaid(asset, rate) {
@@ -2266,56 +2505,6 @@ function cashTable(a, r) {
       ${row(`Discount factor at ${pct(r.rate, 2)}`, (y) => y.df.toFixed(4))}
       ${row('PV of owner’s free cash flow', flow('pvAttr'), 'strong', mnum(r.npvAttr))}
     </tbody></table></div>`;
-}
-
-/* ---------- Dials ---------- */
-function renderDials() {
-  const a = currentAsset(); const an = ANALYSIS[a.id]; const lv = state.levels[a.id]; UCTX = commodityOf(a);
-  const changed = DIALS.filter((d) => lv[d.id] !== a.dialDefaults[d.id].level).length;
-  const summary = an.pending
-    ? `<div class="vals"><span>${esc(a.name)}</span><b>Data pending</b><span class="muted small">Dials show defaults and evidence; no NPV yet.</span></div>`
-    : `<div class="vals"><span>${esc(a.name)}</span><span class="muted small">Base</span><b>${money(an.base.npvAttr)}</b><span aria-hidden="true">→</span><span class="muted small">Risk-adjusted</span><b>${money(an.risk.npvAttr)}</b><span class="${an.risk.npvAttr < an.base.npvAttr ? 'neg' : 'pos'} small"><b>${money(an.risk.npvAttr - an.base.npvAttr, { plus: true })}</b> (${pct(pctChange(an.base.npvAttr, an.risk.npvAttr), 0, true)})</span></div>`;
-  const plan = planOptions(a);
-  const cards = DIALS.map((d) => {
-    const def = a.dialDefaults[d.id]; const cur = lv[d.id];
-    const applies = !(d.depositsOnly && a.stage !== 'deposit');
-    const b = an.pending ? null : an.bridge.find((x) => x.dial.id === d.id);
-    const ev = (a.evidence || []).filter((e) => e.dial === d.id);
-    const srcs = (def.sources || []).map((k) => S[k]).filter(Boolean);
-    const openId = `ev-${a.id}-${d.id}`;
-    const radios = LEVELS.map((L) => `
-      <input type="radio" name="lv-${d.id}" id="lv-${d.id}-${L}" value="${L}" data-role="level" data-dial="${d.id}" ${cur === L ? 'checked' : ''} ${applies ? '' : 'disabled'}>
-      <label for="lv-${d.id}-${L}">${LEVEL_NAME[L]}${def.level === L ? '<span class="def">default</span>' : ''}</label>`).join('');
-    const impact = !applies ? '<span class="muted">n/a</span>' : b ? `<span class="${b.delta < -0.05e6 ? 'neg' : 'muted'}">${Math.abs(b.delta) < 0.05e6 ? 'US$0.0M' : money(b.delta, { plus: true })}</span><small>this dial, in order</small>` : '<small>no NPV yet</small>';
-    return `<article class="dial ${cur !== def.level ? 'changed' : ''}" id="dial-${d.id}" aria-labelledby="dq-${d.id}">
-      <div class="dial-top">
-        <div><p class="eyebrow">${esc(d.name)}</p><h3 id="dq-${d.id}">${esc(d.question)}</h3></div>
-        <div class="dial-impact num">${impact}</div>
-      </div>
-      <fieldset class="seg"><legend class="sr-only">${esc(d.name)} level</legend>${radios}</fieldset>
-      ${applies ? `<p class="effect"><b>${LEVEL_NAME[cur]}:</b> ${esc(d.levels[cur].text)}.</p>` : '<p class="na">Applies to undeveloped deposits only. This is an operating mine, so the dial has no effect.</p>'}
-      <p class="reason"><b>Why ${LEVEL_NAME[def.level]} by default:</b> ${esc(def.reason)}${cur !== def.level ? ` <button type="button" class="link-btn" data-reset-dial="${d.id}">Back to ${LEVEL_NAME[def.level]}</button>` : ''}</p>
-      <details class="more" data-open-id="${openId}" ${state.open.has(openId) ? 'open' : ''}>
-        <summary>Evidence and sources (${ev.length + srcs.length})</summary>
-        ${ev.length ? `<ul class="ev-list">${ev.map(evidenceItem).join('')}</ul>` : ''}
-        <p class="small" style="margin-top:8px"><b>Sources for the default:</b> ${srcs.map(srcLink).join('; ') || '—'}</p>
-        <p class="small" style="margin-top:10px"><b>How this risk destroys value:</b> ${esc(DIAL_MECHANISMS[d.id].why)}</p>
-        <p class="small" style="margin-top:6px"><b>What typically retires it:</b> ${esc(DIAL_MECHANISMS[d.id].retire)} <span class="muted">(${esc(S.RPFRAME.source)})</span></p>
-        <p class="small muted" style="margin-top:6px"><b>Diligence question:</b> ${esc(def.question)}</p>
-        <p class="small muted" style="margin-top:6px"><b>Covers:</b> ${esc(d.covers)}. <b>Moves:</b> ${esc(d.line)} (${esc(d.method.toLowerCase())}). <b>Evidence that sets it:</b> ${esc(d.basis)}.</p>
-      </details>
-    </article>`;
-  }).join('');
-  $('#screen-dials').innerHTML = `
-    <div class="screen-head">
-      <p class="eyebrow">Dials</p>
-      <h1 id="dials-title">What could take the value away?</h1>
-      <p>Nine plain questions. Each starts at a level set from evidence, with its reason. Change any of them and every screen updates.</p>
-    </div>
-    <div class="dial-summary" aria-live="polite">${summary}</div>
-    <div class="btn-row"><button type="button" class="btn" data-reset-all ${changed ? '' : 'disabled'}>Reset to defaults${changed ? ` (${changed})` : ''}</button><button type="button" class="btn" data-open="how">How the dials work</button></div>
-    ${plan}
-    <div class="dial-grid">${cards}</div>`;
 }
 
 function evidenceItem(e) {
@@ -2462,44 +2651,52 @@ function renderCompare() {
   const dialTable = `<div class="table-wrap"><table class="cmp"><thead><tr><th scope="col">Risk cost ${UN().perUnit}, by dial</th>${cols.map((a) => `<th scope="col">${esc(a.name)}</th>`).join('')}</tr></thead>
     <tbody>${DIALS.map((d) => `<tr><th scope="row">${esc(d.name)}</th>${cols.map((a) => { const an = ANALYSIS[a.id]; if (an.pending) return `<td class="n muted">${LEVEL_NAME[state.levels[a.id][d.id]]}</td>`; const v = dialCostPerOz(an)[d.id]; const b = an.bridge.find((x) => x.dial.id === d.id); return `<td class="n">${b.applies ? perOz(v) : 'n/a'} <span class="muted small">${LEVEL_SHORT[b.level]}</span></td>`; }).join('')}</tr>`).join('')}
     <tr class="strong sep"><th scope="row">Total risk cost ${UN().perUnit}</th>${cols.map((a) => { const an = ANALYSIS[a.id]; return an.pending ? '<td class="n muted">pending</td>' : `<td class="n">${perOz(an.riskCostPerOz)}</td>`; }).join('')}</tr></tbody></table></div>`;
+  const sorted = items.slice().sort((x, y) => x.total - y.total);
+  const cmax = Math.max(1, ...sorted.map((it) => it.total));
+  const bars = sorted.map((it) => `<div class="cbar ${it.a.id === state.assetId ? 'me' : ''}"><div class="cbar-top"><span>${esc(it.a.name)}</span><b>${perOz(it.total)}</b></div>
+    <div class="cbar-stack" role="img" aria-label="${esc(it.a.name)}: AISC ${perOz(it.aisc)} plus risk cost ${perOz(it.risk)}"><span class="a" style="width:${(it.aisc / cmax * 100).toFixed(1)}%"></span><span class="r" style="width:${(it.risk / cmax * 100).toFixed(1)}%"></span></div></div>`).join('');
+  const advKey = 'adv-compare';
   $('#screen-compare').innerHTML = `
     <div class="screen-head">
       <p class="eyebrow">Compare</p>
-      <h1 id="compare-title">Same metal, different countries</h1>
-      <p>Each bar is a mine or deposit: width is first-year output, height is all-in sustaining cost plus the risk cost ${UN().perUnit} from its dials. Geopolitics shows up as extra height.</p>
+      <h1 id="compare-title">Cost per ${UCTX === 'gold' ? 'ounce' : 'tonne'} after risks</h1>
+      <p>All-in sustaining cost in the first year, plus the risk cost from each asset’s dials. Lower is better. ${esc(deck.label)} deck, ${pct(curRate(), 1)} real.</p>
     </div>
-    <section class="panel" aria-labelledby="curve-title">
-      <div class="panel-head"><h2 id="curve-title">Risk-adjusted cost curve</h2><p>${esc(deck.label)} deck · ${pct(curRate(), 1)} real · each asset at its own dial settings</p></div>
-      <div class="legend"><span><i class="sw sw-aisc"></i>AISC, year 1</span><span><i class="sw sw-risk"></i>Risk cost ${UN().perUnit}</span><span><i class="sw sw-gold"></i>${cap1(UN().priceName)}, ${MODEL.firstYear}</span></div>
-      <div class="chart" id="curve-chart" data-chart="curve"></div>
+    <section class="panel" aria-labelledby="cbars-title">
+      <div class="panel-head"><h2 id="cbars-title">${UCTX === 'gold' ? 'Gold mines' : 'Spodumene deposits'}</h2><p>${cap1(UN().priceName)} ${perOz(gold)} in ${MODEL.firstYear}</p></div>
+      <div class="legend"><span><i class="sw sw-aisc"></i>AISC, first year</span><span><i class="sw sw-risk"></i>Risk cost ${UN().perUnit}</span></div>
+      <div class="cbars">${bars}</div>
       <p class="explain">${esc(curveExplainer(items))}</p>
-      ${pend.length ? `<p class="small muted" style="margin-top:8px">${pend.map((a) => esc(a.name)).join(', ')}: data pending, so not on the curve yet.</p>` : ''}
+      ${pend.length ? `<p class="small muted" style="margin-top:8px">${pend.map((a) => esc(a.name)).join(', ')}: data pending, so not shown yet.</p>` : ''}
     </section>
-    <section class="panel" aria-labelledby="cmp-title"><div class="panel-head"><h2 id="cmp-title">Side by side</h2><p>Owner’s share of NPV; output and costs at 100%.</p></div>${table}</section>
-    <section class="panel" aria-labelledby="dcmp-title"><div class="panel-head"><h2 id="dcmp-title">Where the risk cost comes from</h2><p>Each dial’s bridge bar ÷ owner’s life-of-mine ${UCTX === 'gold' ? 'ounces' : 'tonnes of concentrate'}. Risks stay separate; there is no blended score.</p></div>${dialTable}</section>`;
+    <details class="fold panel-fold" data-open-id="${advKey}" ${state.open.has(advKey) ? 'open' : ''}>
+      <summary><span class="sum-t">Advanced</span><span class="sum-note">Cost curve, side-by-side numbers, risk cost by dial</span></summary>
+      <div class="fold-body adv">
+        <section class="adv-sec" aria-labelledby="curve-title"><h3 id="curve-title">Risk-adjusted cost curve</h3>
+          <p class="small muted">Bar width is first-year output; height is AISC plus the risk cost. Each asset at its own dial settings.</p>
+          <div class="legend"><span><i class="sw sw-aisc"></i>AISC, year 1</span><span><i class="sw sw-risk"></i>Risk cost ${UN().perUnit}</span><span><i class="sw sw-gold"></i>${cap1(UN().priceName)}, ${MODEL.firstYear}</span></div>
+          <div class="chart" id="curve-chart" data-chart="curve"></div></section>
+        <section class="adv-sec" aria-labelledby="cmp-title"><h3 id="cmp-title">Side by side</h3><p class="small muted">Owner’s share of NPV; output and costs at 100%.</p>${table}</section>
+        <section class="adv-sec" aria-labelledby="dcmp-title"><h3 id="dcmp-title">Where the risk cost comes from</h3><p class="small muted">Each risk’s bridge bar ÷ owner’s life-of-mine ${UCTX === 'gold' ? 'ounces' : 'tonnes of concentrate'}. Risks stay separate; there is no blended score.</p>${dialTable}</section>
+      </div>
+    </details>`;
   drawCharts();
 }
 
-/* ---------- Charts sized to their container ---------- */
+
+/* ---------- Charts sized to their container, drawn only when visible ---------- */
+const shownEl = (el) => !!el && el.getClientRects().length > 0;
 function drawCharts() {
-  const bc = document.getElementById('bridge-chart');
-  UCTX = commodityOf(currentAsset());
-  if (bc && !bc.closest('[hidden]')) {
-    const a = currentAsset(); const an = ANALYSIS[a.id];
-    if (!an.pending) {
-      bc.innerHTML = bridgeSVG(a, an, bc.clientWidth || 640);
-      const lc = document.getElementById('ladder-chart');
-      if (lc) lc.innerHTML = ladderSVG(a, valueLadder(a, an), lc.clientWidth || 640);
-      const tc = document.getElementById('tornado-chart');
-      if (tc) tc.innerHTML = tornadoSVG(tornadoCases(a), tc.clientWidth || 640);
-    }
+  const a = currentAsset(); const an = ANALYSIS[a.id]; UCTX = commodityOf(a);
+  if (!an.pending) {
+    const bc = document.getElementById('bridge-chart'); if (shownEl(bc)) bc.innerHTML = bridgeSVG(a, an, bc.clientWidth || 640);
+    const lc = document.getElementById('ladder-chart'); if (shownEl(lc)) lc.innerHTML = ladderSVG(a, valueLadder(a, an), lc.clientWidth || 640);
+    const tc = document.getElementById('tornado-chart'); if (shownEl(tc)) tc.innerHTML = tornadoSVG(tornadoCases(a), tc.clientWidth || 640);
   }
   const cc = document.getElementById('curve-chart');
-  if (cc && !cc.closest('[hidden]')) {
-    const items = curveItems();
-    cc.innerHTML = curveSVG(items, cc.clientWidth || 640, deckPrice(curDeck(), MODEL.firstYear)) + '<div class="tip" id="cc-tip" hidden></div>';
-  }
+  if (shownEl(cc)) cc.innerHTML = curveSVG(curveItems(), cc.clientWidth || 640, deckPrice(curDeck(), MODEL.firstYear)) + '<div class="tip" id="cc-tip" hidden></div>';
 }
+
 
 /* ---------- Sheets: traces, how-it-works, assumptions, checks ---------- */
 function openSheet(title, html) {
@@ -2598,7 +2795,8 @@ function traceHTML(kind) {
 
 function howHTML() {
   const rows = DIALS.map((d) => `<tr><th scope="row" class="wrap-cell"><b>${esc(d.name)}</b><br><span class="muted">${esc(d.question)}</span></th>${LEVELS.map((L) => `<td class="wrap-cell">${esc(d.levels[L].text)}</td>`).join('')}<td class="wrap-cell">${esc(d.line)}<br><span class="muted">${esc(d.method)}</span></td></tr>`).join('');
-  return `<p>Every risk changes the DCF in one of four ways: a range on an input, a delay, an event (yearly probability × impact), or a country premium on the discount rate. Each risk is counted once.</p>
+  return `<p>Each risk on the Result tab has a slider with three stops: left is Low, the middle is Medium and right is High. Arrow keys move it one stop at a time.</p>
+    <p>Every risk changes the DCF in one of four ways: a range on an input, a delay, an event (yearly probability × impact), or a country premium on the discount rate. Each risk is counted once.</p>
     <div class="table-wrap"><table><thead><tr><th scope="col">Dial</th><th scope="col" class="wrap-cell">Low</th><th scope="col" class="wrap-cell">Medium</th><th scope="col" class="wrap-cell">High</th><th scope="col" class="wrap-cell">DCF line it moves</th></tr></thead><tbody>${rows}</tbody></table></div>
     <h3>Rules the model follows</h3>
     <ul>
@@ -2759,15 +2957,15 @@ function runChecks() {
   }
   add('No NaN and no negative production', bad.length === 0, `${runs} model runs${bad.length ? '; ' + bad.slice(0, 3).join('; ') : ''}`);
   // Live update across every screen
-  const a = ASSETS.find((x) => x.id === state.assetId && x.dataStatus !== 'pending') || T;
+  const a = assetById('custom');   // your deposit appears on all three screens
   const saveAsset = state.assetId; state.assetId = a.id;
-  const snap = () => ['pick', 'value', 'dials', 'compare'].map((s) => $(`#screen-${s}`).textContent);
+  const snap = () => SCREENS.map((s) => $(`#screen-${s}`).textContent);
   renderAll(true); const before = snap();
   const old = state.levels[a.id].recovery; state.levels[a.id].recovery = old === 'H' ? 'L' : 'H';
   renderAll(true); const after = snap();
   state.levels[a.id].recovery = old; state.assetId = saveAsset; renderAll(true);
-  const changedScreens = ['Pick', 'Value', 'Dials', 'Compare'].filter((_, i) => before[i] !== after[i]);
-  add('A dial change updates every screen', changedScreens.length === 4, `Changed: ${changedScreens.join(', ') || 'none'} (Recovery dial on ${a.name})`);
+  const changedScreens = ['Deposit', 'Result', 'Compare'].filter((_, i) => before[i] !== after[i]);
+  add('A dial change updates every screen', changedScreens.length === 3, `Changed: ${changedScreens.join(', ') || 'none'} (Recovery dial on ${a.name})`);
   const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
   add('No horizontal page scroll at this width', overflow <= 1, `viewport ${window.innerWidth}px, overflow ${overflow}px.${window.innerWidth > 420 ? ' Narrow the window to 375px to test the phone layout.' : ''}`);
   return out;
@@ -2789,75 +2987,102 @@ function checksHTML() {
 function renderAll(silent) {
   const active = document.activeElement && document.activeElement.id ? document.activeElement.id : null;
   recompute();
-  renderControls(); renderTabs(); renderPick(); renderValue(); renderDials(); renderCompare();
-  const th = $('#topbar').offsetHeight; document.documentElement.style.setProperty('--topbar-h', (window.innerWidth >= 900 ? th + 8 : th + 8) + 'px');
+  renderControls(); renderTabs(); renderDeposit(); renderResult(); renderCompare();
+  const th = $('#topbar').offsetHeight; document.documentElement.style.setProperty('--topbar-h', (th + 8) + 'px');
   if (active && !silent) { const el = document.getElementById(active); if (el) el.focus({ preventScroll: true }); }
 }
 
 function go(screen, opts = {}) {
-  if (location.hash !== '#' + screen) { history.replaceState(null, '', '#' + screen); }
+  screen = SCREEN_ALIAS[screen] || screen; if (!SCREENS.includes(screen)) screen = 'deposit';
+  if (screen === 'deposit' && state.assetId !== 'custom') { state.assetId = 'custom'; renderAll(true); }   // the Deposit tab always edits your deposit
+  if (screen === 'result' && state.screen !== 'result' && state.riskOrder) { state.riskOrder = null; renderResult(); }
+  if (location.hash !== '#' + screen) history.replaceState(null, '', '#' + screen);
   state.screen = screen; renderTabs(); drawCharts();
   if (!opts.keepScroll) window.scrollTo(0, 0);
-  if (opts.dial) {
-    const card = document.getElementById('dial-' + opts.dial);
-    if (card) {
-      card.scrollIntoView({ block: 'center' });
-      card.classList.add('flash'); setTimeout(() => card.classList.remove('flash'), 1200);
-      const r = card.querySelector('input:checked') || card.querySelector('input');
-      if (r) r.focus({ preventScroll: true });
-    }
-  }
 }
 
-document.addEventListener('change', (e) => {
-  const t = e.target; const role = t.dataset && t.dataset.role;
-  if (!role) return;
-  if (role === 'deck') { state.deckBy[commodityOf(currentAsset())] = t.value; renderAll(); }
-  else if (role === 'level') { state.levels[state.assetId][t.dataset.dial] = t.value; renderAll(); }
-  else if (role === 'tablemode') { state.tableMode = t.value; renderAll(); }
-  else if (role === 'ext-fixed') { state.ext[state.assetId] = t.checked ? 1 : 0; renderAll(); }
+// Open one risk on the Result tab: unfold it if it sits among the other six, show its details and focus its slider.
+function focusDial(id) {
+  const a = currentAsset();
+  state.open.add(`more-risks-${a.id}`); state.open.add(`why-${a.id}-${id}`);
+  renderAll(true); go('result', { keepScroll: true });
+  const row = document.getElementById('rk-' + id);
+  if (!row) return;
+  row.scrollIntoView({ block: 'center' });
+  row.classList.add('flash'); setTimeout(() => row.classList.remove('flash'), 1200);
+  const s = row.querySelector('input.lvl'); if (s) s.focus({ preventScroll: true });
+}
+
+function setMenu(open) {
+  const m = $('#menu'); const b = $('#menu-btn'); if (!m || !b) return;
+  m.hidden = !open; b.setAttribute('aria-expanded', String(open));
+}
+
+// Sliders: the label follows the thumb while it moves; the model reruns when it settles.
+document.addEventListener('input', (e) => {
+  const t = e.target; if (!t.dataset || t.dataset.role !== 'level-slider') return;
+  const L = LEVELS[Number(t.value)];
+  t.setAttribute('aria-valuetext', LEVEL_NAME[L]); t.classList.remove('L', 'M', 'H'); t.classList.add(L);
+  const sc = t.parentElement.querySelector('.lvl-scale');
+  if (sc) [...sc.children].forEach((sp, i) => { sp.className = LEVELS[i] === L ? `on ${L}` : ''; });
 });
 document.addEventListener('change', (e) => {
-  const t = e.target;
-  if (t.dataset && t.dataset.dep) { onDepInput(t); return; }
-  if (t.dataset && t.dataset.depDeck) { state.deckBy.spodumene = t.value; renderAll(); return; }
-  if (t.dataset && t.dataset.depRate) { const v = Number(t.value); if (isFinite(v)) { state.rateBy.spodumene = Math.max(0, Math.min(0.2, v / 100)); renderAll(); } }
+  const t = e.target; const ds = t.dataset || {}; const role = ds.role;
+  if (role === 'level-slider') { state.levels[state.assetId][ds.dial] = LEVELS[Number(t.value)]; renderAll(); return; }
+  if (role === 'deck') { state.deckBy[commodityOf(currentAsset())] = t.value; state.riskOrder = null; renderAll(); return; }
+  if (role === 'tablemode') { state.tableMode = t.value; renderAll(); return; }
+  if (role === 'ext-fixed') { state.ext[state.assetId] = t.checked ? 1 : 0; state.riskOrder = null; renderAll(); return; }
+  if (ds.dep) { state.riskOrder = null; onDepInput(t); return; }
+  if (ds.depDeck) { state.deckBy.spodumene = t.value; state.riskOrder = null; renderAll(); return; }
+  if (ds.depRate) { const v = Number(t.value); if (isFinite(v)) { state.rateBy.spodumene = Math.max(0, Math.min(0.2, v / 100)); state.riskOrder = null; renderAll(); } }
 });
 
 document.addEventListener('toggle', (e) => {
   const d = e.target; if (!d.dataset || !d.dataset.openId) return;
   if (d.open) state.open.add(d.dataset.openId); else state.open.delete(d.dataset.openId);
+  if (d.open && d.querySelector('.chart')) drawCharts();
 }, true);
 
 document.addEventListener('click', (e) => {
   const el = e.target.closest('button, a, [data-goto-dial]');
+  const menu = $('#menu');
+  if (menu && !menu.hidden && !(el && (el.id === 'menu-btn' || el.closest('#menu')))) setMenu(false);   // a click anywhere else closes the menu
   if (!el) return;
+  if (el.id === 'menu-btn') { setMenu(menu.hidden); return; }
+  if (el.closest('#menu')) setMenu(false);
   if (el.matches('.tabs a')) { e.preventDefault(); go(el.dataset.screen); return; }
-  if (el.dataset.pick) { state.assetId = el.dataset.pick; renderAll(true); go('value'); return; }
-  if (el.dataset.step != null && el.closest('#screen-pick')) { state.step = Number(el.dataset.step); renderAll(true); const st = document.getElementById('step-title'); if (st) st.scrollIntoView({ block: 'start' }); return; }
-  if (el.dataset.loadEx) { const ex = LI_EXAMPLES.find((x) => x.id === el.dataset.loadEx); state.dep = { ...JSON.parse(JSON.stringify(ex.d)), name: `${ex.d.name.split(':')[0]} (from the study; edit freely)`, deckOverride: null }; state.assetId = 'custom'; rebuildCustom(); state.step = 0; renderAll(true); window.scrollTo(0, 0); return; }
-  if (el.dataset.depTyp) { setPath(state.dep, el.dataset.depTyp, null); rebuildCustom(); renderAll(); return; }
+  if (el.dataset.goto) { go(el.dataset.goto); return; }
+  if (el.dataset.pick) { state.assetId = el.dataset.pick; state.riskOrder = null; renderAll(true); go('result'); return; }
+  if (el.dataset.step != null && el.closest('#screen-deposit')) { state.step = Number(el.dataset.step); renderAll(true); const st = document.getElementById('step-title'); if (st) st.closest('section').scrollIntoView({ block: 'start' }); return; }
+  if (el.dataset.loadEx) { const ex = LI_EXAMPLES.find((x) => x.id === el.dataset.loadEx); state.dep = { ...JSON.parse(JSON.stringify(ex.d)), name: `${ex.d.name.split(':')[0]} (from the study; edit freely)`, deckOverride: null }; state.assetId = 'custom'; rebuildCustom(); state.step = 0; state.riskOrder = null; renderAll(true); go('deposit'); return; }
+  if (el.dataset.depTyp) { setPath(state.dep, el.dataset.depTyp, null); rebuildCustom(); state.riskOrder = null; renderAll(); return; }
   if (el.dataset.depSrc) { evidenceSheet(el.dataset.depSrc); return; }
-  if (el.dataset.depReset) { state.dep = { ...JSON.parse(JSON.stringify(LI_EXAMPLES[0].d)), name: 'My deposit (starts from the Manna DFS)', deckOverride: null }; rebuildCustom(); state.step = 0; renderAll(true); return; }
-  if (el.dataset.gotoDial) { go('dials', { dial: el.dataset.gotoDial }); return; }
+  if (el.dataset.depReset) { state.dep = { ...JSON.parse(JSON.stringify(LI_EXAMPLES[0].d)), name: 'My deposit (starts from the Manna DFS)', deckOverride: null }; state.assetId = 'custom'; rebuildCustom(); state.step = 0; state.riskOrder = null; renderAll(true); go('deposit'); return; }
+  if (el.dataset.gotoDial) { focusDial(el.dataset.gotoDial); return; }
+  if (el.dataset.why) {
+    const k = el.dataset.why; const box = document.getElementById(k); const open = !state.open.has(k);
+    if (open) state.open.add(k); else state.open.delete(k);
+    if (box) box.hidden = !open; el.setAttribute('aria-expanded', String(open)); el.textContent = open ? 'Hide details' : 'Details'; return;
+  }
   if (el.dataset.trace) { const [title, html] = traceHTML(el.dataset.trace); openSheet(title, html); return; }
   if (el.dataset.open === 'how') { openSheet('How the dials work', howHTML()); return; }
   if (el.dataset.open === 'assumptions') { openSheet('Assumptions list', assumptionsHTML()); return; }
-  if (el.dataset.open === 'checks') { const html = checksHTML(); openSheet('Checks', html); return; }
+  if (el.dataset.open === 'checks') { openSheet('Checks', checksHTML()); return; }
   if (el.dataset.resetDial) { const a = currentAsset(); state.levels[a.id][el.dataset.resetDial] = a.dialDefaults[el.dataset.resetDial].level; renderAll(); return; }
   if (el.hasAttribute('data-reset-all')) { const a = currentAsset(); for (const d of DIALS) state.levels[a.id][d.id] = a.dialDefaults[d.id].level; renderAll(); return; }
-  if (el.dataset.extStep) { const a = currentAsset(); const max = a.schedule.extension.maxYears; state.ext[a.id] = Math.max(0, Math.min(max, state.ext[a.id] + Number(el.dataset.extStep))); renderAll(); return; }
+  if (el.dataset.extStep) { const a = currentAsset(); const max = a.schedule.extension.maxYears; state.ext[a.id] = Math.max(0, Math.min(max, state.ext[a.id] + Number(el.dataset.extStep))); state.riskOrder = null; renderAll(); return; }
   if (el.id === 'rate-down' || el.id === 'rate-up') {
     const step = el.id === 'rate-up' ? MODEL.rateStep : -MODEL.rateStep;
-    const cm = commodityOf(currentAsset()); state.rateBy[cm] = Math.round(Math.max(MODEL.rateMin, Math.min(MODEL.rateMax, state.rateBy[cm] + step)) * 1000) / 1000; renderAll(); return;
+    const cm = commodityOf(currentAsset()); state.rateBy[cm] = Math.round(Math.max(MODEL.rateMin, Math.min(MODEL.rateMax, state.rateBy[cm] + step)) * 1000) / 1000; state.riskOrder = null; renderAll(); return;
   }
   if (el.id === 'sheet-close') { closeSheet(); return; }
-  if (el.matches('a[href^="#"]')) { const s = el.getAttribute('href').slice(1); if (['pick', 'value', 'dials', 'compare'].includes(s)) { e.preventDefault(); go(s); } }
+  if (el.matches('a[href^="#"]')) { const s = el.getAttribute('href').slice(1); const t = SCREEN_ALIAS[s] || s; if (SCREENS.includes(t)) { e.preventDefault(); go(t); } }
 });
 
 document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { const m = $('#menu'); if (m && !m.hidden) { setMenu(false); $('#menu-btn').focus(); return; } }
   const row = e.target.closest && e.target.closest('[data-goto-dial]');
-  if (row && row.tagName !== 'BUTTON' && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); go('dials', { dial: row.dataset.gotoDial }); }
+  if (row && row.tagName !== 'BUTTON' && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); focusDial(row.dataset.gotoDial); }
 });
 
 // Cost-curve tooltip (hover, focus or tap).
@@ -2878,14 +3103,14 @@ document.addEventListener('focusin', (e) => { const g = e.target.closest && e.ta
 document.addEventListener('focusout', (e) => { if (e.target.closest && e.target.closest('.cc-bar')) hideTip(); });
 document.addEventListener('pointerdown', (e) => { const g = e.target.closest && e.target.closest('.cc-bar'); if (g && e.pointerType !== 'mouse') showTip(g, e); });
 
-window.addEventListener('hashchange', () => { const s = location.hash.slice(1); if (['pick', 'value', 'dials', 'compare'].includes(s)) go(s); });
+window.addEventListener('hashchange', () => { const s = location.hash.slice(1); const t = SCREEN_ALIAS[s] || s; if (SCREENS.includes(t)) go(t); });
 let resizeTimer = null;
 window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { drawCharts(); const th = $('#topbar').offsetHeight; document.documentElement.style.setProperty('--topbar-h', (th + 8) + 'px'); }, 120); });
 $('#sheet').addEventListener('click', (e) => { if (e.target === $('#sheet')) closeSheet(); });
 
 (function start() {
-  const s = location.hash.slice(1);
-  state.screen = ['pick', 'value', 'dials', 'compare'].includes(s) ? s : 'pick';
+  const s = location.hash.slice(1); const t = SCREEN_ALIAS[s] || s;
+  state.screen = SCREENS.includes(t) ? t : 'deposit';
   initDeposits();
   renderAll(true);
   drawCharts();
