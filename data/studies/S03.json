@@ -1,0 +1,148 @@
+{
+  "id": "S03",
+  "project": "Bougouni Lithium Project",
+  "company": "Kodal Minerals plc (AIM: KOD), through Mali subsidiary Future Minerals SARL",
+  "country": "Mali",
+  "location": "Southern Mali, near Bougouni town (shown on the site layout map, p6). Resources at the Sogola-Baoule, Ngoualana and Boumou prospects in a 450 km2 project area (p1, p5, p10).",
+  "stage": "FS",
+  "study_date": "2020-01-27",
+  "currency": "US$",
+  "fx_assumption": null,
+  "real_or_nominal": "Not stated. Revenue uses a price escalating 2% a year from US$680/t (p4); the capex estimate excludes escalation (p4).",
+  "ownership": [
+    {
+      "holder": "Kodal Minerals plc, through Mali subsidiary Future Minerals SARL (p2)",
+      "share": null
+    }
+  ],
+  "deposit": {
+    "resource": [
+      {
+        "category": "Indicated",
+        "tonnes_Mt": {"value": 11.6, "unit": "Mt", "page": 11, "note": "JORC, 0.5% Li2O cut-off; 131.2 kt contained Li2O. Sogola-Baoule 8.4 Mt @ 1.09%, Ngoualana 3.1 Mt @ 1.25% (p10)."},
+        "grade_Li2O_pct": {"value": 1.13, "unit": "% Li2O", "page": 11}
+      },
+      {
+        "category": "Inferred",
+        "tonnes_Mt": {"value": 9.7, "unit": "Mt", "page": 11, "note": "105.3 kt contained Li2O. Sogola-Baoule 3.8 Mt @ 1.13%, Ngoualana 2.0 Mt @ 1.12%, Boumou 4.0 Mt @ 1.02% (p10)."},
+        "grade_Li2O_pct": {"value": 1.08, "unit": "% Li2O", "page": 11}
+      },
+      {
+        "category": "Total",
+        "tonnes_Mt": {"value": 21.3, "unit": "Mt", "page": 11, "note": "Indicated + Inferred; 236.5 kt contained Li2O. No Measured category (classified Indicated and Inferred only, p5). MRE data cut-off 19 Dec 2018, announced 28 Feb 2019 (p5). Table starts on p10; total row on p11."},
+        "grade_Li2O_pct": {"value": 1.11, "unit": "% Li2O", "page": 11}
+      }
+    ],
+    "reserve": null,
+    "inferred_share_of_mine_plan": {"value": "not quantified", "unit": "%", "page": 4, "note": "Financial model built on Indicated and Inferred Resources (p4); no Ore Reserve is stated. The 16.0 Mt mine plan exceeds the 11.6 Mt total Indicated resource, so a material part of it is Inferred and/or dilution (arithmetic, not stated)."},
+    "mining_method": "Conventional open pit, contractor-operated; three mining areas with four ultimate pits; Whittle 4X pit optimisation. Future Minerals keeps mine planning, scheduling, grade control, survey and contractor supervision (p5, p6).",
+    "strip_ratio": null,
+    "ore_type_notes": "Spodumene pegmatites hosted in Palaeoproterozoic (Birimian) pelitic metasediments and amphibolites of the Leo-Man Shield; ore is near surface (p5). Resource modelled inside a nominal 0.3% Li2O envelope and reported at a 0.5% Li2O cut-off (p5, p11). Resource covers 3 of 8 recognised prospects (p10). Mine plan captures ~16 Mt of the 21 Mt resource (p2)."
+  },
+  "mining": {
+    "ore_mined_Mtpa": null,
+    "total_ore_mined_Mt": {"value": 16.0, "unit": "Mt", "page": 4, "note": "Ore tonnes in the model inputs, at 1.03% Li2O. 'Approximately 16Mt of ore from our announced 21Mt resource' (p2)."},
+    "life_of_mine_years": {"value": 8.5, "unit": "years", "page": 4, "note": "'Minimum 8.5-year mine life' (p1)"},
+    "dilution_pct": null,
+    "mining_recovery_pct": null,
+    "mining_cost": {"value": 2.63, "unit": "US$/t material mined (ore + waste)", "page": 3, "note": "Contract mining. LOM mining cost US$334M = US$172/t concentrate (p3). If all of it is at the US$2.63/t rate, that implies ~127 Mt total material and waste:ore of ~6.9 (arithmetic, not stated)."}
+  },
+  "processing": {
+    "route": "Conventional crushing, milling and spodumene flotation, no DMS stage shown: primary crushing, dry screening with secondary crushing (x2), crushed ore storage, HPGR with wet screening at 6.3 mm, fines removal, coarse mica removal (to mica stockpile), ball milling to P80 150 um, magnetic separation (LIMS), desliming, conditioning, flotation, concentrate thickening and filtration to a fine product; tailings thickened to the TSF (p2, p7, p8).",
+    "throughput_Mtpa": {"value": 2.0, "unit": "Mtpa", "page": 7, "note": "2,000,000 t/y ROM ore; crushing at 65% utilisation (5,694 h/y), rest of plant 85% (7,446 h/y) (p7). Headline '2Mtpa processing plant' (p1)."},
+    "head_grade_Li2O_pct": {"value": 1.03, "unit": "% Li2O", "page": 4, "note": "LOM 'Lithium Grade' in the model inputs. Li2O basis confirmed by mass balance: 16.0 Mt x 1.03% x 71% / 6% = ~1,950 kt vs 1,942 kt stated."},
+    "recovery_pct": {"value": 71, "unit": "%", "page": 4, "note": "LOM metallurgical recovery in the financial model (p1, p4). Lab flowsheet gave 75% to a 6% concentrate; pit optimisation and scheduling used 68% (p7)."},
+    "concentrate_grade_Li2O_pct": {"value": 6, "unit": "% Li2O", "page": 1, "note": "6% spodumene concentrate (SC6)"},
+    "concentrate_output_ktpa": {"value": 218, "unit": "ktpa", "page": 4, "note": "Average annual production. Headline 'on average 220,000 tonnes' (p1). LOM total 1,942 kt (p4), shown as 1.94 Mt on p1."},
+    "by_products": "None stated; the flowsheet rejects mica to a mica stockpile (p8).",
+    "processing_cost": {"value": 16.33, "unit": "US$/t ore processed", "page": 3, "note": "LOM US$275M = US$141/t concentrate (p3)"}
+  },
+  "overheads": {
+    "site_GA": {"value": 2.92, "unit": "US$/t ore processed", "page": 3, "note": "LOM US$47M = US$24/t concentrate (p3)"},
+    "power_source": "Not specified. The study lists 'investigate more favourable power supply solutions to reduce operating costs' as an opportunity (p10).",
+    "power_cost": null,
+    "workforce_camp_fifo": "On-site camp with administrative and living quarters (p3). Local Malian workforce expected to have no mining or plant experience; experienced Malian managers plus expatriates for start-up and training, with expatriate roles passing to Malians after 2-3 years (p9). General Manager over five departments: mining, exploration, processing, administration, HSEC (p9). Contract mining (p6). FIFO not mentioned."
+  },
+  "logistics": {
+    "product_route": "Concentrate is exported through the Port of San Pedro, Cote d'Ivoire, and sold FOB there (p4, p9). The document does not state the transport mode, route or distance from site to port.",
+    "mode": null,
+    "distance_km": null,
+    "haulage_cost": {"value": 93.60, "unit": "US$/t concentrate produced", "page": 3, "note": "'Concentrate Freight Costs': one freight rate, not split into inland haulage and port charges. Matches the 'Selling Costs' line of US$182M LOM, US$94/t (p3). The sale is FOB San Pedro, so ocean freight is outside this cost."},
+    "port": "San Pedro, Cote d'Ivoire (export port and FOB sale point) (p4, p9). Inbound goods via Abidjan or San Pedro (p9).",
+    "port_cost": null,
+    "ocean_freight": null,
+    "sale_basis": "FOB San Pedro, Cote d'Ivoire (p4)",
+    "infrastructure_built": "Site only: open pits, process plant, tailings dam (TSF Stage 1 sized for 24 months), waste rock dumps, water storage dam, stores, camp with administrative and living quarters and associated infrastructure (p3, p10). Capex lines: Infrastructure US$17.7M; Project Freight and Transport Logistics US$5.5M (p4). No road, rail, port or power-line construction is described.",
+    "notes": "Export options studied: ports in Cote d'Ivoire, Senegal and other regional facilities. San Pedro was chosen as the most cost-effective on transport routes, reliability and distance; the San Pedro Port Authority was visited and committed to keep working with Future Minerals on port access (p9). Internationally sourced goods, reagents and consumables arrive containerised by liner at Abidjan or San Pedro; a freight forwarder (a specialist West African transport and logistics firm) clears customs and organises transport to site (p9). The words road, truck, rail and km never appear for product transport. Abidjan appears only as an inbound port, and Senegal (Dakar is not named) only as an export option considered."
+  },
+  "operating_costs": {
+    "breakdown": [
+      {"item": "Mining", "value": 172, "unit": "US$/t concentrate", "page": 3, "note": "LOM US$334M; contract rate US$2.63/t material mined (ore + waste)"},
+      {"item": "Processing", "value": 141, "unit": "US$/t concentrate", "page": 3, "note": "LOM US$275M; US$16.33/t ore processed"},
+      {"item": "General & Admin", "value": 24, "unit": "US$/t concentrate", "page": 3, "note": "LOM US$47M; US$2.92/t ore processed"},
+      {"item": "Selling costs (concentrate freight)", "value": 94, "unit": "US$/t concentrate", "page": 3, "note": "LOM US$182M; freight rate US$93.60/t concentrate produced"},
+      {"item": "Royalties (Government & NSR)", "value": 26, "unit": "US$/t concentrate", "page": 4, "note": "LOM US$50M, about 3.5% of LOM revenue (arithmetic): 3.0% royalty + 0.5% local partner royalty. Outside C1."},
+      {"item": "Sustaining capital", "value": 9, "unit": "US$/t concentrate", "page": 4, "note": "LOM US$16M. Outside C1."}
+    ],
+    "C1_or_FOB_cost": {"value": 431, "unit": "US$/t concentrate", "page": 3, "note": "C1 (Brook Hunt) cash cost = mining + processing + G&A + selling (freight to FOB San Pedro); LOM US$838M (p3). Headline on p1."},
+    "AISC": {"value": 466, "unit": "US$/t concentrate", "page": 4, "note": "Not labelled AISC. This is the document's 'Net Cash Operating Costs': C1 + royalties US$26/t + sustaining capital US$9/t; LOM US$904M (p4). Headline 'USD$466 including royalties and sustaining capital' (p1). Excludes ISCP turnover tax and corporate tax."}
+  },
+  "fiscal": {
+    "royalties": [
+      {"name": "Royalties (government)", "rate": {"value": 3.0, "unit": "%", "page": 3, "note": "Listed as 'Royalties'; the cost table line is 'Royalties (Government & NSR)' (p4)"}, "base": "Of receipts from product sales"},
+      {"name": "Local Partner Royalties", "rate": {"value": 0.5, "unit": "%", "page": 3}, "base": "Of receipts from product sales"}
+    ],
+    "income_tax": {"value": 25, "unit": "%", "page": 3, "note": "Corporate tax, of earnings before tax"},
+    "state_participation": null,
+    "other_levies": "ISCP on Turnover 3.0% of gross cash flow from operations (acronym not expanded in the document); Land Tax US$149,333 over life of mine (p3). Capex excludes fees, taxes and duties (p4). No Mali state equity or free-carried interest is mentioned."
+  },
+  "capital": {
+    "initial_capex": {"value": 128.6, "unit": "US$M", "page": 4, "note": "Grand total including 10% contingency. US$116.9M before contingency; headline 'USD$117M plus contingency' (p1). Excludes fees, taxes and duties, and escalation (p4)."},
+    "breakdown": [
+      {"item": "Construction Indirects", "value": 4.4, "unit": "US$M", "page": 4},
+      {"item": "Treatment Plant Costs", "value": 52.4, "unit": "US$M", "page": 4},
+      {"item": "Reagents and Plant Services", "value": 6.0, "unit": "US$M", "page": 4},
+      {"item": "Infrastructure", "value": 17.7, "unit": "US$M", "page": 4},
+      {"item": "Mining", "value": 2.2, "unit": "US$M", "page": 4, "note": "Contractor mobilisation and establishment only; pre-construction capital is carried in the mining contractor's operating cost"},
+      {"item": "Management Costs", "value": 11.8, "unit": "US$M", "page": 4},
+      {"item": "Owners Project Costs", "value": 13.5, "unit": "US$M", "page": 4},
+      {"item": "Owners Operation Costs (Working Capital)", "value": 3.4, "unit": "US$M", "page": 4},
+      {"item": "Project Freight and Transport Logistics", "value": 5.5, "unit": "US$M", "page": 4}
+    ],
+    "contingency": {"value": 11.7, "unit": "US$M", "page": 4, "note": "10% of the US$116.9M subtotal"},
+    "sustaining_capex": {"value": 16, "unit": "US$M (LOM total)", "page": 4, "note": "US$9/t concentrate"},
+    "closure_cost": null,
+    "construction_period_months": null,
+    "ramp_up": "Concentrate production expected in H2 2021 (p1, p2). Mining licence application lodged; a DNGM technical committee meeting is the next step (p2). EPCM delivery (p8). Expatriate start-up team, with roles passing to Malians after 2-3 years (p9). No construction duration or ramp-up curve given."
+  },
+  "economics": {
+    "price_deck": [
+      {"period": "Year 1 (production from H2 2021)", "price": {"value": 680, "unit": "US$/t 6% concentrate", "page": 4, "note": "FOB San Pedro, Cote d'Ivoire"}},
+      {"period": "Each later year of LOM", "price": {"value": "+2% per year", "unit": "escalation on US$680/t", "page": 4, "note": "Sliding scale. Implied LOM average ~US$738/t (US$1,432.9M / 1,942 kt; arithmetic)."}}
+    ],
+    "discount_rate": {"value": 7, "unit": "%", "page": 5},
+    "npv": [
+      {"label": "pre-tax", "value": 293.46, "unit": "US$M", "page": 5, "note": "NPV7%; headline 'approximately USD$300M' (p1). Undiscounted LOM pre-tax cash flow US$395.8M (p5)."},
+      {"label": "post-tax", "value": 200.769, "unit": "US$M", "page": 5, "note": "NPV7%; headline 'USD$200M' (p1). Undiscounted LOM post-tax cash flow US$306.2M (p5)."}
+    ],
+    "irr": [
+      {"label": "pre-tax", "value": 57.8, "unit": "%", "page": 5, "note": "Headline 58% (p1)"},
+      {"label": "post-tax", "value": 50.9, "unit": "%", "page": 5, "note": "Headline 51% (p1)"}
+    ],
+    "payback_years": {"value": 1.7, "unit": "years", "page": 5, "note": "Pre-tax; post-tax 1.8 years (p5)"},
+    "lom_revenue": {"value": 1432.907, "unit": "US$M", "page": 5, "note": "US$1,432,907k; headline 'exceeding USD$1.4bn' (p1)"},
+    "annual_ebitda": null,
+    "sensitivities": "None given. Pit optimisation results were 'put in context of sensitivities, risks' with no figures (p6). Recovery is presented as conservative: 71% modelled vs 75% lab, with pit design at 68% giving 'an effective additional contingency margin within the pit inventories' (p7)."
+  },
+  "risks_noted": [
+    "Mining licence not yet granted: application lodged with DNGM; technical committee meeting next (p1, p2)",
+    "Remote site: transport and logistics are a significant component; the operation must be self-sufficient (p9)",
+    "Local workforce lacks mining and plant experience; expatriates needed for start-up, training and the first 2-3 years (p9)",
+    "Scale-up recovery risk: 75% in the lab vs 71% modelled for circuit losses; pit design at 68% (p7)",
+    "Economics include Inferred Resources; no Ore Reserve stated (p4)",
+    "Adverse climatic conditions: TSF Stage 1 sized for 24 months; construction sequencing depends on the dry season (p10)",
+    "Capex excludes fees, taxes and duties, and escalation (p4)",
+    "Power supply cost: more favourable power solutions still to be investigated (p10)"
+  ],
+  "pages_scanned": "1-11 of 11 (all pages; pp. 3, 4, 6, 8 and 10 checked visually against the PDF). p6 layout map is a local site plan with illegible labels; p8 is the flowsheet and a 3-D plant render."
+}

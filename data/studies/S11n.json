@@ -1,0 +1,1127 @@
+{
+ "id": "S11n",
+ "project": "Manna Lithium Project – Manna–Nova Operation Integration Study",
+ "company": "Global Lithium Resources Limited (ASX: GL1)",
+ "country": "Australia",
+ "location": "Manna is in the Eastern Goldfields of Western Australia, ~110 km by road east of Kalgoorlie-Boulder (M28/414). Ore is processed at Nova, IGO's former nickel-copper operation (M28/376; 'Fraser Range' per map label, full p81), 135 km south of Manna after the road upgrade. Product is trucked ~370 km from Nova to the Port of Esperance.",
+ "stage": "Integration Study: an alternative development case to the December 2025 standalone DFS. Class 3 capital estimate, ±20% (full p3); JORC Table 1 says ±15% (full p40, p43). It underpins an FID targeted for December Quarter 2026.",
+ "study_date": "September 2026 (ASX release 16 September 2026; valuation date 1 September 2026)",
+ "currency": "A$ (real 2026); US$ prices converted at 0.69 AUD/USD",
+ "fx_assumption": {
+  "value": 0.69,
+  "unit": "AUD/USD",
+  "page": 17,
+  "doc": "full",
+  "note": "Flat across every year (full p88). DFS used 0.67 (full p5). Sits at the 18th percentile of a 35-analyst panel (full p89)."
+ },
+ "real_or_nominal": "Real 2026 A$; pre- and post-tax; ungeared, no financing (full p17, p88)",
+ "what_the_integration_is": "GL1 has signed a binding Share Purchase Agreement (announced 15 July 2026) with IGO Limited to buy 100% of IGO Nova Pty Ltd, owner of the Nova Operation. This is an outright acquisition, not toll treatment or a joint venture, and the purchase price is not disclosed in these documents (full p2, p49, p51-52). Manna ore is trucked 135 km south to Nova, where IGO's 1.8 Mtpa nickel-copper concentrator is converted to spodumene: the C120 jaw, SAG/ball mills and flotation cells are retained, and two HP300 secondary crushers, two-size TOMRA ore sorting, an HP200 pebble crusher, magnetic separation, desliming and a lined brine pond are added (full p2, p50, p75). GL1 also inherits Nova's tailings cell, power station, bore-field, water treatment, laboratory, 500-bed camp, aerodrome and haul-road/corridor licences, which replaces the DFS greenfield concentrator at Manna (full p6, p47, p52, p81). Manna still needs its own mine services area, a 203-room camp, Zenith-supplied power and the haul corridor, and export runs through the third-party Port of Esperance (Southern Ports) with no new port infrastructure (full p14, p80-83).",
+ "ore_haulage": {
+  "from": "Manna ROM pad (M28/414); ROM load-out with no rehandle (Figure 21, full p83)",
+  "to": "Nova plant ROM/crusher (M28/376); crushing and ore sorting happen at Nova, after the haul",
+  "distance_km": {
+   "value": 135,
+   "unit": "km",
+   "page": 80,
+   "doc": "full",
+   "note": "135 km after upgrade on the dedicated private haul corridor 'for the life of mine'. The model applies 135 km to all 23.67 Mt (Table 20, full p83). During build-up the haul uses a 190 km interim public route (summary p3). The map label is ~135 km (full p3)."
+  },
+  "mode": "Road haulage on a dedicated private corridor by 140 t PBS quad road trains (Figure 21, full p83; JORC calls them 'road train', full p39). The haul is charged on delivered ROM tonnes under a single logistics-consortium contract still in negotiation: indication issued 6 Sep 2026, 45-day exclusivity, then LOI and contract (full p97).",
+  "haul_cost": {
+   "value": 17.01,
+   "unit": "A$/t ROM ore",
+   "page": 83,
+   "doc": "full",
+   "note": "Real 2026 A$. Composite of haul 15.2 + road maintenance 1.2 + owner fuel 1.4, less an unquantified 'integration discount' (Figure 21 graphic, full p83). Table 1 rounds it to A$17.0/t (full p4). LOM cost A$402.6M over 23.67 Mt. My arithmetic: ~A$0.126/t-km and ~A$150/t SC5.5 (8.8 t ore per t concentrate). Rate card is an Australis benchmark net of an integrated supply-chain discount and is not yet contracted (summary p4)."
+  },
+  "tonnes_hauled_Mtpa": {
+   "value": 2.1,
+   "unit": "Mtpa ROM (dry, per full p36)",
+   "page": 77,
+   "doc": "full",
+   "note": "Steady-state crusher feed at Nova of 175,000 t/month (2.10 Mtpa); 23.67 Mt hauled over LOM (full p83). All ROM is hauled before sorting, so ~30% of it (7.1 Mt LOM) is hauled 135 km and then rejected to waste by the Nova sorters (full p11, p77). DFS crusher feed was 1.8 Mtpa with no haul."
+  },
+  "road_upgrades_or_capex": {
+   "value": 9.45,
+   "unit": "A$M pre-production capital",
+   "page": 80,
+   "doc": "full",
+   "note": "Stage 1 'make-safe' of 162 km is in pre-production capital at A$9.45M; Table 8 (full p16) labels the same A$9.45M as 'corridor, haul road, rail crossing, communications'. Stage 2 (50 km) and the final 160 km RAV7 upgrade are in deferred capital funded from cash flow, with no separate amount given; they sit inside ~A$59.8M of deferred scope that also covers power conversion, tailings lift and the mica pre-float (full p6). The eastern haul road and ARTC rail crossing complete the corridor. Road maintenance (A$1.2/t) is inside the haul rate."
+  }
+ },
+ "processing": {
+  "where": "Nova (IGO's former nickel-copper concentrator, converted to spodumene duty), 135 km south of Manna",
+  "throughput_Mtpa": {
+   "value": 2.1,
+   "unit": "Mtpa ROM crushed",
+   "page": 77,
+   "doc": "full",
+   "note": "2.10 Mtpa crushed (342.5 t/h at 70% utilisation; crushing design 2.20 Mtpa). After 30% sorter mass rejection, 1.47 Mtpa goes to the mill (mill design 184 t/h, 1.50 Mtpa). Nova's design basis is 1.8 Mtpa, but the retained circuit alone handles only 1.51 Mtpa (full p77-78). DFS: 1.8 Mtpa (full p4)."
+  },
+  "head_grade_Li2O_pct": {
+   "value": 0.88,
+   "unit": "% Li2O",
+   "page": 9,
+   "doc": "full",
+   "note": "LOM ROM/crusher feed: 23.67 Mt mining inventory (OP 0.91%, UG 0.83%). Mill head grade after sorting is not stated. Ore Reserve grade is 0.89%."
+  },
+  "recovery_pct": {
+   "value": 72.85,
+   "unit": "% Li2O, ROM to product",
+   "page": 13,
+   "doc": "full",
+   "note": "Overall and fixed, same as the DFS. Includes sorter losses (94.4% lithia retained at sorting, full p79). Wet plant recovery is 78.0% (full p15) or 77.36% (full p91); spodumene flotation 78.4% (full p91). No new testwork since the DFS (full p3)."
+  },
+  "concentrate_grade_Li2O_pct": {
+   "value": 5.5,
+   "unit": "% Li2O (SC5.5)",
+   "page": 7,
+   "doc": "full",
+   "note": "Also a DSO product at 1.5% Li2O (336.9 kt, March 2027 to early 2028)"
+  },
+  "concentrate_output_ktpa": {
+   "value": 257,
+   "unit": "ktpa SC5.5, average of first 7 years",
+   "page": 4,
+   "doc": "full",
+   "note": "LOM 2,684.3 kt SC5.5 (2,684,259 t, full p17) plus 336.9 kt DSO. DFS: 236 ktpa over the first 7 years and 2,763.5 kt LOM."
+  },
+  "processing_cost": {
+   "value": 28.4,
+   "unit": "A$/t crushed",
+   "page": 16,
+   "doc": "full",
+   "note": "'Processing and Infrastructure' line: A$671M LOM, A$250/t SC5.5. Power is charged as energy x tariff on its own line and is in neither the mining nor the processing rate (full p82). Which opex line carries power is not stated. Nova power runs on a Zenith pass-through to Year 3, then self-operated at 14.66 c/kWh."
+  },
+  "toll_or_access_fee": {
+   "value": null,
+   "unit": null,
+   "page": 2,
+   "doc": "full",
+   "note": "Not applicable. GL1 is buying 100% of IGO Nova Pty Ltd and will own and operate the plant, so there is no toll, access fee or JV. The acquisition consideration is not disclosed in either document, and no acquisition line appears in the capex tables or the NPV waterfall."
+  },
+  "plant_modification_capex": {
+   "value": 31.169,
+   "unit": "A$M",
+   "page": 16,
+   "doc": "full",
+   "note": "'Nova, the plant' (Table 8; A$31.2M in Table 21, full p84). Excludes deferred Nova power capital (A$20.334M, full p82) and the deferred mica pre-float circuit. Process plant and infrastructure directs total A$62.9M vs A$142.9M in the DFS (full p84)."
+  }
+ },
+ "concentrate_logistics": {
+  "route": "Nova, then road ~370 km to Esperance (via Norseman per the map, full p3), then a storage hub ~20 km from the berth (60 kt covered facility: igloo cell for concentrate, open yard for DSO; 'Campbell's yard' per the Figure 19 label). Shuttle trucks back-tip into the ship-loader hopper at 1,500 t/h at the Port of Esperance, and 25 kt parcels ship to China (full p82-83).",
+  "mode": "Road: 140 t PBS quads for concentrate and 90 t road trains for DSO; then bulk ocean freight in 25 kt parcels (full p83)",
+  "distance_km": {
+   "value": 370,
+   "unit": "km",
+   "page": 83,
+   "doc": "full",
+   "note": "Nova to Esperance by road. The map shows Manna–Esperance ~500 km for comparison (full p3)."
+  },
+  "cost": {
+   "value": 37.59,
+   "unit": "A$/t concentrate",
+   "page": 83,
+   "doc": "full",
+   "note": "Road haul Nova to Esperance, LOM A$100.9M. DSO costs A$46.8/t (A$15.8M). Road + port is A$57.8/t vs A$78.0/t in the DFS (Table 1, full p4)."
+  },
+  "port": "Port of Esperance (Southern Ports); no new port infrastructure. Berth allocation, ship-loader method and any Southern Ports capital are conditions precedent still to be confirmed (full p83, p97).",
+  "port_cost": {
+   "value": 20.2,
+   "unit": "A$/t concentrate",
+   "page": 83,
+   "doc": "full",
+   "note": "Dome storage, shiploader and wharfage; wharfage alone is A$4.16/t (Figure 21). DSO A$11.7/t open pad. LOM A$58.1M."
+  },
+  "ocean_freight": {
+   "value": 37.6,
+   "unit": "A$/t concentrate",
+   "page": 83,
+   "doc": "full",
+   "note": "CIF China in 25 kt parcels; DSO A$27.7/t; LOM A$110.2M. Coordination, forwarding and survey add A$29.6M (A$3.0M/yr). Shipping and port total A$198.0M = A$73.8/t SC5.5. Total logistics including the ROM haul is A$724.2M = A$269.8/t SC5.5 = A$30.6/t ore."
+  },
+  "sale_basis": "CIF China, SC5.5, priced at 5.5/6 (0.9167) x the SC6 CIF deck. DSO sold at A$506/t for 1.5% Li2O."
+ },
+ "mining": {
+  "method": "Conventional open pit: Manna Main in 3 stages plus Manna North and South satellites; 100 t excavators and trucks on ore, 400 t excavators and 240 t trucks on waste; 5 m ore benches, 10 m waste benches. Followed by underground top-down long-hole open stoping beneath the pits with no backfill (PFS-level design). Contractor schedule of rates, described elsewhere as an owner fleet with an operator (full p7, p84, p94).",
+  "strip_ratio": {
+   "value": 15.28,
+   "unit": "t waste : t ore (open pit)",
+   "page": 10,
+   "doc": "full",
+   "note": "236.2 Mt waste (including 12.23 Mt subgrade at 0.33% Li2O) over 15.48 Mt OP inventory. Shown as 15.3 in Table 9 (full p66). Total OP movement 251.7 Mt."
+  },
+  "ore_mined_Mtpa": {
+   "value": 2.1,
+   "unit": "Mtpa ore (plant feed basis)",
+   "page": 36,
+   "doc": "full",
+   "note": "Schedule based on 2.1 Mtpa (dry) ROM feed. Peak total material movement ~48 Mtpa (full p7); fleet averages 50 Mtpa (full p36). LOM 23.67 Mt at 0.88% Li2O, of which 88-89% is Probable Reserve and 11-12% Inferred."
+  },
+  "life_of_mine_years": {
+   "value": 13,
+   "unit": "years",
+   "page": 71,
+   "doc": "full",
+   "note": "Combined mine and processing life. ES Table 1 gives producing life 12.5 yrs (full p48); section 1.8 gives a 12.8-year mine life (full p61). OP 85 months (7.1 yrs); UG ore 103 months, starting 51 months after the OP. DFS: 14.33 yrs."
+  },
+  "mining_cost": {
+   "value": 77.2,
+   "unit": "A$/t ore mined (open pit)",
+   "page": 74,
+   "doc": "full",
+   "note": "OP is A$4.74/t total material moved (LOM A$1,194M including A$39.8M capitalised; A$1,155M cash). UG is A$77.5/t ore and A$55.0/t total moved (A$635.8M; A$596.0M in the opex table). Per tonne crushed: OP 48.8 + UG 25.2 (full p16). Mining is 62.6% of opex."
+  }
+ },
+ "operating_costs": {
+  "breakdown": [
+   {
+    "item": "Mining – open pit",
+    "value": 430,
+    "unit": "A$/t SC5.5",
+    "page": 16,
+    "doc": "full",
+    "note": "A$1,155.1M LOM; A$48.8/t crushed; 41.3%"
+   },
+   {
+    "item": "Mining – underground",
+    "value": 222,
+    "unit": "A$/t SC5.5",
+    "page": 16,
+    "doc": "full",
+    "note": "A$596.0M LOM; A$25.2/t crushed; 21.3%"
+   },
+   {
+    "item": "Processing and infrastructure",
+    "value": 250,
+    "unit": "A$/t SC5.5",
+    "page": 16,
+    "doc": "full",
+    "note": "A$671M LOM; A$28.4/t crushed; 24%"
+   },
+   {
+    "item": "Transport (ROM haul Manna–Nova + road haul Nova–Esperance)",
+    "value": 196,
+    "unit": "A$/t SC5.5",
+    "page": 16,
+    "doc": "full",
+    "note": "A$526M LOM; A$22.2/t crushed; 18.8%. Table 20 (full p83): ROM haul 402.6 + concentrate haul 100.9 + DSO haul 15.8 + other 7.0 = 526.2"
+   },
+   {
+    "item": "of which ROM haul Manna–Nova, 135 km",
+    "value": 402.6,
+    "unit": "A$M LOM",
+    "page": 83,
+    "doc": "full",
+    "note": "A$17.01/t ore; ~A$150/t SC5.5 (my arithmetic)"
+   },
+   {
+    "item": "Rehabilitation",
+    "value": 9.6,
+    "unit": "A$/t SC5.5",
+    "page": 16,
+    "doc": "full",
+    "note": "A$19.1M LOM; A$0.8/t crushed"
+   },
+   {
+    "item": "DSO revenue treated as by-product credit",
+    "value": -63,
+    "unit": "A$/t SC5.5",
+    "page": 16,
+    "doc": "full",
+    "note": "(A$170.4M); (A$7.2/t crushed). Table 3 (full p7) shows (0.81), probably a typo"
+   },
+   {
+    "item": "Total cash opex (C1)",
+    "value": 1042.2,
+    "unit": "A$/t SC5.5",
+    "page": 16,
+    "doc": "full",
+    "note": "A$2,797.5M LOM; A$118.2/t crushed"
+   },
+   {
+    "item": "Shipping and port: port handling, ocean freight, coordination (not among the C1 table lines)",
+    "value": 73.8,
+    "unit": "A$/t SC5.5",
+    "page": 83,
+    "doc": "full",
+    "note": "A$198.0M LOM; PV8 A$130.9M"
+   },
+   {
+    "item": "Royalties: WA State + NTMA (not among the C1 table lines)",
+    "value": 128.0,
+    "unit": "A$/t SC5.5",
+    "page": 83,
+    "doc": "full",
+    "note": "A$343.5M LOM, shown only in the Figure 21 graphic; PV8 A$223.9M"
+   }
+  ],
+  "C1_or_FOB_cost": {
+   "value": 1042.2,
+   "unit": "A$/t SC5.5",
+   "page": 4,
+   "doc": "full",
+   "note": "C1 cash cost, real A$, net of the DSO by-product credit. It includes the ROM haul and the road haul to Esperance, but the A$73.8/t shipping and port and the royalties are not among its table lines (my reconciliation of Tables 20 and 23), so the basis is neither strictly FOB nor CIF. ~US$719/t at 0.69 (my arithmetic). DFS A$965.0 (full p4) or A$964.6 (full p48). The study attributes the increase mainly to the Manna–Nova haul (full p86)."
+  },
+  "AISC": {
+   "value": 1185,
+   "unit": "A$/t SC5.5",
+   "page": 4,
+   "doc": "full",
+   "note": "US$818/t at 0.69, giving a 46% LOM operating margin (full p47). Only the renewal cycle sits inside AISC; deferred scope and the UG decline are excluded (full p85). Full composition is not tabulated. DFS A$1,101 (full p4) or A$1,104.5 (full p48)."
+  }
+ },
+ "fiscal": {
+  "royalties": [
+   {
+    "name": "WA State royalty – spodumene concentrate (SC5.5)",
+    "rate": {
+     "value": 5.0,
+     "unit": "%",
+     "page": 17,
+     "doc": "full"
+    },
+    "base": "Revenue (Figure 21, full p83: 'WA State 5% and NTMA on revenue'); deductions not specified"
+   },
+   {
+    "name": "WA State royalty – DSO",
+    "rate": {
+     "value": 7.5,
+     "unit": "%",
+     "page": 17,
+     "doc": "full"
+    },
+    "base": "DSO revenue"
+   },
+   {
+    "name": "Native Title Mining Agreement (NTMA) royalty",
+    "rate": null,
+    "base": "Revenue; rate not disclosed (full p40, p83)"
+   },
+   {
+    "name": "Total royalties, LOM (WA State + NTMA)",
+    "rate": null,
+    "base": "A$343.5M LOM = A$128.0/t SC5.5; PV8 A$223.9M (Figure 21, full p83; Figure 23, full p87)"
+   }
+  ],
+  "income_tax": {
+   "value": 30,
+   "unit": "%",
+   "page": 17,
+   "doc": "full",
+   "note": "Tax PV8 A$415.6M (Figure 23, full p87)"
+  }
+ },
+ "capital": {
+  "initial_capex": {
+   "value": 180.1,
+   "unit": "A$M",
+   "page": 6,
+   "doc": "full",
+   "note": "Funded pre-production capital = A$163.7M installed + A$16.4M 10% owner's contingency, which is not drawn in the cash flow (full p16, p84). Excludes working capital. Nova acquisition price not disclosed or shown. Class 3, ±20%. DFS A$439.1M (−A$259.0M, −59%)."
+  },
+  "breakdown": [
+   {
+    "item": "Manna, the mine (by location)",
+    "value": 76.069,
+    "unit": "A$M",
+    "page": 16,
+    "doc": "full",
+    "note": "42.2%"
+   },
+   {
+    "item": "Nova, the plant (by location)",
+    "value": 31.169,
+    "unit": "A$M",
+    "page": 16,
+    "doc": "full",
+    "note": "17.3%"
+   },
+   {
+    "item": "Corridor, haul road, rail crossing, communications (by location)",
+    "value": 9.45,
+    "unit": "A$M",
+    "page": 16,
+    "doc": "full",
+    "note": "5.2%; equals the Stage 1 162 km road make-safe (full p80)"
+   },
+   {
+    "item": "Owner, construction management and flights (by location)",
+    "value": 3.67,
+    "unit": "A$M",
+    "page": 16,
+    "doc": "full",
+    "note": "2.0%"
+   },
+   {
+    "item": "Other (by location; not explained)",
+    "value": 59.769,
+    "unit": "A$M",
+    "page": 16,
+    "doc": "full",
+    "note": "33.2%. ES Table 21 shows 69.2, which folds in the corridor (full p84). Coincides with the ~A$59.8M deferred-scope figure (full p6)."
+   },
+   {
+    "item": "Total initial (funded) capital",
+    "value": 180.128,
+    "unit": "A$M",
+    "page": 16,
+    "doc": "full"
+   },
+   {
+    "item": "Process plant and infrastructure, directs",
+    "value": 62.9,
+    "unit": "A$M",
+    "page": 84,
+    "doc": "full",
+    "note": "DFS 142.9"
+   },
+   {
+    "item": "Indirects, EPCM, supervision, commissioning",
+    "value": 6.9,
+    "unit": "A$M",
+    "page": 84,
+    "doc": "full",
+    "note": "DFS 44.8"
+   },
+   {
+    "item": "Owner's costs",
+    "value": 93.9,
+    "unit": "A$M",
+    "page": 84,
+    "doc": "full",
+    "note": "DFS 211.4"
+   },
+   {
+    "item": "of which pre-strip, including A$3.925M grade control",
+    "value": 19.6,
+    "unit": "A$M",
+    "page": 84,
+    "doc": "full",
+    "note": "DFS 81.9"
+   },
+   {
+    "item": "of which accommodation village",
+    "value": 17.0,
+    "unit": "A$M",
+    "page": 84,
+    "doc": "full",
+    "note": "DFS 20.6. Manna 203-room camp + fuel farm A$16.991M (full p81)"
+   },
+   {
+    "item": "of which power station and overhead power",
+    "value": 6.7,
+    "unit": "A$M",
+    "page": 84,
+    "doc": "full",
+    "note": "DFS 22.9"
+   },
+   {
+    "item": "of which earthworks and civil",
+    "value": 16.2,
+    "unit": "A$M",
+    "page": 84,
+    "doc": "full",
+    "note": "DFS 25.7"
+   },
+   {
+    "item": "of which other owner's costs",
+    "value": 34.4,
+    "unit": "A$M",
+    "page": 84,
+    "doc": "full",
+    "note": "DFS 60.3"
+   },
+   {
+    "item": "Owner's contingency (10%)",
+    "value": 16.4,
+    "unit": "A$M",
+    "page": 84,
+    "doc": "full",
+    "note": "DFS 40.0 (design growth)"
+   },
+   {
+    "item": "Site-wide EIC and communications",
+    "value": 13.52,
+    "unit": "A$M",
+    "page": 81,
+    "doc": "full"
+   },
+   {
+    "item": "Fuel farms",
+    "value": 2.52,
+    "unit": "A$M",
+    "page": 81,
+    "doc": "full"
+   },
+   {
+    "item": "Deferred capital scope: power conversion, haul-road upgrades (Stage 2 + RAV7), tailings lift, mica pre-float",
+    "value": 59.8,
+    "unit": "A$M (approx.)",
+    "page": 6,
+    "doc": "full",
+    "note": "After first production, funded from cash flow"
+   },
+   {
+    "item": "of which Nova power capital (deferred)",
+    "value": 20.334,
+    "unit": "A$M",
+    "page": 82,
+    "doc": "full"
+   },
+   {
+    "item": "Tailings embankment raise",
+    "value": 1.7,
+    "unit": "A$M per metre",
+    "page": 82,
+    "doc": "full",
+    "note": "Order of magnitude; first raise ~mid-2028. A$4.36M per raise at Class 5 (summary p4)"
+   },
+   {
+    "item": "Development capital drawn, including the pre-production build",
+    "value": 194.17,
+    "unit": "A$M LOM",
+    "page": 85,
+    "doc": "full"
+   },
+   {
+    "item": "Total LOM capital outlay",
+    "value": 379.13,
+    "unit": "A$M",
+    "page": 85,
+    "doc": "full",
+    "note": "194.17 development + 184.96 sustaining/deferred/progressive rehabilitation"
+   }
+  ],
+  "contingency": {
+   "value": 16.4,
+   "unit": "A$M",
+   "page": 6,
+   "doc": "full",
+   "note": "10% owner's contingency on the A$163.7M direct build, held as a funding allowance and not drawn in the cash flow. No class-of-estimate contingency (full p84)."
+  },
+  "sustaining_capex": {
+   "value": 184.96,
+   "unit": "A$M LOM",
+   "page": 85,
+   "doc": "full",
+   "note": "Sustaining, deferred and progressive rehabilitation capital combined. Includes ~A$59.8M deferred scope (full p6) and A$28.0M progressive rehabilitation (full p98)."
+  },
+  "closure_cost": {
+   "value": 53.0,
+   "unit": "A$M",
+   "page": 98,
+   "doc": "full",
+   "note": "A$28.0M progressive over FY27-FY40 (rising from A$1.0M to A$3.0M pa) + A$25.0M residual from FY42, all in the cash flow. A$13.242M salvage on mills and power station is not credited (summary p5)."
+  },
+  "construction_period_months": {
+   "value": 8,
+   "unit": "months",
+   "page": 15,
+   "doc": "full",
+   "note": "FID (Dec Q 2026) to Nova practical completion (June 2027). Ore sorters operational at 5 months, first DSO cargo (May 2027) at 7 months, first SC5.5 (mid/July 2027) at 9 months. Nova handover November 2026."
+  }
+ },
+ "economics": {
+  "price_deck": [
+   {
+    "period": "2026",
+    "price": {
+     "value": 2167,
+     "unit": "US$/t SC6 CIF China, real",
+     "page": 6,
+     "doc": "summary",
+     "note": "SC5.5 US$1,986 / A$2,879. Consensus 'last-3-months average' of forecasts published May-Jul 2026"
+    }
+   },
+   {
+    "period": "2027",
+    "price": {
+     "value": 2110,
+     "unit": "US$/t SC6 CIF China, real",
+     "page": 6,
+     "doc": "summary",
+     "note": "SC5.5 US$1,934 / A$2,804. JORC table gives US$2,111 (full p41)"
+    }
+   },
+   {
+    "period": "2028",
+    "price": {
+     "value": 1911,
+     "unit": "US$/t SC6 CIF China, real",
+     "page": 6,
+     "doc": "summary",
+     "note": "SC5.5 US$1,752 / A$2,539"
+    }
+   },
+   {
+    "period": "2029",
+    "price": {
+     "value": 1720,
+     "unit": "US$/t SC6 CIF China, real",
+     "page": 6,
+     "doc": "summary",
+     "note": "SC5.5 US$1,576 / A$2,284"
+    }
+   },
+   {
+    "period": "2030",
+    "price": {
+     "value": 1822,
+     "unit": "US$/t SC6 CIF China, real",
+     "page": 6,
+     "doc": "summary",
+     "note": "SC5.5 US$1,670 / A$2,420"
+    }
+   },
+   {
+    "period": "Long term (2031 onward)",
+    "price": {
+     "value": 1553,
+     "unit": "US$/t SC6 CIF China, real",
+     "page": 6,
+     "doc": "summary",
+     "note": "SC5.5 US$1,423 / A$2,063"
+    }
+   },
+   {
+    "period": "LOM weighted average, SC6",
+    "price": {
+     "value": 1647,
+     "unit": "US$/t SC6 CIF, real",
+     "page": 6,
+     "doc": "summary",
+     "note": "The Figure 21 graphic shows US$1,638 (full p83). DFS used a flat US$1,400."
+    }
+   },
+   {
+    "period": "LOM weighted average, SC5.5",
+    "price": {
+     "value": 1510,
+     "unit": "US$/t SC5.5 CIF, real",
+     "page": 6,
+     "doc": "summary",
+     "note": "A$2,188/t at 0.69. The Figure 21 graphic shows US$1,502. DFS US$1,253."
+    }
+   },
+   {
+    "period": "DSO, LOM",
+    "price": {
+     "value": 506,
+     "unit": "A$/t DSO at 1.5% Li2O",
+     "page": 6,
+     "doc": "summary"
+    }
+   },
+   {
+    "period": "Ore Reserve price (not the economics deck)",
+    "price": {
+     "value": 1400,
+     "unit": "US$/t SC6 CIF",
+     "page": 9,
+     "doc": "full",
+     "note": "Same flat price as the DFS, at 0.69 (full p36)"
+    }
+   }
+  ],
+  "discount_rate": {
+   "value": 8,
+   "unit": "% real",
+   "page": 17,
+   "doc": "full"
+  },
+  "npv": [
+   {
+    "item": "Post-tax NPV8, real, ungeared",
+    "value": 945.7,
+    "unit": "A$M",
+    "page": 4,
+    "doc": "full",
+    "note": "A$946M headline (full p1). DFS 472.4"
+   },
+   {
+    "item": "Pre-tax NPV8, real",
+    "value": 1361.3,
+    "unit": "A$M",
+    "page": 4,
+    "doc": "full",
+    "note": "DFS 724.8"
+   },
+   {
+    "item": "Post-tax NPV4",
+    "value": 1203.1,
+    "unit": "A$M",
+    "page": 90,
+    "doc": "full"
+   },
+   {
+    "item": "Post-tax NPV6",
+    "value": 1064.1,
+    "unit": "A$M",
+    "page": 90,
+    "doc": "full"
+   },
+   {
+    "item": "Post-tax NPV10",
+    "value": 844.3,
+    "unit": "A$M",
+    "page": 90,
+    "doc": "full"
+   },
+   {
+    "item": "Post-tax NPV12",
+    "value": 757.0,
+    "unit": "A$M",
+    "page": 90,
+    "doc": "full"
+   },
+   {
+    "item": "Post-tax NPV14",
+    "value": 681.4,
+    "unit": "A$M",
+    "page": 90,
+    "doc": "full"
+   }
+  ],
+  "irr": [
+   {
+    "label": "Post-tax IRR, ungeared",
+    "value": 119.6,
+    "page": 4,
+    "doc": "full",
+    "note": "Shown as 120% on full p1, p48, p86. DFS 25.7%. Pre-tax IRR not given."
+   }
+  ],
+  "payback_years": {
+   "value": 0.9,
+   "unit": "years from production start",
+   "page": 4,
+   "doc": "full",
+   "note": "'11 months' (full p1). DFS 3.5 years"
+  },
+  "sensitivities": "Post-tax NPV8 tornado (full p5 and p90; base A$945.7M), shown as the adverse/favourable NPV in A$M. AUD:USD +10%/−10%: 717/1,225 (−228/+279). Concentrate price −10%/+10%: 697/1,197 (−249/+251). Li2O recovery −5%/+5% relative (69.2%/76.5%): 826/1,065 (−120/+120). All mining opex ±10%: 863/1,028 (−82/+82). OP mining opex ±10%: 884/1,007 (−62/+62). Discount rate 9%/7%: 893/1,003 (−53/+57). All processing opex ±10%: 916/975 (−30/+30). UG mining opex ±10%: 925/967 (−21/+21). Fixed processing opex ±10%: 929/962 (−16/+16). All capital ±10%: 932/960 (−14/+14). Variable processing opex ±10%: 933/958 (−12/+12). Price ±20% gives ~A$1.6B/~A$0.5B (full p90). Break-even at a 32.6% price fall (summary p3). Each recovery point is worth ~A$29.6M of NPV (summary p4-5). The tornado has no haulage or transport bar, although the text says transport sensitivity keeps NPV within ~A$0.9-1.2B (full p90).",
+  "npv_waterfall_pv8": [
+   {
+    "item": "Revenue, SC5.5 concentrate",
+    "value": 3769.7,
+    "unit": "A$M PV8",
+    "page": 87,
+    "doc": "full",
+    "note": "Read from the Figure 23 chart graphic (not in the text layer); Undiscounted A$5,873.6M (full p83)"
+   },
+   {
+    "item": "Revenue, DSO",
+    "value": 159.7,
+    "unit": "A$M PV8",
+    "page": 87,
+    "doc": "full",
+    "note": "Read from the Figure 23 chart graphic (not in the text layer); Undiscounted A$170.4M"
+   },
+   {
+    "item": "Royalties",
+    "value": -223.9,
+    "unit": "A$M PV8",
+    "page": 87,
+    "doc": "full",
+    "note": "Read from the Figure 23 chart graphic (not in the text layer)"
+   },
+   {
+    "item": "Shipping and port",
+    "value": -130.9,
+    "unit": "A$M PV8",
+    "page": 87,
+    "doc": "full",
+    "note": "Read from the Figure 23 chart graphic (not in the text layer)"
+   },
+   {
+    "item": "Open pit mining opex",
+    "value": -867.6,
+    "unit": "A$M PV8",
+    "page": 87,
+    "doc": "full",
+    "note": "Read from the Figure 23 chart graphic (not in the text layer)"
+   },
+   {
+    "item": "Underground mining opex",
+    "value": -293.5,
+    "unit": "A$M PV8",
+    "page": 87,
+    "doc": "full",
+    "note": "Read from the Figure 23 chart graphic (not in the text layer)"
+   },
+   {
+    "item": "Processing and infrastructure opex",
+    "value": -414.4,
+    "unit": "A$M PV8",
+    "page": 87,
+    "doc": "full",
+    "note": "Read from the Figure 23 chart graphic (not in the text layer)"
+   },
+   {
+    "item": "Transport and other opex (ROM haul, product haul, road maintenance, coordination)",
+    "value": -360.3,
+    "unit": "A$M PV8",
+    "page": 87,
+    "doc": "full",
+    "note": "Read from the Figure 23 chart graphic (not in the text layer); Undiscounted A$545.4M per Figure 21 (vs A$526.2M Transport in Table 20)"
+   },
+   {
+    "item": "Initial capital",
+    "value": -174.7,
+    "unit": "A$M PV8",
+    "page": 87,
+    "doc": "full",
+    "note": "Read from the Figure 23 chart graphic (not in the text layer)"
+   },
+   {
+    "item": "Other capital (UG, deferred, closure)",
+    "value": -84.4,
+    "unit": "A$M PV8",
+    "page": 87,
+    "doc": "full",
+    "note": "Read from the Figure 23 chart graphic (not in the text layer)"
+   },
+   {
+    "item": "Working capital",
+    "value": -18.5,
+    "unit": "A$M PV8",
+    "page": 87,
+    "doc": "full",
+    "note": "Read from the Figure 23 chart graphic (not in the text layer)"
+   },
+   {
+    "item": "Tax",
+    "value": -415.6,
+    "unit": "A$M PV8",
+    "page": 87,
+    "doc": "full",
+    "note": "Read from the Figure 23 chart graphic (not in the text layer)"
+   },
+   {
+    "item": "Post-tax NPV8",
+    "value": 945.7,
+    "unit": "A$M",
+    "page": 87,
+    "doc": "full",
+    "note": "Read from the Figure 23 chart graphic (not in the text layer); Pre-tax lines sum to 1,361.2"
+   }
+  ]
+ },
+ "comparison_to_standalone_DFS": [
+  {
+   "metric": "Comparability caveat",
+   "integration": "Capital and physical outcomes are directly comparable; financial outcomes also reflect the different price deck (consensus declining, LOM SC6 US$1,647) and FX (0.69)",
+   "standalone_dfs": "Flat SC6 US$1,400 CIF at 0.67 AUD/USD",
+   "page": 5,
+   "doc": "full"
+  },
+  {
+   "metric": "Development concept",
+   "integration": "Haul ROM 135 km to the acquired Nova concentrator, converted from Ni-Cu (A$31.2M plant capex)",
+   "standalone_dfs": "Standalone greenfield on-site concentrator at Manna",
+   "page": 50,
+   "doc": "full"
+  },
+  {
+   "metric": "Post-tax NPV8, real (A$M)",
+   "integration": "945.7",
+   "standalone_dfs": "472.4",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "Pre-tax NPV8, real (A$M)",
+   "integration": "1,361.3",
+   "standalone_dfs": "724.8",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "Post-tax IRR, ungeared (%)",
+   "integration": "119.6 (120 elsewhere)",
+   "standalone_dfs": "25.7",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "Payback from production start (years)",
+   "integration": "0.9",
+   "standalone_dfs": "3.50",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "Funded pre-production capital (A$M)",
+   "integration": "180.1",
+   "standalone_dfs": "439.1",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "Peak funding requirement (A$M)",
+   "integration": "177.3",
+   "standalone_dfs": "478.3",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "Value-to-capital ratio (NPV8 : funded capital)",
+   "integration": "5.25",
+   "standalone_dfs": "1.08",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "Pre-production capital excluding contingency (A$M)",
+   "integration": "163.7",
+   "standalone_dfs": "399.1",
+   "page": 84,
+   "doc": "full"
+  },
+  {
+   "metric": "Process plant and infrastructure, directs (A$M)",
+   "integration": "62.9",
+   "standalone_dfs": "142.9",
+   "page": 84,
+   "doc": "full"
+  },
+  {
+   "metric": "Indirects, EPCM, supervision, commissioning (A$M)",
+   "integration": "6.9",
+   "standalone_dfs": "44.8",
+   "page": 84,
+   "doc": "full"
+  },
+  {
+   "metric": "Owner's costs (A$M)",
+   "integration": "93.9",
+   "standalone_dfs": "211.4",
+   "page": 84,
+   "doc": "full"
+  },
+  {
+   "metric": "Pre-strip incl. grade control (A$M)",
+   "integration": "19.6",
+   "standalone_dfs": "81.9",
+   "page": 84,
+   "doc": "full"
+  },
+  {
+   "metric": "Accommodation village (A$M)",
+   "integration": "17.0",
+   "standalone_dfs": "20.6",
+   "page": 84,
+   "doc": "full"
+  },
+  {
+   "metric": "Power station and overhead power (A$M)",
+   "integration": "6.7",
+   "standalone_dfs": "22.9",
+   "page": 84,
+   "doc": "full"
+  },
+  {
+   "metric": "Earthworks and civil (A$M)",
+   "integration": "16.2",
+   "standalone_dfs": "25.7",
+   "page": 84,
+   "doc": "full"
+  },
+  {
+   "metric": "Other owner's costs (A$M)",
+   "integration": "34.4",
+   "standalone_dfs": "60.3",
+   "page": 84,
+   "doc": "full"
+  },
+  {
+   "metric": "Contingency (A$M)",
+   "integration": "16.4 (10% owner's, not drawn)",
+   "standalone_dfs": "40.0 (design growth)",
+   "page": 84,
+   "doc": "full"
+  },
+  {
+   "metric": "C1 cash cost (A$/t SC5.5)",
+   "integration": "1,042.2",
+   "standalone_dfs": "965.0 (964.6 in ES Table 1, full p48)",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "AISC (A$/t SC5.5)",
+   "integration": "1,185",
+   "standalone_dfs": "1,101 (1,104.5 in ES Table 1, full p48)",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "ROM haulage Manna–Nova, 135 km (A$/t ore)",
+   "integration": "17.0",
+   "standalone_dfs": "— (no haul)",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "Concentrate logistics, road + port Esperance (A$/t conc)",
+   "integration": "57.8",
+   "standalone_dfs": "78.0",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "Concentrate road distance to Esperance (km)",
+   "integration": "~370 (from Nova)",
+   "standalone_dfs": "~500 (Manna–Esperance map label; DFS route not stated explicitly)",
+   "page": 3,
+   "doc": "full"
+  },
+  {
+   "metric": "Total revenue (A$M)",
+   "integration": "6,044.0",
+   "standalone_dfs": "5,169.5",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "EBITDA (A$M)",
+   "integration": "2,534.6",
+   "standalone_dfs": "2,195.9",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "Post-tax free cash flow (A$M)",
+   "integration": "1,563.1",
+   "standalone_dfs": "1,152.6",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "Concentrate produced, LOM (kt SC5.5)",
+   "integration": "2,684.3",
+   "standalone_dfs": "2,763.5",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "Annual SC5.5, first 7 years (kt)",
+   "integration": "257",
+   "standalone_dfs": "236",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "DSO shipped (kt)",
+   "integration": "336.9",
+   "standalone_dfs": "nil",
+   "page": 15,
+   "doc": "full"
+  },
+  {
+   "metric": "Plant feed, crusher, steady state (Mtpa)",
+   "integration": "2.1",
+   "standalone_dfs": "1.8",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "Crusher feed, LOM (Mt)",
+   "integration": "23.7",
+   "standalone_dfs": "23.7",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "Sorter rejects to waste, LOM (Mt)",
+   "integration": "7.1",
+   "standalone_dfs": "3.5",
+   "page": 4,
+   "doc": "full"
+  },
+  {
+   "metric": "LOM mill feed (Mt)",
+   "integration": "16.1 after DSO and sorting (16.6 on full p11/p75)",
+   "standalone_dfs": "20.2",
+   "page": 15,
+   "doc": "full"
+  },
+  {
+   "metric": "Overall recovery, ROM to product (%)",
+   "integration": "72.85",
+   "standalone_dfs": "72.85",
+   "page": 5,
+   "doc": "full"
+  },
+  {
+   "metric": "Wet plant recovery (%)",
+   "integration": "78.0",
+   "standalone_dfs": "78.0",
+   "page": 15,
+   "doc": "full"
+  },
+  {
+   "metric": "Producing life (years)",
+   "integration": "13 (12.5 in ES Table 1)",
+   "standalone_dfs": "14.3 (14.33)",
+   "page": 5,
+   "doc": "full"
+  },
+  {
+   "metric": "Probable Ore Reserve",
+   "integration": "20.96 Mt @ 0.89% Li2O",
+   "standalone_dfs": "19.4 Mt @ 0.91% Li2O",
+   "page": 1,
+   "doc": "full"
+  },
+  {
+   "metric": "LOM SC6 / SC5.5 price, CIF (US$/t)",
+   "integration": "1,647 / 1,510",
+   "standalone_dfs": "1,400 / 1,253",
+   "page": 5,
+   "doc": "full"
+  },
+  {
+   "metric": "Exchange rate (AUD/USD)",
+   "integration": "0.69",
+   "standalone_dfs": "0.67",
+   "page": 5,
+   "doc": "full"
+  }
+ ],
+ "risks_noted": [
+  "Haul route: build-up uses a 190 km interim public route with multi-contractor and haul-road traffic risk, but the model costs all 23.67 Mt at 135 km on the upgraded corridor (summary p3; full p80, p83).",
+  "Logistics rates not contracted: product logistics (A$724.2M LOM, A$269.8/t) is the largest operating cost outside mining; haulage LOI due December 2026 (summary p4; full p97).",
+  "Port: berth allocation, ship-loader method and any Southern Ports capital are unconfirmed conditions precedent (full p83).",
+  "Schedule: ore sorters must be operational by March 2027 with zero float; a late start at Manna or Nova delays first DSO revenue (summary p4; full p15).",
+  "Capacity relies on the new front end: the retained Nova crush/SAG/ball circuit handles only 1.51 Mtpa vs the 2.10 Mtpa schedule (full p77-78).",
+  "Metallurgy: no new testwork since the DFS. WHIMS is the largest single loss (12.1%), HIC feed density is unverified, and sorter performance still needs TOMRA tests on Manna ore (full p3, p79; summary p4).",
+  "Tailings: ~12 months of storage at handover, first raise needed ~mid-2028; underground tailings placement is not approved and not in the model (full p82).",
+  "Approvals: the Works Approval, NVCP Stage 2 and the L28/96 southern corridor survey gap gate Manna early works; 13 Nova approvals are still in programme (summary p4; full p97-98).",
+  "Acquisition and transition: depends on Nova SPA completion and handover (Nov 2026) and transfer of 18 licence groups and 15 mining proposals. The DSO fallback of processing at Nova also needs completion (full p97; summary p1).",
+  "Native title and land access: the Ngadju NTMA at Nova may need amending because Nova mining ceases in Dec Q 2026; no Pastoral Access Agreement has been negotiated (full p41-42).",
+  "Price and FX: NPV is most sensitive to these, with break-even at a 32.6% price fall. Part of the uplift over the DFS comes from the higher price deck, not the integration (full p5; summary p3).",
+  "Geological confidence: 11-12% of the production target is Inferred (74% of it underground); underground design is PFS-level only (full p4, p9, p22).",
+  "Funding not secured: the Lopal US$75M prepayment is conditional on FID and documentation; Canmax and DSO prepayments are unagreed; DSO offtake is non-binding; equity dilution is possible (summary p1-2; full p17-18).",
+  "Estimate basis: no class-of-estimate contingency, a 10% owner's contingency not drawn in the cash flow, and working capital excluded from capex (full p84).",
+  "Power: Nova runs on a Zenith pass-through only to Year 3, then self-operates; A$20.334M of Nova power capital is deferred (full p82; summary p3)."
+ ],
+ "data_quality_notes": [
+  "The file labelled 'summary' is not the announcement. It is Executive Summary printed pp. 58-63 (funding, risks, opportunities, price-deck appendix). The ASX announcement is full pp. 1-43, and ES printed p. 57 is in neither file.",
+  "Nova acquisition price is not disclosed and does not appear in capex, the NPV waterfall or funding.",
+  "Producing life: 13 yrs (full p4, p15, p17, p88) vs 12.5 (full p48); mine life 12.8 yrs (full p61).",
+  "Post-tax IRR 119.6% (full p4) vs 120% (full p1, p48, p86). DFS C1 965.0 vs 964.6 and DFS AISC 1,101 vs 1,104.5 (full p4 vs p48/p86).",
+  "DSO credit (0.81) A$/t crushed in Table 3 (full p7) vs (7.2) in Table 9 (full p16).",
+  "Capex 'Other' A$59.769M (full p16) is unexplained and equals the ~A$59.8M deferred-capex figure (full p6). Pre-production build is written A$163.076M (full p85) vs A$163.7M. 'A$9.9M under the A$188M target' does not compute (full p84).",
+  "Estimate accuracy: Class 3 ±20% (full p3) vs ±15% (JORC, full p40, p43).",
+  "Wet plant recovery 78.0% (full p15) vs 77.36% (full p91). Mill feed 16.1 Mt (full p15) vs 16.6 Mt (full p11, p75). Inferred share 11% (full p9) vs 12% (full p22, p61).",
+  "LOM price US$1,510 SC5.5 / US$1,647 SC6 (tables) vs US$1,502 / US$1,638 (Figure 21, full p83). Transport A$526.2M (Table 20) vs 'transport and other opex' A$545.4M (Figure 21).",
+  "Road works: Stage 1 162 km make-safe, Stage 2 50 km and a final 160 km RAV7 upgrade do not reconcile with the 135 km haul, and the deferred road capex amount is not given (full p80).",
+  "The tenure table lists M28/414 (Manna) as 'mine and sorting circuit' (full p52), but the process sections and figures put crushing and sorting at Nova (full p75, p77, p81, p83). The haul tonnage (23.67 Mt = all ROM) is consistent with sorting at Nova.",
+  "Mining basis is described as contractor schedule of rates (full p7, p40), 'owner fleet basis' (full p84) and 'GLR owner fleet with an operator' (full p94).",
+  "JORC Table 1 Infrastructure (full p39) still carries DFS wording: an owner-operated gas-fired power station and a process plant on M28/414.",
+  "Strip-ratio inputs: waste is 211.8 Mt (full p10, p63) vs 236.2 Mt (full p66, p72); 15.28 uses 236.2 including subgrade.",
+  "DSO start: March 2027 (full p14, p91) vs crushing and sorting starting April 2027 on DSO (full p78)."
+ ],
+ "pages_scanned": "full: all 99 PDF pages. PDF pp. 1-43 are the ASX announcement of 16 Sep 2026 (printed 'x of 43'), including JORC Table 1 on pp. 24-43. PDF pp. 44-99 are the Integration Study Executive Summary, printed pp. 1-56 of 63 (PDF p75 has no printed label and is ES p32). summary: all 6 PDF pages, which are ES printed pp. 58-63. ES printed p57 (start of 1.18 Marketing/Offtake) is in neither file. Page citations are PDF page numbers (form-feed count) within the named doc. Figures on full pp. 3, 5, 81, 83 and 87 were rendered to read map, tornado, logistics-chain and NPV-waterfall labels; the 'line by line' deferred-capex table promised on full p85 does not exist in the PDF."
+}

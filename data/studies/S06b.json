@@ -1,0 +1,182 @@
+{
+  "id": "S06b",
+  "project": "Finniss Lithium Project (Stage 1)",
+  "company": "Core Lithium Ltd (ASX: CXO)",
+  "country": "Australia",
+  "location": "Bynoe Pegmatite Field near Darwin, Northern Territory. The Grants deposit (plant site, ML31726) has BP33, Carlton and Hang Gong nearby: p4 says all are within a 3 km radius of the plant, while p11 puts BP33 ~6 km south of Grants. 25 km from Port Darwin (88 km by road); about 1 h drive from Darwin airport and city (p4, p11, p27)",
+  "stage": "DFS",
+  "study_date": "2021-07-26 (ASX announcement; the key assumptions table is headed 'DFS June 2021'; Ore Reserve effective 2021-07-26). Updates the April 2019 DFS and the June 2020 PFS (p1, p4, p39, p87)",
+  "currency": "A$ for cash flows, capex and NPV; US$ for concentrate prices and unit operating costs (p34, p57)",
+  "fx_assumption": {"value": 0.70, "unit": "US$ per A$", "page": 2, "note": "AUD:USD 0.70 (p2, p34, p37). The Ore Reserve cut-off text cites US$0.65 (p59) and US$0.70 (p79)"},
+  "real_or_nominal": "real",
+  "ownership": [
+    {"holder": "Core Lithium Ltd, through its 100%-owned subsidiary Lithium Developments (Grants NT) Pty Ltd", "share": {"value": 100, "unit": "%", "page": 16, "note": "'Core's 100% owned Finnis Lithium Project' (p16); 'wholly owned' (p2); EL29698 is 100% owned via Lithium Developments Pty Ltd (p69). Lithium Royalty Corporation holds a 2.5% gross revenue royalty, not equity (p36)"}}
+  ],
+  "deposit": {
+    "resource": [
+      {"category": "Measured", "tonnes_Mt": {"value": 4.09, "unit": "Mt", "page": 20, "note": "Grants 1.96 Mt @ 1.50%, BP33 1.50 Mt @ 1.52%, Carlton 0.63 Mt @ 1.31%; 60.5 kt Li2O contained"}, "grade_Li2O_pct": {"value": 1.48, "unit": "% Li2O", "page": 20}},
+      {"category": "Indicated", "tonnes_Mt": {"value": 4.18, "unit": "Mt", "page": 20, "note": "56.3 kt Li2O contained"}, "grade_Li2O_pct": {"value": 1.36, "unit": "% Li2O", "page": 20}},
+      {"category": "Inferred", "tonnes_Mt": {"value": 6.45, "unit": "Mt", "page": 20, "note": "76.7 kt Li2O contained"}, "grade_Li2O_pct": {"value": 1.19, "unit": "% Li2O", "page": 20}},
+      {"category": "Total", "tonnes_Mt": {"value": 14.72, "unit": "Mt", "page": 20, "note": "193.5 kt Li2O. Cut-off 0.75% Li2O (Sandras 0.6%; Hang Gong and Booths/Lees 0.7%). Reported inclusive of Ore Reserves (p58, p78). Quoted as '15Mt @ 1.3%' (p16). Grants was updated in this release; the other deposits are from the 15 June 2020 MRE"}, "grade_Li2O_pct": {"value": 1.32, "unit": "% Li2O", "page": 20}}
+    ],
+    "reserve": [
+      {"category": "Proved", "tonnes_Mt": {"value": 3.8, "unit": "Mt", "page": 6, "note": "52.1 kt Li2O"}, "grade_Li2O_pct": {"value": 1.4, "unit": "% Li2O", "page": 6}},
+      {"category": "Probable", "tonnes_Mt": {"value": 3.7, "unit": "Mt", "page": 6, "note": "45.8 kt Li2O"}, "grade_Li2O_pct": {"value": 1.2, "unit": "% Li2O", "page": 6}},
+      {"category": "Total", "tonnes_Mt": {"value": 7.4, "unit": "Mt", "page": 6, "note": "97.9 kt Li2O. Open pit 3.2 Mt @ 1.4% (Grants 2.1, Hang Gong 1.1); underground 4.2 Mt @ 1.3% (Grants UG 0.3, BP33 2.3, Carlton 1.6). Cut-off 0.75% Li2O for open pit and 0.61% Li2O (A$75/t NSR) for underground (p22, p79). Reserve price basis US$744/t at US$0.65/A$ (p59), or US$687/t at US$0.70/A$ (p79). Effective 2021-07-26; not audited (p88)"}, "grade_Li2O_pct": {"value": 1.3, "unit": "% Li2O", "page": 6}}
+    ],
+    "inferred_share_of_mine_plan": {"value": 2, "unit": "% of production target", "page": 2, "note": "The production target is 98% Proved+Probable and 2% Inferred. The open pits are 5% Inferred (Grants schedule 3% of 2.14 Mt; Hang Gong 8% of 1.09 Mt) (p7-8). Within the Ore Reserve itself, Inferred material is treated as waste (p80)"},
+    "mining_method": "Open pit then underground, all by contractors. The Grants open pit is mined in two stages, with 40-70 m of weathered/transitional pre-strip; drill and blast except free-dig oxide. Next come Grants underground (up-hole retreat, no backfill) and the BP33 and Carlton underground mines (sublevel open stoping with 15 m x 15 m pillars, no backfill). The Hang Gong open pit (single phase) comes last (p5, p7-14, p58)",
+    "strip_ratio": {"value": 21.6, "unit": "waste:ore (bcm basis), open pits", "page": 23, "note": "25.81 Mbcm waste vs 1.19 Mbcm ore; 27.0 Mbcm total open-pit material"},
+    "ore_type_notes": "Fresh, very coarse-grained spodumene-alpha in LCT pegmatites of the Bynoe Pegmatite Field. Subvertical bodies 5-25 m wide (Carlton 5-15 m). The Grants pegmatite is weakly zoned with very consistent lithium grade. Ore lies ~50 m (Grants) and ~70 m (Hang Gong) below surface, under weathered cover. Fe is treated as a deleterious element, partly from steel contamination during drilling. SG = 0.0666 x Li2O% + 2.613 (p17-18, p74, p79)"
+  },
+  "mining": {
+    "ore_mined_Mtpa": {"value": "0.51-1.33", "unit": "Mt/y ore (range FY22-FY29)", "page": 23, "note": "Plant feed is about 1.08-1.14 Mt/y in FY23-FY28 (p24). The open-pit fleet's capacity is 16 Mtpa total material (p58). Underground was costed at 1.0 Mtpa (BP33, Carlton) and 0.5 Mtpa (Grants UG)"},
+    "total_ore_mined_Mt": {"value": 7.442, "unit": "Mt", "page": 23, "note": "7,442,151 t @ 1.31% Li2O: open pit 3.23 Mt @ 1.36%; underground development 0.29 Mt @ 1.32%; stoping 3.92 Mt @ 1.27%"},
+    "life_of_mine_years": {"value": 8, "unit": "years", "page": 2, "note": "Processing ends Feb-2029 (p39); open pits active about 5 years including pre-strip (p5)"},
+    "dilution_pct": {"value": "Grants OP 6.5; Hang Gong OP 12.4; underground 10", "unit": "% of ore tonnes", "page": 80, "note": "Open-pit figures come from regularised models (SMU 5 x 5 x 2.5 m) (p60, p80); underground from p81"},
+    "mining_recovery_pct": {"value": "Grants OP ore loss 8.5; Hang Gong OP ore loss 18.9; underground stoping recovery 95", "unit": "%", "page": 80, "note": "Open-pit ore loss (p60, p80); underground stoping recovery (p81). The Hang Gong undiluted and ore-loss grades differ between p60 and p80"},
+    "mining_cost": {"value": 10.79, "unit": "A$/bcm material mined (open pit, LOM average)", "page": 83, "note": "Underground A$53.16/t mined (p84). Per tonne of concentrate: OP US$106/t, UG US$133/t (p34)"}
+  },
+  "processing": {
+    "route": "Gravity-only dense media separation (DMS). Four-stage crushing to P100 6.3 mm, then screening into -6.3+2 mm coarse and -2+0.5 mm fines. Primary and secondary coarse DMS, with re-crush of middlings/secondary floats; separate fines DMS; reflux classifier and mica removal. The -0.5 mm fines go to the TSF; DMS rejects are stockpiled with nil revenue. Primero is EPC and O&M contractor; Nagrom ran four generations of testwork (p25-26, p59)",
+    "throughput_Mtpa": {"value": 1.0, "unit": "Mtpa (design)", "page": 2, "note": "1.0-1.1 Mtpa in the key assumptions table (p39); 1.08-1.14 Mt crushed per year in FY23-FY28 (p24)"},
+    "head_grade_Li2O_pct": {"value": 1.31, "unit": "% Li2O", "page": 2, "note": "LOM average grade mined and processed; the plant is designed for a 1.4-1.5% Li2O head grade (p25)"},
+    "recovery_pct": {"value": 71.7, "unit": "% Li2O", "page": 2, "note": "Held constant at all feed grades (p84). Testwork gave 69.8% at 6.07% grade, interpolated to 70.0% at 6.0%, 71.7% at 5.5% and 73.7% at 5.0% (p25, p60); the plan pairs 71.7% with a 5.8% concentrate"},
+    "concentrate_grade_Li2O_pct": {"value": 5.8, "unit": "% Li2O", "page": 2, "note": "Priced pro rata to SC6 (factor 96.67%, p84); 100% payable"},
+    "concentrate_output_ktpa": {"value": 175, "unit": "kt/y", "page": 2, "note": "LOM average after start of commercial production. Up to 197 kt/y (p2; 197.0 kt in FY26, p24); LOM total 1,206.6 kt (1.21 Mt)"},
+    "by_products": "None. No by-product recovery is assumed in the resource (p74). DMS rejects are stockpiled for possible future use with nil revenue, and -0.5 mm fines are discarded to the TSF (p59, p81). Spodumene DSO is treated as the first saleable product only for the NT royalty calculation (p36); the port agreement also contemplates DSO exports (p30)",
+    "processing_cost": {"value": 103, "unit": "US$/t concentrate", "page": 34, "note": "A$24.38/t ore treated, from the crushing & screening tender and Primero's O&M proposal (p83)"}
+  },
+  "overheads": {
+    "site_GA": {"value": 11, "unit": "US$/t concentrate", "page": 34, "note": "A$16.15/t concentrate produced (p83)"},
+    "power_source": "Not specified in the release. The site is 10 km from an NT electricity grid connection and 15 km from a 310 MW gas-fired power station (p27). Core ran a pre-qualification tender for power supply and a commercial evaluation of natural gas and diesel options (p54). Initial capex includes A$7.5M for power & water supply (p32)",
+    "power_cost": null,
+    "workforce_camp_fifo": "Residential workforce with no camp or FIFO: the workforce will be engaged on a residential basis (p83), less than a 1 h commute from Darwin (p3). About 48 people at the processing plant at full capacity (p25). Contract mining: Lucas Total Contract Solutions for the open pit and an underground contractor chosen from tendered quotes. Primero operates the plant (p9, p11, p25, p32)"
+  },
+  "logistics": {
+    "product_route": "Concentrate is loaded into road trains at the Grants plant and hauled 88.31 km on sealed public roads (Cox Peninsula Road, Stuart Highway, Tiger Brennan Drive, Berrimah Road) to East Arm Wharf, Darwin Port, then ship-loaded for export to Asia (p30)",
+    "mode": "Road train to port (95 t payload, about 10 movements/day at nameplate), then bulk ship",
+    "distance_km": {"value": 88.31, "unit": "km by road", "page": 30, "note": "Also '88 km by an entirely sealed road' (p82); 25 km straight-line from Port Darwin (p27)"},
+    "haulage_cost": {"value": 8.62, "unit": "A$/t product", "page": 83, "note": "Accepted tender rate from preferred contractor Qube Bulk. The C1 line 'Haulage & Logistics' is US$12/t concentrate (p34)"},
+    "port": "Darwin Port - East Arm Wharf (EAW): Berth 2 bulk berth with rail-mounted dry bulk ship loader; vessels up to Panamax (p30-31)",
+    "port_cost": null,
+    "ocean_freight": {"value": 20, "unit": "US$/t concentrate", "page": 38, "note": "Long-term average Darwin-Asia freight, used to convert Roskill CIF China prices to FOB (also p2, p34)"},
+    "sale_basis": "FOB Darwin (Roskill CIF China less US$20/t freight)",
+    "infrastructure_built": "No rail or port construction. Product moves on existing sealed public roads and through existing Darwin Port (DPO) facilities under a 5-year Port Operating Agreement; Core's subsidiary supplies all labour to operate the DPO facilities when handling its product (p30-31). Project-funded items in initial capex: roads A$0.6M, power & water supply A$7.5M, TSF & water management A$6.4M (p32). Also a second (western) water dam (p28), and GHD pavement designs for the main access road and an airstrip (p53). The Cox Peninsula Road must be realigned for the Hang Gong pit, which still needs approval (p82)",
+    "notes": "Port and ship-loading costs are not disclosed separately. C1 includes transport, port and ship-loading (p2), and the only logistics line is Haulage & Logistics at US$12/t (p34); Darwin Port supplied the handling cost estimates (p36). A formal port access application has been lodged and Darwin Port is studying the project's access requirements (p82). The site is within 0.5 km of a sealed road to the port; rail is nearby but not used (p3, p27). ERM found the lowest projected Scope 3 emissions among Australian peer projects because of port proximity (p41)"
+  },
+  "operating_costs": {
+    "breakdown": [
+      {"item": "Open pit mining", "value": 106, "unit": "US$/t concentrate", "page": 34, "note": "LOM averages per tonne of total concentrate; components sum to C1"},
+      {"item": "Underground mining", "value": 133, "unit": "US$/t concentrate", "page": 34},
+      {"item": "Processing", "value": 103, "unit": "US$/t concentrate", "page": 34},
+      {"item": "Haulage & logistics", "value": 12, "unit": "US$/t concentrate", "page": 34},
+      {"item": "Site G&A", "value": 11, "unit": "US$/t concentrate", "page": 34},
+      {"item": "C1 operating cost", "value": 364, "unit": "US$/t concentrate", "page": 34},
+      {"item": "Royalties", "value": 36, "unit": "US$/t concentrate", "page": 34},
+      {"item": "Sustaining & UG development capex", "value": 41, "unit": "US$/t concentrate", "page": 34},
+      {"item": "AISC (FOB)", "value": 441, "unit": "US$/t concentrate", "page": 34},
+      {"item": "Open pit mining unit rate", "value": 10.79, "unit": "A$/bcm mined", "page": 83},
+      {"item": "Underground mining unit rate", "value": 53.16, "unit": "A$/t mined", "page": 84},
+      {"item": "Processing unit rate", "value": 24.38, "unit": "A$/t ore treated", "page": 83},
+      {"item": "G&A unit rate", "value": 16.15, "unit": "A$/t concentrate", "page": 83},
+      {"item": "Road transport (Qube Bulk tender)", "value": 8.62, "unit": "A$/t product", "page": 83},
+      {"item": "Total operating cost excl. pre-strip", "value": 520, "unit": "A$/t concentrate", "page": 83}
+    ],
+    "C1_or_FOB_cost": {"value": 364, "unit": "US$/t concentrate", "page": 2, "note": "FOB: mining, processing, transport, port, ship-loading and G&A; excludes royalties and sustaining capital. LOM average from commercial production at 0.70 US$/A$. By year (Fig. 20, p35): FY23 422, FY24 300, FY25 351, FY26 405, FY27 374, FY28 453, FY29 203"},
+    "AISC": {"value": 441, "unit": "US$/t concentrate", "page": 2, "note": "C1 plus royalties (US$36/t) plus sustaining capital (US$41/t); excludes non-sustaining capex. By year (Fig. 21, p35): FY23 467, FY24 397, FY25 476, FY26 502, FY27 424, FY28 494, FY29 271"}
+  },
+  "fiscal": {
+    "royalties": [
+      {"name": "Lithium Royalty Corporation (private) production royalty", "rate": {"value": 2.5, "unit": "% of gross revenue", "page": 36, "note": "2.115% after the Stage 1 payment (A$6.875M received in 2019). It rises by 0.385% to 2.5% when LRC pays the A$1.25M balance, due once the project has a 15 Mt JORC resource and the plant has run continuously for more than 14 days"}, "base": "Gross revenue from sale of Finniss products"},
+      {"name": "Northern Territory government royalty (Mineral Royalty Act, hybrid regime)", "rate": {"value": "Greater of 20% of net value less A$10,000, or 1% / 2% / 2.5% of gross production revenue (royalty year 1 / 2 / 3 onward)", "unit": "rate rule", "page": 36, "note": "Payable only where annual gross production revenue exceeds A$500,000. Core assumes spodumene DSO is the first saleable product, priced from the 2017 Yahua offtake terms"}, "base": "Net value (gross realisation less operating costs, capital recognition deduction, eligible exploration and s4CA deductions), or gross production revenue"},
+      {"name": "Total royalties (LOM average)", "rate": {"value": 36, "unit": "US$/t concentrate", "page": 34}, "base": "Both royalties combined"}
+    ],
+    "income_tax": {"value": 30, "unit": "% corporate tax rate", "page": 36, "note": "Gross tax losses of A$75.3M (A$22.6M tax effect) applied"},
+    "state_participation": null,
+    "other_levies": "None stated beyond royalties and income tax. NPV8 is A$221M pre-tax and A$170M post-tax; free cash flow is A$344M pre-tax and A$267M post-tax (p3)"
+  },
+  "capital": {
+    "initial_capex": {"value": 88.9, "unit": "A$M", "page": 32, "note": "Headline A$89M, including A$33.9M of Grants pre-strip up to the month before first revenue. The JORC table (p83) cites 'A$128 million ... pre-production capital component $89 million'"},
+    "breakdown": [
+      {"item": "DMS plant (Primero EPC estimate)", "value": 37.9, "unit": "A$M", "page": 32},
+      {"item": "Power & water supply", "value": 7.5, "unit": "A$M", "page": 32},
+      {"item": "Site establishment & setup", "value": 1.1, "unit": "A$M", "page": 32},
+      {"item": "TSF and water management", "value": 6.4, "unit": "A$M", "page": 32},
+      {"item": "Mobilisation, utilities and services", "value": 1.7, "unit": "A$M", "page": 32},
+      {"item": "Roads", "value": 0.6, "unit": "A$M", "page": 32},
+      {"item": "Start-up and construction subtotal", "value": 55.0, "unit": "A$M", "page": 32},
+      {"item": "Pre-strip, Grants open pit", "value": 33.9, "unit": "A$M", "page": 32},
+      {"item": "Total initial capital", "value": 88.9, "unit": "A$M", "page": 32},
+      {"item": "Production capital: Grants underground (sustaining 11.9 + non-sustaining 2.0)", "value": 13.9, "unit": "A$M", "page": 33},
+      {"item": "Production capital: BP33 underground (26.5 + 11.7)", "value": 38.2, "unit": "A$M", "page": 33},
+      {"item": "Production capital: Carlton underground (29.8 + 5.1)", "value": 34.9, "unit": "A$M", "page": 33},
+      {"item": "Production capital: Hang Gong open pit (non-sustaining)", "value": 47.0, "unit": "A$M", "page": 33},
+      {"item": "Production capital: other (sustaining)", "value": 1.6, "unit": "A$M", "page": 33},
+      {"item": "Closure, clean-up & decommissioning", "value": 8.0, "unit": "A$M", "page": 33},
+      {"item": "Capital recovery / equipment disposal", "value": -15.8, "unit": "A$M", "page": 33},
+      {"item": "Total production capital (excluding initial)", "value": 127.8, "unit": "A$M", "page": 33, "note": "Sustaining A$69.8M plus non-sustaining A$58.0M"}
+    ],
+    "contingency": {"value": "10-12.5% of infrastructure direct costs; open pit 2.5% of load & haul costs (dayworks); underground 7.5% of capital plus a 5% unplanned-work factor on development unit costs", "unit": "framework", "page": 32, "note": "Total contingency amount not disclosed. Underground pre-production capital including 7.5% contingency: Grants A$11.08M, BP33 A$18.40M, Carlton A$24.11M (p11-14)"},
+    "sustaining_capex": {"value": 69.8, "unit": "A$M", "page": 33, "note": "Table 14 rounds this to A$69M (p39). Non-sustaining capital adds A$65.8M excluding closure (A$66M, p39), or A$58.0M after net closure. The AISC component is US$41/t (p34)"},
+    "closure_cost": {"value": 8.0, "unit": "A$M", "page": 33, "note": "Offset by A$15.8M of capital recovery and equipment disposal, giving a net A$7.8M inflow"},
+    "construction_period_months": null,
+    "ramp_up": "No construction duration is given. FID targeted for 2021, with construction to start before end-2021 (p1, p3); first concentrate sale expected before end-2022 (p3); construction and ramp-up assumed to begin in FY2022 (p34). First ore is mined in Month 6 of the mine schedule (p7). Concentrate output is 15.5 kt in FY22, then 190.5 kt in FY23 (p24). Payback from first sale is 2.0 years, or 25 months (p39, p45)"
+  },
+  "economics": {
+    "price_deck": [
+      {"period": "LOM average (received price, 5.8% concentrate)", "price": {"value": 743, "unit": "US$/t FOB", "page": 2, "note": "Roskill April 2021 forecast: CIF China less US$20/t freight, with a pro-rata grade adjustment to 5.8% Li2O; real. Labelled 'SC 6.0% Price (LOM)' in Table 14 (p39)"}},
+      {"period": "2021 (Roskill Apr-21 SC6, CIF China, real)", "price": {"value": 700, "unit": "US$/t", "page": 38, "note": "p84 lists the same yearly deck (real) under a mention of a Benchmark Mineral Intelligence study"}},
+      {"period": "2022 (Roskill Apr-21 SC6, CIF China, real)", "price": {"value": 761, "unit": "US$/t", "page": 38}},
+      {"period": "2023 (Roskill Apr-21 SC6, CIF China, real)", "price": {"value": 708, "unit": "US$/t", "page": 38}},
+      {"period": "2024 (Roskill Apr-21 SC6, CIF China, real)", "price": {"value": 806, "unit": "US$/t", "page": 38, "note": "805 in the JORC table (p84)"}},
+      {"period": "2025 (Roskill Apr-21 SC6, CIF China, real)", "price": {"value": 872, "unit": "US$/t", "page": 38}},
+      {"period": "2026 (Roskill Apr-21 SC6, CIF China, real)", "price": {"value": 811, "unit": "US$/t", "page": 38}},
+      {"period": "2027 (Roskill Apr-21 SC6, CIF China, real)", "price": {"value": 787, "unit": "US$/t", "page": 38}},
+      {"period": "2028 (Roskill Apr-21 SC6, CIF China, real)", "price": {"value": 771, "unit": "US$/t", "page": 38}},
+      {"period": "2029 (Roskill Apr-21 SC6, CIF China, real)", "price": {"value": 723, "unit": "US$/t", "page": 38}},
+      {"period": "2030 (Roskill Apr-21 SC6, CIF China, real)", "price": {"value": 726, "unit": "US$/t", "page": 38}},
+      {"period": "2022 (SC6 FOB real, modifying-factors table)", "price": {"value": 737, "unit": "US$/t", "page": 60, "note": "A separate FOB deck in the ASX Listing Rule 5.9.1 material assumptions table; it does not equal the CIF deck less US$20"}},
+      {"period": "2023 (SC6 FOB real, modifying-factors table)", "price": {"value": 734, "unit": "US$/t", "page": 60}},
+      {"period": "2024 (SC6 FOB real, modifying-factors table)", "price": {"value": 757, "unit": "US$/t", "page": 60}},
+      {"period": "2025 (SC6 FOB real, modifying-factors table)", "price": {"value": 839, "unit": "US$/t", "page": 60}},
+      {"period": "2026 (SC6 FOB real, modifying-factors table)", "price": {"value": 841, "unit": "US$/t", "page": 60}},
+      {"period": "2027 (SC6 FOB real, modifying-factors table)", "price": {"value": 799, "unit": "US$/t", "page": 60}},
+      {"period": "2028 (SC6 FOB real, modifying-factors table)", "price": {"value": 779, "unit": "US$/t", "page": 60}},
+      {"period": "2029 (SC6 FOB real, modifying-factors table)", "price": {"value": 747, "unit": "US$/t", "page": 60}},
+      {"period": "2030 (SC6 FOB real, modifying-factors table)", "price": {"value": 724, "unit": "US$/t", "page": 60}},
+      {"period": "2031 (SC6 FOB real, modifying-factors table)", "price": {"value": 748, "unit": "US$/t", "page": 60}},
+      {"period": "Spot case (SC6 FOB, mid-2021)", "price": {"value": 850, "unit": "US$/t", "page": 3, "note": "Gives pre-tax NPV8 A$315M and IRR 76%"}}
+    ],
+    "discount_rate": {"value": 8, "unit": "% (real)", "page": 45, "note": "Cash flows are in real A$ (p57). Pit optimisation used 10% (p85)"},
+    "npv": [
+      {"label": "pre-tax", "value": 221, "unit": "A$M @8% real", "page": 2, "note": "Also on p1 and p39"},
+      {"label": "post-tax", "value": 170, "unit": "A$M @8% real", "page": 2, "note": "Also on p39, p45 and p86"},
+      {"label": "pre-tax (spot case, US$850/t SC6 FOB)", "value": 315, "unit": "A$M @8%", "page": 3}
+    ],
+    "irr": [
+      {"label": "pre-tax", "value": 52.7, "unit": "%", "page": 39, "note": "Rounded to 53% on p1-2"},
+      {"label": "post-tax", "value": 47.1, "unit": "%", "page": 39, "note": "Rounded to 47% on p1-2"},
+      {"label": "pre-tax (spot case, US$850/t SC6 FOB)", "value": 76, "unit": "%", "page": 3}
+    ],
+    "payback_years": {"value": 2.0, "unit": "years from first concentrate sale", "page": 39, "note": "25 months from first shipment (p45)"},
+    "lom_revenue": {"value": 1281, "unit": "A$M", "page": 39, "note": "'A$1.3 billion' on p1"},
+    "annual_ebitda": {"value": 73, "unit": "A$M/y (LOM average after commercial production)", "page": 39, "note": "LOM EBITDA A$561M (p1). Average annual FCF A$48M (p39); LOM FCF A$344M pre-tax and A$267M post-tax (p3)"},
+    "sensitivities": "Post-tax NPV8 (base A$170M), Table 15 (p40): SC6 price -10%/+10% gives A$105M/A$233M; FX +5c/-5c gives A$127M/A$217M; opex +10%/-10% gives A$134M/A$204M; Li recovery -5%/+5% gives A$138M/A$204M; discount rate +2%/-2% gives A$152M/A$190M; growth capex +10%/-10% gives A$161M/A$179M; initial capex +10%/-10% gives A$166M/A$174M. NPV is most sensitive to concentrate price, then AUD:USD and costs, then recoveries; no tested combination gave a zero or negative NPV (p45). At a spot price of US$850/t SC6 FOB, pre-tax NPV8 is A$315M and IRR 76% (p3). The JORC table gives underground-only NPV8 sensitivities (p85-86)"
+  },
+  "risks_noted": [
+    "2% of the production target is Inferred material with low geological confidence (p2)",
+    "Funding is not yet in place: debt, offtake/customer finance and equity are still to be finalised before FID (p1, p3, p46)",
+    "The Hang Gong open pit needs primary environmental approval (a Supplementary Environmental Report) and approval to realign the Cox Peninsula Road (p82)",
+    "Approvals are secured for 7 years through the Notice of Alteration (p19, p43); the remaining underground and open-pit approvals are still expected, not received (p82)",
+    "Port access: a formal application has been lodged and Darwin Port is still assessing access requirements; the Port Operating Agreement runs 5 years (p31, p82)",
+    "Water supply depends on adding a second dam to Observation Hill Dam; an ancillary Mineral Lease is under application (p28, p82-83)",
+    "Grants underground geotechnics (no pillars, breaking into the pit floor) to be further assessed (p11)",
+    "Cyclone season runs December to April; production estimates allow for it (p86)",
+    "The Yahua offtake covers only 300,000 dmt or runs to 30 Nov 2023; further offtake is still under discussion (p44)",
+    "Concentrate price is the largest sensitivity, followed by AUD:USD and costs (p45)",
+    "General risks: lithium prices, grade and recovery variation, plant failure, labour disputes, and delays to approvals, financing or construction (p57)",
+    "The Ore Reserve has not been audited (p88)"
+  ],
+  "pages_scanned": "1-89 (all; JORC Table 1 on pp62-89 read for modifying factors). PDF pages 2, 23, 33-35, 37-38 and 40 checked visually"
+}

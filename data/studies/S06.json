@@ -1,0 +1,133 @@
+{
+  "id": "S06",
+  "project": "Finniss Lithium Project (Finniss Lithium Operation)",
+  "company": "Core Lithium Ltd (ASX: CXO)",
+  "country": "Australia",
+  "location": "Cox Peninsula, Bynoe Pegmatite Field, Northern Territory; ~25 km SW of Darwin, 88 km by sealed road to Darwin's East Arm Port (p10, p16, p22, p26)",
+  "stage": "Restart study",
+  "study_date": "2025-05-14",
+  "currency": "AUD (all costs in A$ unless otherwise stated, p16, p50); price assumption in US$",
+  "fx_assumption": {"value": 0.70, "unit": "AUD/USD (US$ per A$1)", "page": 1, "note": "Consensus basis, stated alongside the long-term SC6 price; repeated p20 (Table 1-2 note b)"},
+  "real_or_nominal": "Real (no inflation or escalation applied, p16, p50)",
+  "ownership": [
+    {"holder": "Core Lithium Ltd", "share": {"value": 100, "unit": "%", "page": 16, "note": "All aspects of the Operation owned by Core, including the recently acquired crushing plant (p8, p16, p22); economics on a 100% equity basis (p16). Lithium Royalty Corp holds a 2.5% gross revenue royalty (p51). Core may consider a sale, partial sale or JV (p3)."}}
+  ],
+  "deposit": {
+    "resource": [
+      {"category": "Measured", "tonnes_Mt": {"value": 6.33, "unit": "Mt", "page": 20, "note": "In situ, inclusive of Ore Reserves, as at 30 Apr 2025 (Table 1-3); shown as 6.3 Mt on p6; 89 kt contained Li2O (p6)"}, "grade_Li2O_pct": {"value": 1.41, "unit": "% Li2O", "page": 20}},
+      {"category": "Indicated", "tonnes_Mt": {"value": 21.6, "unit": "Mt", "page": 20, "note": "In situ, inclusive of Reserves; 280 kt contained Li2O (p6)"}, "grade_Li2O_pct": {"value": 1.30, "unit": "% Li2O", "page": 20}},
+      {"category": "Inferred", "tonnes_Mt": {"value": 20.3, "unit": "Mt", "page": 20, "note": "In situ; 239 kt contained Li2O (p6)"}, "grade_Li2O_pct": {"value": 1.18, "unit": "% Li2O", "page": 20}},
+      {"category": "Total", "tonnes_Mt": {"value": 48.2, "unit": "Mt", "page": 20, "note": "In situ MRE, inclusive of Reserves (p20); first announced 11 Apr 2024 (p6 fn 4); 608 kt contained Li2O (p6). Excludes an additional 0.31 Mt @ 0.66% Li2O Indicated in the TSF and coarse-rejects stockpiles (p6, p20). Covers Grants, BP33, Carlton and other deposits; no split by deposit is given."}, "grade_Li2O_pct": {"value": 1.26, "unit": "% Li2O", "page": 20}}
+    ],
+    "reserve": [
+      {"category": "Proved", "tonnes_Mt": {"value": 3.424, "unit": "Mt", "page": 21, "note": "Grants UG 0.870 Mt @ 1.29% + BP33 UG 2.554 Mt @ 1.27% (p6, p21)"}, "grade_Li2O_pct": {"value": 1.28, "unit": "% Li2O", "page": 21}},
+      {"category": "Probable", "tonnes_Mt": {"value": 7.302, "unit": "Mt", "page": 21, "note": "Grants UG 0.284 Mt @ 1.36% + BP33 UG 6.736 Mt @ 1.32% + TSF/stockpiles 0.283 Mt @ 0.68% (p6, p21)"}, "grade_Li2O_pct": {"value": 1.30, "unit": "% Li2O", "page": 21}},
+      {"category": "Total", "tonnes_Mt": {"value": 10.726, "unit": "Mt", "page": 21, "note": "As at 30 Apr 2025; JORC 2012; dry metric tonnes; 100% basis; reported at an A$110/t NSR basis (p21); 138.2 kt contained Li2O (p6). By deposit: Grants UG 1.15 Mt @ 1.31%, BP33 UG 9.29 Mt @ 1.31%, TSF/stockpiles 0.28 Mt @ 0.68% (p6). All underground. Carlton has no reserve. Less than 25% of Resources are in Reserves (p6)."}, "grade_Li2O_pct": {"value": 1.29, "unit": "% Li2O", "page": 21}}
+    ],
+    "inferred_share_of_mine_plan": {"value": 12.9, "unit": "% of processed feed", "page": 18, "note": "Inferred = BP33 957 kt + Carlton 1,305 kt of 17,575 kt feed, all in the second half of the mine life (p3, p18, p39). Carlton (Measured, Indicated and Inferred, 5,892 kt, ~33% of feed) is Scoping-level with no reserve, so ~39% of feed is outside Ore Reserves (derived: (17,575-10,726)/17,575). 94% of the first 10 years' feed is Ore Reserves (p1, p5, p39)."},
+    "mining_method": "Underground only. BP33: long hole open stoping (LHOS), transverse and longitudinal, 45 m sublevels above 400 m depth and 30 m below, with paste and rock fill (p31, p34). Grants: switches from open pit (mined late 2021 to Jan 2024) to underground via a portal in the existing pit; 25 m high open stopes, mined top-down and left unfilled, with sill and crown pillars (p5, p29). Carlton: underground stoping with backfill, reached by a 1,200 m link drive from the Grants portal (p5, p35, p36). The restart plan has no open-pit mining.",
+    "strip_ratio": null,
+    "ore_type_notes": "Hard-rock LCT pegmatites of the Bynoe Pegmatite Field: fresh pegmatite of coarse-grained spodumene with quartz, albite, microcline and muscovite (p26). The orebodies are steep and thick, which suits underground stoping. BP33: 350 m strike, up to 40 m true width, more than 800 m deep, open at depth (p5, p26). Grants: lozenge-shaped, 20-40 m wide, plunging ~60 degrees S (p26). Carlton: 280 m strike, up to 25 m (average 15 m) wide, more than 800 m down-plunge, 1 km from the Grants pit (p26, p35). No strip ratio is given because mining is underground; the past Grants open pit had a 'materially higher strip ratio than typical', with no figure (p25). The older BP33 resource was 10.5 Mt @ 1.53% Li2O (Oct 2023, p7 fn 6), against a BP33 UG reserve of 9.29 Mt @ 1.31% (p6); no dilution % is stated. Exploration Targets outside the plan: Blackbeard 7-10 Mt @ 1.50-1.70%, BP33 Deeps 3.9-6.5 Mt @ 1.50-1.60% (p7)."
+  },
+  "mining": {
+    "ore_mined_Mtpa": {"value": 1.2, "unit": "Mtpa (steady state)", "page": 16, "note": "Ramp-up to 1.2 Mtpa (p16). Table 7-2 (p40): 0.37 Mt in Yr1, 0.74 Yr2, 1.06 Yr3, 1.19-1.33 Mt/a Yr4-8, 0.90-1.25 Mt/a Yr9-12, then 0.31-0.69 Mt/a Yr13-20 from Carlton alone; LOM average ~0.86 Mtpa (derived). BP33 paste fill is sized for 1.25 Mtpa from BP33 (p35); Carlton ~0.4-0.6 Mtpa (p35) or 0.65 Mtpa (p38)."},
+    "total_ore_mined_Mt": {"value": 17.292, "unit": "Mt", "page": 40, "note": "Grants 1.153 Mt + BP33 10.247 Mt (including 0.957 Mt Inferred) + Carlton 5.892 Mt, average 1.27% Li2O. With 0.283 Mt of TSF/stockpile reserves, 17.575 Mt is processed (p4, p39, p40)."},
+    "life_of_mine_years": {"value": 20, "unit": "years", "page": 4, "note": "Active mine period of 20 years (p1, p18). Processing runs in Years 2-20 (19 years). The plant runs at ~1.2 Mtpa only to Year 12, then at 0.3-0.7 Mtpa (p40)."},
+    "dilution_pct": null,
+    "mining_recovery_pct": null,
+    "mining_cost": {"value": "63-72", "unit": "A$/t mined", "page": 4, "note": "Underground; real A$; range includes contingency (p1 fn 2, p50); Table 5 p9, Table 10-1 p50. Down from A$120/t in the Sept 2024 Ore Reserve update (p1)."}
+  },
+  "processing": {
+    "route": "DMS only. Flotation and high-cost grinding are dropped from the earlier plan (p8, p17). The existing Grants plant is upgraded within its current footprint and approvals: 10 mm crushed feed; primary and secondary sizing screens with added static screens; primary/secondary fine DMS and ultra-fine DMS; the rolls (floats) crusher put in closed circuit; a new gravity circuit that treats ultra-fines and makes dry-stack tailings; and a mica circuit (p8, p17, p43, p44).",
+    "throughput_Mtpa": {"value": 1.2, "unit": "Mtpa (nameplate)", "page": 4, "note": "Up from 1.0 Mtpa nominal (p8, p43). Table 7-2: ~0.98 Mt/a in Years 2-3, 1.2 Mt/a in Years 4-12, 0.31-0.69 Mt/a in Years 13-20. LOM 17.575 Mt over 19 years averages ~0.93 Mtpa (p40; average derived)."},
+    "head_grade_Li2O_pct": {"value": 1.27, "unit": "% Li2O", "page": 4, "note": "LOM average feed grade; annual range 1.09-1.45% (p40)"},
+    "recovery_pct": {"value": 78, "unit": "% global Li2O recovery", "page": 4, "note": "LOM average, 'validated by testwork' (Table 8-1, p43); pilot tests reached up to 80% (p43); annual 70-80% (p40). History: 46.6% in the first 6 months, 64.4% by Apr 2024 (p25). Global mass yield 25% (p43)."},
+    "concentrate_grade_Li2O_pct": {"value": "5.0-6.0", "unit": "% Li2O", "page": 8, "note": "Design range for the DMS concentrate. All production and costs are reported as SC6 equivalent. The gravity circuit makes an intermediate-grade concentrate for sale or blending (p43). A 25% yield at 1.27% feed and 78% recovery implies an average product of ~4% Li2O (derived, not stated)."},
+    "concentrate_output_ktpa": {"value": 205, "unit": "ktpa SC6 eq (nameplate)", "page": 4, "note": "~205 ktpa, up 7% on the Sept 2024 plan (p1). LOM total 2,911 kt SC6 eq (p4, p39). Table 7-2: 157-228 kt/a in Years 2-12 (average ~194) and 46-114 kt/a in Years 13-20 (average ~97); ~153 ktpa over the 19 producing years (p40; averages derived)."},
+    "by_products": "None in the economics. The flowsheet sends mica to a mica stockpile (p44), but no mica sales are stated. No tantalum or tin credit is mentioned, although the field was mined historically for Sn-Ta (p25).",
+    "processing_cost": {"value": "40-46", "unit": "A$/t processed", "page": 4, "note": "Processing & tailings; real A$; range includes contingency; Table 5 p9, Table 10-1 p50. Down 33% from A$69/t (p1). Crushing costs are expected to halve now Core owns the crushing plant (p8)."}
+  },
+  "overheads": {
+    "site_GA": {"value": "9-10", "unit": "A$/t processed", "page": 4, "note": "Site G&A; real A$; range includes contingency (Table 5 p9, Table 10-1 p50)"},
+    "power_source": "Diesel generators on site; renewables were not considered in the Study (p47)",
+    "power_cost": null,
+    "workforce_camp_fifo": "Mainly local, residential workforce based in Darwin and nearby communities, commuting on sealed road; 'several hundred jobs, many of which would be residential' (p2, p24, p45). No camp or FIFO arrangement is described, and no headcount is given."
+  },
+  "logistics": {
+    "product_route": "Concentrate is stockpiled on a pad beside the DMS plant at Grants and loaded into covered quad road trains. They haul it 88 km on sealed public roads (Cox Peninsula Road, Stuart Highway, Tiger Brennan Drive, Berrimah Road) to East Arm Port, Darwin, running 24/7. It is exported from this third-party bulk port, which Core used before (p22, p24, p47).",
+    "mode": "Road (covered quad road trains) to port, then sea",
+    "distance_km": {"value": 88, "unit": "km by road, site to East Arm Port", "page": 47, "note": "Also p10, p16, p22, p24. The site is ~25 km from Darwin in a straight line (p16, p22)."},
+    "haulage_cost": {"value": "22-25", "unit": "A$/t product", "page": 4, "note": "'Transport' cost centre (Table 1 p4, Table 5 p9, Table 10-1 p50); real A$; range includes contingency. The FOB unit cost is defined to include haulage and port charges (p9, p50), but there is no separate port line, so Transport probably covers both (not stated explicitly). That works out to ~A$0.25-0.28/t-km over 88 km (derived), an upper bound for the road haul alone. The tonne basis (wet or dry, actual or SC6 tonnes) is not stated."},
+    "port": "East Arm Port, Darwin, NT: a third-party-operated bulk handling port that several parties use for exports and that Core used for earlier sales (p22, p24, p47)",
+    "port_cost": null,
+    "ocean_freight": null,
+    "sale_basis": "CIF price (US$1,330/t SC6 CIF, p1, p20, p38); costs reported FOB (p4, p9, p50); freight between the two not disclosed",
+    "infrastructure_built": "Nothing off site. The project uses the existing NT Government sealed Rural Arterial Road and public highways (an established heavy-haulage route), its existing purpose-built access road, and the third-party East Arm Port (p24, p45, p47). On site, pre-production capex funds Grants UG infrastructure (A$40-50M), BP33 UG infrastructure (A$110-120M) and plant and site upgrades (A$25-30M). These cover plant modifications, a paste backfill plant, ventilation, BP33 mine and surface infrastructure, and finishing the part-built BP33 box cut (p33, p46, p50). Later items are the 1,200 m Grants-Carlton link drive (p5) and a TSF lift in Year 12 (p38, p46).",
+    "notes": "Transport (A$22-25/t product) is the only logistics cost given. The study does not split road haulage, port handling or storage, and shipping. It discloses no ocean freight or CIF-to-FOB netback, although the price is CIF and costs are FOB. Port capacity, shipment size, offtake partners and destination market are not stated. The same road-and-port route carried exports in 2023-24 (p24). The transport plan considered regulation, community impact and safety, and is supported by third-party assessments (p47). On site, BP33 is 6 km south of the Grants plant; dry-stack tailings and rejects are backhauled to BP33 for paste fill (p16, p17, p22). The cost of that internal haul is not broken out."
+  },
+  "operating_costs": {
+    "breakdown": [
+      {"item": "Mining (underground)", "value": "63-72", "unit": "A$/t mined", "page": 50, "note": "Was A$120/t in the Sept 2024 plan (p1)"},
+      {"item": "Processing & tailings", "value": "40-46", "unit": "A$/t processed", "page": 50, "note": "Was A$69/t (p1)"},
+      {"item": "Site G&A", "value": "9-10", "unit": "A$/t processed", "page": 50},
+      {"item": "Transport (road haulage to East Arm Port; port charges likely included)", "value": "22-25", "unit": "A$/t product", "page": 50},
+      {"item": "Unit operating cost, FOB SC6 eq, excl. royalties (total)", "value": "690-785", "unit": "A$/t SC6 eq", "page": 50, "note": "Table 10-1; all ranges include contingency; real A$"}
+    ],
+    "C1_or_FOB_cost": {"value": "690-785", "unit": "A$/t SC6 eq, FOB", "page": 4, "note": "Unit operating cost, FOB, SC6 equivalent, excluding royalties. Covers mining, processing, haulage, port charges and site G&A; range includes contingency; real (p4, p9, p20, p50). ~US$483-550/t at AUD/USD 0.70 (derived). Excludes sustaining capex (A$20-22/t mined) and royalties."},
+    "AISC": null
+  },
+  "fiscal": {
+    "royalties": [
+      {"name": "Lithium Royalty Corp (LRC) private royalty", "rate": {"value": 2.5, "unit": "% of gross revenue", "page": 51, "note": "Applies to Grants, BP33, Carlton and certain other deposits, but not Blackbeard; those prospects are held as security"}, "base": "Gross revenue from the sale of products"},
+      {"name": "NT Mineral Royalty Act 1982 (MRA82), current regime", "rate": {"value": "greater of (i) 20% of the net value, less A$10,000, or (ii) 2.5% of gross production revenue", "unit": "formula", "page": 51, "note": "Profit-based royalty with a 2.5% ad valorem floor. Applies to minerals from tenements integrated with an existing (grandfathered) production unit."}, "base": "Net value (profit-based), with a floor on gross production revenue"},
+      {"name": "NT Mineral Royalty Act 2024 (MRA24), optional ad valorem regime", "rate": null, "base": "Ad valorem; rate not stated. Core can apply to be assessed under MRA24 and is still working out which regime is best (p51)."}
+    ],
+    "income_tax": null,
+    "state_participation": null,
+    "other_levies": "None stated. Income tax is not mentioned and FCF is not labelled pre- or post-tax. Unit opex excludes royalties (p4). The study does not say which NT royalty regime (MRA82 or MRA24) the FCF assumes (p51)."
+  },
+  "capital": {
+    "initial_capex": {"value": "175-200", "unit": "A$M", "page": 4, "note": "Pre-production capital; real A$; range includes contingency (p50). Down 29% from A$282M in the Sept 2024 plan (p1). Also p10, p20, p50."},
+    "breakdown": [
+      {"item": "Grants underground infrastructure", "value": "40-50", "unit": "A$M", "page": 50},
+      {"item": "BP33 underground infrastructure", "value": "110-120", "unit": "A$M", "page": 50},
+      {"item": "Plant and site infrastructure upgrade", "value": "25-30", "unit": "A$M", "page": 50}
+    ],
+    "contingency": {"value": "included in the ranges; amount not disclosed", "unit": "", "page": 50, "note": "Capex and opex ranges both include contingency (p1 fn 2, p50)"},
+    "sustaining_capex": {"value": "20-22", "unit": "A$/t mined", "page": 50, "note": "Applies after the pre-production period (also p4). ~A$346-380M over 17.29 Mt mined (derived). Carlton development, from about Year 10, is expected to be funded from cash flow (p3). Its capex is not given separately, and the study does not say whether it sits inside sustaining capex."},
+    "closure_cost": null,
+    "construction_period_months": null,
+    "ramp_up": "No restart date or construction period is given; FID depends on funding and Board approval (p1, p10). Table 7-2 (p40): Year 1 is mining only (Grants UG, 372 kt). Processing starts in Year 2 at 981 kt feed and 167 kt SC6, then 984 kt and 174 kt in Year 3, reaching 1.2 Mtpa and 228 kt SC6 in Year 4. BP33 ore arrives from Year 2 (p5), and BP33 paste backfill starts in Year 4 (p35). Recovery is 77% in Year 2, then 78-80%."
+  },
+  "economics": {
+    "price_deck": [
+      {"period": "Long term, flat for LOM", "price": {"value": 1330, "unit": "US$/t SC6 CIF", "page": 1, "note": "Consensus long-term price, with AUD/USD 0.70 (~A$1,900/t, derived); also p20, p38. Economics are in real terms (p16). No year-by-year price deck is given."}}
+    ],
+    "discount_rate": null,
+    "npv": null,
+    "irr": null,
+    "payback_years": null,
+    "lom_revenue": null,
+    "annual_ebitda": null,
+    "free_cash_flow": {"value": 1150, "unit": "A$M, LOM total", "page": 20, "note": "Field added because the study reports no NPV or IRR; this is its only headline return. Rounded to 'A$1.2 billion' on p1-2. At US$1,330/t SC6 CIF and AUD/USD 0.70; real; 100% basis. The study does not say whether it is pre- or post-tax, undiscounted, or before or after pre-production capex. Called a 'six-fold return on pre-production capital' (p2). Carlton contributes A$313M (p38)."},
+    "sensitivities": "Only Carlton, the Scoping-level deposit mined in Years 9-20, has a sensitivity (Figure 6-12, p38). A +/-10% change against Carlton FCF of A$313M (at US$1,330/t SC6 CIF) gives: lithium price +/-A$168M, Carlton mining opex +/-A$40M, Carlton capex +/-A$29M. There is no whole-project sensitivity on the A$1,150M FCF, no NPV or IRR sensitivity, and no alternative price case."
+  },
+  "restart_specific": "Why paused: open-pit mining at Grants began in late 2021 and DMS processing in 2023 (p16, p22, p25). BP33 early works stopped in late 2023, Grants mining in Jan 2024 and processing in mid-2024; all infrastructure went on care and maintenance (p16, p22), and a dedicated team has maintained the plant since (p8). The study does not say that falling prices caused the pause. Instead it describes a fast build 'to capture value during a period of strong lithium pricing', a high open-pit strip ratio and unit costs, host-rock dilution, fine feed, screen and rolls-crusher problems, and low recovery: 46.6% in the first 6 months, 64.4% by Apr 2024 (p16, p25). Restart changes: Grants and BP33 mined underground; no flotation; 10 mm feed; a gravity circuit; a closed-circuit rolls crusher; static screens; paste fill raised from 25,000 to 35,000 m3/month; dry-stack tailings backfilled into BP33 (p1, p8, p17). Against the Sept 2024 plan: mining A$120/t to A$63-72/t, processing A$69/t to A$40-46/t, pre-production capex A$282M to A$175-200M, throughput up 20%, concentrate up 7% to ~205 ktpa (p1). Restart capex is A$175-200M pre-production (p10, p50). Core has bought the crushing plant and now owns 100% of the processing infrastructure (p8, p16). The BP33 box cut was part built at suspension and will be finished (p33). All key approvals are in place, with no heritage or biodiversity approvals outstanding (p16), and minor BP33 amendments are under way (p49). The TSF holds at least 12 years of tailings; its Year 12 lift is designed, approved and costed (p38, p46). Funding: FID depends on Board approval, market conditions and funding; Morgan Stanley Australia is advising on funding, and Core had A$30M cash at 31 Mar 2025 (p1, p10). The study gives no care-and-maintenance cost, no restart or breakeven price, and no restart timetable.",
+  "risks_noted": [
+    "12.9% of feed is Inferred, with low geological confidence and no certainty it converts (p3, p18)",
+    "Mixed accuracy: Grants and BP33 Measured and Indicated are at PFS level, but BP33 Inferred and all of Carlton are at Scoping level (Carlton +/-30%); the whole study is presented at Scoping level (p3, p35, p39)",
+    "Carlton (33% of feed, from Year 9) has no Ore Reserve; its development is to be funded from cash flow, with no certainty (p3, p39)",
+    "Funding not secured: FID needs Board approval and suitable market conditions; funding may dilute shareholders; a sale, partial sale or JV could cut Core's share (p1, p3, p10)",
+    "Past underperformance: host-rock dilution, fine feed, low recovery and throughput, screen limits and poor rolls-crusher performance (p16, p25)",
+    "BP33 needs cooling once stoping starts because of its depth; Carlton needs a refrigeration plant (p35, p38)",
+    "The positive water balance must still be confirmed by an updated balance; Grants UG dewatering is not included in it (p47)",
+    "Wet-season flood and sediment management, including possible discharge of excess mine water in the monsoon (p49)",
+    "Minor approval amendments for BP33 are under way (p49)",
+    "The TSF needs a lift after about 12 years (p38, p46)",
+    "The NT royalty regime (MRA82 or MRA24) is not yet decided (p51)",
+    "Power is diesel only; renewables were not studied (p47)",
+    "Carlton FCF is most sensitive to lithium price: +/-10% moves it +/-A$168M on A$313M (p38)",
+    "The Exploration Targets (Blackbeard, BP33 Deeps) are conceptual (p7)"
+  ],
+  "pages_scanned": "All 51 pages read. Pages cited here are PDF page numbers (form-feed count); from PDF p16 onward the technical report's printed page numbers are 15 lower. Key pages: p1 highlights and price/FX footnote; p4 Table 1 Study Summary (headline metrics); p6 Tables 2-3 Reserves and Resources; p9 Table 5 opex; p18 Table 1-1 physicals; p20 Table 1-2 economic summary and Table 1-3 Resources; p21 Table 1-4 Reserves; p38 Carlton sensitivity (Fig 6-12); p39 Table 7-1; p40 Table 7-2 annual production plan; p43 Table 8-1 recovery and yield; p44 flowsheet; p47 site-to-port logistics and power; p50 Tables 10-1 opex and 10-2 capex; p51 royalties. Pages 18, 19, 23, 38, 40, 44 and 47 were checked against the PDF images."
+}

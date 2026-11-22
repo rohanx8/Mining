@@ -1,0 +1,168 @@
+{
+  "id": "S07",
+  "project": "Rose Lithium-Tantalum Project",
+  "company": "Critical Elements Lithium Corporation (TSX-V: CRE)",
+  "country": "Canada",
+  "location": "Eeyou Istchee James Bay, northern Québec. Category III land on Eastmain Cree traditional lands, ~40 km north of the Cree village of Nemaska (Nemaska is ~300 km NW of Chibougamau); 20 km south of Hydro-Québec's Eastmain-1 plant; 50 km by road from Nemiscau airport; 473 claims over 24,654 ha (p3)",
+  "stage": "FS",
+  "study_date": "2023-08-29 (press release; reserve and resource effective date 2023-08-01). Replaces the FS of June 13, 2022 (p1, p4)",
+  "currency": "US$ headline. Capital and operating costs were estimated in C$, and results are reported in both C$ and US$ (p3, p11)",
+  "fx_assumption": {"value": 1.30, "unit": "C$ per US$", "page": 2, "note": "Stated as 1.00 US$ : 1.30 CAN$ and as 0.77 US$ : 1.00 CAN$"},
+  "real_or_nominal": null,
+  "ownership": [
+    {"holder": "Critical Elements Lithium Corporation", "share": {"value": 100, "unit": "%", "page": 1, "note": "Described as 100%-owned / wholly-owned (p1, p2)"}}
+  ],
+  "deposit": {
+    "resource": [
+      {"category": "Measured", "tonnes_Mt": {"value": 0, "unit": "Mt", "page": 5, "note": "No Measured category: the QP classified the MRE as Indicated and Inferred only"}, "grade_Li2O_pct": null},
+      {"category": "Indicated", "tonnes_Mt": {"value": 30.561, "unit": "Mt", "page": 5, "note": "Pit 29.922 Mt @ 0.93% Li2O / 145 ppm Ta2O5, plus underground 0.624 Mt @ 0.91% / 82 ppm; total Ta2O5 printed as 118 ppm. Cut-offs: C$31.40 NSR/t open pit and C$121.12 NSR/t underground (a footnote says US$121.12). Effective 2023-08-01. The release does not say whether resources include reserves"}, "grade_Li2O_pct": {"value": 0.93, "unit": "% Li2O", "page": 5, "note": "Li2O_eq 1.03%; NSR C$185/t"}},
+      {"category": "Inferred", "tonnes_Mt": {"value": 2.384, "unit": "Mt", "page": 5, "note": "Pit 1.787 Mt @ 0.77% plus underground 0.597 Mt @ 0.80%; 129 ppm Ta2O5"}, "grade_Li2O_pct": {"value": 0.78, "unit": "% Li2O", "page": 5}}
+    ],
+    "reserve": [
+      {"category": "Proven", "tonnes_Mt": {"value": 0, "unit": "Mt", "page": 4, "note": "No Proven reserve. The whole reserve is Probable"}, "grade_Li2O_pct": null},
+      {"category": "Probable", "tonnes_Mt": {"value": 26.3, "unit": "Mt", "page": 4, "note": "17 zones. Cut-off C$44.80 NSR/t (open pit); NSR C$165/t; Li2O_eq 0.92%; 138 ppm Ta2O5. Basis: chemical-grade concentrate only, US$20/kg Li2O and US$130/kg Ta2O5, recoveries 85% Li and 64% Ta. Contained metal printed as 193.8 kt Li2O and 2.3 kt Ta2O5. In situ, 26.3 Mt x 0.87% = 228.8 kt, so the printed figure appears to be after the 85% recovery (extractor's check)"}, "grade_Li2O_pct": {"value": 0.87, "unit": "% Li2O", "page": 4}},
+      {"category": "Total", "tonnes_Mt": {"value": 26.3, "unit": "Mt", "page": 4, "note": "Effective 2023-08-01; NI 43-101 / CIM"}, "grade_Li2O_pct": {"value": 0.87, "unit": "% Li2O", "page": 4}}
+    ],
+    "inferred_share_of_mine_plan": {"value": 0, "unit": "%", "page": 6, "note": "Implied, not stated explicitly. The LOM plan mines 26.3 Mt of ore, equal to the Probable Reserve, and the pit is described as mining the Probable Mineral Reserves (p4, p6)"},
+    "mining_method": "Conventional truck-and-shovel open pit, about 1,620 m long x 900 m wide x 220 m deep, with 10 m benches and a 55° overall slope. Overburden removal is contracted; an owner-operated fleet mines all hard rock (p6)",
+    "strip_ratio": {"value": 7.3, "unit": "t waste per t ore", "page": 6, "note": "182.4 Mt waste rock plus 10.9 Mt overburden vs 26.3 Mt ore; 219.6 Mt total material, ~15 Mt/y moved (p2, p6)"},
+    "ore_type_notes": "Spodumene-bearing LCT-type pegmatites: several parallel, continuous, shallow-dipping (relatively flat) stacked dykes that outcrop at surface. 17 mineralized zones in the reserve and 24 in the resource. Ore zones are open at depth, so a future underground operation is possible. Tantalum by-product (138 ppm Ta2O5 in the reserve). Waste rock and tailings are non-potentially acid generating (p2, p4-6, p10)"
+  },
+  "mining": {
+    "ore_mined_Mtpa": {"value": 1.61, "unit": "Mt/y ore", "page": 6, "note": "Nominal 4,600 t/d over 350 operating days/y; ~15 Mt/y total material"},
+    "total_ore_mined_Mt": {"value": 26.3, "unit": "Mt", "page": 6, "note": "0.87% Li2O and 138 ppm Ta2O5 after dilution (p2)"},
+    "life_of_mine_years": {"value": 17, "unit": "years", "page": 2, "note": "Project life from start of construction to closure is 19 years"},
+    "dilution_pct": null,
+    "mining_recovery_pct": null,
+    "mining_cost": {"value": 27.05, "unit": "US$/t milled", "page": 3, "note": "C$35.13/t milled; US$205/t concentrate (C$266) (p14)"}
+  },
+  "processing": {
+    "route": "Conventional flotation; flowsheet by Bumigeme based on SGS 2013-2015 testwork and a 2017 pilot plant. Three-stage crushing (jaw plus secondary and tertiary cones) to P80 13 mm, with a 24 h dome stockpile. Single ball mill in closed circuit with cyclones. High-intensity magnetic separation recovers tantalum at 2% Ta2O5, upgraded by gravity to 20% Ta2O5, then dried and bagged. Lithium circuit: desliming (<20 um), mica flotation, scrubbing and spodumene flotation to technical grade (6.16%) and chemical grade (5.56%). Concentrate is thickened and pressure-filtered to 5% moisture. Tailings are vacuum-filtered to <=15% moisture and dry-stacked with waste rock (p7-8)",
+    "throughput_Mtpa": {"value": 1.61, "unit": "Mt/y", "page": 8, "note": "4,900 dry t/d including availability (p8); p6 states a 4,600 t/d plant capacity. Plant availability 90%, crushing 50%; operates 24/7, 52 weeks/y"},
+    "head_grade_Li2O_pct": {"value": 0.87, "unit": "% Li2O", "page": 2, "note": "LOM average mill feed; 138 ppm Ta2O5"},
+    "recovery_pct": {"value": 87.4, "unit": "% Li2O", "page": 2, "note": "Chemical grade 87.4%; technical grade 84.8%; Ta2O5 54.4% (minimum, p9). The reserve estimate used 85% Li and 64% Ta (p4)"},
+    "concentrate_grade_Li2O_pct": {"value": 5.56, "unit": "% Li2O", "page": 2, "note": "Chemical grade 5.56% (priced as SC5.5); technical grade 6.16% (priced as 6.0%); tantalum concentrate 20% Ta2O5. Production split 75% chemical / 25% technical"},
+    "concentrate_output_ktpa": {"value": 203.765, "unit": "kt/y", "page": 2, "note": "Average over Years 2-17: 157,706 t chemical grade 5.56% plus 46,059 t technical grade 6.16% (p1). LOM payable: 2,681 kt chemical plus 783 kt technical (p2)"},
+    "by_products": "Tantalum concentrate (20% Ta2O5): average 580 t/y over Years 2-17 (p1). LOM payable Ta2O5 contained is 1,971,000 kg (Table 1, p2); the p11 text instead says '1,971 tonnes of 20% Ta2O5 concentrate', which conflicts. Priced at US$150/kg Ta2O5 contained, FOB mine site (p15). Tantalite credit is US$66/t of lithium concentrate (C$85/t) (p14). Technical-grade spodumene for glass and ceramics is a second lithium product (p2)",
+    "processing_cost": {"value": 20.79, "unit": "US$/t milled", "page": 3, "note": "C$27.00/t milled; US$158/t concentrate (C$205) (p14)"}
+  },
+  "overheads": {
+    "site_GA": {"value": 15.94, "unit": "US$/t milled", "page": 3, "note": "C$20.70/t milled; US$121/t concentrate (C$157) (p14)"},
+    "power_source": "Electricity through an on-site main electrical substation (p9). A Hydro-Québec 315 kV line (L3176) crosses the property, and the 4.2 km section over the pit will be rerouted (p11). The release cites Québec's grid as 94% hydroelectric (p20). Diesel is used for mobile equipment (p14)",
+    "power_cost": {"value": 0.055, "unit": "C$/kWh", "page": 14, "note": "Diesel C$1.35/L"},
+    "workforce_camp_fifo": "Company-built 500-room camp (about 250 temporary and 250 permanent rooms) about 4 km from the mine (p1; p9 says ~4 km south, near the junction of the site access and the Eastmain-1 road). It replaces a camp previously planned 25 km north, and the scope change added about US$43M to capex (Fig. 7, p13). Workforce size and rotation/FIFO arrangements are not stated; Nemiscau airport is 50 km by road (p3)"
+  },
+  "logistics": {
+    "product_route": "Spodumene concentrate (5% moisture) is stored in a 24-hour dome at site, then 'transported by trucks and trains to the port' (p8). The release does not name the port or railhead and gives no truck/rail split or distances. Site access is by the all-season Route du Nord from Chibougamau, or from Matagami via Route 109 and the Route du Nord (p3)",
+    "mode": "Truck and rail ('trucks and trains')",
+    "distance_km": null,
+    "haulage_cost": {"value": 133, "unit": "US$/t concentrate", "page": 14, "note": "'Transportation Concentrate' C$173/t; equivalent to US$17.52/t milled (C$22.76) (p3, p13). Concentrate transport (truck plus rail) to port; no split given"},
+    "port": null,
+    "port_cost": null,
+    "ocean_freight": null,
+    "sale_basis": "FOB port for lithium concentrates; FOB mine site for tantalum concentrate (p15)",
+    "infrastructure_built": "Site infrastructure only: 2.7 km main access road from the Eastmain-1 road to the industrial pad, and 16 km of roads in total including service roads (p10). Camp complex near the junction of the site access and the Eastmain-1 road (p9). Main electrical substation and distribution (p9). Rerouting of 4.2 km of the Hydro-Québec 315 kV line over the pit (p11; Fig. 7 shows 'HQ Powerline Relocation' at +US$5M vs the 2022 estimate). Dewatering wells, effluent treatment and a dry-stack co-disposal facility (p9-10). The initial capex 'Infrastructure' line is US$83.8M (C$108.9M) (p12). No off-site road, rail or port construction is described",
+    "notes": "Port not named; the text says only 'the port'. No railway line, railhead, distances or freight rates are given. Total selling cost estimate is US$124M LOM (C$161M) (p3); SG&A is US$8/t concentrate (p14). Tantalum concentrate is bagged and sold FOB mine site (p7, p15)"
+  },
+  "operating_costs": {
+    "breakdown": [
+      {"item": "Mining", "value": 27.05, "unit": "US$/t milled", "page": 13, "note": "C$35.13 (p3)"},
+      {"item": "Processing", "value": 20.79, "unit": "US$/t milled", "page": 13, "note": "C$27.00 (p3)"},
+      {"item": "G&A", "value": 15.94, "unit": "US$/t milled", "page": 13, "note": "C$20.70 (p3)"},
+      {"item": "Concentrate transportation", "value": 17.52, "unit": "US$/t milled", "page": 13, "note": "C$22.76 (p3)"},
+      {"item": "Total operating cost", "value": 81.30, "unit": "US$/t milled", "page": 13},
+      {"item": "Mining", "value": 205, "unit": "US$/t concentrate", "page": 14, "note": "C$266; all concentrate combined"},
+      {"item": "Processing", "value": 158, "unit": "US$/t concentrate", "page": 14, "note": "C$205"},
+      {"item": "General and administrative", "value": 121, "unit": "US$/t concentrate", "page": 14, "note": "C$157"},
+      {"item": "Transportation of concentrate", "value": 133, "unit": "US$/t concentrate", "page": 14, "note": "C$173"},
+      {"item": "Total operating costs", "value": 617, "unit": "US$/t concentrate", "page": 14, "note": "C$801"},
+      {"item": "SG&A", "value": 8, "unit": "US$/t concentrate", "page": 14, "note": "C$10"},
+      {"item": "Royalties", "value": 28, "unit": "US$/t concentrate", "page": 14, "note": "C$37"},
+      {"item": "Total incl. SG&A and royalties", "value": 652, "unit": "US$/t concentrate", "page": 14, "note": "C$847"},
+      {"item": "Less tantalite credit", "value": -66, "unit": "US$/t concentrate", "page": 14, "note": "C$85"},
+      {"item": "Total after tantalite credit", "value": 587, "unit": "US$/t concentrate", "page": 14, "note": "C$762"},
+      {"item": "LOM total operating cost", "value": 2137, "unit": "US$M", "page": 3, "note": "C$2,776M"},
+      {"item": "LOM total selling cost", "value": 124, "unit": "US$M", "page": 3, "note": "C$161M"}
+    ],
+    "C1_or_FOB_cost": {"value": 587, "unit": "US$/t concentrate", "page": 14, "note": "The release's headline 'total operating cost after tantalite credit', all concentrate combined; includes mining, processing, G&A, transport to port, SG&A and royalties. Not labelled C1. Before the credit it is US$652/t; before SG&A and royalties, US$617/t"},
+    "AISC": null
+  },
+  "fiscal": {
+    "royalties": [
+      {"name": "Royalties (holder and type not specified)", "rate": {"value": 28, "unit": "US$/t concentrate (LOM average)", "page": 14, "note": "C$37/t. Rate and base not disclosed"}, "base": null}
+    ],
+    "income_tax": {"value": 41.7, "unit": "% effective tax rate", "page": 3, "note": "Duties and taxes US$2,840M (C$3,688M) over LOM; pre-tax cash flow US$6,803M becomes US$3,963M after tax. Statutory income and mining tax rates not given"},
+    "state_participation": null,
+    "other_levies": "Duties and taxes total US$2,840M (C$3,688M) over LOM and are not itemised (p3). An impact and benefits agreement (Pihkuutaau Agreement, 2019) is in place with the Cree Nation of Eastmain, the Grand Council of the Cree (Eeyou Istchee) and the Cree Nation Government; its financial terms are not disclosed (p9)"
+  },
+  "capital": {
+    "initial_capex": {"value": 470.6, "unit": "US$M", "page": 12, "note": "C$611.2M; headline US$471M before working capital (p1). Includes 10% contingency and the company-built camp"},
+    "breakdown": [
+      {"item": "Mine open pit", "value": 5.8, "unit": "US$M", "page": 12, "note": "C$7.6M"},
+      {"item": "Stockpiles", "value": 5.4, "unit": "US$M", "page": 12, "note": "C$7.0M"},
+      {"item": "Infrastructure", "value": 83.8, "unit": "US$M", "page": 12, "note": "C$108.9M"},
+      {"item": "Process plant", "value": 128.4, "unit": "US$M", "page": 12, "note": "C$166.8M"},
+      {"item": "Auxiliary buildings & equipment", "value": 57.9, "unit": "US$M", "page": 12, "note": "C$75.2M"},
+      {"item": "Direct capital subtotal", "value": 281.4, "unit": "US$M", "page": 12, "note": "C$365.4M"},
+      {"item": "Owner's costs", "value": 59.9, "unit": "US$M", "page": 12, "note": "C$77.7M"},
+      {"item": "Indirect costs", "value": 85.8, "unit": "US$M", "page": 12, "note": "C$111.4M"},
+      {"item": "Indirect capital subtotal", "value": 145.6, "unit": "US$M", "page": 12, "note": "C$189.1M"},
+      {"item": "Contingency", "value": 42.7, "unit": "US$M", "page": 12, "note": "C$55.5M"},
+      {"item": "Mine rehabilitation bond & costs", "value": 0.9, "unit": "US$M", "page": 12, "note": "C$1.2M"},
+      {"item": "Total initial capital", "value": 470.6, "unit": "US$M", "page": 12, "note": "C$611.2M"},
+      {"item": "Camp scope change (already included above; change vs 2022 FS)", "value": 43, "unit": "US$M", "page": 13, "note": "Figure 7 waterfall: 2022 FS US$357M, US$427M before the camp, US$470M with it"}
+    ],
+    "contingency": {"value": 42.7, "unit": "US$M", "page": 12, "note": "C$55.5M, described as 10% (p11), about 10% of direct plus indirect capital. Sustaining contingency is US$19.6M (C$25.4M)"},
+    "sustaining_capex": {"value": 237.8, "unit": "US$M", "page": 12, "note": "C$308.9M over LOM, including US$159.8M for the open pit, US$19.6M contingency, US$16.7M rehabilitation and US$5.6M rehabilitation bond & costs. p3 gives US$239M (C$310M) and the p11 text US$238M"},
+    "closure_cost": {"value": 16.7, "unit": "US$M", "page": 12, "note": "Mine rehabilitation incl. contingency (C$21.7M), carried in sustaining capital. Rehabilitation bond & costs add US$0.9M initial and US$5.6M sustaining (C$1.2M + C$7.2M). MERN accepted the closure plan in April 2022 (p9)"},
+    "construction_period_months": {"value": 21, "unit": "months", "page": 1, "note": "To start of production"},
+    "ramp_up": "Not described. Headline production averages are quoted for Years 2-17 (p1)"
+  },
+  "economics": {
+    "price_deck": [
+      {"period": "LOM average - chemical grade SC5.5", "price": {"value": 2162, "unit": "US$/t concentrate", "page": 15, "note": "FOB port. The release says this is 65% below the trailing-12-month average of US$6,107/t; the 2022 FS used US$1,852/t"}},
+      {"period": "LOM average - technical grade 6.0%", "price": {"value": 4699, "unit": "US$/t concentrate", "page": 15, "note": "FOB port"}},
+      {"period": "LOM average - Ta2O5 contained in tantalum concentrate", "price": {"value": 150, "unit": "US$/kg Ta2O5", "page": 15, "note": "FOB mine site"}},
+      {"period": "2023-2032 - technical grade 6.0% (Figure 9)", "price": {"value": 5300, "unit": "US$/t concentrate", "page": 15, "note": "Approximate, read from the chart (flat over the period); no yearly table is given"}},
+      {"period": "2023-2032 - chemical grade 5.5% (Figure 9)", "price": {"value": 2550, "unit": "US$/t concentrate", "page": 15, "note": "Approximate, read from the chart"}},
+      {"period": "2034-2043 - technical grade 6.0% (Figure 9)", "price": {"value": 3800, "unit": "US$/t concentrate", "page": 15, "note": "Approximate, read from the chart; declines linearly through 2033"}},
+      {"period": "2034-2043 - chemical grade 5.5% (Figure 9)", "price": {"value": 1700, "unit": "US$/t concentrate", "page": 15, "note": "Approximate, read from the chart"}},
+      {"period": "Mineral Reserve basis", "price": {"value": "US$20/kg Li2O (chemical-grade concentrate); US$130/kg Ta2O5", "unit": "US$/kg", "page": 4, "note": "Used for the reserve estimate only"}}
+    ],
+    "discount_rate": {"value": 8, "unit": "%", "page": 3},
+    "npv": [
+      {"label": "post-tax", "value": 2195, "unit": "US$M @8%", "page": 3, "note": "C$2,851M; also on p1 and p15"},
+      {"label": "pre-tax", "value": 3847, "unit": "US$M @8%", "page": 3, "note": "Table 1. Table 6 (p15) gives US$3,887M, and C$5,048M x 0.77 = US$3,887M, so the p3 figure looks like a typo"},
+      {"label": "pre-tax", "value": 3887, "unit": "US$M @8%", "page": 15, "note": "Table 6; C$5,048M"},
+      {"label": "post-tax", "value": 3963, "unit": "US$M @0% (undiscounted)", "page": 15, "note": "C$5,147M"},
+      {"label": "post-tax", "value": 2704, "unit": "US$M @5%", "page": 15, "note": "C$3,511M"},
+      {"label": "post-tax", "value": 1924, "unit": "US$M @10%", "page": 15, "note": "C$2,499M"},
+      {"label": "post-tax", "value": 1695, "unit": "US$M @12%", "page": 15, "note": "C$2,201M"},
+      {"label": "pre-tax", "value": 6803, "unit": "US$M @0% (undiscounted)", "page": 15, "note": "C$8,835M"},
+      {"label": "pre-tax", "value": 4726, "unit": "US$M @5%", "page": 15, "note": "C$6,137M"},
+      {"label": "pre-tax", "value": 3439, "unit": "US$M @10%", "page": 15, "note": "C$4,467M"},
+      {"label": "pre-tax", "value": 3061, "unit": "US$M @12%", "page": 15, "note": "C$3,975M"}
+    ],
+    "irr": [
+      {"label": "post-tax", "value": 65.7, "unit": "%", "page": 3, "note": "Also on p1 and p16; the p20 company boilerplate says 64.8%"},
+      {"label": "pre-tax", "value": 95.9, "unit": "%", "page": 3}
+    ],
+    "payback_years": {"value": 1.8, "unit": "years (after tax)", "page": 3, "note": "Pre-tax payback 1.3 years"},
+    "lom_revenue": {"value": 9772, "unit": "US$M", "page": 3, "note": "Gross revenue; C$12,692M"},
+    "annual_ebitda": {"value": 461, "unit": "US$M/y (average)", "page": 3, "note": "C$599M/y; average gross margin 78.8%"},
+    "sensitivities": "Economics are most sensitive to Li2O price, exchange rate and Li2O recovery (p16). Table 7 (p16) gives after-tax NPV8 in C$M against chemical-grade price at base FX: -40% 1,144; -20% 1,978; base 2,806 (Table 1 gives 2,851); +5% 3,012; +10% 3,218. At base price, the FX -10% and +10% rows give 2,105 and 2,892. Approximate chart readings: NPV8 about C$2.0B at -20% Li2O price (Fig. 10, p16); after-tax IRR about 51% at -20% Li2O price and about 57% at +20% capex (Fig. 11, p17). Post-tax NPV8 rose from US$1,915M (2022 FS) to US$2,195M, driven by chemical-grade (+US$873M) and technical-grade (+US$435M) revenue and partly offset by taxes (-US$454M) and discounting (-US$330M) (Fig. 12, p17)"
+  },
+  "risks_noted": [
+    "Ability to secure financing to advance and complete the Project (p20)",
+    "Uncertainty in resource and reserve estimates (p20); the reserve is all Probable and assumes chemical-grade concentrate only (p4)",
+    "Lithium and tantalum supply, demand and price uncertainty; NPV is most sensitive to Li2O price, FX and Li recovery (p16, p20)",
+    "Inflation effect on capital and operating costs (p21); initial capex rose from US$357M (2022 FS) to US$470M because of construction price indexation, added process equipment and the company-built camp (p1, p13)",
+    "Securing offtake agreements and customer contracts (p21)",
+    "Social, community and environmental impacts (p21); construction and operating permits still to be obtained after the federal and Québec approvals (p9)",
+    "Worker accommodation must be ready on time; the company-built camp was added to cut execution and schedule risk (p1)",
+    "Hydro-Québec 315 kV line L3176 runs over the planned pit and 4.2 km must be rerouted (p11)",
+    "Water inflow to the open pit is expected and requires perimeter dewatering wells (p10)",
+    "Uncertainty over project optimization opportunities (p21)"
+  ],
+  "pages_scanned": "1-21 (all). PDF pages 3, 12-17 checked visually; Figure 9 price lines measured from a page render"
+}

@@ -1,0 +1,103 @@
+{
+  "id": "S01",
+  "project": "Kathleen Valley Lithium Project",
+  "company": "Liontown Resources Limited (ASX: LTR)",
+  "country": "Australia",
+  "location": "Western Australia (no finer location given)",
+  "stage": "Project update",
+  "study_date": "2023-01-20",
+  "currency": "A$ assumed: the document writes '$' with no currency code (ASX-listed company, WA project)",
+  "fx_assumption": null,
+  "real_or_nominal": null,
+  "ownership": [
+    {
+      "holder": "Liontown Resources Limited",
+      "share": {"value": 100, "unit": "%", "page": 1, "note": "'100%-owned Kathleen Valley Lithium Project'"}
+    }
+  ],
+  "deposit": {
+    "resource": null,
+    "reserve": null,
+    "inferred_share_of_mine_plan": null,
+    "mining_method": "Open pit followed by underground. Kathleen's Corner open pit expanded to produce more ore than in the DFS; Mount Mann pit reduced to a large box-cut, completed before the underground portal and decline. Underground stoping starts in the Mount Mann orebody, then increasing production from the North West Flats (p2). Detailed open pit plan complete; underground plan for the first five years being finalised; underground development targeted to start Q4 2023 (p2).",
+    "strip_ratio": null,
+    "ore_type_notes": "Hard-rock spodumene; product is SC6.0 (p1). Mount Mann orebody is steep to moderately dipping, up to 180 kt per vertical metre (p2). No Mineral Resource or Ore Reserve figures are restated: the company relies on the existing Ore Reserves in the 11 Nov 2021 DFS announcement to support the 3Mtpa rate (p2). The revised mine plan frees material that would have been stockpiled, which may be sold as Direct Shipping Ore (p2)."
+  },
+  "mining": {
+    "ore_mined_Mtpa": null,
+    "total_ore_mined_Mt": null,
+    "life_of_mine_years": null,
+    "dilution_pct": null,
+    "mining_recovery_pct": null,
+    "mining_cost": null
+  },
+  "processing": {
+    "route": "Process plant producing SC6.0 spodumene concentrate; flowsheet not described in this update (p1)",
+    "throughput_Mtpa": {"value": 3, "unit": "Mtpa", "page": 1, "note": "Revised initial plant capacity, up 20% from 2.5Mtpa in the Nov 2021 DFS. The DFS had throughput rising to 4Mtpa in year six of operations (p2)."},
+    "head_grade_Li2O_pct": null,
+    "recovery_pct": null,
+    "concentrate_grade_Li2O_pct": {"value": 6.0, "unit": "% Li2O", "page": 1, "note": "SC6.0 product"},
+    "concentrate_output_ktpa": null,
+    "by_products": "None stated. Possible Direct Shipping Ore (DSO) product from material not previously expected to be processed, for early revenue in the pre- and post-commissioning phase; suitability still being assessed with customers (p1, p2).",
+    "processing_cost": null
+  },
+  "overheads": {
+    "site_GA": null,
+    "power_source": "Power Purchase Agreement awarded (p2). Renewables mix including wind: more wind turbines, in a changed location, requiring extra site works (p3).",
+    "power_cost": null,
+    "workforce_camp_fifo": "On-site accommodation village (contract awarded, installation under way), with capacity increased by ~60% to support increased labour resources and de-risk the schedule (p2, p3). FIFO arrangements not described."
+  },
+  "logistics": {
+    "product_route": null,
+    "mode": null,
+    "distance_km": null,
+    "haulage_cost": null,
+    "port": null,
+    "port_cost": null,
+    "ocean_freight": null,
+    "sale_basis": null,
+    "infrastructure_built": "No road, rail or port works mentioned. Site scope named: accommodation village, tailings storage facility, wind turbines (renewables under the PPA), water exploration and piping for plant water, in-house mine workshops, changerooms and administration facilities, and a Mine Services Area (design and construct contract) (p2, p3).",
+    "notes": "Concentrate transport package put to tender; proposals received and under assessment (p2). No route, port, distance, mode or freight cost is given. Sales: three Tier-1 foundation customers (p1); extra early SC6.0 for the spot market or incremental offtake (p2); binding offtake agreement with Ford referenced (p3); possible DSO sales (p2)."
+  },
+  "operating_costs": {
+    "breakdown": null,
+    "C1_or_FOB_cost": null,
+    "AISC": null
+  },
+  "fiscal": {
+    "royalties": null,
+    "income_tax": null,
+    "state_participation": null,
+    "other_levies": null
+  },
+  "capital": {
+    "initial_capex": {"value": 895, "unit": "$M (A$ assumed)", "page": 1, "note": "Revised capital estimate to first production from the process plant, including $40m contingency (p1, p3). Current as at 20 Jan 2023 and subject to further refinement (p3). Drivers: 3Mtpa capacity increase, ~60% more accommodation, critical infrastructure brought in house, more and relocated wind turbines, extra water exploration and piping, plus industry-wide escalation (some labour-intensive tenders up >30%) (p3). More than 80% of long-lead equipment by value ordered on a fixed-cost basis (p3). Funding: ~$73m spent to date; ~$685m remaining funds = ~$385m cash + $300m debt facility (p1, p3); additional funding not expected to be needed until end-2023 (p1). 895 - 73 - 685 = ~137 unfunded (arithmetic, not stated). The prior DFS capex is not quoted in this document."},
+    "breakdown": null,
+    "contingency": {"value": 40, "unit": "$M (A$ assumed)", "page": 1, "note": "Included in the $895m; about 4.5% of the total (arithmetic)"},
+    "sustaining_capex": null,
+    "closure_cost": null,
+    "construction_period_months": {"value": "Oct 2022 to mid-2024", "unit": "dates", "page": 1, "note": "FID Jun 2022; on-site construction started Oct 2022; first production from the process plant targeted mid-2024 (p1). About 20 months by arithmetic; no duration is stated."},
+    "ramp_up": "First production from the process plant mid-2024 at an initial 3Mtpa capacity (p1). Underground development to start Q4 2023 (p2). DSO could bring early revenue during pre- and post-commissioning (p2). The Nov 2021 DFS contemplated 2.5Mtpa rising to 4Mtpa in year six (p2); no updated ramp-up schedule is given."
+  },
+  "economics": {
+    "price_deck": null,
+    "discount_rate": null,
+    "npv": null,
+    "irr": null,
+    "payback_years": null,
+    "lom_revenue": null,
+    "annual_ebitda": null,
+    "sensitivities": null
+  },
+  "risks_noted": [
+    "Industry-wide cost escalation: some site-based, labour-intensive tenders rose more than 30% (p3)",
+    "Lower contractor productivity and fewer contractors willing to bid (p3)",
+    "Capex is indicative; material contracts still to award (SMP, site facilities, underground mining, Mine Services Area) (p2, p3, p5)",
+    "Further funding needed, though not expected until end-2023; funding options being progressed (p1, p3)",
+    "Larger Kathleen's Corner pit moves more material, raising early costs (p2)",
+    "DSO opportunity unconfirmed; material suitability still being assessed (p2)",
+    "Schedule pressure in a competitive construction market against the mid-2024 first-production target (p1, p3)",
+    "COVID-19 risks, supply chain disruption, inflation, foreign exchange and labour constraints (p5)"
+  ],
+  "pages_scanned": "1-5 of 5 (all pages; p1 checked visually against the PDF). Pages 4-5 are CEO quote, webcast details, disclaimers and company profile."
+}

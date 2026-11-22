@@ -1,0 +1,147 @@
+{
+  "id": "S11",
+  "project": "Manna Lithium Project (MLP)",
+  "company": "Global Lithium Resources Limited (ASX: GL1)",
+  "country": "Australia",
+  "location": "Eastern Goldfields, Western Australia; 110 km by road east of Kalgoorlie-Boulder; Mining Lease M28/414 (21 yrs, granted Aug 2025); Trans Access Road and Trans Australian Railway run adjacent to the project (pp.1-2, 33, 45)",
+  "stage": "DFS",
+  "study_date": "December 2025 (ASX release 4 Dec 2025; DFS Executive Summary Rev 0, Dec 2025)",
+  "currency": "A$ (AUD); prices in US$; most unit costs given in both A$ and US$",
+  "fx_assumption": {"value": 0.67, "unit": "AUD:USD (US$ per A$1.00), flat LOM", "page": 4, "note": "Sourced from The Economy Forecast Agency long-term forecasts, range 0.62-0.70 (p.34)"},
+  "real_or_nominal": "real (monthly post-tax ungeared DCF 'in real dollars', 8% real discount rate; capex excludes escalation) - pp.35, 82, 84",
+  "ownership": [
+    {"holder": "Global Lithium Resources Ltd (via wholly owned GLR Australia Pty Ltd)", "share": {"value": 100, "unit": "%", "page": 2, "note": "80% bought from Breaker Resources Dec 2021 (A$13.0M), remaining 20% Oct 2022 (A$60M) (pp.45-46). Precious-metal rights held by Ramelius Resources (p.20). Offtake: Canmax Technologies for 30% of concentrate (p.10)."}}
+  ],
+  "deposit": {
+    "resource": [
+      {"category": "Indicated", "tonnes_Mt": {"value": 32.9, "unit": "Mt", "page": 54, "note": "June 2024 MRE, 0.6% Li2O cut-off, inclusive of Ore Reserves; Ta2O5 52 ppm; 66% of contained Li2O (pp.5, 28, 54)"}, "grade_Li2O_pct": {"value": 1.04, "unit": "% Li2O", "page": 54}},
+      {"category": "Inferred", "tonnes_Mt": {"value": 18.7, "unit": "Mt", "page": 54, "note": "Ta2O5 50 ppm"}, "grade_Li2O_pct": {"value": 0.92, "unit": "% Li2O", "page": 54}},
+      {"category": "Total", "tonnes_Mt": {"value": 51.6, "unit": "Mt", "page": 54, "note": "No Measured Resource. At 0.5% cut-off (used for open pit Reserve) the resource is 55.7 Mt @ 0.97% (Table 1-5, p.55)"}, "grade_Li2O_pct": {"value": 1.0, "unit": "% Li2O", "page": 54}}
+    ],
+    "reserve": [
+      {"category": "Probable", "tonnes_Mt": {"value": 14.4, "unit": "Mt", "page": 57, "note": "Open pit, 0.50% Li2O cut-off, DFS level; tonnes include mining dilution"}, "grade_Li2O_pct": {"value": 0.93, "unit": "% Li2O", "page": 57}},
+      {"category": "Probable", "tonnes_Mt": {"value": 5.0, "unit": "Mt", "page": 57, "note": "Underground, 0.60% Li2O cut-off; underground study only at PFS level (pp.3, 29)"}, "grade_Li2O_pct": {"value": 0.84, "unit": "% Li2O", "page": 57}},
+      {"category": "Total", "tonnes_Mt": {"value": 19.4, "unit": "Mt", "page": 57, "note": "All Probable, no Proved; 175,920 t contained Li2O; Reserve price US$1,400/t SC6.0 CIF; Inferred inside designs given zero revenue in Reserve test (pp.6, 29, 57)"}, "grade_Li2O_pct": {"value": 0.907, "unit": "% Li2O", "page": 57}}
+    ],
+    "inferred_share_of_mine_plan": {"value": 18, "unit": "% of 23.7 Mt LOM mill feed (4.3 Mt @ 0.77% Li2O)", "page": 68, "note": "Open pit 1.1 Mt of 15.5 Mt; underground 3.2 Mt of 8.2 Mt; 74% of the Inferred is underground (p.59); 91% of Years 1-10 ore is Reserve (p.57). Production target and financials are 81% Probable / 18% Inferred (p.14), so the headline NPV includes Inferred. p.58 cites 49% Inferred for the underground/lower levels, vs 39% from Table 1-9."},
+    "mining_method": "Conventional contractor open pit (3-stage main pit plus 2 satellite pits, 220 t trucks, 5 m ore benches mined in 2.5 m flitches, 2.5x5x5 m SMU) for ~8.3 years with low-grade stockpiles reclaimed to Year 10; then underground sublevel (long-hole) open stoping without backfill, accessed by portals from the pits, from Year 7 (underground at PFS level only) (pp.7, 31, 43, 62, 65)",
+    "strip_ratio": {"value": 14.9, "unit": "t waste : t ore (open pit LOM)", "page": 63, "note": "218.6 Mt waste, 234.1 Mt total material for 15.5 Mt ore (Table 1-8). Text on p.64 quotes 12.3 for 'the Manna pit'; the US$1,500 optimisation shell had 15.3 (p.61)."},
+    "ore_type_notes": "LCT pegmatite swarm: 42 anastomosing veins, 1-14 m thick (average 3.6 m true), dipping 60-80 degrees SE in Kurnalpi Terrane greenstones. Mostly spodumene; Zone 3 is mixed spodumene-lepidolite (up to 10% lepidolite by volume), which lowers recovery in later years. ~99% fresh rock; 8% Fe cap on domains. DMS judged unsuitable, so whole-of-ore flotation. Ta2O5 (~52 ppm) not economic. Open at depth and down-dip to the NE (pp.19, 23, 27, 31, 52)."
+  },
+  "mining": {
+    "ore_mined_Mtpa": {"value": 1.8, "unit": "Mtpa ROM ore (dry) to crushing/ore sorting", "page": 59, "note": "Mill feed 1.5-1.6 Mtpa after ore sorter rejects 15-20%, up to Year 10; averages ~1.45 Mtpa in Years 11-14 (underground only). Contractor fleet capacity ~50 Mtpa total material (p.30)."},
+    "total_ore_mined_Mt": {"value": 23.7, "unit": "Mt mill feed @ 0.88% Li2O", "page": 68, "note": "Open pit 15.5 Mt @ 0.91% + underground 8.2 Mt @ 0.82%; includes 4.3 Mt Inferred (Table 1-10). Table 1-8 (p.63) shows the open pit at 0.88%."},
+    "life_of_mine_years": {"value": 14.3, "unit": "years", "page": 44, "note": "Described elsewhere as a 15-year production plan (pp.7, 69, 87). Underground start is given as Year 7 (pp.6-7, 68), Year 6 and Year 8 (p.59)."},
+    "dilution_pct": {"value": 5, "unit": "% (open pit, Indicated, from SMU 2.5x5x5 regularisation)", "page": 60, "note": "Table 1-7 at 0.4% cut-off: dilution 5% Indicated, 3% Inferred, 2% total. Underground: 0.3 m dilution skin (p.31). Mining narrow veins at 2.5 m width is flagged as a key risk (p.91)."},
+    "mining_recovery_pct": {"value": 85, "unit": "% (derived = 100 - 15% ore loss, open pit Indicated)", "page": 60, "note": "Not stated as a recovery. Table 1-7 ore loss: 15% Indicated, 18% Inferred, 16% total. Underground pillars (no backfill) lose 3.5 Mt @ 0.83% of inventory (p.67)."},
+    "mining_cost": {"value": 73, "unit": "A$/t ore processed (open pit)", "page": 9, "note": "US$49/t. Underground A$84/t ore processed (US$57). LOM totals: open pit A$1,152M (A$417.0/t SC5.5), underground A$567M (A$205.2/t SC5.5) (Table 1-17, p.83). Open pit rates come from two contractor tenders (p.34). p.9 says both pit and underground are contract-mined, but pp.34 and 83 say the underground is owner-operated."}
+  },
+  "processing": {
+    "route": "Three-stage crushing -> ore sorting (rejects 15-20% of ROM) -> single-stage ball mill (P80 180 um) -> low/high-intensity magnetic separation -> desliming -> mica flotation -> spodumene flotation -> filtration; dry-stacked fine and coarse tailings placed in an integrated waste landform. No DMS (pp.8, 31-32, 70).",
+    "throughput_Mtpa": {"value": 1.8, "unit": "Mtpa dry (crushing/ore sorting)", "page": 71, "note": "Wet plant design 1.53 Mtpa (Table 1-12); 1.5-1.6 Mtpa mill feed; plant availability 93.5% (p.79)"},
+    "head_grade_Li2O_pct": {"value": 0.88, "unit": "% Li2O (LOM mill feed / mineral inventory)", "page": 68, "note": "ROM feed grade 0.93% (Years 1-2), 0.91% (open pit Years 1-10), 0.83% (underground Years 6-18) (Table 1-1, p.44); design mill feed 1.00% Li2O after ore sorting (Table 1-12, p.71)"},
+    "recovery_pct": {"value": 72.8, "unit": "% Li2O, LOM average", "page": 44, "note": "Held at a constant 72.8% in the Reserve evaluation (p.35). 76.5% for Zones 1-2 in early years (Table 1-11, p.71); testwork up to 78.2% (p.8). Recovery falls as Zone 3 lepidolite ore increases."},
+    "concentrate_grade_Li2O_pct": {"value": 5.5, "unit": "% Li2O (SC5.5)", "page": 71, "note": "Target >=5.5% Li2O, <1.4% Fe2O3 (Table 1-12)"},
+    "concentrate_output_ktpa": {"value": 236.47, "unit": "ktpa SC5.5 dry (nominal)", "page": 46, "note": "~262.7 ktpa wet (p.46), implying ~10% moisture. This is the nominal/peak rate (reached about Years 3-8 per Figure 1-23, p.87). LOM average ~193 ktpa (derived: 2.763 Mt / 14.3 yrs). LOM total 2.763 Mt dry (pp.9, 43, 87); Table 1-1 prints 2.736 Mt (p.44) and Table 1 prints 2.76 Mt (p.4)."},
+    "by_products": "None. Revenue is from SC5.5 only and no by-product recovery is assumed (p.25). Ta2O5 'does not contribute significantly to the economics' (p.19). Fine tailings are stockpiled for possible future reprocessing (p.70).",
+    "processing_cost": {"value": 30, "unit": "A$/t ore processed (processing + site G&A)", "page": 9, "note": "US$20/t. Table 1-17 'Processing' is A$947M LOM = A$342.7/t SC5.5 (US$229.6) (p.83). Derived check: that line appears to also include road haulage and port (A$947M minus ~A$240M haulage = ~A$30/t over 23.7 Mt)."}
+  },
+  "overheads": {
+    "site_GA": {"value": null, "unit": "A$/t ore", "page": 9, "note": "Not reported separately; combined with processing at A$30/t ore processed (US$20) in Table 5"},
+    "power_source": "Owner-built and operated LNG gas-engine power station on site; gas-only chosen over diesel and solar/BESS hybrids. LNG storage bullets and vaporiser; delivered gas A$18.44/GJ (EVOL quote). Demand 11 MW in Years 1-7, rising to 18 MW with the underground. Optional 10 MW solar (~A$20M) later would cut power cost to A$0.139/kWh (pp.10, 74, 77-79).",
+    "power_cost": {"value": 0.188, "unit": "A$/kWh", "page": 79, "note": "Same for Years 1-7 and 7+ (Table 1-14); 107.28 GWh/yr rising to 141.51 GWh/yr. Cost of the extra ~7 MW underground load is not in the initial capex (p.77). Diesel A$1.00/L delivered, after A$0.506/L excise rebate (p.77)."},
+    "workforce_camp_fifo": "380-room permanent accommodation village (Stage 2) on Misc Licence L28/98, plus an 80-room construction camp (Stage 1). Village operation, air services, product haulage, shipping and IT to be contracted; open pit contract-mined. Headcount and FIFO/DIDO roster not stated (pp.46, 50, 74-75, 87, 89)."
+  },
+  "logistics": {
+    "product_route": "Front-end loader loads concentrate into road trains at the site concentrate shed. Road haul (Campbell Transport turnkey contract) to the Port of Esperance inner precinct, into an existing undercover storage warehouse. Reclaimed by loader into 25,000 dwt Handysize bulk vessels and shipped to customers (price basis CIF Asia). Site connects to the public Trans Access Road via a new 28 km Main Access Road; site is 110 km by road east of Kalgoorlie-Boulder. Total mine-to-port road distance not stated (pp.8, 33, 45-46, 70, 74, 79).",
+    "mode": "Road (A-triple road trains; doc: 'Four (4) off A triple trailers') to port, then sea (Handysize bulk)",
+    "distance_km": {"value": null, "unit": "km", "page": null, "note": "Mine-to-Esperance haul distance is not stated anywhere. Stated distances: site 110 km by road east of Kalgoorlie-Boulder (pp.2, 45); new Main Access Road ~28 km (p.74); the Figure 1-18 legend labels 'Trans Access Road (64km)' (p.75). The location map (p.3) shows the Kalgoorlie-Norseman-Esperance main road, with no distance given."},
+    "haulage_cost": {"value": 78, "unit": "A$/t SC5.5 wet - road haulage AND port, combined", "page": 9, "note": "US$52/wmt (Table 5); not split between haulage and port. ~A$86.7/t dry (derived from the doc's 262,744 wmt / 236,470 dmt ratio). Haulage and ship-loading rates quoted by an established haulage company that runs stevedoring at Esperance (p.34). Haulage is not a separate line in Table 1-17 (appears to sit inside 'Processing')."},
+    "port": "Port of Esperance (Southern Ports Authority), inner port precinct; storage and shiploading agreement with SPA still being negotiated (pp.8, 79)",
+    "port_cost": {"value": null, "unit": "A$/t", "page": 9, "note": "Not separate; included in the A$78/t wet combined 'Road Haulage and Port Cost'. Port charges obtained from Port of Esperance (p.34)."},
+    "ocean_freight": {"value": 30, "unit": "US$/t SC5.5", "page": 84, "note": "A$45/t (Table 5, p.9). Excluded from AISC. 25k dwt Handysize, Esperance to Asia; insurance not quantified separately."},
+    "sale_basis": "CIF",
+    "infrastructure_built": "New ~28 km Main Access Road (10 m formation) from the Trans Access Road to the plant; first 9 km follows the existing Blamey Road. Blamey level crossing on the railway to be upgraded to an active crossing with boom gates. Internal roads: village 1 km, explosives yard 0.9 km, contractor 0.25 km, solar farm 1.5 km. Fibre link from the ARTC rail corridor plus two 40 m comms towers. Owner-operated LNG power station; raw-water borefield (A$5.85M) and pipeline corridor; 380-room village. Bulk earthworks incl. access roads A$11.3M; non-process infrastructure A$63.9M. No rail, port or shiploader capex: the project uses an existing Esperance warehouse and SPA shiploading (pp.74-76, 79, 81-82).",
+    "notes": "Sale basis: revenue at SC5.5 CIF (US$1,253/t); cash costs quoted FOB Esperance; US$30/t sea freight on top. Haulage contractor: Campbell Transport. The Trans Australian Railway (ARTC) passes the site and a Kalgoorlie-Esperance railway is on the map (p.3), but the DFS assumes road haulage only and does not discuss a rail option. Main Access Road and Solar Farm sit on Misc Licences L28/86 and L28/93 (not yet granted; expected H1 2026). Wet/dry: 262,744 wmt vs 236,470 dmt per year (p.46)."
+  },
+  "operating_costs": {
+    "breakdown": [
+      {"item": "Mining - open pit (LOM A$1,152M)", "value": 417.0, "unit": "A$/t SC5.5", "page": 83, "note": "US$279.4/t. Table 1-17 header says 'A$ 000's' but the totals are A$M."},
+      {"item": "Mining - underground (LOM A$567M)", "value": 205.2, "unit": "A$/t SC5.5", "page": 83, "note": "US$137.5/t"},
+      {"item": "Processing (LOM A$947M; appears to include site G&A and road haulage/port)", "value": 342.7, "unit": "A$/t SC5.5", "page": 83, "note": "US$229.6/t"},
+      {"item": "Cash cost C1, FOB Esperance, excl. royalties (LOM A$2,666M)", "value": 964.7, "unit": "A$/t SC5.5", "page": 83, "note": "US$646.3/t"},
+      {"item": "Sustaining capital incl. closure (LOM A$79M)", "value": 28.5, "unit": "A$/t SC5.5", "page": 83, "note": "US$19.1/t"},
+      {"item": "Royalties - State + Native Title (LOM A$315M)", "value": 111.3, "unit": "A$/t SC5.5", "page": 83, "note": "US$76.4/t"},
+      {"item": "AISC, FOB Esperance (LOM A$3,010M)", "value": 1101, "unit": "A$/t SC5.5", "page": 83, "note": "US$738/t"},
+      {"item": "Open cut mining", "value": 73, "unit": "A$/t ore processed", "page": 9, "note": "US$49"},
+      {"item": "Underground mining", "value": 84, "unit": "A$/t ore processed", "page": 9, "note": "US$57"},
+      {"item": "Processing and site G&A", "value": 30, "unit": "A$/t ore processed", "page": 9, "note": "US$20"},
+      {"item": "Road haulage and port", "value": 78, "unit": "A$/t SC5.5 wet", "page": 9, "note": "US$52"},
+      {"item": "Sea freight", "value": 45, "unit": "A$/t SC5.5", "page": 9, "note": "US$30; not in FOB or AISC"}
+    ],
+    "C1_or_FOB_cost": {"value": 965, "unit": "A$/t SC5.5, FOB Esperance, excl. royalties", "page": 9, "note": "US$646/t (US$647 in Table 5). Includes mining, processing, maintenance, transport to port and administration (p.44). Text on p.83 says A$946/t / US$634/t, which conflicts with its own Table 1-17 (964.7 / 646.3)."},
+    "AISC": {"value": 1101, "unit": "A$/t SC5.5, FOB Esperance", "page": 83, "note": "US$738/t. Includes royalties (State + Native Title) and sustaining capital; excludes sea freight and insurance (pp.1, 4, 9, 84)."}
+  },
+  "fiscal": {
+    "royalties": [
+      {"name": "WA State Government royalty", "rate": {"value": null, "unit": "%", "page": 83, "note": "Rate not stated. State + Native Title royalties combined = A$315M LOM, A$111.3/t SC5.5 (US$76.4/t) (Table 1-17); ~6% of ~A$5.2bn LOM revenue (derived). Deducted from project revenue in the model (p.34)."}, "base": "Not stated (reported combined with the NTMA royalty)"},
+      {"name": "Native Title Mining Agreement royalty (Kakarra Part B)", "rate": {"value": null, "unit": "%", "page": 83, "note": "Rate and terms not disclosed; included in the A$315M LOM royalty line (pp.34, 83)"}, "base": "Not stated"},
+      {"name": "Breaker Resources NSR royalty", "rate": {"value": 1.5, "unit": "% NSR", "page": 46, "note": "Granted Oct 2022 over E28/2551 and E28/2522 'excluding the Manna JV Area', all minerals except Au, Ag and PGMs. The JV Area holds the Manna deposit, so it appears not to apply to the mine plan; not shown in the economics."}, "base": "Net smelter return"}
+    ],
+    "income_tax": {"value": null, "unit": "%", "page": 84, "note": "Corporate tax rate not stated; NPV and IRR are post-tax, ungeared. LOM post-tax FCF A$1,153M (p.4) vs LOM EBITDA A$2,196M (p.84). Implied LOM tax ~A$525M (derived: EBITDA - 439 capex - 79 sustaining/closure - FCF; ignores working capital)."},
+    "state_participation": {"value": null, "unit": "%", "page": null, "note": "None mentioned; GLR holds 100%"},
+    "other_levies": "None stated beyond: tenement rents A$178,694/yr across MLP tenure (Table 1-3, p.50); diesel priced after A$0.506/L excise rebate, ex-GST (p.77); GST excluded from capex as expected not to apply (p.82)."
+  },
+  "capital": {
+    "initial_capex": {"value": 439.1, "unit": "A$M (pre-production)", "page": 81, "note": "A$439,074,133 (Table 1-15). AACE Class 3, +/-15%, base date Q4 CY25. Excludes escalation, financing costs, FX fluctuation, GST and sunk costs (pp.9, 80, 82). Headline grouping (Table 1, p.4): pre-production mining 81.9, process plant & infrastructure 157.5, EPC indirects 49.3, owner's costs 110.4, contingency & growth 40.0. Delivery split: EPCM package A$269.6M + A$24.3M growth/contingency; GLR-delivered items A$145.2M (p.82). ~66% of process equipment quoted in foreign currency (p.80). Text on p.81 also cites A$348.7M 'direct' and A$112.5M 'indirect', which do not reconcile with Table 1-15."},
+    "breakdown": [
+      {"item": "Mining pre-production (contractor mobilisation, site establishment, pre-strip, ROM stockpiles)", "value": 81.94, "unit": "A$M", "page": 81},
+      {"item": "Bulk earthworks (access roads, village, explosives compound, tip)", "value": 11.3, "unit": "A$M", "page": 81},
+      {"item": "Process plant & infrastructure (incl. buildings)", "value": 146.74, "unit": "A$M", "page": 81},
+      {"item": "Non-process infrastructure", "value": 63.9, "unit": "A$M", "page": 81},
+      {"item": "Raw water borefield", "value": 5.85, "unit": "A$M", "page": 81},
+      {"item": "First fills, spares & miscellaneous", "value": 3.93, "unit": "A$M", "page": 81},
+      {"item": "EPCM indirects", "value": 53.14, "unit": "A$M", "page": 81},
+      {"item": "Owner's costs", "value": 32.34, "unit": "A$M", "page": 81},
+      {"item": "Contingency & growth allowances", "value": 39.93, "unit": "A$M", "page": 81}
+    ],
+    "contingency": {"value": 39.93, "unit": "A$M (growth + contingency), ~9% of capex", "page": 81, "note": "Growth allowance averaged 5% (line by line, GRES); 10% contingency on the remaining GLR-delivered items; overall 9% (p.82). Headline rounds to A$40M."},
+    "sustaining_capex": {"value": 78.8, "unit": "A$M LOM", "page": 83, "note": "Table 1-16: underground start-up infrastructure and pre-production A$68.8M + closure A$10.0M. Appears in AISC as A$79M / A$28.5/t SC5.5. No other ongoing sustaining capital (plant, open pit) is shown."},
+    "closure_cost": {"value": 10.0, "unit": "A$M", "page": 83, "note": "Included in the A$78.8M sustaining/development total. Closure cost provisioning is still listed as an outstanding study (p.90)."},
+    "construction_period_months": {"value": 76, "unit": "weeks", "page": 87, "note": "~17.5 months from FID to ore commissioning/first concentrate (p.87). The announcement says 72 weeks (p.10); first concentrate at week 68 from FID (p.88). Schedule: FID 1 Oct 2026, wet commissioning 15 Feb 2028, practical completion 29 Feb 2028, first SC5.5 export April 2028 (Figure 1-24, p.89). Sales start 25 months after first capital spend (p.87). Open pit pre-production 7 months (p.7)."},
+    "ramp_up": "Ramp-up over the first 4 months to 1.8 Mtpa crushing/ore sorting and 1.5-1.6 Mtpa comminution (p.83); 8-week ore commissioning and ramp-up period (p.87); pit high-graded for the first 18 months of ramp-up (p.59)."
+  },
+  "economics": {
+    "price_deck": [
+      {"period": "LOM flat (long-term consensus)", "price": {"value": 1400, "unit": "US$/t SC6.0 CIF Asia", "page": 4, "note": "Real. Also the Ore Reserve price (p.57). Pit shells tested at US$2,000/1,750/1,500; the US$1,500 shell was selected (pp.6, 61)."}},
+      {"period": "LOM flat (SC5.5 product sold)", "price": {"value": 1253, "unit": "US$/t SC5.5 CIF", "page": 4, "note": "Revenue on 100% payable SC5.5 (p.35)"}}
+    ],
+    "discount_rate": {"value": 8, "unit": "% real", "page": 35, "note": "NPV8; valuation date = first month of capital spend (pp.44, 84)"},
+    "npv": [
+      {"label": "post-tax", "value": 472.4, "unit": "A$M (NPV8, real, ungeared)", "page": 84, "note": "Headline A$472M (pp.1, 4, 43). LOM post-tax FCF A$1,153M (p.4); NPV/capex 1.1x (p.84). Includes the 18% Inferred in the production target."},
+      {"label": "pre-tax", "value": null, "unit": "A$M", "page": null, "note": "Not reported"}
+    ],
+    "irr": [
+      {"label": "post-tax (ungeared, real)", "value": 25.7, "unit": "%", "page": 84},
+      {"label": "pre-tax", "value": null, "unit": "%", "page": null, "note": "Not reported"}
+    ],
+    "payback_years": {"value": 3.5, "unit": "years from first sales / start of production", "page": 84, "note": "Post-tax"},
+    "lom_revenue": {"value": 5200, "unit": "A$M (approx.)", "page": 86, "note": "Stated as 'approximately $5.2Bn'. Consistent with 2.763 Mt x US$1,253/t / 0.67 = ~A$5.17bn (derived), i.e. CIF revenue."},
+    "annual_ebitda": {"value": 146, "unit": "A$M/yr (LOM average)", "page": 84, "note": "Total LOM EBITDA A$2,196M (Table 1-18)"},
+    "sensitivities": "Post-tax NPV8 tornado (Figure 1-20 p.85 = Figure 2 p.5; values read approximately from the chart). Most sensitive to AUD:USD +/-15% (~A$220-810M) and price +/-15% (~A$200-755M). Then discount rate +/-2 pts (~A$375-595M), mining opex +/-10% (~A$365-575M), recovery +/-5% (~A$400-540M), processing opex +/-10% (~A$435-510M) and capex +/-10% (~A$440-505M). Price curve (Figure 1-6 p.58): NPV ~-A$85M at US$1,000/t to ~A$730M at US$1,600/t SC6. Breakevens: US$784/t SC6.0 for EBITDA = 0 and US$1,060/t SC6.0 for NPV8 = 0 (pp.43, 57). Market reference: Liontown auction US$1,254/t SC6.0 CIF China, 20 Nov 2025 (p.11)."
+  },
+  "risks_noted": [
+    "Raw water supply: current bores test 12.8 L/s vs ~18 L/s required; further exploration (incl. a palaeochannel ~17 km NE) needed before FID (pp.70-71, 91)",
+    "Mining dilution and ore loss: narrow pegmatites (average 3.6 m) mined at 2.5 m width; ore sorting is the main mitigation (pp.60, 91)",
+    "Ore variability: recoveries fall as Zone 3 spodumene-lepidolite ore increases; more variability testwork pending (pp.27, 32, 91)",
+    "Approvals timing: Part V EP Act works approvals, mining proposal and closure plan take up to 9 months; Misc Licences (incl. access road and village) pending, subject to objections from the Cowarna Downs pastoralist and the Kakarra native title group (pp.10, 50, 90-91)",
+    "NPV most sensitive to spodumene price and AUD:USD (pp.5, 84)",
+    "Funding not secured; may be dilutive; FID targeted 2026 (pp.10-11, 14)",
+    "18% of the production target is Inferred (49% cited for the underground/lower levels); underground design only at PFS level (pp.3, 14, 58, 65)",
+    "Extra ~7 MW power for the underground (from Year 7) not included in initial capex (p.77)",
+    "Esperance storage and shiploading agreement with Southern Ports Authority not yet executed (pp.8, 79)",
+    "Pastoral Access Agreement not negotiated (p.35)",
+    "Capex excludes escalation and FX movements; ~66% of process equipment priced in foreign currency (pp.80, 82)"
+  ],
+  "pages_scanned": "All 92 pages read as text. Figures and tables checked in the PDF: pp.3, 5, 9, 45, 58, 75, 83, 85-87. Page numbers are PDF page indices (form-feed count): pp.1-37 = ASX announcement incl. JORC Table 1 (its own 'Page n of 37'); pp.38-92 = DFS Executive Summary (its 'Section 1 Page n' = PDF page n+38)."
+}

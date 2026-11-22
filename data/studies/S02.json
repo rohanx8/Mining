@@ -1,0 +1,700 @@
+{
+ "id": "S02",
+ "project": "Ewoyaa Lithium Project",
+ "company": "Atlantic Lithium Limited (AIM: ALL, ASX: A11, OTCQX: ALLIF)",
+ "country": "Ghana",
+ "location": "Immediately north of Saltpond, Mfantseman Municipality, Central Region, Ghana; ~100km SW of Accra; on the N1 Accra-Cape Coast-Takoradi highway, ~110km east of Takoradi port (p5)",
+ "stage": "DFS",
+ "study_date": "2023-06-29",
+ "currency": "US$",
+ "fx_assumption": {
+  "value": null,
+  "unit": null,
+  "page": 41,
+  "note": "Not disclosed. All figures in US$; capex prices quoted in other currencies were converted at unstated 'agreed Project exchange rates' (p41). Opex and capex exclude exchange-rate variations (p40, p42)."
+ },
+ "real_or_nominal": "Not stated explicitly. Capex and opex are Q2 2023 US$ estimates that exclude escalation and inflation (p38, p40, p42), i.e. a constant-dollar cost basis; the document does not say whether the year-by-year price deck (Table 24, p44) or the 8% discount rate is real or nominal.",
+ "ownership": [
+  {
+   "holder": "Atlantic Lithium Ltd (current owner)",
+   "share": {
+    "value": 100,
+    "unit": "%",
+    "page": 4,
+    "note": "Table 1 footnote 2: asset currently wholly owned by Atlantic Lithium. Held via IronRidge Resources Singapore (100%), which owns Green Metals Resources Ltd 100% (PL3/109) and Barari DV Ghana Ltd 90% (operating company and holder of the Mankessim licence, described as a joint venture) (p7, p59). Results are on a 100% Project basis."
+   }
+  },
+  {
+   "holder": "Piedmont Lithium Inc. (earn-in partner)",
+   "share": {
+    "value": 50,
+    "unit": "% (up to, at Project level)",
+    "page": 45,
+    "note": "Earns up to 50% of the Project and 50% of SC6 offtake at market rates by funding US$17m of studies/exploration and US$70m of development; cost overruns or savings shared equally with Atlantic (p4 fn 2, p45)."
+   }
+  },
+  {
+   "holder": "Government of Ghana (free carry)",
+   "share": {
+    "value": 10,
+    "unit": "% free-carried interest",
+    "page": 43,
+    "note": "Right to a 10% free carry once in production (p4 fn 2; Table 23 p43)."
+   }
+  }
+ ],
+ "deposit": {
+  "resource": [
+   {
+    "category": "Measured",
+    "tonnes_Mt": {
+     "value": 3.5,
+     "unit": "Mt",
+     "page": 12
+    },
+    "grade_Li2O_pct": {
+     "value": 1.37,
+     "unit": "% Li2O",
+     "page": 12
+    }
+   },
+   {
+    "category": "Indicated",
+    "tonnes_Mt": {
+     "value": 24.5,
+     "unit": "Mt",
+     "page": 12
+    },
+    "grade_Li2O_pct": {
+     "value": 1.25,
+     "unit": "% Li2O",
+     "page": 12
+    }
+   },
+   {
+    "category": "Inferred",
+    "tonnes_Mt": {
+     "value": 7.4,
+     "unit": "Mt",
+     "page": 12
+    },
+    "grade_Li2O_pct": {
+     "value": 1.16,
+     "unit": "% Li2O",
+     "page": 12
+    }
+   },
+   {
+    "category": "Total",
+    "tonnes_Mt": {
+     "value": 35.3,
+     "unit": "Mt",
+     "page": 13,
+     "note": "JORC 2012 MRE by Ashmore Advisory, estimate at January 2023 (announced 1 Feb 2023); 0.5% Li2O cut-off, above -190mRL; inclusive of Ore Reserves; 440kt contained Li2O (p11-13). Table 1 (p4) mislabels the 3.5Mt Measured row as 'Measured Indicated'."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.25,
+     "unit": "% Li2O",
+     "page": 13
+    }
+   }
+  ],
+  "reserve": [
+   {
+    "category": "Probable",
+    "tonnes_Mt": {
+     "value": 25.6,
+     "unit": "Mt",
+     "page": 22,
+     "note": "As of 16 June 2023 (Mining Focus Consultants, H. Warries); dry tonnes; from Measured + Indicated Resources inside the pit designs; 5% dilution, 95% mining recovery; 0.5% Li2O cut-off; US$1,587/t concentrate price (p21-22, p66-67)."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.22,
+     "unit": "% Li2O",
+     "page": 22
+    }
+   },
+   {
+    "category": "Total",
+    "tonnes_Mt": {
+     "value": 25.6,
+     "unit": "Mt",
+     "page": 22,
+     "note": "No Proved Reserve declared; total = Probable (p22, p71)."
+    },
+    "grade_Li2O_pct": {
+     "value": 1.22,
+     "unit": "% Li2O",
+     "page": 22
+    }
+   }
+  ],
+  "inferred_share_of_mine_plan": {
+   "value": 6,
+   "unit": "% of plant feed",
+   "page": 18,
+   "note": "1.7Mt @ 1.19% Li2O of Inferred in the 27.3Mt processed (Table 10: 1,676kt of 27,321kt). Inferred feed is stockpiled for the first 5 years, then capped at 10% of plant feed; pits with 100% Inferred feed were removed. Case with all Inferred treated as waste: post-tax NPV8 US$1,404.8M, IRR 104.5% (p17-18, p22, p67)."
+  },
+  "mining_method": "Conventional open pit: drill and blast on 5-10m benches, load and haul with 100-200t excavators and 90-150t trucks; contract mining under an Atlantic Lithium management team; eight deposits ~4km apart over ~8km2 (p14).",
+  "strip_ratio": {
+   "value": 12.3,
+   "unit": "t waste : t ore",
+   "page": 4,
+   "note": "375.4Mt waste / 30.6Mt ore, 406Mt total movement (Table 1; Table 10 p18). Text on p17 says 375.0Mt waste and 12.2:1."
+  },
+  "ore_type_notes": "Spodumene-bearing pegmatite dykes (no petalite or lepidolite observed). Two geometallurgical types: P1 coarse spodumene (>20mm), 31.3Mt @ 1.27% Li2O, over 80% of the MRE, HLS recovery ~70-74%; P2 medium-fine (<20mm), 4.0Mt @ 1.06%, poor DMS response (7.0% to SC6, 14.9% to SC5.5), limited to 10% of the blend. Ewoyaa Main 30-60m thick (up to 100m at surface); Abonko/Kaampakrom 4-12m. Low sulphur (mean 845ppm); inert tailings; concentrates Fe2O3 <1% (p10, p13, p23-24, p68)."
+ },
+ "mining": {
+  "ore_mined_Mtpa": {
+   "value": null,
+   "unit": "Mtpa",
+   "page": 18,
+   "note": "No annual mined-ore rate stated. Plant feed 2.7Mtpa (2.0Mt in first full year); total material movement 18-49Mt/yr (Table 10). Ore mined per year is only derivable (total minus waste, ~2.5-3.4Mt in full years)."
+  },
+  "total_ore_mined_Mt": {
+   "value": 30.6,
+   "unit": "Mt",
+   "page": 4,
+   "note": "LOM ore mined at 1.21% Li2O (p17). Processed ore LOM is 27.3Mt @ 1.22% Li2O (25.6Mt Probable + 1.7Mt Inferred; Table 10 p18)."
+  },
+  "life_of_mine_years": {
+   "value": 12,
+   "unit": "years",
+   "page": 4,
+   "note": "Includes Year 1 early-production phase (modular DMS from Q2 2025: ~9 months per p3/p27, '14 months' per Table 10 footnote) then ~11 years of the main 2.7Mtpa plant from Q1 2026 (p3)."
+  },
+  "dilution_pct": {
+   "value": 5,
+   "unit": "%",
+   "page": 21
+  },
+  "mining_recovery_pct": {
+   "value": 95,
+   "unit": "%",
+   "page": 21
+  },
+  "mining_cost": {
+   "value": 3.82,
+   "unit": "US$/t mined",
+   "page": 38,
+   "note": "LOM contract-mining average incl. mobilisation, establishment, pre-production mining and demobilisation (so pre-strip sits in opex, not capex). RFQ range from 8 contractors US$3.21-4.60/t (first 7 years, excl. establishment). Plus owner's mine management US$0.10/t mined. Equals US$432/dmt concentrate (Table 17). Pit optimisation used US$3.61/t (p15)."
+  }
+ },
+ "processing": {
+  "route": "Three-stage crushing to 10mm top size, then conventional two-stage dense media separation (DMS) on three size fractions (-10+5.6, -5.6+2.8, -2.8+0.85mm) with a -4mm recrush DMS circuit on coarse floats; -0.85mm fines dewatered and sold as secondary product; no flotation and no chemicals in the base case. Early production from a modular DMS plant with contract crushing from Q2 2025, ahead of the main plant (p1, p26-27).",
+  "throughput_Mtpa": {
+   "value": 2.7,
+   "unit": "Mtpa ROM feed",
+   "page": 4,
+   "note": "Main DMS plant; first full year (2026) 2.0Mt then 2.7Mtpa; crushing at 70% utilisation, DMS at 85% (p18, p25). Early-production modular DMS: 600ktpa ore (375ktpa DMS feed, 50tph) (p27). Raised from 2.0Mtpa in the PFS (p1)."
+  },
+  "head_grade_Li2O_pct": {
+   "value": 1.22,
+   "unit": "% Li2O",
+   "page": 4,
+   "note": "LOM average processed grade (Table 1; Table 10)."
+  },
+  "recovery_pct": {
+   "value": "62.1 (to SC6) / 67.2 (to SC5.5)",
+   "unit": "% Li2O, DMS",
+   "page": 4,
+   "note": "Table 1 labels these 'average whole of ore recovery'; Tables 12 and 23 give them as P1 ore recoveries. P2 ore: 7.0% to SC6, 14.9% to SC5.5 (p24); modular DMS: 34.0% to SC5.5 (p43). Secondary product mass yield 17% of ROM feed (p4)."
+  },
+  "concentrate_grade_Li2O_pct": {
+   "value": "6.0 (SC6) / 5.5 (SC5.5)",
+   "unit": "% Li2O",
+   "page": 4,
+   "note": "Two products ~50:50 by tonnage: SC6 1,792,222t and SC5.5 1,792,195t over LOM (~3.58Mt total) (p3-4)."
+  },
+  "concentrate_output_ktpa": {
+   "value": null,
+   "unit": "ktpa",
+   "page": 44,
+   "note": "No annual figure stated. LOM total 3,584kt SC6+SC5.5 over 12 years (p4). Figure 12 (p44) shows annual output only as unlabelled bars (by eye ~330-400kt in full-production years; Year 2 at 75% of nominal capacity; Year 4 low on higher P2 ore)."
+  },
+  "by_products": "Secondary product: DMS fines (-0.85+0.053mm), 4.73Mt LOM at ~1.16% Li2O (17% mass yield of ROM feed), sold FOB at a LOM average US$186/t (45% discount to the SC6 Li2O unit price, based on preliminary off-taker talks); credits US$878M LOM (US$245/t concentrate) inside C1 (p1, p4, p20, p38, p44). Future options, not in the base case: feldspar 500-1,000ktpa and flotation of fines/middlings for ~80ktpa of >5% Li2O concentrate (p49).",
+  "processing_cost": {
+   "value": 7.77,
+   "unit": "US$/t processed",
+   "page": 38,
+   "note": "US$59/dmt concentrate; LOM US$212.2M (Table 17). Table 18 (p39, US$M/yr): processing and maintenance labour 6.8, reagents and consumables 2.4, maintenance materials 4.0, power 3.4, Atlantic labour 3.4, material handling 2.0. JORC table (p69) gives process opex incl. G&A as US$15.36/t plant feed. Early modular plant (Table 19 p39): contract crushing US$6.2M/yr (US$10.31/t), diesel US$2.0M/yr."
+  }
+ },
+ "overheads": {
+  "site_GA": {
+   "value": 47.08,
+   "unit": "US$/dmt concentrate",
+   "page": 38,
+   "note": "LOM US$168.8M (Table 17). Ore Reserve inputs give G&A incl. marketing and insurance as US$6.18/t processed (p21). Table 18 (p39): G&A labour US$5.4M/yr, G&A expenses US$9.3M/yr, G&A power US$0.3M/yr."
+  },
+  "power_source": "Ghana national grid (GRIDCo transmission; VRA main generator; national capacity ~56% hydro, 44% thermal). New ~3km 34.5kV line from the Saltpond 161/34.5kV substation to a new site substation. Diesel power for the early-production modular plant before grid connection (p29, p39).",
+  "power_cost": {
+   "value": 0.14,
+   "unit": "US$/kWh",
+   "page": 29,
+   "note": "Average grid operating cost; installed 8,500kW, average continuous load 4,270kW; DMS power US$3.4M/yr = US$1.25/t crusher feed (Table 18 p39); unit rates advised by ECG (p39)."
+  },
+  "workforce_camp_fifo": "No camp: workforce housed in existing regional accommodation and hotels; senior management and visitors at a nearby resort (in care and maintenance; minor upgrade; contractor-operated) (p30, p68). >800 direct jobs; >400 on site at peak construction; hire-local policy, expatriates for 1-3 years then 100% Ghanaian staff targeted (p34, p37). Mine roster: two 12-hour shifts, three panels, 7 days a week (p14). No FIFO mentioned."
+ },
+ "logistics": {
+  "product_route": "Concentrate and secondary product are stockpiled at site, loaded by front-end loader onto contracted 35t tipper trucks and hauled by road ~110km west on the existing sealed N1 Accra-Cape Coast-Takoradi highway to the deep-sea port of Takoradi (under 4 hours, even at peak), held in warehousing and outdoor storage near the port, then loaded onto ships; sold FOB Ghana port (p28, p39).",
+  "mode": "Road (truck)",
+  "distance_km": {
+   "value": 110,
+   "unit": "km (site to Takoradi port)",
+   "page": 28,
+   "note": "Approximate. Tema port is 140km east and is used, with Takoradi, to import construction equipment (p5, p28, p34)."
+  },
+  "haulage_cost": {
+   "value": 29.81,
+   "unit": "US$/dmt concentrate",
+   "page": 21,
+   "note": "Combined figure for the whole transport and logistics chain from site to loading onto ships at Takoradi (p39), so it also covers port handling and storage; the document does not split road haulage from port costs. Secondary product: US$32.65/dmt. LOM: US$106.9M concentrate + US$154.5M secondary product (Table 17 p38, 'selling' costs; p69 'selling and transport'). Pit optimisation earlier assumed 'land freight' of US$25.00/t concentrate (p15)."
+  },
+  "port": "Takoradi (existing deep-sea port, ~110km west); Tema (140km east) also used for construction imports",
+  "port_cost": {
+   "value": null,
+   "unit": "US$/t",
+   "page": 39,
+   "note": "Not stated separately; included in the US$29.81/t site-to-ship logistics cost."
+  },
+  "ocean_freight": {
+   "value": null,
+   "unit": "US$/t",
+   "page": 44,
+   "note": "Not given: all prices and costs are FOB Ghana port, so ocean freight is outside the model."
+  },
+  "sale_basis": "FOB",
+  "infrastructure_built": "No rail, port or airstrip needed. The Project funds: a new plant-site access road joining existing roads and the N1 highway (p5, p28); internal haul roads (six major segments) and an alternative ROM haul road by end of Year 10 (p17); a ~3km 34.5kV line from the Saltpond 161/34.5kV substation plus a new site substation (p29); diversion of two HV transmission lines crossing the pits (~15km route, ~30km of new line) (p29); a water storage dam and a pump and pipeline from Lake Agege, 7km north (p28); tailings facilities, buildings and a communications tower (p29-31); minor upgrade of a nearby resort for senior staff (p30). Product trucking, port-side storage, fuel storage and mining services come from contractors (p28, p30-31).",
+  "notes": "Haulage and port costs are not split: US$29.81/dmt (concentrate) and US$32.65/dmt (secondary product) cover the full chain from site to ship loading at Takoradi (p39). Trucking: fifty 35t tipper trucks and two front-end loaders, day-shift loading only, average 15-minute cycle times, supplied under contract by port-based transport companies, so no Project-owned fleet (p28). ACC Logistics and Bollore Africa contributed to the opex estimate (p53). A Traffic Impact Assessment is in preparation (p68). Transport is a small NPV sensitivity next to mining costs (Figure 14, p47). No ocean freight, CIF price or shipment size given."
+ },
+ "operating_costs": {
+  "breakdown": [
+   {
+    "item": "Mining contractor",
+    "value": 432,
+    "unit": "US$/dmt concentrate",
+    "page": 38,
+    "note": "US$3.82/t mined; LOM 1,550,248 (US$'000)"
+   },
+   {
+    "item": "Atlantic mine management",
+    "value": 11,
+    "unit": "US$/dmt concentrate",
+    "page": 38,
+    "note": "US$0.10/t mined; LOM 38,785 (US$'000)"
+   },
+   {
+    "item": "Processing",
+    "value": 59,
+    "unit": "US$/dmt concentrate",
+    "page": 38,
+    "note": "US$7.77/t processed; LOM 212,155 (US$'000)"
+   },
+   {
+    "item": "General and administration",
+    "value": 47,
+    "unit": "US$/dmt concentrate",
+    "page": 38,
+    "note": "US$47.08/dmt; LOM 168,758 (US$'000)"
+   },
+   {
+    "item": "Spodumene selling (site-to-ship transport and logistics)",
+    "value": 30,
+    "unit": "US$/dmt concentrate",
+    "page": 38,
+    "note": "US$29.81/dmt concentrate; LOM 106,850 (US$'000)"
+   },
+   {
+    "item": "Secondary product selling (transport and logistics)",
+    "value": 43,
+    "unit": "US$/dmt concentrate",
+    "page": 38,
+    "note": "US$32.65/dmt secondary product; LOM 154,534 (US$'000)"
+   },
+   {
+    "item": "Secondary product credits",
+    "value": -245,
+    "unit": "US$/dmt concentrate",
+    "page": 38,
+    "note": "LOM -878,424 (US$'000); excludes feldspar"
+   }
+  ],
+  "C1_or_FOB_cost": {
+   "value": 377,
+   "unit": "US$/dmt concentrate",
+   "page": 4,
+   "note": "C1 cash cost FOB Ghana port after secondary-product credits of US$245/t (~US$622/t before credits, derived). Covers mining, processing, transport and G&A; excludes royalties and VAT (p38, p40). Table 17 total 1,351,217 sits under a '$ M (LOM)' header but the figures are evidently US$ thousands (US$1.35bn)."
+  },
+  "AISC": {
+   "value": 610,
+   "unit": "US$/dmt concentrate",
+   "page": 4,
+   "note": "Operating costs plus third-party and government royalties plus sustaining capital, from start of commercial production; excludes non-sustaining capital (p45)."
+  }
+ },
+ "fiscal": {
+  "royalties": [
+   {
+    "name": "Government of Ghana mineral royalty",
+    "rate": {
+     "value": 5.0,
+     "unit": "%",
+     "page": 43,
+     "note": "Ore Reserve inputs used 6.0% total royalty (p21); pit optimisation 6.2% (p15)."
+    },
+    "base": "Not stated (modelled as a % rate, Table 23)"
+   },
+   {
+    "name": "Third-party royalty",
+    "rate": {
+     "value": 1.0,
+     "unit": "%",
+     "page": 43
+    },
+    "base": "Not stated"
+   },
+   {
+    "name": "Third-party royalty, capped at US$2m total",
+    "rate": {
+     "value": 1.0,
+     "unit": "%",
+     "page": 43,
+     "note": "Capped at US$2m in total"
+    },
+    "base": "Not stated"
+   },
+   {
+    "name": "Growth and Sustainability levy (listed under royalties)",
+    "rate": {
+     "value": 1.0,
+     "unit": "%",
+     "page": 43
+    },
+    "base": "Not stated"
+   }
+  ],
+  "income_tax": {
+   "value": 35,
+   "unit": "% corporate tax",
+   "page": 43,
+   "note": "Losses carried forward 4 years (Table 23)."
+  },
+  "state_participation": {
+   "value": 10,
+   "unit": "% free carry",
+   "page": 43,
+   "note": "Government of Ghana right to a 10% free carry once in production (p4 fn 2)."
+  },
+  "other_levies": "GETFund levy 2.5% and NHIL 2.5% of goods and services costs, paid the year after cost incurred; COVID-19 HRL levy 1% on non-exempt goods and services; VAT 15% on goods and services (returns every 2 quarters post-construction; goods and services taken as 17% of opex); import duty 5% on operating consumables; withholding tax 20% on non-resident services and 8% on interest and dividends; CDA (community development) fund 1% of NPAT; marketing costs 3%; environmental bond first-year payment US$4,575,905; refining costs 0%; base case 100% equity (Table 23, p43). No fiscal stability agreement mentioned."
+ },
+ "capital": {
+  "initial_capex": {
+   "value": 185.2,
+   "unit": "US$M",
+   "page": 41,
+   "note": "Upfront capex, Q2 2023 US$, +/-15% accuracy (Primero procedures), incl. US$12.2M contingency; US$173.0M before contingency; Table 1 rounds to US$185M. Includes the US$15.3M early-production modular DMS. Excludes sunk, corporate, exploration, financing, taxes, duties, working capital, FX and escalation (p42); mining mobilisation and pre-production mining are in mining opex (p38, p41). Capital intensity US$64/t of annualised throughput (p1)."
+  },
+  "breakdown": [
+   {
+    "item": "Site general and infrastructure",
+    "value": 23.5,
+    "unit": "US$M",
+    "page": 41,
+    "note": "12.7% of total"
+   },
+   {
+    "item": "Process plant - DMS",
+    "value": 73.2,
+    "unit": "US$M",
+    "page": 41,
+    "note": "39.5% of total"
+   },
+   {
+    "item": "Project indirects",
+    "value": 27.6,
+    "unit": "US$M",
+    "page": 41,
+    "note": "14.9% of total; JORC table (p69) calls it 'Indirects - EPCM and working capex'"
+   },
+   {
+    "item": "Owners costs",
+    "value": 33.4,
+    "unit": "US$M",
+    "page": 41,
+    "note": "18.0% of total"
+   },
+   {
+    "item": "Modular plant - DMS (early production)",
+    "value": 15.3,
+    "unit": "US$M",
+    "page": 41,
+    "note": "8.3% of total"
+   },
+   {
+    "item": "Contingency",
+    "value": 12.2,
+    "unit": "US$M",
+    "page": 41,
+    "note": "6.6% of total"
+   }
+  ],
+  "contingency": {
+   "value": 12.2,
+   "unit": "US$M",
+   "page": 41,
+   "note": "6.6% of total capex (~7.1% of the US$173.0M pre-contingency subtotal, derived); JORC table (p69) says US$12.1M. Pricing basis of the US$173.0M: 79.0% priced, 15.8% estimated, 5.2% allowance (Table 21 p42)."
+  },
+  "sustaining_capex": {
+   "value": 112.2,
+   "unit": "US$M LOM",
+   "page": 21,
+   "note": "Table 22 (p42) totals US$158.0M including US$45.8M closure. Sustaining part is dominated by land access and resettlement US$98.9M; others: plant and buildings 7.0, infrastructure and equipment 2.9, vehicles 1.1, tailings line 0.9, TSF stages 2-3 0.8, water line 0.5, sediment control 0.1 (US$M)."
+  },
+  "closure_cost": {
+   "value": 45.8,
+   "unit": "US$M",
+   "page": 42,
+   "note": "Rehabilitation and closure, LOM (Table 22); JORC table (p69) says US$45.7M. Environmental bond first-year payment US$4,575,905 (p43)."
+  },
+  "construction_period_months": {
+   "value": 30,
+   "unit": "months, DFS completion (Jun-2023) to first ore in main plant (Jan-2026)",
+   "page": 35,
+   "note": "Zero-float schedule; critical path is ESIA/RAP and the environmental permit. Table 16 (p36): break ground Sep-2024, early-plant first product Apr-2025, power on Sep-2025, main plant construction complete Nov-2025, first ore Jan-2026, first SC6 shipment Feb-2026."
+  },
+  "ramp_up": "Early production: modular DMS with contract crushing from Q2 2025 (first product Apr-2025), ~450kt ore over ~9 months (Table 10 footnote says the early-production phase covers 14 months) (p3, p18, p27, p36). Main 2.7Mtpa plant: first ore Jan-2026; 2026 feed 2.0Mt, running at 75% of nominal capacity on an annualised basis; 2.7Mtpa from 2027 (p18, p44). Mine plan has a 3-5 month mining ramp-up (p67). Year 4 output dips on higher P2 ore (p44)."
+ },
+ "economics": {
+  "price_deck": [
+   {
+    "period": "2025",
+    "price": {
+     "value": 3000,
+     "unit": "US$/t SC6, FOB Ghana",
+     "page": 44,
+     "note": "SC5.5 US$2,613/t; secondary product US$375/t. SC6 = median consensus forecast; SC5.5 = (5.5/6) x SC6 x 0.95; secondary product = 45% discount to SC6 Li2O unit price x grade ratio (p44). Real vs nominal basis not stated."
+    }
+   },
+   {
+    "period": "2026",
+    "price": {
+     "value": 2557,
+     "unit": "US$/t SC6, FOB Ghana",
+     "page": 44,
+     "note": "SC5.5 US$2,227/t; secondary product US$286/t."
+    }
+   },
+   {
+    "period": "2027",
+    "price": {
+     "value": 2000,
+     "unit": "US$/t SC6, FOB Ghana",
+     "page": 44,
+     "note": "SC5.5 US$1,742/t; secondary product US$222/t."
+    }
+   },
+   {
+    "period": "2028",
+    "price": {
+     "value": 1841,
+     "unit": "US$/t SC6, FOB Ghana",
+     "page": 44,
+     "note": "SC5.5 US$1,603/t; secondary product US$176/t."
+    }
+   },
+   {
+    "period": "2029",
+    "price": {
+     "value": 1770,
+     "unit": "US$/t SC6, FOB Ghana",
+     "page": 44,
+     "note": "SC5.5 US$1,541/t; secondary product US$191/t."
+    }
+   },
+   {
+    "period": "2030",
+    "price": {
+     "value": 1666,
+     "unit": "US$/t SC6, FOB Ghana",
+     "page": 44,
+     "note": "SC5.5 US$1,451/t; secondary product US$189/t."
+    }
+   },
+   {
+    "period": "2031",
+    "price": {
+     "value": 1560,
+     "unit": "US$/t SC6, FOB Ghana",
+     "page": 44,
+     "note": "SC5.5 US$1,359/t; secondary product US$163/t."
+    }
+   },
+   {
+    "period": "2032",
+    "price": {
+     "value": 1452,
+     "unit": "US$/t SC6, FOB Ghana",
+     "page": 44,
+     "note": "SC5.5 US$1,264/t; secondary product US$155/t."
+    }
+   },
+   {
+    "period": "2033",
+    "price": {
+     "value": 1410,
+     "unit": "US$/t SC6, FOB Ghana",
+     "page": 44,
+     "note": "SC5.5 US$1,228/t; secondary product US$144/t."
+    }
+   },
+   {
+    "period": "2034",
+    "price": {
+     "value": 1410,
+     "unit": "US$/t SC6, FOB Ghana",
+     "page": 44,
+     "note": "SC5.5 US$1,228/t; secondary product US$139/t."
+    }
+   },
+   {
+    "period": "2035",
+    "price": {
+     "value": 1410,
+     "unit": "US$/t SC6, FOB Ghana",
+     "page": 44,
+     "note": "SC5.5 US$1,228/t; secondary product US$154/t."
+    }
+   },
+   {
+    "period": "2036",
+    "price": {
+     "value": 1410,
+     "unit": "US$/t SC6, FOB Ghana",
+     "page": 44,
+     "note": "SC5.5 US$1,228/t; secondary product US$152/t."
+    }
+   },
+   {
+    "period": "LOM average SC6",
+    "price": {
+     "value": 1695,
+     "unit": "US$/t SC6, FOB Ghana",
+     "page": 4
+    }
+   },
+   {
+    "period": "LOM average SC5.5",
+    "price": {
+     "value": 1478,
+     "unit": "US$/t SC5.5, FOB Ghana",
+     "page": 4
+    }
+   },
+   {
+    "period": "LOM average spodumene concentrate (SC6/SC5.5 ~50:50 mix)",
+    "price": {
+     "value": 1587,
+     "unit": "US$/t concentrate, FOB Ghana port",
+     "page": 21,
+     "note": "Headline 'conservative LOM concentrate pricing' (p1); also the Ore Reserve price (p21, p70)."
+    }
+   },
+   {
+    "period": "LOM average secondary product",
+    "price": {
+     "value": 186,
+     "unit": "US$/t secondary product (~1.16% Li2O), FOB Ghana",
+     "page": 4,
+     "note": "JORC table (p70) says US$187/t."
+    }
+   }
+  ],
+  "discount_rate": {
+   "value": 8,
+   "unit": "% per annum",
+   "page": 43,
+   "note": "Real/nominal not stated; base case 100% equity funded."
+  },
+  "npv": [
+   {
+    "label": "post-tax",
+    "value": 1498,
+    "unit": "US$M",
+    "page": 4,
+    "note": "NPV8, 100% Project basis, ungeared (100% equity), FOB Ghana pricing per Table 24."
+   },
+   {
+    "label": "post-tax, Inferred excluded (sensitivity)",
+    "value": 1404.8,
+    "unit": "US$M",
+    "page": 67,
+    "note": "Printed as 'US$1,404,840' (evidently US$'000); all Inferred plant feed treated as waste."
+   },
+   {
+    "label": "pre-tax",
+    "value": null,
+    "unit": "US$M",
+    "page": null,
+    "note": "Not stated in the document."
+   }
+  ],
+  "irr": [
+   {
+    "label": "post-tax",
+    "value": 105,
+    "unit": "%",
+    "page": 4
+   },
+   {
+    "label": "post-tax, Inferred excluded (sensitivity)",
+    "value": 104.5,
+    "unit": "%",
+    "page": 67
+   },
+   {
+    "label": "pre-tax",
+    "value": null,
+    "unit": "%",
+    "page": null,
+    "note": "Not stated in the document."
+   }
+  ],
+  "payback_years": {
+   "value": 19,
+   "unit": "months",
+   "page": 4,
+   "note": "~1.6 years; start point (first production or start of construction) not stated."
+  },
+  "lom_revenue": {
+   "value": 6566,
+   "unit": "US$M",
+   "page": 4,
+   "note": "All products, FOB: spodumene concentrate US$5,687M + secondary product US$878M (Table 25 p45)."
+  },
+  "annual_ebitda": {
+   "value": 316,
+   "unit": "US$M per year (LOM average)",
+   "page": 1,
+   "note": "LOM EBITDA US$3,798M, EBIT US$3,527M, NPAT US$2,284M (p45). Post-tax surplus cash flow is US$2,438M in Table 1 (p4; 'US$2.4bn' in highlights) but US$2,253M in Table 25 (p45)."
+  },
+  "sensitivities": "Figure 14 (p47): tornado of post-tax NPV8 for +/-25% changes in Li price, head grade, Li recovery, all opex, mining costs, transport, processing costs and capex (no data labels; by eye, price -25%/+25% moves NPV8 from ~US$1.5bn to ~US$0.9bn/~US$2.1bn). Text: a 10% price change moves post-tax NPV8 by 17.0%, head grade 16.5%, recovery 13.8%; among costs, mining matters most, then concentrate transport, then processing; insensitive to capex (p47). JORC table (p70): NPV8 stays positive under -25% price, an FX change, +25% opex or +25% capex. Inferred-excluded case: NPV8 US$1,404.8M, IRR 104.5% (p67)."
+ },
+ "risks_noted": [
+  "Environmental permit: the only EXTREME (uncontrolled) project risk is obtaining and keeping the EP; residual MEDIUM after ESIA/RAP readiness works (p48).",
+  "Schedule has zero float; critical path is the ESIA and RAP needed for the environmental permit (p35).",
+  "Mining Lease not yet granted: needs a Minerals Commission application and parliamentary ratification (targeted Jul-2024) plus transfer of part of PL3/109 to Barari; several licence renewals in process (p7-8, p35-36).",
+  "Ghana presidential and parliamentary elections (Dec-2024) fall inside the build schedule (p36).",
+  "Land access and resettlement: US$98.9M LOM cost and a RAP required; >3,562 people within 2km of mineralisation (2020 survey); impacts on homes, crops and land (p33, p42, p70).",
+  "Cultural heritage: 33 shrines/heritage sites, some may need relocation in consultation with Deity-Heads (p33).",
+  "Inferred Resource is 6% of plant feed (1.7Mt), with low geological confidence (p18, p22).",
+  "Metallurgy: P2 ore recovers poorly in DMS (7.0% to SC6, 14.9% to SC5.5) and is capped at 10% of the blend; recoveries rely on a 0.85mm DMS bottom size and lab-to-plant factors (p23-24).",
+  "Secondary-product market: priced from preliminary off-taker discussions at a 45% discount; risk if the low-grade lithium product market weakens (p44, p49).",
+  "HV powerline relocation (two lines, ~30km of new line, major shutdown) must precede mining of Ewoyaa Main (p18, p29).",
+  "Groundwater drawdown may lower water levels in nearby settlements (rated low) (p29).",
+  "No lithium mining or processing experience in Ghana; expatriates needed for start-up and training (p37).",
+  "Risk register also covers infrastructure, logistics, electrical supply, water modelling, tailings and security; HAZID high hazards are personnel-vehicle interactions (p48).",
+  "NPV is most sensitive to lithium price: a 10% price change moves post-tax NPV8 by 17% (p47)."
+ ],
+ "pages_scanned": "All 72 pages read as text. Key tables: p1 highlights; p4 Table 1 key metrics; p5 and p28 location, transport and port; p7-8 ownership and tenure; p12-13 MRE; p15 Table 7 pit-optimisation inputs (land freight); p17-18 mine schedule and Inferred share; p21 Table 12 modifying factors (transport cost); p22 Ore Reserve; p24 recoveries; p29 power; p35-36 schedule; p38-40 opex Tables 17-19 and logistics basis; p41-42 capex Tables 20-22; p43 Table 23 fiscal inputs; p44 Table 24 price deck; p45 Table 25 results and Piedmont funding; p47 sensitivities; p48-49 risks and opportunities; p66-70 JORC Section 4. PDF pages 4, 5, 6, 38, 44 and 47 checked visually."
+}

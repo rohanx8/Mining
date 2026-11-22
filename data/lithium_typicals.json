@@ -1,0 +1,711 @@
+{
+ "about": "Typical values for the lithium deposit screener, compiled from data/studies/*.json by tools/compile_typicals.py. Medians across studies; each point keeps its study and page. Converted to US$ at each study's own FX assumption.",
+ "fx_used": {
+  "S02": 1.0,
+  "S03": 1.0,
+  "S05": 0.76,
+  "S06": 0.7,
+  "S06b": 0.7,
+  "S07": 1.0,
+  "S11": 0.67,
+  "S11n": 0.69
+ },
+ "typicals": {
+  "recovery_dms": {
+   "label": "Lithia recovery, dense-media separation (DMS) only",
+   "unit": "%",
+   "median": 72.25,
+   "low": 62.1,
+   "high": 78.0,
+   "n": 6,
+   "note": "Operating benchmarks: Kathleen Valley 60-63% in ramp-up (Liontown Sep Q 2026, p2).",
+   "points": [
+    {
+     "study": "S02",
+     "name": "Ewoyaa DFS 2023 (Ghana)",
+     "value": 62.1,
+     "page": 38,
+     "working": "to SC6 (67.2% to SC5.5)"
+    },
+    {
+     "study": "S05",
+     "name": "Shaakichiuwaanaan PEA 2024 (Quebec)",
+     "value": 69.5,
+     "page": 11,
+     "working": "LOM average"
+    },
+    {
+     "study": "S06",
+     "name": "Finniss restart study 2025 (NT)",
+     "value": 78.0,
+     "page": 4,
+     "working": "global"
+    },
+    {
+     "study": "S06b",
+     "name": "Finniss DFS 2021 (NT)",
+     "value": 71.7,
+     "page": 2,
+     "working": "DFS"
+    },
+    {
+     "study": "S11",
+     "name": "Manna DFS 2025 (WA)",
+     "value": 72.8,
+     "page": 46,
+     "working": "ore sorting + DMS, LOM"
+    },
+    {
+     "study": "S11n",
+     "name": "Manna-Nova integration study 2026 (WA)",
+     "value": 72.85,
+     "page": 16,
+     "working": "ROM to product"
+    }
+   ]
+  },
+  "recovery_flotation": {
+   "label": "Lithia recovery, with flotation",
+   "unit": "%",
+   "median": 74.7,
+   "low": 71.0,
+   "high": 87.4,
+   "n": 3,
+   "note": "PLS last five quarters 74.7-78.2% (p8).",
+   "points": [
+    {
+     "study": "S03",
+     "name": "Bougouni FS 2020 (Mali)",
+     "value": 71.0,
+     "page": 4,
+     "working": "flotation, no DMS"
+    },
+    {
+     "study": "S07",
+     "name": "Rose FS 2023 (Quebec)",
+     "value": 87.4,
+     "page": 3,
+     "working": "conventional flotation"
+    },
+    {
+     "study": "PLS",
+     "name": "PLS Pilgangoora, Sep Q 2026 actuals (WA)",
+     "value": 74.7,
+     "page": 2,
+     "working": "Sep Q 2026 actual, DMS + flotation"
+    }
+   ]
+  },
+  "head_grade": {
+   "label": "Head grade to plant",
+   "unit": "% Li2O",
+   "median": 1.245,
+   "low": 0.87,
+   "high": 1.31,
+   "n": 8,
+   "note": "",
+   "points": [
+    {
+     "study": "S02",
+     "name": "Ewoyaa DFS 2023 (Ghana)",
+     "value": 1.22,
+     "page": 22,
+     "working": ""
+    },
+    {
+     "study": "S03",
+     "name": "Bougouni FS 2020 (Mali)",
+     "value": 1.03,
+     "page": 4,
+     "working": ""
+    },
+    {
+     "study": "S05",
+     "name": "Shaakichiuwaanaan PEA 2024 (Quebec)",
+     "value": 1.31,
+     "page": 11,
+     "working": ""
+    },
+    {
+     "study": "S06",
+     "name": "Finniss restart study 2025 (NT)",
+     "value": 1.27,
+     "page": 4,
+     "working": ""
+    },
+    {
+     "study": "S06b",
+     "name": "Finniss DFS 2021 (NT)",
+     "value": 1.31,
+     "page": 2,
+     "working": ""
+    },
+    {
+     "study": "S07",
+     "name": "Rose FS 2023 (Quebec)",
+     "value": 0.87,
+     "page": 3,
+     "working": ""
+    },
+    {
+     "study": "S11",
+     "name": "Manna DFS 2025 (WA)",
+     "value": 0.88,
+     "page": 68,
+     "working": ""
+    },
+    {
+     "study": "LTR",
+     "name": "Liontown Kathleen Valley, Sep Q 2026 actuals (WA)",
+     "value": 1.3,
+     "page": 2,
+     "working": "Sep Q 2026 actual"
+    }
+   ]
+  },
+  "mining_cost_op_per_t_material": {
+   "label": "Open-pit mining cost per tonne of material moved (ore + waste)",
+   "unit": "US$/t",
+   "median": 3.167,
+   "low": 2.63,
+   "high": 3.82,
+   "n": 4,
+   "note": "",
+   "points": [
+    {
+     "study": "S02",
+     "name": "Ewoyaa DFS 2023 (Ghana)",
+     "value": 3.82,
+     "page": 38,
+     "working": "US$3.82/t mined"
+    },
+    {
+     "study": "S03",
+     "name": "Bougouni FS 2020 (Mali)",
+     "value": 2.63,
+     "page": 3,
+     "working": "US$2.63/t material"
+    },
+    {
+     "study": "S07",
+     "name": "Rose FS 2023 (Quebec)",
+     "value": 3.259,
+     "page": 3,
+     "working": "US$27.05/t ore ÷ (1 + strip 7.3)"
+    },
+    {
+     "study": "S11",
+     "name": "Manna DFS 2025 (WA)",
+     "value": 3.076,
+     "page": 9,
+     "working": "A$73/t ore × 0.67 ÷ (1 + strip 14.9)"
+    }
+   ]
+  },
+  "mining_cost_ug_per_t_ore": {
+   "label": "Underground mining cost per tonne of ore",
+   "unit": "US$/t",
+   "median": 51.765,
+   "low": 47.25,
+   "high": 56.28,
+   "n": 2,
+   "note": "",
+   "points": [
+    {
+     "study": "S06",
+     "name": "Finniss restart study 2025 (NT)",
+     "value": 47.25,
+     "page": 4,
+     "working": "A$63-72/t mined, mid A$67.5 × 0.70"
+    },
+    {
+     "study": "S11",
+     "name": "Manna DFS 2025 (WA)",
+     "value": 56.28,
+     "page": 9,
+     "working": "A$84/t ore × 0.67"
+    }
+   ]
+  },
+  "processing_cost_dms": {
+   "label": "Processing cost, DMS route, per tonne of ore",
+   "unit": "US$/t",
+   "median": 19.848,
+   "low": 7.77,
+   "high": 30.1,
+   "n": 4,
+   "note": "",
+   "points": [
+    {
+     "study": "S02",
+     "name": "Ewoyaa DFS 2023 (Ghana)",
+     "value": 7.77,
+     "page": 38,
+     "working": ""
+    },
+    {
+     "study": "S06",
+     "name": "Finniss restart study 2025 (NT)",
+     "value": 30.1,
+     "page": 4,
+     "working": "A$40-46/t incl. tailings, mid × 0.70"
+    },
+    {
+     "study": "S11",
+     "name": "Manna DFS 2025 (WA)",
+     "value": 20.1,
+     "page": 9,
+     "working": "A$30/t incl. site G&A × 0.67"
+    },
+    {
+     "study": "S11n",
+     "name": "Manna-Nova integration study 2026 (WA)",
+     "value": 19.596,
+     "page": 16,
+     "working": "A$28.4/t crushed × 0.69"
+    }
+   ]
+  },
+  "processing_cost_flotation": {
+   "label": "Processing cost, flotation route, per tonne of ore",
+   "unit": "US$/t",
+   "median": 18.56,
+   "low": 16.33,
+   "high": 20.79,
+   "n": 2,
+   "note": "",
+   "points": [
+    {
+     "study": "S03",
+     "name": "Bougouni FS 2020 (Mali)",
+     "value": 16.33,
+     "page": 3,
+     "working": ""
+    },
+    {
+     "study": "S07",
+     "name": "Rose FS 2023 (Quebec)",
+     "value": 20.79,
+     "page": 3,
+     "working": ""
+    }
+   ]
+  },
+  "site_ga_per_t_ore": {
+   "label": "Site G&A per tonne of ore",
+   "unit": "US$/t",
+   "median": 6.075,
+   "low": 2.92,
+   "high": 15.94,
+   "n": 4,
+   "note": "",
+   "points": [
+    {
+     "study": "S02",
+     "name": "Ewoyaa DFS 2023 (Ghana)",
+     "value": 5.499,
+     "page": 38,
+     "working": "US$47/t conc × 3.58 Mt conc ÷ 30.6 Mt ore"
+    },
+    {
+     "study": "S03",
+     "name": "Bougouni FS 2020 (Mali)",
+     "value": 2.92,
+     "page": 3,
+     "working": ""
+    },
+    {
+     "study": "S06",
+     "name": "Finniss restart study 2025 (NT)",
+     "value": 6.65,
+     "page": 4,
+     "working": "A$9-10/t, mid × 0.70"
+    },
+    {
+     "study": "S07",
+     "name": "Rose FS 2023 (Quebec)",
+     "value": 15.94,
+     "page": 3,
+     "working": "remote James Bay"
+    }
+   ]
+  },
+  "capex_per_annual_t_ore": {
+   "label": "Initial capex per tonne of annual ore capacity",
+   "unit": "US$ per t/yr",
+   "median": 68.593,
+   "low": 59.176,
+   "high": 292.298,
+   "n": 7,
+   "note": "Greenfield sites need their own power, camp and roads; the integration case shows how much existing infrastructure saves.",
+   "points": [
+    {
+     "study": "S02",
+     "name": "Ewoyaa DFS 2023 (Ghana)",
+     "value": 68.593,
+     "page": 41,
+     "working": "US$185.2M ÷ 2.7 Mtpa"
+    },
+    {
+     "study": "S03",
+     "name": "Bougouni FS 2020 (Mali)",
+     "value": 64.3,
+     "page": 4,
+     "working": "US$128.6M ÷ 2.0 Mtpa"
+    },
+    {
+     "study": "S06b",
+     "name": "Finniss DFS 2021 (NT)",
+     "value": 62.23,
+     "page": 32,
+     "working": "A$88.9M × 0.70 ÷ 1.0 Mtpa"
+    },
+    {
+     "study": "S06",
+     "name": "Finniss restart study 2025 (NT)",
+     "value": 109.375,
+     "page": 4,
+     "working": "A$175-200M mid × 0.70 ÷ 1.2 Mtpa (restart, underground)"
+    },
+    {
+     "study": "S07",
+     "name": "Rose FS 2023 (Quebec)",
+     "value": 292.298,
+     "page": 12,
+     "working": "US$470.6M ÷ 1.61 Mtpa (remote Quebec)"
+    },
+    {
+     "study": "S11",
+     "name": "Manna DFS 2025 (WA)",
+     "value": 163.443,
+     "page": 81,
+     "working": "A$439.1M × 0.67 ÷ 1.8 Mtpa"
+    },
+    {
+     "study": "S11n",
+     "name": "Manna-Nova integration study 2026 (WA)",
+     "value": 59.176,
+     "page": 4,
+     "working": "A$180.1M × 0.69 ÷ 2.1 Mtpa (converting an existing plant)"
+    }
+   ]
+  },
+  "contingency_pct": {
+   "label": "Capex contingency, % of initial capex",
+   "unit": "%",
+   "median": 9.1,
+   "low": 6.587,
+   "high": 21.395,
+   "n": 6,
+   "note": "PEA ~21%; feasibility studies 7-10%.",
+   "points": [
+    {
+     "study": "S02",
+     "name": "Ewoyaa DFS 2023 (Ghana)",
+     "value": 6.587,
+     "page": 41,
+     "working": "US$12.2M ÷ 185.2M"
+    },
+    {
+     "study": "S03",
+     "name": "Bougouni FS 2020 (Mali)",
+     "value": 10.009,
+     "page": 4,
+     "working": "10% on US$116.9M"
+    },
+    {
+     "study": "S05",
+     "name": "Shaakichiuwaanaan PEA 2024 (Quebec)",
+     "value": 21.395,
+     "page": 12,
+     "working": "C$162.9M ÷ 761.4M (PEA)"
+    },
+    {
+     "study": "S07",
+     "name": "Rose FS 2023 (Quebec)",
+     "value": 9.074,
+     "page": 12,
+     "working": ""
+    },
+    {
+     "study": "S11",
+     "name": "Manna DFS 2025 (WA)",
+     "value": 9.094,
+     "page": 81,
+     "working": "growth + contingency"
+    },
+    {
+     "study": "S11n",
+     "name": "Manna-Nova integration study 2026 (WA)",
+     "value": 9.106,
+     "page": 4,
+     "working": ""
+    }
+   ]
+  },
+  "road_haul_per_t_km": {
+   "label": "Road haulage rate per tonne-kilometre",
+   "unit": "US$/t-km",
+   "median": 0.137,
+   "low": 0.068,
+   "high": 0.271,
+   "n": 4,
+   "note": "Long hauls: Shaakichiuwaanaan pays C$226/t (US$172) for 834 km of road plus a rail leg to Bécancour (PEA p14, p64).",
+   "points": [
+    {
+     "study": "S06b",
+     "name": "Finniss DFS 2021 (NT)",
+     "value": 0.068,
+     "page": 83,
+     "working": "A$8.62/t ÷ 88.31 km × 0.70 (2021, road only)"
+    },
+    {
+     "study": "S06",
+     "name": "Finniss restart study 2025 (NT)",
+     "value": 0.187,
+     "page": 4,
+     "working": "A$22-25/t ÷ 88 km × 0.70 (2025; may include port charges)"
+    },
+    {
+     "study": "S11n",
+     "name": "Manna-Nova integration study 2026 (WA)",
+     "value": 0.087,
+     "page": 80,
+     "working": "A$17.01/t ore ÷ 135 km × 0.69 (140 t road trains, dedicated corridor)"
+    },
+    {
+     "study": "S02",
+     "name": "Ewoyaa DFS 2023 (Ghana)",
+     "value": 0.271,
+     "page": 39,
+     "working": "US$29.81/t ÷ ~110 km, site to ship incl. port loading"
+    }
+   ]
+  },
+  "ocean_freight": {
+   "label": "Ocean freight to Asia, per tonne of concentrate",
+   "unit": "US$/t",
+   "median": 25.0,
+   "low": 20,
+   "high": 30,
+   "n": 2,
+   "note": "",
+   "points": [
+    {
+     "study": "S06b",
+     "name": "Finniss DFS 2021 (NT)",
+     "value": 20,
+     "page": 38,
+     "working": "Darwin, 2021"
+    },
+    {
+     "study": "S11",
+     "name": "Manna DFS 2025 (WA)",
+     "value": 30,
+     "page": 84,
+     "working": "Esperance, 2025"
+    }
+   ]
+  },
+  "sustaining_capex_per_t_conc": {
+   "label": "Sustaining capex per tonne of concentrate",
+   "unit": "US$/t",
+   "median": 32.391,
+   "low": 9,
+   "high": 68.649,
+   "n": 6,
+   "note": "",
+   "points": [
+    {
+     "study": "S03",
+     "name": "Bougouni FS 2020 (Mali)",
+     "value": 9,
+     "page": 4,
+     "working": ""
+    },
+    {
+     "study": "S05",
+     "name": "Shaakichiuwaanaan PEA 2024 (Quebec)",
+     "value": 33.44,
+     "page": 14,
+     "working": "C$44/t × 0.76"
+    },
+    {
+     "study": "S06b",
+     "name": "Finniss DFS 2021 (NT)",
+     "value": 41,
+     "page": 34,
+     "working": "incl. underground development"
+    },
+    {
+     "study": "S11",
+     "name": "Manna DFS 2025 (WA)",
+     "value": 19.095,
+     "page": 83,
+     "working": "A$28.5/t incl. closure × 0.67"
+    },
+    {
+     "study": "S02",
+     "name": "Ewoyaa DFS 2023 (Ghana)",
+     "value": 31.341,
+     "page": 42,
+     "working": "US$112.2M ÷ 3.58 Mt conc (incl. US$98.9M resettlement)"
+    },
+    {
+     "study": "S07",
+     "name": "Rose FS 2023 (Quebec)",
+     "value": 68.649,
+     "page": 12,
+     "working": "US$237.8M ÷ (203.8 kt × 17 yr)"
+    }
+   ]
+  },
+  "strip_ratio_op": {
+   "label": "Open-pit strip ratio (waste : ore)",
+   "unit": "x",
+   "median": 7.3,
+   "low": 3.7,
+   "high": 14.9,
+   "n": 5,
+   "note": "",
+   "points": [
+    {
+     "study": "S02",
+     "name": "Ewoyaa DFS 2023 (Ghana)",
+     "value": 12.3,
+     "page": 14,
+     "working": ""
+    },
+    {
+     "study": "S05",
+     "name": "Shaakichiuwaanaan PEA 2024 (Quebec)",
+     "value": 3.7,
+     "page": 1,
+     "working": "open-pit portion"
+    },
+    {
+     "study": "S07",
+     "name": "Rose FS 2023 (Quebec)",
+     "value": 7.3,
+     "page": 6,
+     "working": ""
+    },
+    {
+     "study": "S11",
+     "name": "Manna DFS 2025 (WA)",
+     "value": 14.9,
+     "page": 57,
+     "working": ""
+    },
+    {
+     "study": "PLS",
+     "name": "PLS Pilgangoora, Sep Q 2026 actuals (WA)",
+     "value": 6.7,
+     "page": 2,
+     "working": "(11.5 - 1.5) ÷ 1.5, Sep Q 2026"
+    }
+   ]
+  },
+  "discount_rate": {
+   "label": "Discount rate used by the study (real)",
+   "unit": "%",
+   "median": 8,
+   "low": 7,
+   "high": 8,
+   "n": 7,
+   "note": "",
+   "points": [
+    {
+     "study": "S02",
+     "name": "Ewoyaa DFS 2023 (Ghana)",
+     "value": 8,
+     "page": 4,
+     "working": ""
+    },
+    {
+     "study": "S03",
+     "name": "Bougouni FS 2020 (Mali)",
+     "value": 7,
+     "page": 5,
+     "working": ""
+    },
+    {
+     "study": "S05",
+     "name": "Shaakichiuwaanaan PEA 2024 (Quebec)",
+     "value": 8,
+     "page": 11,
+     "working": ""
+    },
+    {
+     "study": "S06b",
+     "name": "Finniss DFS 2021 (NT)",
+     "value": 8,
+     "page": 2,
+     "working": ""
+    },
+    {
+     "study": "S07",
+     "name": "Rose FS 2023 (Quebec)",
+     "value": 8,
+     "page": 3,
+     "working": ""
+    },
+    {
+     "study": "S11",
+     "name": "Manna DFS 2025 (WA)",
+     "value": 8,
+     "page": 84,
+     "working": ""
+    },
+    {
+     "study": "S11n",
+     "name": "Manna-Nova integration study 2026 (WA)",
+     "value": 8,
+     "page": 4,
+     "working": ""
+    }
+   ]
+  }
+ },
+ "fiscal_presets": {
+  "Australia (WA)": {
+   "royalty": "5% of revenue on spodumene concentrate (Manna-Nova p83)",
+   "income_tax": "30%",
+   "studies": [
+    "S11",
+    "S11n"
+   ]
+  },
+  "Australia (NT)": {
+   "royalty": "NT Mineral Royalty Act 1982 hybrid: greater of 20% of net value less A$10,000, or 2.5% of gross (Finniss restart p51)",
+   "income_tax": "30% (Finniss DFS p36)",
+   "studies": [
+    "S06",
+    "S06b"
+   ]
+  },
+  "Ghana": {
+   "royalty": "5% government + 1% Growth and Sustainability levy (+ 1% and 1% capped third-party royalties)",
+   "income_tax": "35%",
+   "state": "10% free carry",
+   "studies": [
+    "S02"
+   ]
+  },
+  "Mali (2020, pre-2023 code)": {
+   "royalty": "3% government + 0.5% local partner + 3% ISCP turnover tax",
+   "income_tax": "25%",
+   "note": "Pre-dates Mali's 2023 mining code",
+   "studies": [
+    "S03"
+   ]
+  },
+  "Canada (Quebec)": {
+   "royalty": "2% (Shaakichiuwaanaan PEA p42); Rose reports royalties of US$28/t and a 41.7% effective tax rate including Quebec mining tax",
+   "studies": [
+    "S05",
+    "S07"
+   ]
+  }
+ }
+}
