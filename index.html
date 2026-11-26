@@ -160,9 +160,19 @@ input.c-range::-webkit-slider-thumb { margin-top: -9px; }
 input.lvl::-moz-range-thumb, input.c-range::-moz-range-thumb { box-sizing: border-box; width: 22px; height: 22px; border-radius: 50%; background: var(--c, var(--ink)); border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--line-strong), 0 1px 3px rgba(0, 0, 0, .3); }
 .lvl-scale { display: grid; grid-template-columns: 1fr auto 1fr; font-size: 12px; color: var(--muted); }
 .lvl-scale span:last-child { text-align: right; }
-.lvl-scale .on { font-weight: 750; color: var(--asm-ink); }
-.lvl-scale .on.L { color: var(--ok-ink); }
-.lvl-scale .on.H { color: var(--bad-ink); }
+.c-risk-head { border-top: 0; padding-bottom: 0; }
+.c-risk-head .c-risk-v { font-size: 11.5px; font-weight: 650; }
+.c-fx { font-size: 12px; line-height: 1.35; color: var(--muted); }
+.c-wi-v { display: grid; justify-items: end; }
+.c-wi-v small { font-size: 11.5px; font-weight: 500; color: var(--muted); }
+.c-expand { gap: 6px; min-height: 32px; padding: 3px 10px; font-size: 13px; }
+.c-sheet-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; }
+.c-sheet-bar fieldset.seg { margin: 0; }
+.c-st-wrap { max-height: min(62vh, 560px); overflow: auto; }   /* the headings stay in view as the rows scroll */
+.c-st-wrap thead th { position: sticky; top: 0; z-index: 2; }
+.c-st-wrap thead th:first-child { z-index: 3; }
+table.c-st th[scope="row"] { font-weight: 650; }
+dialog.sheet.wide { width: min(1100px, calc(100vw - 24px)); }
 
 /* ---------- Segmented control ---------- */
 fieldset.seg { border: 0; margin: 2px 0 8px; padding: 2px; min-width: 0; max-width: 100%; display: inline-flex; flex-wrap: wrap; gap: 2px; background: var(--surface-2); border-radius: 9px; }
@@ -242,13 +252,15 @@ pre.log { font-family: var(--font-num); font-size: 12px; background: var(--surfa
   .c-vb { gap: 4px 18px; }
   .c-kpi-main b { font-size: 1.4rem; }
   .brand { font-size: 14.5px; }
-  select.c-start { width: 128px; }
+  select.c-start { width: 138px; }
   .c-f { grid-template-columns: minmax(0, 1fr) minmax(136px, 50%); }
   .c-risk, .c-wi { grid-template-columns: minmax(0, 1fr) auto; }
   .c-risk-s, .c-wi input.c-range { grid-column: 1 / -1; grid-row: 2; }
   .c-risk-v, .c-wi-v { grid-column: 2; grid-row: 1; }
   table.res td, table.res th, table.mv-grid th, table.mv-grid td { padding-left: 5px; padding-right: 5px; }
   table.res input, table.res select { min-width: 58px; padding: 4px 6px; }
+  .c-risk-head > :not(.c-risk-s) { display: none; }
+  dialog.sheet.wide { width: 100vw; max-width: 100vw; height: 100%; max-height: 100%; margin: 0; border-radius: 0; }
 }
 @media (max-width: 400px) { .c-sec-s { white-space: normal; } }
 /* Touch screens: 16px text stops iPhones zooming in on a field; bigger thumbs are easier to drag */
@@ -350,6 +362,25 @@ const DIALS = [
   { id: 'political', name: 'Political and security', short: 'Political', question: 'Could the country stop the mine?',
     levels: { L: { text: 'Half the country risk premium', fx: { crpMult: 0.5 } }, M: { text: 'The full country risk premium', fx: { crpMult: 1 } }, H: { text: '1.5× the country risk premium', fx: { crpMult: 1.5 } } } }
 ];
+
+// A risk can sit anywhere from Low (0) to High (2) in quarter steps. A step between two stated settings blends them
+// in a straight line. For a chance of an event, the chance blends and the size of the event stays, so the expected
+// effect is a straight line too. Nothing beyond the stated Low, Medium and High settings is invented.
+const LEVEL_NUM = { L: 0, M: 1, H: 2 };
+const levelNum = (v) => (typeof v === 'number' && isFinite(v) ? Math.max(0, Math.min(2, v)) : (LEVEL_NUM[v] ?? 1));
+const levelName = (x) => (x === 0 ? 'Low' : x === 1 ? 'Medium' : x === 2 ? 'High' : x < 1 ? 'Low to Medium' : 'Medium to High');
+function fxAt(dial, x) {
+  if (Number.isInteger(x)) return dial.levels[LEVELS[x]].fx;
+  const i = Math.floor(x); const t = x - i;
+  const a = dial.levels[LEVELS[i]].fx; const b = dial.levels[LEVELS[i + 1]].fx;
+  const out = {};
+  for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) {
+    if (k === 'events') out.events = [...(a.events || []).map((e) => ({ ...e, p: e.p * (1 - t) })), ...(b.events || []).map((e) => ({ ...e, p: e.p * t }))];
+    else if (k === 'royaltyPts' || k === 'stateTo') out[k] = b[k] ?? a[k];   // the size of the change; its chance blends
+    else out[k] = (a[k] || 0) * (1 - t) + (b[k] || 0) * t;
+  }
+  return out;
+}
 
 // Source records, spread into evidence items so each carries {source, url}.
 // Two operating gold mines, kept as test cases for the engine (the Checks): Tongon reconciles to its spreadsheet,
@@ -532,7 +563,7 @@ function dialParams(asset, levels, enabled) {
   for (const d of DIALS) {
     if (!enabled.has(d.id)) continue;
     if (d.depositsOnly && !isDeposit) continue;
-    const fx = d.levels[levels[d.id]].fx;
+    const fx = fxAt(d, levelNum(levels[d.id]));
     for (const [key, v] of Object.entries(fx)) {
       if (key === 'events') P.events.push(...v);
       else if (key === 'depositDelay') { if (isDeposit) P.delay += v; }
@@ -878,7 +909,10 @@ function liAssumptions() {
 }
 
 // Everything the model needs, derived from the inputs. Pure: inputs in, numbers out.
-function depositDerived(d, wi = {}) {   // wi: what-if moves (percent or points), all zero for your inputs as entered
+// wi holds the what-if moves (percent or points), all zero for your inputs as entered, and wi.scale multiplies single
+// inputs for the sensitivity of each input. A blank input takes the typical value from the studies before it is scaled.
+function depositDerived(d, wi = {}) {
+  const sc = (k) => (wi.scale && wi.scale[k]) || 1;
   const juris = jurisOf(d.juris);
   const cats = [['mea', d.mea], ['ind', d.ind], ['inf', d.inf]].filter(([k, c]) => c && c.mt > 0 && (k !== 'inf' || d.includeInferred));
   const resMt = sum(cats, ([, c]) => c.mt);
@@ -886,33 +920,33 @@ function depositDerived(d, wi = {}) {   // wi: what-if moves (percent or points)
   const infMt = d.includeInferred && d.inf ? d.inf.mt : 0;
   const share = (d.planShare != null ? d.planShare : typical('plan_share_of_resource').median) / 100;
   const dil = (d.dilution != null ? d.dilution : typical('dilution_pct').median) / 100;
-  const planMt = d.planMt != null ? d.planMt : resMt * share * (1 + dil);
-  const planGrade = (d.planGrade != null ? d.planGrade : resGrade / (1 + dil)) * (1 + (wi.grade || 0) / 100);
+  const planMt = (d.planMt != null ? d.planMt : resMt * share * (1 + dil)) * sc('tonnes');
+  const planGrade = (d.planGrade != null ? d.planGrade : resGrade / (1 + dil)) * (1 + (wi.grade || 0) / 100) * sc('grade');
   const inferredShare = d.inferredShare != null ? d.inferredShare / 100 : (resMt > 0 ? infMt / resMt : 0);
   const taylorLife = planMt > 0 ? 0.2 * Math.pow(planMt * 1e6, 0.25) : 0;
-  const rate = d.rate != null ? d.rate : (taylorLife > 0 ? planMt / taylorLife : 0);
-  const strip = d.method === 'ug' ? 0 : (d.strip != null ? d.strip : typical('strip_ratio_op').median);
-  const mOp = d.miningOp != null ? d.miningOp : typical('mining_cost_op_per_t_material').median;
-  const mUg = d.miningUg != null ? d.miningUg : typical('mining_cost_ug_per_t_ore').median;
+  const rate = (d.rate != null ? d.rate : (taylorLife > 0 ? planMt / taylorLife : 0)) * sc('rate');
+  const strip = d.method === 'ug' ? 0 : (d.strip != null ? d.strip : typical('strip_ratio_op').median) * sc('strip');
+  const mOp = (d.miningOp != null ? d.miningOp : typical('mining_cost_op_per_t_material').median) * sc('miningOp');
+  const mUg = (d.miningUg != null ? d.miningUg : typical('mining_cost_ug_per_t_ore').median) * sc('miningUg');
   const ug = d.method === 'ug' ? 1 : d.method === 'op' ? 0 : (d.ugShare != null ? d.ugShare / 100 : 0.3);
   const ox = 1 + (wi.opex || 0) / 100;
   const miningPerTOre = ((1 - ug) * mOp * (1 + strip) + ug * mUg) * ox;
   // Blank inputs take the typical value from the studies.
   const flot = d.route === 'flot';
-  const recovery = Math.max(1, Math.min(100, (d.recovery != null ? d.recovery : typical(flot ? 'recovery_flotation' : 'recovery_dms').median) + (wi.recovery || 0)));
-  const processing = (d.processing != null ? d.processing : typical(flot ? 'processing_cost_flotation' : 'processing_cost_dms').median) * ox;
-  const ga = (d.ga != null ? d.ga : typical('site_ga_per_t_ore').median) * ox;
-  const sustaining = d.sustaining != null ? d.sustaining : typical('sustaining_capex_per_t_conc').median;
-  const freight = d.freight != null ? d.freight : typical('ocean_freight').median;
+  const recovery = Math.max(1, Math.min(100, (d.recovery != null ? d.recovery : typical(flot ? 'recovery_flotation' : 'recovery_dms').median) * sc('recovery') + (wi.recovery || 0)));
+  const processing = (d.processing != null ? d.processing : typical(flot ? 'processing_cost_flotation' : 'processing_cost_dms').median) * ox * sc('processing');
+  const ga = (d.ga != null ? d.ga : typical('site_ga_per_t_ore').median) * ox * sc('ga');
+  const sustaining = (d.sustaining != null ? d.sustaining : typical('sustaining_capex_per_t_conc').median) * sc('sustaining');
+  const freight = (d.freight != null ? d.freight : typical('ocean_freight').median) * sc('freight');
   const concGrade = d.concGrade || 6;
   const legs = (d.legs || []).filter((l) => l && l.km > 0);
   const legRate = (l) => l.rate != null ? l.rate : (l.mode === 'truck' ? typical('road_haul_per_t_km').median : 0);
   const missingRates = legs.filter((l) => l.rate == null && l.mode !== 'truck').map((l) => l.mode);
-  const logisticsPerT = sum(legs, (l) => l.km * legRate(l)) + (d.port || 0);
+  const logisticsPerT = (sum(legs, (l) => l.km * legRate(l)) + (d.port || 0)) * sc('logistics');
   const oreHaulPerT = d.plantMode === 'existing' ? (d.oreHaulKm || 0) * (d.oreHaulRate != null ? d.oreHaulRate : typical('road_haul_per_t_km').median) : 0;
   const intensity = typical('capex_per_annual_t_ore').median;
   const capexTypical = rate * 1e6 * intensity / 1e6 * (d.plantMode === 'existing' ? typical('existing_plant_capex_ratio').median / 100 : 1);
-  const capexM = ((d.capex != null ? d.capex : capexTypical) + (d.infraCapex || 0)) * (1 + (wi.capex || 0) / 100);
+  const capexM = ((d.capex != null ? d.capex : capexTypical) + (d.infraCapex || 0)) * (1 + (wi.capex || 0) / 100) * sc('capex');
   const decision = (d.decisionYears != null ? d.decisionYears : ({ granted: 0, progress: 1, none: 2 }[d.permits] ?? 1)) + (wi.delay || 0);
   const build = d.buildYears || 2;
   const startBuild = MODEL.firstYear + decision;
@@ -924,16 +958,20 @@ function depositDerived(d, wi = {}) {   // wi: what-if moves (percent or points)
   if (build % 1) rows = shiftSchedule(rows, build % 1);   // a half-year build starts production mid-year
   let royalties = d.royalty != null ? [{ name: d.royaltyName || 'Royalty (your input)', rate: d.royalty / 100, base: d.royaltyBase || 'gross' }] : (juris.royalties || []);
   if (d.privateRoyalty) royalties = royalties.concat([{ name: 'Private royalty on the tenement', rate: d.privateRoyalty / 100, base: 'gross' }]);
-  const realisation = (d.realisation != null ? d.realisation : typical('realisation_discount_pct').median) / 100;   // price received below the SC6 benchmark
-  const corporateM = d.corporate != null ? d.corporate : typical('corporate_overhead_usd_m').median;                 // head office, US$M a year
-  const wcDays = d.wcDays != null ? d.wcDays : 30;                                                                   // receivables, days of revenue (assumption)
-  const tax = d.tax != null ? d.tax / 100 : (juris.tax != null ? juris.tax : 0.30);
-  const carry = d.freeCarry != null ? d.freeCarry / 100 : juris.carry || 0;
+  if (sc('royalty') !== 1) royalties = royalties.map((r) => ({ ...r, rate: r.rate * sc('royalty') }));
+  const realisation = (d.realisation != null ? d.realisation : typical('realisation_discount_pct').median) / 100 * sc('realisation');   // price received below the SC6 benchmark
+  const corporateM = (d.corporate != null ? d.corporate : typical('corporate_overhead_usd_m').median) * sc('corporate');               // head office, US$M a year
+  const wcDays = (d.wcDays != null ? d.wcDays : 30) * sc('wcDays');                                                                    // receivables, days of revenue (assumption)
+  const tax = (d.tax != null ? d.tax / 100 : (juris.tax != null ? juris.tax : 0.30)) * sc('tax');
+  const carry = (d.freeCarry != null ? d.freeCarry / 100 : juris.carry || 0) * sc('carry');
+  const closureM = (d.closure != null ? d.closure : typical('closure_usd_m').median) * sc('closure');
+  const otherPerT = (d.otherPerT || 0) * sc('otherPerT');
+  const byproduct = (d.byproduct || 0) * sc('byproduct');
   const cr = countryRow(juris.country);
   const conc = planMt * 1e6 * planGrade / 100 * (recovery / 100) / (concGrade / 100);
   const priceSC6 = (d.deckOverride && d.deckOverride.flat) || LITHIUM_DECKS[d.deck || 'req'].flat;
-  return { juris, resMt, resGrade, infMt, planMt, planGrade, inferredShare, taylorLife, rate, life: rate > 0 ? planMt / rate : 0, strip, ug, miningPerTOre,
-    recovery, processing, ga, sustaining, freight, concGrade, logisticsPerT, oreHaulPerT, missingRates, capexTypical, capexM, decision, build, firstProd, devCapex, rows, royalties, tax, carry, realisation, corporateM, wcDays,
+  return { juris, resMt, resGrade, infMt, planMt, planGrade, inferredShare, taylorLife, rate, life: rate > 0 ? planMt / rate : 0, strip, ug, miningPerTOre, miningOp: mOp, miningUg: mUg,
+    recovery, processing, ga, sustaining, freight, concGrade, closureM, otherPerT, byproduct, logisticsPerT, oreHaulPerT, missingRates, capexTypical, capexM, decision, build, firstProd, devCapex, rows, royalties, tax, carry, realisation, corporateM, wcDays,
     crp: cr ? cr[2] : 0, crpBasis: cr ? cr[1] : 'not in Damodaran’s table', concLom: conc, concPerYear: rate * 1e6 * planGrade / 100 * (recovery / 100) / (concGrade / 100),
     logisticsShare: priceSC6 > 0 ? (logisticsPerT + freight) / (priceSC6 * concGrade / 6) : NaN };
 }
@@ -985,9 +1023,9 @@ function depositAsset(d, id, opts = {}) {
     schedule: { kind: 'fixed', rows: D.rows },
     processing: { recovery: D.recovery / 100, concGrade: D.concGrade, payability: 1, realisation: 1 - D.realisation },
     resolved: { split: { mining: D.miningPerTOre, processing: D.processing, transport: D.oreHaulPerT, ga: D.ga }, sustainingPerT: 0, sustainingPerUnit: D.sustaining,
-      growthCapex: {}, devCapex: D.devCapex, corporatePerOz: 0, corporateFixed: D.corporateM * 1e6, explorationPerOz: 0, haulagePerT: 0, logisticsPerUnit: D.logisticsPerT, otherPerUnit: d.otherPerT || 0,
-      freightPerUnit: D.freight, byproductPerUnit: d.byproduct || 0, calibration: null },
-    fiscal: { royalties: D.royalties, taxRate: D.tax, taxBase: 0, closure: (d.closure != null ? d.closure : typical('closure_usd_m').median) * 1e6,
+      growthCapex: {}, devCapex: D.devCapex, corporatePerOz: 0, corporateFixed: D.corporateM * 1e6, explorationPerOz: 0, haulagePerT: 0, logisticsPerUnit: D.logisticsPerT, otherPerUnit: D.otherPerT,
+      freightPerUnit: D.freight, byproductPerUnit: D.byproduct, calibration: null },
+    fiscal: { royalties: D.royalties, taxRate: D.tax, taxBase: 0, closure: D.closureM * 1e6,
       wc: D.wcDays > 0 ? { receivableDays: D.wcDays, inventoryDays: 30, payableDays: 45 } : { receivableDays: 0, inventoryDays: 0, payableDays: 0 }, wcReleaseHorizon: null, lossCarryForward: true, openingLosses: (d.openingLosses || 0) * 1e6 },
     wht: (d.wht || 0) / 100,
     stream: null, transaction: null,
@@ -1064,6 +1102,7 @@ const state = {
   open: new Set(window.matchMedia && window.matchMedia('(min-width: 980px)').matches ? ['sec-deposit'] : []),
   whatIf: { price: 0, capex: 0, opex: 0, recovery: 0, grade: 0, delay: 0, rate: 0 },   // what-if moves on top of your inputs (your project only)
   sens: 'tornado',
+  sheet: { view: 'all', move: 10 },   // the full-size sensitivity view
   undo: null,                             // the inputs before a study was loaded, for one step back
   lt: { gold: null, spodumene: null }    // long-term price override (null = the deck's own)
 };
@@ -1155,8 +1194,8 @@ function morphKids(cur, next) {
   while (cur.childNodes.length > want.length) cur.removeChild(cur.lastChild);
 }
 
-function openSheet(title, html) {
-  const d = $('#sheet'); $('#sheet-title').textContent = title; $('#sheet-body').innerHTML = html;
+function openSheet(title, html, wide = false) {
+  const d = $('#sheet'); d.classList.toggle('wide', wide); $('#sheet-title').textContent = title; $('#sheet-body').innerHTML = html; $('#sheet-body').dataset.kind = '';
   if (typeof d.showModal === 'function') { if (!d.open) d.showModal(); } else d.setAttribute('open', '');
   $('#sheet-body').scrollTop = 0;
 }
@@ -1349,9 +1388,10 @@ function evidenceSheet(key) {
 const whatIfOn = () => Object.values(state.whatIf).some((v) => v);
 // Owner's NPV for a set of what-ifs (before or after risks), at the current inputs and risk settings.
 function valueWith(wi, before = false) {
-  const a = depositAsset(state.dep, 'custom', { wi });
-  const deck = scaleDeck(baseDeckFor(a), 1 + (wi.price || 0) / 100);
-  return runModel(a, { ...ctlFor(a), deck, rate: Math.max(0, state.rateBy.spodumene + (wi.rate || 0) / 100), enabled: before ? new Set() : ALL_DIALS() }).npvAttr;
+  const a = depositAsset(state.dep, 'custom', { wi }); const sc = wi.scale || {};
+  const deck = scaleDeck(baseDeckFor(a), (1 + (wi.price || 0) / 100) * (sc.price || 1));
+  const rate = Math.max(0, state.rateBy.spodumene + (wi.rate || 0) / 100) * (sc.drate || 1);
+  return runModel(a, { ...ctlFor(a), deck, rate, enabled: before ? new Set() : ALL_DIALS() }).npvAttr;
 }
 let inputsValue = null;   // value after risks with no what-ifs, worked out once per redraw
 function setKpis(a, risk, base) {
@@ -1378,43 +1418,76 @@ function renderTop() {
   setKpis(a, an.risk, an.base);
 }
 
-/* ---------- Risks: the standard settings ---------- */
+/* ---------- Risks: the standard settings, Low to High in quarter steps ---------- */
+// What a risk setting does to this project, in its own numbers.
+function riskEffect(dial, x, a) {
+  const fx = fxAt(dial, x); const D = a.derived; const parts = [];
+  const site = D.miningPerTOre + D.processing + D.ga + D.oreHaulPerT;
+  if (fx.grade) parts.push(`grade ${num1(D.planGrade)} → ${num1(D.planGrade * (1 + fx.grade))}% Li₂O`);
+  if (fx.life) parts.push(`plan ${num1(D.planMt, 1)} → ${num1(D.planMt * (1 + fx.life), 1)} Mt`);
+  if (fx.recPts) parts.push(`recovery ${num1(D.recovery, 1)} → ${num1(Math.max(0, D.recovery + fx.recPts), 1)}%`);
+  if (fx.mining) parts.push(`mining US$${num1(D.miningPerTOre, 1)} → ${num1(D.miningPerTOre * (1 + fx.mining), 1)}/t ore`);
+  if (fx.procGa) parts.push(`processing and G&A US$${num1(D.processing + D.ga, 1)} → ${num1((D.processing + D.ga) * (1 + fx.procGa), 1)}/t ore`);
+  if (fx.site) parts.push(`site costs US$${num1(site, 1)} → ${num1(site * (1 + fx.site), 1)}/t ore`);
+  if (fx.capex) parts.push(`capex US$${num1(D.capexM, 0)}M → ${num1(D.capexM * (1 + fx.capex), 0)}M`);
+  if (fx.finCost) parts.push(`financing US$${num1(D.capexM * fx.finCost, 0)}M`);
+  if (fx.royaltyProb) parts.push(`${num1(fx.royaltyProb * 100, 1)}% chance royalty +${fx.royaltyPts} pts`);
+  if (fx.stateProb) parts.push(`${num1(fx.stateProb * 100, 1)}% chance the state takes ${pct(fx.stateTo, 0)}`);
+  if (fx.crpMult != null) parts.push(D.crp > 0 ? `discount rate ${pct(curRateFor(a), 1)} → ${pct(curRateFor(a) + fx.crpMult * D.crp, 1)}` : `no country premium in ${D.juris.country}`);
+  const down = sum(fx.events || [], (e) => e.p * e.months / 12);
+  if (down > 0) parts.push(`${num1(down * 100, 2)}% of output lost to stoppages`);
+  if (fx.depositDelay > 0) parts.push(`${num1(fx.depositDelay * 12, 0)} months later`);
+  return parts.length ? cap1(parts.join('; ')) : 'No change';
+}
 function risksHTML(a, an) {
   const lv = state.levels.custom;
-  const changed = DIALS.filter((d) => lv[d.id] !== a.dialDefaults[d.id].level).length;
+  const changed = DIALS.filter((d) => levelNum(lv[d.id]) !== levelNum(a.dialDefaults[d.id].level)).length;
+  const head = '<div class="c-risk c-risk-head" aria-hidden="true"><span></span><span class="c-risk-s lvl-scale"><span>Low</span><span>Medium</span><span>High</span></span><span class="c-risk-v">Value</span></div>';
   const rows = DIALS.map((d) => {
-    const def = a.dialDefaults[d.id]; const cur = lv[d.id]; const b = an.bridge.find((x) => x.dial.id === d.id);
-    const tip = `<p><b>${esc(d.name)}</b>: ${esc(d.question)}</p><p>${LEVELS.map((L) => `${L === cur ? '<b>' : ''}${LEVEL_NAME[L]}: ${esc(d.levels[L].text)}${L === cur ? '</b>' : ''}`).join('<br>')}</p>
-      <p>Starts at ${LEVEL_NAME[def.level]}: ${esc(def.reason)}</p>${def.question ? `<p><b>To settle it:</b> ${esc(def.question)}</p>` : ''}`;
+    const def = a.dialDefaults[d.id]; const x = levelNum(lv[d.id]); const b = an.bridge.find((r) => r.dial.id === d.id);
+    const tip = `<p><b>${esc(d.name)}</b>: ${esc(d.question)}</p><p>${LEVELS.map((L) => `${LEVEL_NAME[L]}: ${esc(d.levels[L].text)}`).join('<br>')}</p><p>The steps between blend two settings in a straight line.</p>
+      <p>Starts at ${levelName(levelNum(def.level))}: ${esc(def.reason)}</p>${def.question ? `<p><b>To settle it:</b> ${esc(def.question)}</p>` : ''}`;
+    const fx = riskEffect(d, x, a);
     return `<div class="c-risk"><span class="c-risk-n">${esc(d.short)}${info(`i-risk-${d.id}`, tip, `About ${d.name}`)}</span>
-      <span class="c-risk-s"><input type="range" class="lvl ${cur}" id="lvl-${d.id}" min="0" max="2" step="1" value="${LEVELS.indexOf(cur)}" data-role="level-slider" data-dial="${d.id}" aria-label="${esc(d.name)}: low, medium or high" aria-valuetext="${LEVEL_NAME[cur]}"><span class="lvl-scale" aria-hidden="true">${LEVELS.map((L) => `<span class="${L === cur ? `on ${L}` : ''}">${LEVEL_NAME[L]}</span>`).join('')}</span></span>
+      <span class="c-risk-s"><input type="range" class="lvl ${LEVELS[Math.round(x)]}" id="lvl-${d.id}" min="0" max="2" step="0.25" value="${x}" data-role="level-slider" data-dial="${d.id}" aria-label="${esc(d.name)}, from low to high" aria-valuetext="${esc(`${levelName(x)}: ${fx}`)}"><span class="c-fx" id="fx-${d.id}">${esc(fx)}</span></span>
       <span class="c-risk-v ${b.delta < -0.05e6 ? 'neg' : ''}">${Math.abs(b.delta) < 0.05e6 ? '–' : money(b.delta, { plus: true })}</span></div>`;
   }).join('');
-  return `<section class="panel c-panel" aria-labelledby="risks-t"><div class="c-ph"><h2 id="risks-t">Risks${info('i-risks', '<p>Standard risk settings. Each changes one part of the model: an input, a delay, a chance of stoppage, or the discount rate. The amounts add up to the gap between value before and after risks.</p>', 'About the risks')}</h2>${changed ? `<button type="button" class="link-btn" id="reset-risks" data-reset-all>Reset (${changed})</button>` : ''}</div>${rows}</section>`;
+  return `<section class="panel c-panel" aria-labelledby="risks-t"><div class="c-ph"><h2 id="risks-t">Risks${info('i-risks', '<p>Standard risk settings, from Low to High in quarter steps. Each changes one part of the model: an input, a delay, a chance of stoppage, or the discount rate. Under each slider: what it does to this project. The amounts add up to the gap between value before and after risks.</p>', 'About the risks')}</h2>${changed ? `<button type="button" class="link-btn" id="reset-risks" data-reset-all>Reset (${changed})</button>` : ''}</div>${head}${rows}</section>`;
 }
 
 /* ---------- What if: move a driver, see the value ---------- */
 const signed = (v, unit) => `${v > 0 ? '+' : v < 0 ? MINUS : ''}${Math.abs(v)}${unit}`;
 const WHATIF = [
-  { k: 'price', label: 'Price', min: -40, max: 40, step: 5, unit: '%', tip: 'Every year of the price deck.' },
-  { k: 'capex', label: 'Capex', min: -50, max: 50, step: 5, unit: '%', tip: 'Initial capex, including infrastructure.' },
-  { k: 'opex', label: 'Opex', min: -30, max: 30, step: 5, unit: '%', tip: 'Operating cost: mining, processing and site G&A per tonne.' },
-  { k: 'recovery', label: 'Recovery', min: -10, max: 10, step: 1, unit: ' pts', tip: 'Lithia recovery, in percentage points.' },
-  { k: 'grade', label: 'Grade', min: -20, max: 20, step: 5, unit: '%', tip: 'Head grade of the ore sent to the plant.' },
-  { k: 'delay', label: 'Start delay', min: 0, max: 4, step: 1, unit: ' yr', tip: 'Years added before construction starts.' },
-  { k: 'rate', label: 'Discount rate', min: -5, max: 5, step: 0.5, unit: ' pts', tip: 'Points added to the real discount rate.' }
+  { k: 'price', label: 'Price', min: -40, max: 40, step: 5, unit: '%', tip: 'Every year of the price deck. Under it: the long-term SC6 price.' },
+  { k: 'capex', label: 'Capex', min: -50, max: 50, step: 5, unit: '%', tip: 'Initial capex, including infrastructure. Under it: the capex used.' },
+  { k: 'opex', label: 'Opex', min: -30, max: 30, step: 5, unit: '%', tip: 'Operating cost: mining, processing and site G&A per tonne. Under it: their total per tonne of ore.' },
+  { k: 'recovery', label: 'Recovery', min: -10, max: 10, step: 1, unit: ' pts', tip: 'Lithia recovery, in percentage points. Under it: the recovery used.' },
+  { k: 'grade', label: 'Grade', min: -20, max: 20, step: 5, unit: '%', tip: 'Head grade of the ore sent to the plant. Under it: the grade used.' },
+  { k: 'delay', label: 'Start delay', min: 0, max: 4, step: 1, unit: ' yr', tip: 'Years added before construction starts. Under it: the year construction starts.' },
+  { k: 'rate', label: 'Discount rate', min: -5, max: 5, step: 0.5, unit: ' pts', tip: 'Points added to the real discount rate. Under it: the rate used, before the country premium.' }
 ];
 const wiText = (w, v) => (v ? signed(v, w.unit) : '0');
-function whatIfHTML() {
+// The figure a what-if sets, for a given set of what-ifs (the current ones unless another set is passed).
+function wiRawAt(k, wi, a = depositAsset(state.dep, 'custom', { wi })) {
+  const D = a.derived;
+  if (k === 'price') return `US$${num1(baseDeckFor(a).flat * (1 + (wi.price || 0) / 100), 0)}/t`;
+  if (k === 'capex') return `US$${num1(D.capexM, 0)}M`;
+  if (k === 'opex') return `US$${num1(D.miningPerTOre + D.processing + D.ga, 1)}/t ore`;
+  if (k === 'recovery') return `${num1(D.recovery, 1)}%`;
+  if (k === 'grade') return `${num1(D.planGrade)}% Li₂O`;
+  if (k === 'delay') return `build ${MODEL.firstYear + D.decision}`;
+  return `${pct(Math.max(0, state.rateBy.spodumene + (wi.rate || 0) / 100), 1)} real`;
+}
+function whatIfHTML(a) {
   const rows = WHATIF.map((w) => { const v = state.whatIf[w.k] || 0;
     return `<div class="c-wi"><span class="c-risk-n"><label for="wi-${w.k}">${w.label}</label>${info(`i-wi-${w.k}`, `<p>${w.tip}</p>`, `About ${w.label}`)}</span>
-      <input type="range" class="c-range" id="wi-${w.k}" min="${w.min}" max="${w.max}" step="${w.step}" value="${v}" data-role="wi" data-k="${w.k}" aria-valuetext="${wiText(w, v)}">
-      <output class="c-wi-v ${v ? 'on' : ''}" id="wiv-${w.k}" for="wi-${w.k}">${wiText(w, v)}</output></div>`; }).join('');
-  return `<section class="panel c-panel" aria-labelledby="wi-t"><div class="c-ph"><h2 id="wi-t">What if${info('i-wi', '<p>Move a driver to see the value change. Your inputs stay as they are.</p>', 'About what if')}</h2>${whatIfOn() ? '<button type="button" class="link-btn" id="reset-wi" data-wi-reset>Reset</button>' : ''}</div>${rows}</section>`;
+      <input type="range" class="c-range" id="wi-${w.k}" min="${w.min}" max="${w.max}" step="${w.step}" value="${v}" data-role="wi" data-k="${w.k}" aria-valuetext="${wiText(w, v)}, ${wiRawAt(w.k, state.whatIf, a)}">
+      <span class="c-wi-v ${v ? 'on' : ''}"><output id="wiv-${w.k}" for="wi-${w.k}">${wiText(w, v)}</output><small id="wir-${w.k}">${wiRawAt(w.k, state.whatIf, a)}</small></span></div>`; }).join('');
+  return `<section class="panel c-panel" aria-labelledby="wi-t"><div class="c-ph"><h2 id="wi-t">What if${info('i-wi', '<p>Move a driver to see the value change. Your inputs stay as they are. Under each move: the figure it sets.</p>', 'About what if')}</h2>${whatIfOn() ? '<button type="button" class="link-btn" id="reset-wi" data-wi-reset>Reset</button>' : ''}</div>${rows}</section>`;
 }
 // Value with extra moves on top of the current what-ifs.
 function wiValue(extra = {}, before = false) {
-  const wi = { ...state.whatIf }; for (const [k, v] of Object.entries(extra)) wi[k] = (wi[k] || 0) + v;
+  const wi = { ...state.whatIf }; for (const [k, v] of Object.entries(extra)) wi[k] = k === 'scale' ? v : (wi[k] || 0) + v;
   return valueWith(wi, before);
 }
 
@@ -1424,7 +1497,7 @@ function sensHTML() {
   const v = views.some((x) => x[0] === state.sens) ? state.sens : 'tornado';
   const tips = { tornado: 'Value after risks when each driver moves on its own. The longest bars matter most.', grid: 'Value after risks as price and capex move together.', curve: 'Value before and after risks as the whole price deck moves.' };
   const seg = views.map(([k, t]) => `<input type="radio" name="sens" id="sens-${k}" value="${k}" data-role="sens" ${k === v ? 'checked' : ''}><label for="sens-${k}">${t}</label>`).join('');
-  return `<section class="panel c-panel" aria-labelledby="sens-t"><div class="c-ph"><h2 id="sens-t">Sensitivities${info('i-sens', `<p>${tips[v]}</p>`, 'About this chart')}</h2></div>
+  return `<section class="panel c-panel" aria-labelledby="sens-t"><div class="c-ph"><h2 id="sens-t">Sensitivities${info('i-sens', `<p>${tips[v]}</p><p><b>Every input</b> opens a full-size view: every input moved up and down on its own, as a chart and a table with the figures.</p>`, 'About this chart')}</h2><button type="button" class="btn c-expand" data-sens-sheet>${ICON_EXPAND}Every input</button></div>
     <fieldset class="seg"><legend class="sr-only">Which sensitivity</legend>${seg}</fieldset>
     ${v === 'grid' ? gridTableHTML() : `<div class="chart" id="sens-chart" data-view="${v}"></div>`}</section>`;
 }
@@ -1435,7 +1508,7 @@ function tornadoData() {
   const cases = WHATIF.map((w) => {
     const n = moves[w.k]; const one = w.k === 'delay';
     const dlo = one ? null : wiValue({ [w.k]: -n }) - base; const dhi = wiValue({ [w.k]: n }) - base;
-    return { label: `${w.label} ${one ? signed(n, w.unit) : `±${n}${w.unit}`}`, dlo, dhi, mag: Math.max(Math.abs(dlo || 0), Math.abs(dhi)) };
+    return { k: w.k, n, label: `${w.label} ${one ? signed(n, w.unit) : `±${n}${w.unit}`}`, dlo, dhi, mag: Math.max(Math.abs(dlo || 0), Math.abs(dhi)) };
   });
   cases.sort((x, y) => y.mag - x.mag);
   return { base, cases };
@@ -1485,13 +1558,110 @@ function cashHTML(a, an) {
 function renderTinker() {
   const a = assetById('custom'); const an = ANALYSIS.custom;
   if (an.pending) { morph($('#tinker'), '<section class="panel c-panel"><p class="muted">Enter the resource (tonnes and grade) under Deposit to see the value.</p></section>'); return; }
-  morph($('#tinker'), risksHTML(a, an) + whatIfHTML() + sensHTML() + cashHTML(a, an));
+  morph($('#tinker'), risksHTML(a, an) + whatIfHTML(a) + sensHTML() + cashHTML(a, an));
 }
 
 function drawCharts() {
   const el = document.getElementById('sens-chart'); if (!el || !el.getClientRects().length) return;
   const w = el.clientWidth || 600;
   el.innerHTML = el.dataset.view === 'curve' ? priceCurveSVG(priceCurve(), w) : tornadoSVG(tornadoData(), w);
+}
+
+/* ---------- Sensitivity of each input: the full-size view ---------- */
+// Each input moved on its own, up and down by the same share, around the current case (your inputs, what-ifs and risks).
+const SENS_INPUTS = [
+  { k: 'price', label: 'Price, long term', unit: 'US$/t SC6', now: (a) => curDeckFor(a).flat },
+  { k: 'drate', label: 'Discount rate', unit: '% real', now: (a) => curRateFor(a) * 100 },
+  { k: 'capex', label: 'Initial capex', unit: 'US$M', now: (a) => a.derived.capexM },
+  { k: 'recovery', label: 'Recovery', unit: '%', now: (a) => a.derived.recovery },
+  { k: 'grade', label: 'Head grade', unit: '% Li₂O', now: (a) => a.derived.planGrade },
+  { k: 'tonnes', label: 'Plan tonnes', unit: 'Mt', now: (a) => a.derived.planMt },
+  { k: 'rate', label: 'Ore per year', unit: 'Mtpa', now: (a) => a.derived.rate },
+  { k: 'miningOp', label: 'Open-pit cost', unit: 'US$/t moved', now: (a) => a.derived.miningOp, skip: (d) => d.method === 'ug' },
+  { k: 'miningUg', label: 'Underground cost', unit: 'US$/t ore', now: (a) => a.derived.miningUg, skip: (d) => d.method === 'op' },
+  { k: 'strip', label: 'Strip ratio', unit: 'x', now: (a) => a.derived.strip, skip: (d) => d.method === 'ug' },
+  { k: 'processing', label: 'Processing cost', unit: 'US$/t ore', now: (a) => a.derived.processing },
+  { k: 'ga', label: 'Site G&A', unit: 'US$/t ore', now: (a) => a.derived.ga },
+  { k: 'logistics', label: 'Haulage to port', unit: 'US$/t conc', now: (a) => a.derived.logisticsPerT },
+  { k: 'freight', label: 'Ocean freight', unit: 'US$/t conc', now: (a) => a.derived.freight },
+  { k: 'realisation', label: 'Discount to benchmark', unit: '%', now: (a) => a.derived.realisation * 100 },
+  { k: 'royalty', label: 'Royalty', unit: '%', now: (a) => sum(a.derived.royalties, (r) => r.rate) * 100 },
+  { k: 'tax', label: 'Income tax', unit: '%', now: (a) => a.derived.tax * 100 },
+  { k: 'carry', label: 'State free carry', unit: '%', now: (a) => a.derived.carry * 100 },
+  { k: 'sustaining', label: 'Sustaining capex', unit: 'US$/t conc', now: (a) => a.derived.sustaining },
+  { k: 'closure', label: 'Closure', unit: 'US$M', now: (a) => a.derived.closureM },
+  { k: 'corporate', label: 'Head office', unit: 'US$M/yr', now: (a) => a.derived.corporateM },
+  { k: 'wcDays', label: 'Receivables', unit: 'days', now: (a) => a.derived.wcDays },
+  { k: 'byproduct', label: 'By-product credit', unit: 'US$/t conc', now: (a) => a.derived.byproduct },
+  { k: 'otherPerT', label: 'Other costs', unit: 'US$/t conc', now: (a) => a.derived.otherPerT }
+];
+function inputSens(move) {
+  const a = assetById('custom'); const base = wiValue({});
+  const rawAt = (s, f) => (s.k === 'price' || s.k === 'drate' ? s.now(a) * f : s.now({ derived: depositDerived(state.dep, { ...state.whatIf, scale: { [s.k]: f } }) }));
+  const rows = [];
+  for (const s of SENS_INPUTS) {
+    if (s.skip && s.skip(state.dep)) continue;
+    const now = s.now(a); if (!(Math.abs(now) > 1e-9)) continue;   // a zero input cannot move
+    const vLo = wiValue({ scale: { [s.k]: 1 - move } }); const vHi = wiValue({ scale: { [s.k]: 1 + move } });
+    rows.push({ k: s.k, label: s.label, unit: s.unit, now, lo: rawAt(s, 1 - move), hi: rawAt(s, 1 + move), vLo, vHi, dlo: vLo - base, dhi: vHi - base });
+  }
+  const vDelay = wiValue({ delay: 1 });
+  rows.push({ k: 'delay', label: 'Years to construction', unit: 'years', now: a.derived.decision, lo: null, hi: a.derived.decision + 1, vLo: null, vHi: vDelay, dlo: null, dhi: vDelay - base, one: true });
+  for (const r of rows) r.mag = Math.max(Math.abs(r.dlo || 0), Math.abs(r.dhi));
+  rows.sort((x, y) => y.mag - x.mag);
+  return { base, rows };
+}
+
+const ICON_EXPAND = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8.5 1.5h4v4M12.5 1.5 8 6M5.5 12.5h-4v-4M1.5 12.5 6 8"/></svg>';
+const fmtRaw = (v) => (v == null ? '–' : num1(v, dpFor(v)));
+const moneyCell = (v) => `<td class="n ${v != null && v < 0 ? 'neg' : ''}">${v == null ? '–' : money(v)}</td>`;
+const radios = (name, list, cur) => `<fieldset class="seg"><legend class="sr-only">${name === 'sheet-view' ? 'Which view' : 'How far each input moves'}</legend>${list.map(([k, t]) => `<input type="radio" name="${name}" id="${name}-${k}" value="${k}" data-role="${name}" ${String(cur) === String(k) ? 'checked' : ''}><label for="${name}-${k}">${t}</label>`).join('')}</fieldset>`;
+let sheetData = null;   // what the open view's chart draws
+function sensSheetHTML(view, move) {
+  const tabs = radios('sheet-view', [['all', 'Every input'], ['drivers', 'Key drivers'], ['grid', 'Price × capex'], ['curve', 'Price curve']], view);
+  let body = '';
+  if (view === 'all') {
+    const S = sheetData = inputSens(move / 100);
+    body = `<div class="c-sheet-bar">${radios('sheet-move', [['10', '±10%'], ['20', '±20%'], ['50', '±50%']], move)}<span class="small muted">Value after risks as each input moves on its own: red, value falls; blue, value rises. Now ${money(S.base)}.</span></div>
+      <div class="chart" id="sheet-chart"></div>
+      <div class="table-wrap c-st-wrap"><table class="c-st"><thead><tr><th scope="col">Input</th><th scope="col">Now</th><th scope="col">−${move}%</th><th scope="col">+${move}%</th><th scope="col">Value at −${move}%</th><th scope="col">Value at +${move}%</th><th scope="col">Swing</th></tr></thead>
+      <tbody>${S.rows.map((r) => `<tr><th scope="row">${esc(r.label)} <span class="u">${esc(r.unit)}</span></th><td>${fmtRaw(r.now)}</td><td>${r.one ? '–' : fmtRaw(r.lo)}</td><td>${r.one ? `${fmtRaw(r.hi)} (+1)` : fmtRaw(r.hi)}</td>${moneyCell(r.vLo)}${moneyCell(r.vHi)}<td>${money(r.mag)}</td></tr>`).join('')}</tbody></table></div>`;
+  } else if (view === 'drivers') {
+    const T = sheetData = tornadoData();
+    body = `<p class="small muted">The what-if drivers, each moved on its own from the current case. Now ${money(T.base)}.</p><div class="chart" id="sheet-chart"></div>
+      <div class="table-wrap c-st-wrap"><table class="c-st"><thead><tr><th scope="col">Driver</th><th scope="col">Now</th><th scope="col">Down</th><th scope="col">Up</th><th scope="col">Value down</th><th scope="col">Value up</th></tr></thead>
+      <tbody>${T.cases.map((c) => { const at = (n) => wiRawAt(c.k, { ...state.whatIf, [c.k]: (state.whatIf[c.k] || 0) + n });
+        return `<tr><th scope="row">${esc(c.label)}</th><td>${wiRawAt(c.k, state.whatIf)}</td><td>${c.dlo == null ? '–' : at(-c.n)}</td><td>${at(c.n)}</td>${moneyCell(c.dlo == null ? null : T.base + c.dlo)}${moneyCell(T.base + c.dhi)}</tr>`; }).join('')}</tbody></table></div>`;
+  } else if (view === 'grid') {
+    const cols = [-30, -20, -10, 0, 10, 20, 30]; const rows = [-20, -10, 0, 10, 20, 35, 50];
+    const lt = (p) => num1(baseDeckFor(assetById('custom')).flat * (1 + ((state.whatIf.price || 0) + p) / 100), 0);
+    const cap = (r) => num1(depositDerived(state.dep, { ...state.whatIf, capex: (state.whatIf.capex || 0) + r }).capexM, 0);
+    const lbl = (x) => (x === 0 ? 'Now' : signed(x, '%'));
+    body = `<p class="small muted">Value after risks, US$M, as price and capex move together. Under each move: the long-term price (US$/t SC6) or the capex (US$M).</p>
+      <div class="table-wrap c-st-wrap"><table class="mv-grid"><thead><tr><th scope="col" rowspan="2"></th><th scope="colgroup" colspan="${cols.length}">Price</th></tr>
+      <tr>${cols.map((c) => `<th scope="col">${lbl(c)}<br><span class="u">${lt(c)}</span></th>`).join('')}</tr></thead>
+      <tbody>${rows.map((r) => `<tr><th scope="row">Capex ${lbl(r).toLowerCase()} <span class="u">${cap(r)}</span></th>${cols.map((c) => { const v = wiValue({ price: c, capex: r }); return `<td class="n ${v < 0 ? 'neg' : ''} ${r === 0 && c === 0 ? 'cur' : ''}">${num1(v / 1e6, 0)}</td>`; }).join('')}</tr>`).join('')}</tbody></table></div>`;
+  } else {
+    const pts = sheetData = priceCurve(); const flat = baseDeckFor(assetById('custom')).flat * (1 + (state.whatIf.price || 0) / 100);
+    body = `<p class="small muted">Value before and after risks as the whole price deck moves.</p><div class="chart" id="sheet-chart"></div>
+      <div class="table-wrap c-st-wrap"><table class="c-st"><thead><tr><th scope="col">Price change</th><th scope="col">Long-term price</th><th scope="col">Before risks</th><th scope="col">After risks</th></tr></thead>
+      <tbody>${pts.map((q) => `<tr><th scope="row">${q.p === 0 ? 'Now' : signed(q.p, '%')}</th><td>US$${num1(flat * (1 + q.p / 100), 0)}/t</td>${moneyCell(q.b)}${moneyCell(q.r)}</tr>`).join('')}</tbody></table></div>`;
+  }
+  return tabs + body;
+}
+function openSensSheet(view = state.sheet.view, move = state.sheet.move) {
+  state.sheet = { view, move };
+  const html = sensSheetHTML(view, move); const body = $('#sheet-body');
+  if ($('#sheet').open && body.dataset.kind === 'sens') morph(body, html);   // switching views keeps focus on the tab
+  else { openSheet('Sensitivities', html, true); body.dataset.kind = 'sens'; }
+  drawSheetChart();
+}
+function drawSheetChart() {
+  const el = document.getElementById('sheet-chart'); if (!el || !el.getClientRects().length || !sheetData) return;
+  const w = el.clientWidth || 800; const v = state.sheet.view;
+  if (v === 'all') el.innerHTML = tornadoSVG({ base: sheetData.base, cases: sheetData.rows }, w, { labelW: w < 520 ? 140 : 200 });
+  else if (v === 'drivers') el.innerHTML = tornadoSVG(sheetData, w);
+  else if (v === 'curve') el.innerHTML = priceCurveSVG(sheetData, w);
 }
 
 /* ---------- Data: the typical values, where they come from, and the assumptions ---------- */
@@ -1549,7 +1719,7 @@ function rebuildCustom() {
   const next = depositAsset(state.dep, 'custom', { wi: state.whatIf });
   ASSETS[ASSETS.findIndex((x) => x.id === 'custom')] = next;
   const lv = state.levels.custom;
-  for (const dl of DIALS) if (!lv[dl.id] || lv[dl.id] === old.dialDefaults[dl.id].level) lv[dl.id] = next.dialDefaults[dl.id].level;
+  for (const dl of DIALS) if (lv[dl.id] == null || levelNum(lv[dl.id]) === levelNum(old.dialDefaults[dl.id].level)) lv[dl.id] = next.dialDefaults[dl.id].level;
   saveDep(state.dep);
 }
 
@@ -1561,7 +1731,7 @@ function saveSettings() {
 function loadSettings() {
   let o = null; try { o = JSON.parse(localStorage.getItem(SET_STORE)); } catch (e) { /* storage unavailable */ }
   if (!o || typeof o !== 'object') return;
-  for (const d of DIALS) if (o.levels && LEVELS.includes(o.levels[d.id])) state.levels.custom[d.id] = o.levels[d.id];
+  for (const d of DIALS) { const v = o.levels && o.levels[d.id]; if (LEVELS.includes(v) || (typeof v === 'number' && v >= 0 && v <= 2)) state.levels.custom[d.id] = v; }
   for (const w of WHATIF) { const v = Number(o.whatIf && o.whatIf[w.k]); if (isFinite(v) && v >= w.min && v <= w.max) state.whatIf[w.k] = v; }
   if (LITHIUM_DECKS[o.deck]) state.deckBy.spodumene = o.deck;
   if (isFinite(o.rate) && o.rate >= 0 && o.rate <= 0.2) state.rateBy.spodumene = o.rate;
@@ -1607,9 +1777,9 @@ function valueLadder(asset, an) {
   return L;
 }
 
-function tornadoSVG(T, width) {
+function tornadoSVG(T, width, opts = {}) {
   const W = Math.max(300, width); const narrow = W < 520;
-  const labelW = narrow ? 134 : 176; const rowH = 30; const barH = 14; const top = 6; const axisH = 22;
+  const labelW = opts.labelW || (narrow ? 134 : 176); const rowH = 30; const barH = 14; const top = 6; const axisH = 22;
   const H = top + T.cases.length * rowH + axisH;
   const max = Math.max(1, ...T.cases.map((c) => c.mag)) * (narrow ? 1.7 : 1.45);
   const x0 = labelW + 6; const x1 = W - 4; const mid = (x0 + x1) / 2;
@@ -1807,6 +1977,20 @@ function runChecks() {
     const viaTweak = runModel(C0, { ...ctl0, deck: baseDeckFor(C0), rate: curRateFor(C0), enabled: ALL_DIALS(), tweak: { gold: 1.1 } }).npvAttr;
     const viaWhatIf = valueWith({ ...state.whatIf, price: 10 });
     add('The price what-if matches the engine’s price lever', Math.abs(viaTweak - viaWhatIf) < 1, `+10%: ${money(viaWhatIf)} vs ${money(viaTweak)}`);
+    const lv0 = { ...state.levels.custom }; const unsteady = [];
+    for (const dl of DIALS) {
+      const vals = [0, 0.5, 1, 1.5, 2].map((x) => runModel(C, { ...ctlC, levels: { ...lv0, [dl.id]: x }, enabled: ALL_DIALS() }).npvAttr);
+      if (vals.some((v, i) => i > 0 && v > vals[i - 1] + 1)) unsteady.push(dl.short);
+    }
+    add('Each risk takes more value as its slider moves from Low to High', unsteady.length === 0, unsteady.length ? `Not steady: ${unsteady.join(', ')}` : '10 risks, 5 steps each');
+    const allAt = (lv) => runModel(C, { ...ctlC, levels: Object.fromEntries(DIALS.map((dl) => [dl.id, lv])), enabled: ALL_DIALS() }).npvAttr;
+    add('A whole step gives exactly the stated setting', allAt('M') === allAt(1) && allAt('H') === allAt(2), `All at Medium: ${money(allAt(1))}; all at High: ${money(allAt(2))}`);
+    const half = fxAt(DIALS.find((dl) => dl.id === 'capex'), 1.5); const halfF = fxAt(DIALS.find((dl) => dl.id === 'fiscal'), 1.5);
+    add('A step between settings blends them in a straight line', Math.abs(half.capex - 0.25) < 1e-12 && Math.abs(half.depositDelay - 0.75) < 1e-12 && Math.abs(halfF.royaltyProb - 0.375) < 1e-12 && halfF.royaltyPts === 2,
+      `Capex halfway from Medium to High: +${pct(half.capex, 1)}, ${half.depositDelay * 12} months late; fiscal: ${pct(halfF.royaltyProb, 1)} chance of +${halfF.royaltyPts} pts`);
+    const IS = inputSens(0.1); const more = new Set(['price', 'recovery', 'grade', 'byproduct']);   // more of these is worth more
+    const wrong = IS.rows.filter((r) => !r.one && !['tonnes', 'rate'].includes(r.k) && (more.has(r.k) ? r.vHi < r.vLo - 1 : r.vHi > r.vLo + 1)).map((r) => r.label);
+    add('Every input moves value the right way', wrong.length === 0, wrong.length ? `Wrong way: ${wrong.join(', ')}` : `${IS.rows.length} inputs, ±10% each; biggest: ${IS.rows[0].label}`);
     const capT = typical('capex_per_annual_t_ore');
     add('Typical capex excludes the existing-plant case and is in 2024 prices', !capT.points.some((p) => p[0] === 'S11n') && capT.points.some((p) => /CPI/.test(p[3])), `Median US$${capT.median.toFixed(1)} per t/yr across ${capT.n} own-plant studies`);
   }
@@ -1907,6 +2091,7 @@ function quickUpdate() {
   const a = ASSETS[i]; if (!(a.derived.resMt > 0)) return;
   const ctl = ctlFor(a);
   setKpis(a, runModel(a, { ...ctl, enabled: ALL_DIALS() }), runModel(a, { ...ctl, enabled: new Set() }));
+  for (const w of WHATIF) { const el = document.getElementById('wir-' + w.k); if (el) el.textContent = wiRawAt(w.k, state.whatIf, a); }
   syncBar();
 }
 
@@ -1921,21 +2106,23 @@ function applyField(t) {
 let typeTimer = null;
 document.addEventListener('input', (e) => {
   const t = e.target; const ds = t.dataset || {};
-  if (ds.role === 'level-slider') {   // the label follows the thumb; the model reruns when it settles
-    const L = LEVELS[Number(t.value)];
-    t.setAttribute('aria-valuetext', LEVEL_NAME[L]); t.classList.remove('L', 'M', 'H'); t.classList.add(L);
-    const sc = t.parentElement.querySelector('.lvl-scale'); if (sc) [...sc.children].forEach((sp, i) => { sp.className = LEVELS[i] === L ? `on ${L}` : ''; });
+  if (ds.role === 'level-slider') {   // the effect follows the thumb; the model reruns when it settles
+    const x = Number(t.value); const fx = riskEffect(DIALS.find((d) => d.id === ds.dial), x, assetById('custom'));
+    t.classList.remove('L', 'M', 'H'); t.classList.add(LEVELS[Math.round(x)]); t.setAttribute('aria-valuetext', `${levelName(x)}: ${fx}`);
+    const f = document.getElementById('fx-' + ds.dial); if (f) f.textContent = fx;
   } else if (ds.role === 'wi') {
     const w = WHATIF.find((x) => x.k === ds.k); const v = Number(t.value); state.whatIf[ds.k] = v;
-    const o = document.getElementById('wiv-' + ds.k); if (o) { o.textContent = wiText(w, v); o.classList.toggle('on', v !== 0); }
-    t.setAttribute('aria-valuetext', wiText(w, v)); quickUpdate();
+    const o = document.getElementById('wiv-' + ds.k); if (o) { o.textContent = wiText(w, v); o.parentElement.classList.toggle('on', v !== 0); }
+    quickUpdate(); t.setAttribute('aria-valuetext', `${wiText(w, v)}, ${wiRawAt(w.k, state.whatIf, assetById('custom'))}`);
   } else if (t.tagName === 'INPUT' && (ds.dep || ds.depRate || ds.depLt)) {
     clearTimeout(typeTimer); typeTimer = setTimeout(() => applyField(t), 450);
   }
 });
 document.addEventListener('change', (e) => {
   const t = e.target; const ds = t.dataset || {}; const role = ds.role;
-  if (role === 'level-slider') { state.levels.custom[ds.dial] = LEVELS[Number(t.value)]; renderAll(); return; }
+  if (role === 'level-slider') { state.levels.custom[ds.dial] = Number(t.value); renderAll(); return; }
+  if (role === 'sheet-view') { openSensSheet(t.value); return; }
+  if (role === 'sheet-move') { openSensSheet('all', Number(t.value)); return; }
   if (role === 'wi') { state.whatIf[ds.k] = Number(t.value); rebuildCustom(); renderAll(); return; }
   if (role === 'sens') { state.sens = t.value; renderAll(); return; }
   if (role === 'tablemode') { state.tableMode = t.value; renderAll(); return; }
@@ -1953,6 +2140,7 @@ document.addEventListener('click', (e) => {
   if (el.dataset.info) { if (popBtn === el) hidePop(); else showPop(el); return; }
   if (el.hasAttribute('data-wi-reset')) { for (const k of Object.keys(state.whatIf)) state.whatIf[k] = 0; rebuildCustom(); renderAll(true); return; }
   if (el.hasAttribute('data-undo-load')) { undoLoad(); return; }
+  if (el.hasAttribute('data-sens-sheet')) { openSensSheet(); return; }
   if (el.dataset.depTyp) { state.undo = null; hideToast(); setPath(state.dep, el.dataset.depTyp, null); rebuildCustom(); renderAll(true); return; }
   if (el.dataset.depSrc) { hidePop(); evidenceSheet(el.dataset.depSrc); return; }
   if (el.hasAttribute('data-reset-all')) { const a = assetById('custom'); for (const d of DIALS) state.levels.custom[d.id] = a.dialDefaults[d.id].level; renderAll(true); return; }
@@ -1969,7 +2157,7 @@ window.addEventListener('scroll', () => { if (popBtn && popBtn.closest('#topbar'
 let resizeTimer = null; let lastWidth = window.innerWidth;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => { syncBar(); if (window.innerWidth === lastWidth) return; lastWidth = window.innerWidth; hidePop(); drawCharts(); }, 120);
+  resizeTimer = setTimeout(() => { syncBar(); if (window.innerWidth === lastWidth) return; lastWidth = window.innerWidth; hidePop(); drawCharts(); drawSheetChart(); }, 120);
 });
 $('#sheet').addEventListener('click', (e) => { if (e.target === $('#sheet')) closeSheet(); });
 

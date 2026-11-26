@@ -15,9 +15,9 @@ One page, no tabs.
 | **Value bar** (stays at the top) | Owner's NPV after risks, NPV before risks, IRR, capex and first production. NPV after risks is the most you could pay at your rate, country risk included. With a what-if on, the bar shows the change against your inputs. |
 | **Start from** | Loads a published study (Manna DFS, Ewoyaa DFS or Finniss DFS) or a blank new deposit. A message then offers **Undo** for ten seconds. |
 | **Inputs** (left on a laptop, first on a phone) | Seven folding groups: Deposit, Mine plan, Processing, Haulage, Fiscal, Capital, Price and rate. Each shows a one-line summary when folded. A blank field uses the value shown in grey. |
-| **Risks** | Ten standard risks, each a Low–Medium–High slider (left Low, middle Medium, right High), with what it costs. The amounts add up to the gap between value before and after risks. |
-| **What if** | Seven sliders that each move one driver on top of your inputs. The value bar updates while a slider moves. |
-| **Sensitivities** | A tornado (each driver moved on its own), a price × capex grid, and value against the whole price deck with breakeven marked. All are centred on the what-if case. |
+| **Risks** | Ten standard risks, each a slider from Low (left) through Medium to High (right) in quarter steps, nine positions in all. Under each slider: what it does to this project in figures (for example capex US$294M → 368M, 9 months later). Beside it: what it costs. The amounts add up to the gap between value before and after risks. |
+| **What if** | Seven sliders that each move one driver on top of your inputs. Under each: the figure it sets (the long-term price, the capex, and so on). The value bar updates while a slider moves. |
+| **Sensitivities** | A tornado (each driver moved on its own), a price × capex grid, and value against the whole price deck with breakeven marked. All are centred on the what-if case. **Every input** opens a full-size view: each input moved up and down on its own, as a chart and a table with the figures. |
 | **Annual cash flow** | The year-by-year model, after or before risks. |
 | **Data** and **Checks** (footer) | The typical values with their ranges and study pages, the other data sources and the assumptions; and the checks that test the engine. |
 
@@ -98,6 +98,8 @@ Loading a study under **Start from** makes it your project: it is priced on the 
 
 The study presets carry their testwork, power, permits, operator, capex basis and funding status. A new deposit doesn't, so a risk the inputs say nothing about starts at Medium. Move any slider to your own view; **Reset** puts them back.
 
+Between the three stated settings, each slider has three more steps. A step blends the two settings either side in a straight line: Capex halfway from Medium to High is +25% and 9 months late. For a chance of an event, the chance blends and the size of the event stays (Fiscal halfway from Medium to High is a 37.5% chance of a two-point royalty rise), so the expected effect is a straight line too. Nothing beyond the stated Low, Medium and High settings is invented; to go further, use the what-if sliders.
+
 Calibration evidence: Shaakichiuwaanaan's total development capex rose 44% from PEA to feasibility study (CA$1,374M to CA$1,978M) even as contingency fell from 24% to 11%, more than the Capex risk's High setting of +35%. Finniss's capex doubled and its haulage cost per tonne nearly tripled between its 2021 DFS and its 2025 restart study. Kathleen Valley recovered 60–63% during ramp-up against a 72% median in studies.
 
 ### What-ifs and sensitivities
@@ -114,13 +116,20 @@ Calibration evidence: Shaakichiuwaanaan's total development capex rose 44% from 
 | Start delay | 0 to 4 years | Years before construction starts |
 | Discount rate | −5 to +5 points | The real discount rate |
 
-The value bar updates while a slider moves and shows the change against your inputs. **Reset what-ifs** clears them.
+Under each slider is the figure it sets: the long-term SC6 price, the capex, opex per tonne of ore, the recovery, the grade, the year construction starts and the discount rate. The value bar updates while a slider moves and shows the change against your inputs. **Reset** clears them.
 
 **Sensitivities** are centred on the what-if case:
 
 - **Tornado:** value after risks with price ±20%, capex ±20%, opex ±20%, recovery ±5 points, grade ±10%, discount rate ±2 points and one year's delay, each on its own, longest bar first. The labels match the sliders.
 - **Price × capex:** value after risks, in US$M, for price −30% to +30% and capex −20% to +50%.
 - **Price curve:** value before and after risks as the whole price deck moves from −50% to +50%, with breakeven after risks marked.
+
+**Every input** (the button on the Sensitivities panel) opens a full-size view, full screen on a phone, with four tabs:
+
+- **Every input:** each of about 20 inputs moved down and up by 10%, 20% or 50% on its own, from the current case, plus one more year to construction. A tornado ranks them, and a table gives each input's figure now and after the move, the value after risks at each, and the swing. Inputs that are zero for this project are left out.
+- **Key drivers:** the what-if drivers, as a chart and a table with the figures.
+- **Price × capex:** a 7 × 7 grid, with the long-term price and the capex under each move.
+- **Price curve:** the chart, and a table of the long-term price and the value before and after risks at each step.
 
 ## Valuation engine
 
@@ -180,12 +189,12 @@ Tropicana checks: year-1 production is 420 koz (target 400–430). Year-1 AISC i
 
 ### Running the checks
 
-- In the app: **Checks** in the footer. There are 60 checks:
+- In the app: **Checks** in the footer. There are 64 checks:
   - the Tongon spreadsheet match: 15 cases, the 20-cell grid, FCF by year and AISC
   - the brief's Tongon targets
   - the three lithium studies, each within ±20% of its published NPV
   - the Tropicana calibration
-  - your project: value after risks uses the rate that includes country risk; Funding takes value from deposits only; a loss-making mine closes rather than mining at a loss; value after risks is no more than before; value rises with the price; each year of delay costs value; each what-if moves value the right way; the price what-if matches the engine's own price lever; typical capex excludes the existing-plant case and is in 2024 prices
+  - your project: value after risks uses the rate that includes country risk; Funding takes value from deposits only; a loss-making mine closes rather than mining at a loss; value after risks is no more than before; value rises with the price; each year of delay costs value; each what-if moves value the right way; the price what-if matches the engine's own price lever; each risk takes more value as its slider moves from Low to High; a whole step gives exactly the stated setting; a step between settings blends them in a straight line; every input in the full-size view moves value the right way; typical capex excludes the existing-plant case and is in 2024 prices
   - risk amounts summing to the change (within US$0.1M) for every asset
   - each asset's value ladder adding up from in-situ value to risk-adjusted value
   - 312 model runs with no NaN and no negative production
@@ -206,7 +215,7 @@ Not brought in: the copper worked example (a different metal), the metal-flow ri
 
 ## How the risks map to the model
 
-Every risk enters the DCF one way: as a range on an input, a delay, an event (yearly probability × impact), or the country premium on the discount rate. Each risk is counted once. **Every level is a starting assumption to calibrate against comparable mines, not an industry statistic.**
+Every risk enters the DCF one way: as a range on an input, a delay, an event (yearly probability × impact), or the country premium on the discount rate. Each risk is counted once. The table gives the three stated settings; the slider steps between them blend the two settings either side (see Where the risks start). **Every level is a starting assumption to calibrate against comparable mines, not an industry statistic.**
 
 | Risk (plain question) | Low | Medium | High | DCF line |
 |---|---|---|---|---|
