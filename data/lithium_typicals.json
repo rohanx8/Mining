@@ -1,5 +1,5 @@
 {
- "about": "Typical values for the lithium deposit screener, compiled from data/studies/*.json by tools/compile_typicals.py. Medians across studies; each point keeps its study and page. Converted to US$ at each study's own FX assumption. Costs from studies before 2024 are escalated to 2024 prices with US CPI-U.",
+ "about": "Typical values for the lithium deposit screener, compiled from data/studies/*.json by tools/compile_typicals.py. Medians across studies; each point keeps its study and page. Converted to US$ at each study's own FX assumption. Costs from studies dated 2024 or earlier are escalated to November 2025 prices (just before the 1 Jan 2026 valuation date) with US CPI-U.",
  "fx_used": {
   "S02": 1.0,
   "S03": 1.0,
@@ -166,32 +166,32 @@
   "mining_cost_op_per_t_material": {
    "label": "Open-pit mining cost per tonne of material moved (ore + waste)",
    "unit": "US$/t",
-   "median": 3.272,
+   "median": 3.381,
    "low": 3.076,
-   "high": 3.933,
+   "high": 4.063,
    "n": 4,
    "note": "",
    "points": [
     {
      "study": "S02",
      "name": "Ewoyaa DFS 2023 (Ghana)",
-     "value": 3.933,
+     "value": 4.063,
      "page": 38,
-     "working": "US$3.82/t mined; × CPI 1.029 (2023 to 2024 prices)"
+     "working": "US$3.82/t mined; × CPI 1.064 (2023 to Nov 2025 prices)"
     },
     {
      "study": "S03",
      "name": "Bougouni FS 2020 (Mali)",
-     "value": 3.188,
+     "value": 3.294,
      "page": 3,
-     "working": "US$2.63/t material; × CPI 1.212 (2020 to 2024 prices)"
+     "working": "US$2.63/t material; × CPI 1.252 (2020 to Nov 2025 prices)"
     },
     {
      "study": "S07",
      "name": "Rose FS 2023 (Quebec)",
-     "value": 3.355,
+     "value": 3.467,
      "page": 3,
-     "working": "US$27.05/t ore ÷ (1 + strip 7.3); × CPI 1.029 (2023 to 2024 prices)"
+     "working": "US$27.05/t ore ÷ (1 + strip 7.3); × CPI 1.064 (2023 to Nov 2025 prices)"
     },
     {
      "study": "S11",
@@ -231,7 +231,7 @@
    "label": "Processing cost, DMS route, per tonne of ore",
    "unit": "US$/t",
    "median": 19.848,
-   "low": 7.999,
+   "low": 8.265,
    "high": 30.1,
    "n": 4,
    "note": "",
@@ -239,9 +239,9 @@
     {
      "study": "S02",
      "name": "Ewoyaa DFS 2023 (Ghana)",
-     "value": 7.999,
+     "value": 8.265,
      "page": 38,
-     "working": "× CPI 1.029 (2023 to 2024 prices)"
+     "working": "× CPI 1.064 (2023 to Nov 2025 prices)"
     },
     {
      "study": "S06",
@@ -269,50 +269,50 @@
   "processing_cost_flotation": {
    "label": "Processing cost, flotation route, per tonne of ore",
    "unit": "US$/t",
-   "median": 20.598,
-   "low": 19.793,
-   "high": 21.403,
+   "median": 21.283,
+   "low": 20.451,
+   "high": 22.115,
    "n": 2,
    "note": "",
    "points": [
     {
      "study": "S03",
      "name": "Bougouni FS 2020 (Mali)",
-     "value": 19.793,
+     "value": 20.451,
      "page": 3,
-     "working": "× CPI 1.212 (2020 to 2024 prices)"
+     "working": "× CPI 1.252 (2020 to Nov 2025 prices)"
     },
     {
      "study": "S07",
      "name": "Rose FS 2023 (Quebec)",
-     "value": 21.403,
+     "value": 22.115,
      "page": 3,
-     "working": "× CPI 1.029 (2023 to 2024 prices)"
+     "working": "× CPI 1.064 (2023 to Nov 2025 prices)"
     }
    ]
   },
   "site_ga_per_t_ore": {
    "label": "Site G&A per tonne of ore",
    "unit": "US$/t",
-   "median": 6.155,
-   "low": 3.539,
-   "high": 16.41,
+   "median": 6.25,
+   "low": 3.657,
+   "high": 16.956,
    "n": 4,
    "note": "",
    "points": [
     {
      "study": "S02",
      "name": "Ewoyaa DFS 2023 (Ghana)",
-     "value": 5.661,
+     "value": 5.849,
      "page": 38,
-     "working": "US$47/t conc × 3.58 Mt conc ÷ 30.6 Mt ore; × CPI 1.029 (2023 to 2024 prices)"
+     "working": "US$47/t conc × 3.58 Mt conc ÷ 30.6 Mt ore; × CPI 1.064 (2023 to Nov 2025 prices)"
     },
     {
      "study": "S03",
      "name": "Bougouni FS 2020 (Mali)",
-     "value": 3.539,
+     "value": 3.657,
      "page": 3,
-     "working": "× CPI 1.212 (2020 to 2024 prices)"
+     "working": "× CPI 1.252 (2020 to Nov 2025 prices)"
     },
     {
      "study": "S06",
@@ -324,41 +324,41 @@
     {
      "study": "S07",
      "name": "Rose FS 2023 (Quebec)",
-     "value": 16.41,
+     "value": 16.956,
      "page": 3,
-     "working": "remote James Bay; × CPI 1.029 (2023 to 2024 prices)"
+     "working": "remote James Bay; × CPI 1.064 (2023 to Nov 2025 prices)"
     }
    ]
   },
   "capex_per_annual_t_ore": {
    "label": "Initial capex per tonne of annual ore capacity",
    "unit": "US$ per t/yr",
-   "median": 93.654,
-   "low": 70.616,
-   "high": 300.919,
+   "median": 94.951,
+   "low": 72.965,
+   "high": 310.927,
    "n": 6,
    "note": "Own-plant builds only; converting an existing plant has its own ratio (Manna-Nova, 41% of standalone). Greenfield sites need their own power, camp and roads.",
    "points": [
     {
      "study": "S02",
      "name": "Ewoyaa DFS 2023 (Ghana)",
-     "value": 70.616,
+     "value": 72.965,
      "page": 41,
-     "working": "US$185.2M ÷ 2.7 Mtpa; × CPI 1.029 (2023 to 2024 prices)"
+     "working": "US$185.2M ÷ 2.7 Mtpa; × CPI 1.064 (2023 to Nov 2025 prices)"
     },
     {
      "study": "S03",
      "name": "Bougouni FS 2020 (Mali)",
-     "value": 77.934,
+     "value": 80.526,
      "page": 4,
-     "working": "US$128.6M ÷ 2.0 Mtpa; × CPI 1.212 (2020 to 2024 prices)"
+     "working": "US$128.6M ÷ 2.0 Mtpa; × CPI 1.252 (2020 to Nov 2025 prices)"
     },
     {
      "study": "S06b",
      "name": "Finniss DFS 2021 (NT)",
-     "value": 72.041,
+     "value": 74.437,
      "page": 32,
-     "working": "A$88.9M × 0.70 ÷ 1.0 Mtpa; × CPI 1.158 (2021 to 2024 prices)"
+     "working": "A$88.9M × 0.70 ÷ 1.0 Mtpa; × CPI 1.196 (2021 to Nov 2025 prices)"
     },
     {
      "study": "S06",
@@ -370,9 +370,9 @@
     {
      "study": "S07",
      "name": "Rose FS 2023 (Quebec)",
-     "value": 300.919,
+     "value": 310.927,
      "page": 12,
-     "working": "US$470.6M ÷ 1.61 Mtpa (remote Quebec); × CPI 1.029 (2023 to 2024 prices)"
+     "working": "US$470.6M ÷ 1.61 Mtpa (remote Quebec); × CPI 1.064 (2023 to Nov 2025 prices)"
     },
     {
      "study": "S11",
@@ -440,17 +440,17 @@
    "label": "Road haulage rate per tonne-kilometre",
    "unit": "US$/t-km",
    "median": 0.137,
-   "low": 0.079,
-   "high": 0.279,
+   "low": 0.081,
+   "high": 0.288,
    "n": 4,
    "note": "Long hauls: Shaakichiuwaanaan pays C$226/t (US$172) for 834 km of road plus a rail leg to Bécancour (PEA p14, p64).",
    "points": [
     {
      "study": "S06b",
      "name": "Finniss DFS 2021 (NT)",
-     "value": 0.079,
+     "value": 0.081,
      "page": 83,
-     "working": "A$8.62/t ÷ 88.31 km × 0.70 (2021, road only); × CPI 1.158 (2021 to 2024 prices)"
+     "working": "A$8.62/t ÷ 88.31 km × 0.70 (2021, road only); × CPI 1.196 (2021 to Nov 2025 prices)"
     },
     {
      "study": "S06",
@@ -469,9 +469,9 @@
     {
      "study": "S02",
      "name": "Ewoyaa DFS 2023 (Ghana)",
-     "value": 0.279,
+     "value": 0.288,
      "page": 39,
-     "working": "US$29.81/t ÷ ~110 km, site to ship incl. port loading; × CPI 1.029 (2023 to 2024 prices)"
+     "working": "US$29.81/t ÷ ~110 km, site to ship incl. port loading; × CPI 1.064 (2023 to Nov 2025 prices)"
     }
    ]
   },
@@ -503,32 +503,32 @@
   "sustaining_capex_per_t_conc": {
    "label": "Sustaining capex per tonne of concentrate",
    "unit": "US$/t",
-   "median": 32.852,
-   "low": 10.908,
-   "high": 70.674,
+   "median": 33.945,
+   "low": 11.271,
+   "high": 73.024,
    "n": 6,
    "note": "",
    "points": [
     {
      "study": "S03",
      "name": "Bougouni FS 2020 (Mali)",
-     "value": 10.908,
+     "value": 11.271,
      "page": 4,
-     "working": "× CPI 1.212 (2020 to 2024 prices)"
+     "working": "× CPI 1.252 (2020 to Nov 2025 prices)"
     },
     {
      "study": "S05",
      "name": "Shaakichiuwaanaan PEA 2024 (Quebec)",
-     "value": 33.44,
+     "value": 34.552,
      "page": 14,
-     "working": "C$44/t × 0.76"
+     "working": "C$44/t × 0.76; × CPI 1.033 (2024 to Nov 2025 prices)"
     },
     {
      "study": "S06b",
      "name": "Finniss DFS 2021 (NT)",
-     "value": 47.464,
+     "value": 49.042,
      "page": 34,
-     "working": "incl. underground development; × CPI 1.158 (2021 to 2024 prices)"
+     "working": "incl. underground development; × CPI 1.196 (2021 to Nov 2025 prices)"
     },
     {
      "study": "S11",
@@ -540,16 +540,16 @@
     {
      "study": "S02",
      "name": "Ewoyaa DFS 2023 (Ghana)",
-     "value": 32.265,
+     "value": 33.338,
      "page": 42,
-     "working": "US$112.2M ÷ 3.58 Mt conc (incl. US$98.9M resettlement); × CPI 1.029 (2023 to 2024 prices)"
+     "working": "US$112.2M ÷ 3.58 Mt conc (incl. US$98.9M resettlement); × CPI 1.064 (2023 to Nov 2025 prices)"
     },
     {
      "study": "S07",
      "name": "Rose FS 2023 (Quebec)",
-     "value": 70.674,
+     "value": 73.024,
      "page": 12,
-     "working": "US$237.8M ÷ (203.8 kt × 17 yr); × CPI 1.029 (2023 to 2024 prices)"
+     "working": "US$237.8M ÷ (203.8 kt × 17 yr); × CPI 1.064 (2023 to Nov 2025 prices)"
     }
    ]
   },
@@ -740,32 +740,32 @@
   "closure_usd_m": {
    "label": "Closure cost",
    "unit": "US$M",
-   "median": 17.193,
-   "low": 6.483,
-   "high": 47.151,
+   "median": 17.764,
+   "low": 6.698,
+   "high": 48.719,
    "n": 5,
    "note": "",
    "points": [
     {
      "study": "S02",
      "name": "Ewoyaa DFS 2023 (Ghana)",
-     "value": 47.151,
+     "value": 48.719,
      "page": 42,
-     "working": "× CPI 1.029 (2023 to 2024 prices)"
+     "working": "× CPI 1.064 (2023 to Nov 2025 prices)"
     },
     {
      "study": "S06b",
      "name": "Finniss DFS 2021 (NT)",
-     "value": 6.483,
+     "value": 6.698,
      "page": 36,
-     "working": "A$8.0M × 0.70; × CPI 1.158 (2021 to 2024 prices)"
+     "working": "A$8.0M × 0.70; × CPI 1.196 (2021 to Nov 2025 prices)"
     },
     {
      "study": "S07",
      "name": "Rose FS 2023 (Quebec)",
-     "value": 17.193,
+     "value": 17.764,
      "page": 12,
-     "working": "× CPI 1.029 (2023 to 2024 prices)"
+     "working": "× CPI 1.064 (2023 to Nov 2025 prices)"
     },
     {
      "study": "S11",
@@ -863,9 +863,9 @@
    ]
   },
   "Ghana": {
-   "royalty": "5% government + 1% Growth and Sustainability levy (+ 1% and 1% capped third-party royalties)",
+   "royalty": "Sliding scale by spodumene price under the Minerals and Mining (Royalty) Regulations, 2025: 5% up to US$1,500/t, 7% from US$1,501 (reported to US$2,500), 12% above US$3,200; the band between US$2,501 and 3,200 is not confirmed. Plus the 1% Growth and Sustainability levy. The Ewoyaa DFS (2023) used 5% + 1%.",
    "income_tax": "35%",
-   "state": "10% free carry",
+   "state": "13% free carry (Ewoyaa lease ratified March 2026), plus a 6% stake the state pays for through MIIF",
    "studies": [
     "S02"
    ]

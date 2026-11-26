@@ -75,20 +75,23 @@ T["closure_usd_m"] = summarise("Closure cost", "US$M", [
 T["existing_plant_capex_ratio"] = summarise("Capex using an existing plant, as a share of building your own", "%", [
     pt("S11n", 180.1 / 439.1 * 100, 4, "Manna-Nova integration A$180.1M ÷ Manna standalone DFS A$439.1M")],
     "One case only; the integration study also buys the plant, camp, power and tailings at a price it does not disclose.")
-# Escalation: costs from studies dated before 2024 are brought to 2024 prices with US CPI-U annual averages
-# (US Bureau of Labor Statistics, CPI-U, U.S. city average, all items, 1982-84 = 100). Studies from 2024 on stay in their own year's dollars.
+# Escalation: costs from studies dated 2024 or earlier are brought to prices at the 1 Jan 2026 valuation date with US CPI-U
+# (US Bureau of Labor Statistics, CPI-U, U.S. city average, all items, 1982-84 = 100): the study year's annual average up to the
+# November 2025 index (324.122, BLS release of 18 Dec 2025), the last index published before the valuation date.
+# Studies dated 2025 and 2026 stay in their own dollars, within about 2% of the valuation date's prices.
 CPI = {2020: 258.811, 2021: 270.970, 2022: 292.655, 2023: 304.702, 2024: 313.689}
+CPI_TARGET = 324.122
 YEAR = {"S02": 2023, "S03": 2020, "S05": 2024, "S06": 2025, "S06b": 2021, "S07": 2023, "S11": 2025, "S11n": 2026, "PLS": 2026, "LTR": 2026}
 COST_KEYS = ["mining_cost_op_per_t_material", "mining_cost_ug_per_t_ore", "processing_cost_dms", "processing_cost_flotation", "site_ga_per_t_ore",
              "capex_per_annual_t_ore", "road_haul_per_t_km", "sustaining_capex_per_t_conc", "closure_usd_m"]
 def escalate(key):
     t = T[key]; pts = []
     for p in t["points"]:
-        y = YEAR[p["study"]]; f = CPI[2024] / CPI[y] if y < 2024 else 1.0
+        y = YEAR[p["study"]]; f = CPI_TARGET / CPI[y] if y <= 2024 else 1.0
         q = dict(p)
         if f > 1:
             q["value"] = round(p["value"] * f, 3)
-            q["working"] = (p["working"] + "; " if p["working"] else "") + f"× CPI {f:.3f} ({y} to 2024 prices)"
+            q["working"] = (p["working"] + "; " if p["working"] else "") + f"× CPI {f:.3f} ({y} to Nov 2025 prices)"
         pts.append(q)
     T[key] = summarise(t["label"], t["unit"], pts, t["note"])
 for k in COST_KEYS: escalate(k)
@@ -101,12 +104,12 @@ T["realisation_discount_pct"] = summarise("Price received below the SC6 benchmar
 T["corporate_overhead_usd_m"] = summarise("Head-office overhead, per year", "US$M", [
     pt("LTR", 5.557 * 4 * 0.67, 18, "Appendix 5B item 1.2(e) administration and corporate costs A$5.557M in the quarter × 4 × 0.67")],
     "One producer's figure; a junior holding one project spends less, a multi-asset producer more.")
-out = {"about": "Typical values for the lithium deposit screener, compiled from data/studies/*.json by tools/compile_typicals.py. Medians across studies; each point keeps its study and page. Converted to US$ at each study's own FX assumption. Costs from studies before 2024 are escalated to 2024 prices with US CPI-U.",
+out = {"about": "Typical values for the lithium deposit screener, compiled from data/studies/*.json by tools/compile_typicals.py. Medians across studies; each point keeps its study and page. Converted to US$ at each study's own FX assumption. Costs from studies dated 2024 or earlier are escalated to November 2025 prices (just before the 1 Jan 2026 valuation date) with US CPI-U.",
        "fx_used": FX, "typicals": T,
        "fiscal_presets": {
           "Australia (WA)": {"royalty": "5% of revenue on spodumene concentrate (Manna-Nova p83)", "income_tax": "30%", "studies": ["S11", "S11n"]},
           "Australia (NT)": {"royalty": "NT Mineral Royalty Act 1982 hybrid: greater of 20% of net value less A$10,000, or 2.5% of gross (Finniss restart p51)", "income_tax": "30% (Finniss DFS p36)", "studies": ["S06", "S06b"]},
-          "Ghana": {"royalty": "5% government + 1% Growth and Sustainability levy (+ 1% and 1% capped third-party royalties)", "income_tax": "35%", "state": "10% free carry", "studies": ["S02"]},
+          "Ghana": {"royalty": "Sliding scale by spodumene price under the Minerals and Mining (Royalty) Regulations, 2025: 5% up to US$1,500/t, 7% from US$1,501 (reported to US$2,500), 12% above US$3,200; the band between US$2,501 and 3,200 is not confirmed. Plus the 1% Growth and Sustainability levy. The Ewoyaa DFS (2023) used 5% + 1%.", "income_tax": "35%", "state": "13% free carry (Ewoyaa lease ratified March 2026), plus a 6% stake the state pays for through MIIF", "studies": ["S02"]},
           "Mali (2020, pre-2023 code)": {"royalty": "3% government + 0.5% local partner + 3% ISCP turnover tax", "income_tax": "25%", "note": "Pre-dates Mali's 2023 mining code", "studies": ["S03"]},
           "Canada (Quebec)": {"royalty": "2% (Shaakichiuwaanaan PEA p42); Rose reports royalties of US$28/t and a 41.7% effective tax rate including Quebec mining tax", "studies": ["S05", "S07"]}
        }}
