@@ -100,7 +100,7 @@ main.c-main { display: grid; gap: 16px; padding-block: 16px 24px; }
 @media (min-width: 980px) { main.c-main { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; } }
 .c-inputs, .c-tinker { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; min-width: 0; }
-.c-ph { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.c-ph { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
 .c-ph h2, details.c-cash > summary h2 { display: flex; align-items: center; gap: 8px; font-size: 1.05rem; }
 .c-foot { padding-block: 0 28px; font-size: 12.5px; color: var(--muted); }
 
@@ -175,12 +175,19 @@ input.lvl::-moz-range-thumb, input.c-range::-moz-range-thumb { box-sizing: borde
 .c-pick-sel { min-height: 36px; max-width: 100%; padding: 4px 8px; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--surface); color: var(--ink); font-size: 14px; }
 tr.c-now > * { background: var(--accent-soft); font-weight: 700; }
 .c-expand { gap: 6px; min-height: 32px; padding: 3px 10px; font-size: 13px; }
+.c-dl { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px; }
+.c-dl-k { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 650; color: var(--muted); }
 .c-kn { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 14px; margin: 6px 0 0; }
 .c-kn > div { display: grid; align-content: start; gap: 1px; min-width: 0; padding-top: 8px; border-top: 1px solid var(--line); }
 .c-kn dt { font-size: 12px; font-weight: 650; color: var(--muted); }
 .c-kn dd { display: grid; gap: 1px; margin: 0; }
 .c-kn b { font-size: 1.05rem; font-weight: 750; font-variant-numeric: tabular-nums; line-height: 1.25; }
 .c-kn small { font-size: 11.5px; line-height: 1.3; color: var(--muted); }
+.c-kv2 { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+.c-deal-range { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; margin: 2px 0 4px; font-size: 13px; }
+.c-deal-range b { font-size: 1.3rem; font-weight: 750; font-variant-numeric: tabular-nums; }
+.f-band { fill: var(--accent-soft); }
+.f-range { fill: var(--total); opacity: .5; }
 .c-sheet-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; }
 .c-sheet-bar fieldset.seg { margin: 0; }
 .c-st-wrap { max-height: min(62vh, 560px); overflow: auto; }   /* the headings stay in view as the rows scroll */
@@ -275,6 +282,7 @@ pre.log { font-family: var(--font-num); font-size: 12px; background: var(--surfa
   table.res input, table.res select { min-width: 58px; padding: 4px 6px; }
   .c-sl-head > :not(.c-track) { display: none; }
   .c-kn { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .c-kv2 { grid-template-columns: minmax(0, 1fr); }
   dialog.sheet.wide { width: 100vw; max-width: 100vw; height: 100%; max-height: 100%; margin: 0; border-radius: 0; }
 }
 @media (max-width: 400px) { .c-sec-s { white-space: normal; } }
@@ -931,7 +939,7 @@ function liAssumptions() {
     { label: 'Higher state stake', value: 'Taken without payment', note: 'The owner’s share falls pro rata.' },
     { label: 'Tax depreciation', value: 'Units of production', note: 'Whatever is left is deducted in the final year.' },
     { label: 'Discounting', value: 'Cash flows dated 31 December and discounted from 1 January 2026 by actual days', note: 'As Excel’s XNPV and XIRR do.' },
-    { label: 'What-ifs', value: 'Each slider moves one driver on top of your inputs; your inputs stay as entered', note: 'The sensitivities are centred on the what-if case, so they show what moves the value from there.' }
+    { label: 'Scenarios', value: 'Each slider moves one driver on top of your inputs; your inputs stay as entered', note: 'The sensitivities are centred on the scenario case, so they show what moves the value from there.' }
   ];
 }
 
@@ -1250,6 +1258,15 @@ function info(id, html, label) {
 
 /* ---------- Inputs: seven folding groups ---------- */
 const T = (k) => () => typical(k);
+// Spot rates for converting a share price to US$ (blank exchange-rate input). Sources: RBA 4 pm rate, 26 Nov 2026;
+// Bank of Canada daily rate, 10 Nov 2026 (1.4181 CAD per USD); GBP/USD market quote, 25 Nov 2026 (Trading Economics).
+const FX_DEFAULT = { USD: 1, AUD: 0.6644, CAD: 1 / 1.4181, GBP: 1.3117 };
+const CCY_SYM = { USD: 'US$', AUD: 'A$', CAD: 'C$', GBP: '£' };
+// What the market pays, from public data (data/market_multiples.json): listed developers' EV ÷ attributable study NPV,
+// and prices paid in acquisitions per unit of resource. null until the data is in.
+const MARKET = { spodumene: { pnav: null, perUnit: null, unit: 't LCE' } };
+const FUND_DEBT = 50; const RAISE_DISC = 10;   // assumptions for a fully funded build: half the funding gap as debt, new shares 10% below the price
+
 const byRoute = (dms, flot) => (d) => typical(d.route === 'flot' ? flot : dms);
 const OPT = {
   yesno: [['yes', 'Yes'], ['no', 'No']],
@@ -1260,7 +1277,8 @@ const OPT = {
   mode: [['truck', 'Truck'], ['rail', 'Rail'], ['conveyor', 'Conveyor'], ['barge', 'Barge']],
   base: [['gross', 'Gross revenue'], ['fob', 'FOB value']],
   build: [['1', '1 year'], ['1.5', '18 months'], ['2', '2 years'], ['2.5', '30 months'], ['3', '3 years']],
-  ramp: [['study', 'Full rate in year 1'], ['slow', 'Slow: 50%, 75%, then full']]
+  ramp: [['study', 'Full rate in year 1'], ['slow', 'Slow: 50%, 75%, then full']],
+  ccy: [['USD', 'US$'], ['AUD', 'A$'], ['CAD', 'C$'], ['GBP', '£ sterling']]
 };
 // A blank number uses the typical value from the studies (shown in grey) or a value worked out from the other inputs.
 const F = {
@@ -1309,7 +1327,16 @@ const F = {
   lt: { label: 'Long-term price', unit: 'US$/t SC6', type: 'lt', help: 'Replaces the long-run price; the near-term years stay.' },
   realisation: { label: 'Discount to benchmark', unit: '%', type: 'num', typical: T('realisation_discount_pct'), help: 'Price received below SC6 for grade, impurities and contract terms.' },
   rateIn: { label: 'Discount rate', unit: '% real', type: 'rate', help: 'Before country risk. The Political risk adds the country premium.' },
-  ownership: { label: 'Ownership', unit: '%', type: 'pct' }
+  ownership: { label: 'Ownership', unit: '%', type: 'pct' },
+  dealCcy: { label: 'Currency', type: 'sel', opts: OPT.ccy, help: 'For the share price, cash, debt and other assets below.' },
+  dealFx: { label: 'Exchange rate', unit: 'US$ per unit', type: 'num', show: (d) => (d.dealCcy || 'USD') !== 'USD', help: 'Blank: A$ at the RBA rate of 26 Nov 2026, C$ at the Bank of Canada rate of 10 Nov 2026, £ at the market rate of 25 Nov 2026.' },
+  sharePrice: { label: 'Share price', unit: 'per share', type: 'num', help: 'With shares outstanding, gives market cap, price ÷ NAV and value per share.' },
+  sharesM: { label: 'Shares outstanding', unit: 'M', type: 'num', help: 'Fully diluted: add options and convertibles that are in the money.' },
+  cashM: { label: 'Cash', unit: 'M', type: 'num', help: 'Latest reported, in the currency above.' },
+  debtM: { label: 'Debt', unit: 'M', type: 'num', help: 'Borrowings and other claims ahead of shareholders, such as offtake prepayments.' },
+  otherM: { label: 'Other assets', unit: 'M', type: 'num', help: 'Other projects and investments, at what you think they are worth.' },
+  fundDebtPct: { label: 'Build funded by debt', unit: '%', type: 'num', help: `Share of the funding gap (capex less cash) raised as debt; the rest comes from new shares. Blank: ${FUND_DEBT}%, an assumption.` },
+  raiseDiscPct: { label: 'Discount on new shares', unit: '%', type: 'num', help: `Below the share price, for the equity raise. Blank: ${RAISE_DISC}%, an assumption.` }
 };
 const SECTIONS = [
   { id: 'deposit', title: 'Deposit', keys: ['name', 'RESOURCE', 'includeInferred', 'method', 'ugShare', 'strip'], sum: (d, D) => `${num1(D.resMt, 1)} Mt at ${num1(D.resGrade)}% Li₂O` },
@@ -1318,7 +1345,9 @@ const SECTIONS = [
   { id: 'logistics', title: 'Haulage', keys: ['plantMode', 'oreHaulKm', 'oreHaulRate', 'LEGS', 'port', 'freight', 'otherPerT', 'infraCapex'], sum: (d, D) => `US$${num1(D.logisticsPerT + D.freight, 0)}/t to buyer` },
   { id: 'fiscal', title: 'Fiscal', keys: ['juris', 'royalty', 'royaltyBase', 'tax', 'freeCarry', 'privateRoyalty', 'wht'], sum: (d, D) => `${D.juris.label} · tax ${pct(D.tax, 0)}` },
   { id: 'capital', title: 'Capital', keys: ['capex', 'sustaining', 'closure', 'corporate', 'wcDays', 'decisionYears', 'buildYears', 'ramp'], sum: (d, D) => `US$${num1(D.capexM, 0)}M · first production ${D.firstProd}` },
-  { id: 'price', title: 'Price and rate', keys: ['deck', 'lt', 'realisation', 'rateIn', 'ownership'], sum: () => `${LITHIUM_DECKS[state.deckBy.spodumene].label} · ${pct(state.rateBy.spodumene, 1)} real` }
+  { id: 'price', title: 'Price and rate', keys: ['deck', 'lt', 'realisation', 'rateIn', 'ownership'], sum: () => `${LITHIUM_DECKS[state.deckBy.spodumene].label} · ${pct(state.rateBy.spodumene, 1)} real` },
+  { id: 'deal', title: 'Company and deal', keys: ['dealCcy', 'dealFx', 'sharePrice', 'sharesM', 'cashM', 'debtM', 'otherM', 'fundDebtPct', 'raiseDiscPct'],
+    sum: (d) => { const k = dealInputs(d); return k.price > 0 && k.shares > 0 ? `${k.sym}${num1(k.price, 3)} × ${num1(k.shares, 1)}M shares` : 'no share price yet'; } }
 ];
 
 // What a blank field means, shown in grey.
@@ -1326,6 +1355,7 @@ function blankValue(key, d, D, t) {
   if (t) return num1(t.median, dpFor(t.median));
   const J = jurisOf(d.juris);
   const m = { capex: Math.round(D.capexTypical), rate: num1(D.rate), planMt: num1(D.planMt, 1), planGrade: num1(D.planGrade), inferredShare: num1(D.inferredShare * 100, 0), ugShare: 30,
+    dealFx: num1(FX_DEFAULT[CCY_SYM[d.dealCcy] ? d.dealCcy : 'USD'], 4), fundDebtPct: FUND_DEBT, raiseDiscPct: RAISE_DISC, sharePrice: '', sharesM: '',
     decisionYears: D.decision, wcDays: 30, royalty: num1(sum(J.royalties || [], (r) => r.rate) * 100, 2), tax: num1(D.tax * 100, 1), freeCarry: num1((J.carry || 0) * 100, 0) };
   return key in m ? m[key] : 0;
 }
@@ -1434,10 +1464,11 @@ function valueWith(wi, before = false) {
   return runModel(a, { ...ctlFor(a), deck, rate, enabled: before ? new Set() : ALL_DIALS() }).npvAttr;
 }
 let inputsValue = null;   // value after risks with no what-ifs, worked out once per redraw
-function setKpis(a, risk, base) {
+const beText = (be) => (be == null ? 'over US$10,000' : `US$${num1(be, 0)}/t`);
+function setKpis(a, risk, base, be) {
   const set = (id, txt) => { const el = document.getElementById(id); if (el && el.textContent !== txt) el.textContent = txt; };
   set('kpi-risk', money(risk.npvAttr)); set('kpi-base', money(base.npvAttr)); set('kpi-irr', irrText(risk.irr));
-  set('kpi-capex', `US$${num1(a.derived.capexM, 0)}M`); set('kpi-first', String(a.derived.firstProd));
+  set('kpi-be', beText(be));
   const on = whatIfOn(); if (on && inputsValue == null) inputsValue = valueWith({});
   const diff = on ? risk.npvAttr - inputsValue : 0;
   set('kpi-delta', on ? `${money(diff, { plus: true })} vs your inputs` : '');
@@ -1453,9 +1484,8 @@ function renderTop() {
     <div class="c-kpi c-kpi-main"><span class="k">NPV after risks${info('i-npv', `<p>Owner’s NPV at ${pct(an.risk.rate, 1)} real, after the risk settings. This is the most you could pay for the project at that rate.</p>`, 'About NPV after risks')}</span><b id="kpi-risk" aria-live="polite">${money(an.risk.npvAttr)}</b><span class="c-delta" id="kpi-delta"></span></div>
     <div class="c-kpi"><span class="k">Before risks</span><b id="kpi-base">${money(an.base.npvAttr)}</b></div>
     <div class="c-kpi"><span class="k">IRR</span><b id="kpi-irr">${irrText(an.risk.irr)}</b></div>
-    <div class="c-kpi c-kpi-x"><span class="k">Capex</span><b id="kpi-capex">US$${num1(a.derived.capexM, 0)}M</b></div>
-    <div class="c-kpi c-kpi-x"><span class="k">First production</span><b id="kpi-first">${a.derived.firstProd}</b></div></div>`);
-  setKpis(a, an.risk, an.base);
+    <div class="c-kpi c-kpi-x"><span class="k">Breakeven${info('i-be', '<p>The flat SC6 price, in today’s money, at which value after risks is zero.</p>', 'About breakeven')}</span><b id="kpi-be">${beText(an.be)}</b></div></div>`);
+  setKpis(a, an.risk, an.base, an.be);
 }
 
 /* ---------- Slider rows: a title with the figure now, the figures at each end, and what it is worth ---------- */
@@ -1507,7 +1537,7 @@ function risksHTML(a, an) {
   return `<section class="panel c-panel" aria-labelledby="risks-t"><div class="c-ph"><h2 id="risks-t">Risks${info('i-risks', '<p>Standard risk settings, from Low to High in quarter steps. Each changes one part of the model: an input, a delay, a chance of stoppage, or the discount rate. In bold: the figure it gives this project now; at the ends: the figure at Low and at High. Value: what it takes. The amounts add up to the gap between value before and after risks.</p>', 'About the risks')}</h2>${changed ? `<button type="button" class="link-btn" id="reset-risks" data-reset-all>Reset (${changed})</button>` : ''}</div>${head}${rows}</section>`;
 }
 
-/* ---------- What if: move a driver, see the value ---------- */
+/* ---------- Scenarios: move a driver, see the value ---------- */
 const signed = (v, unit) => `${v > 0 ? '+' : v < 0 ? MINUS : ''}${Math.abs(v)}${unit}`;
 const WHATIF = [
   { k: 'price', label: 'Price', min: -40, max: 40, step: 5, unit: '%', tip: 'Every year of the price deck. The figure is the long-term SC6 price.' },
@@ -1539,7 +1569,7 @@ function whatIfHTML(a, an) {
       lo: wiFigure(w.k, { ...state.whatIf, [w.k]: w.min }).end, hi: wiFigure(w.k, { ...state.whatIf, [w.k]: w.max }).end,
       input: `<input type="range" class="c-range" id="wi-${w.k}" min="${w.min}" max="${w.max}" step="${w.step}" value="${v}" data-role="wi" data-k="${w.k}" aria-valuetext="${wiText(w, v)}: ${f.fig}">` });
   }).join('');
-  return `<section class="panel c-panel" aria-labelledby="wi-t"><div class="c-ph"><h2 id="wi-t">What if${info('i-wi', '<p>Move a driver to see the value change. Your inputs stay as they are. In bold: the figure the model uses now; at the ends: the figure at each end of the slider. Value: what that one move is worth.</p>', 'About what if')}</h2>${whatIfOn() ? '<button type="button" class="link-btn" id="reset-wi" data-wi-reset>Reset</button>' : ''}</div>${rows}</section>`;
+  return `<section class="panel c-panel" aria-labelledby="wi-t"><div class="c-ph"><h2 id="wi-t">Scenarios${info('i-wi', '<p>Your own scenarios: move a driver to see the value change. Your inputs stay as they are. In bold: the figure the model uses now; at the ends: the figure at each end of the slider. Value: what that one move is worth.</p>', 'About scenarios')}</h2>${whatIfOn() ? '<button type="button" class="link-btn" id="reset-wi" data-wi-reset>Reset</button>' : ''}</div>${rows}</section>`;
 }
 // Value with extra moves on top of the current what-ifs.
 function wiValue(extra = {}, before = false) {
@@ -1558,7 +1588,7 @@ function keyNumbers(a, an) {
   const aisc = conc > 0 ? (c1Total + sum(prod, (y) => y.royalties + y.sustaining + y.corporate + y.exploration)) / conc : NaN;
   let cum = 0; let payback = null;
   for (const y of an.risk.years) { cum += y.attrFcf; if (payback == null && y.oz > 0 && cum >= 0) payback = y.year; }
-  const be = breakevenPrice(a, ctlFor(a)); const lt = curDeckFor(a).flat;
+  const be = an.be !== undefined ? an.be : breakevenPrice(a, ctlFor(a)); const lt = curDeckFor(a).flat;
   const capex = D.capexM * 1e6 * a.ownerShare; const v = an.risk.npvAttr;
   const lce = D.resMt * 1e6 * D.resGrade / 100 * LCE_PER_LI2O;   // tonnes of LCE in the resource, 100%
   const lceYear = D.concPerYear * D.concGrade / 100 * LCE_PER_LI2O;
@@ -1579,23 +1609,119 @@ function keyNumbersHTML(a, an) {
   const tip = `<p><b>Output</b> is concentrate a year at full rate, and its lithium carbonate equivalent (LCE = Li₂O × ${LCE_PER_LI2O}).</p>
     <p><b>C1</b> is mining, processing, site G&amp;A, haulage to the ship and other costs, less by-product credits, per tonne of concentrate, free on board. <b>AISC</b> adds royalties, sustaining capex and head office.</p>
     <p>Output and costs are as planned, before risks. <b>Breakeven</b> is the flat SC6 price at which value after risks is zero. <b>Payback</b> is the year the owner’s cash after risks, undiscounted, has repaid the build. <b>Value per tonne of LCE</b> divides value after risks by the owner’s share of the resource, the yardstick deals are often quoted in.</p>`;
-  return `<section class="panel c-panel" aria-labelledby="kn-t"><div class="c-ph"><h2 id="kn-t">Key numbers${info('i-kn', tip, 'About the key numbers')}</h2><button type="button" class="btn c-expand" id="export" data-export ${canExport ? '' : 'hidden'}>${ICON_DOWNLOAD}Download CSV</button></div>
+  return `<section class="panel c-panel" aria-labelledby="kn-t"><div class="c-ph"><h2 id="kn-t">Key numbers${info('i-kn', tip, 'About the key numbers')}</h2><div class="c-dl" id="export" role="group" aria-label="Download" ${canExport ? '' : 'hidden'}><span class="c-dl-k">${ICON_DOWNLOAD}Download</span><button type="button" class="btn c-expand" data-export="xlsx">Excel</button><button type="button" class="btn c-expand" data-export="pdf">PDF memo</button><button type="button" class="btn c-expand" data-export="csv">CSV</button></div></div>
     <dl class="c-kn">${keyNumbers(a, an).map((k) => `<div><dt>${esc(k.label)}</dt><dd><b>${esc(k.value)}</b><small>${esc(k.sub)}</small></dd></div>`).join('')}</dl></section>`;
+}
+
+/* ---------- Deal price: equity value, value per share, P/NAV, and the methods side by side ---------- */
+function dealInputs(d) {
+  const ccy = CCY_SYM[d.dealCcy] ? d.dealCcy : 'USD';
+  return { ccy, sym: CCY_SYM[ccy], fx: d.dealFx > 0 ? d.dealFx : FX_DEFAULT[ccy], price: d.sharePrice, shares: d.sharesM,
+    cash: d.cashM || 0, debt: d.debtM || 0, other: d.otherM || 0, gear: (d.fundDebtPct ?? FUND_DEBT) / 100, disc: (d.raiseDiscPct ?? RAISE_DISC) / 100 };
+}
+// Resource the owner holds, in the unit deals are quoted in.
+function resourceUnits(a) { const D = a.derived; return D.resMt * 1e6 * D.resGrade / 100 * LCE_PER_LI2O * a.ownerShare; }
+function dealValues(a, an) {
+  const D = a.derived; const k = dealInputs(state.dep); const usd = (x) => x * 1e6 * k.fx;
+  const net = usd(k.cash) - usd(k.debt) + usd(k.other);
+  const eqRisk = an.risk.npvAttr + net; const eqBase = an.base.npvAttr + net;
+  const gap = Math.max(0, D.capexM * 1e6 * a.ownerShare - usd(k.cash));   // what must be raised to build
+  const listed = k.price > 0 && k.shares > 0;
+  const shares = listed ? k.shares * 1e6 : null; const priceUsd = listed ? k.price * k.fx : null;
+  const mcap = listed ? priceUsd * shares : null;
+  const ev = listed ? mcap - net : null;
+  const equityRaised = gap * (1 - k.gear); const debtRaised = gap * k.gear;
+  const issue = listed ? priceUsd * (1 - k.disc) : null;
+  const newShares = listed && issue > 0 ? equityRaised / issue : null;
+  const res = resourceUnits(a);
+  // DCF after risks across price ±10% and the discount rate ±1 point, the usual football-field band
+  const corners = [[-10, 1], [-10, -1], [10, 1], [10, -1]].map(([p, r]) => wiValue({ price: p, rate: r }) + net);
+  const methods = [{ k: 'dcf', label: 'DCF after risks', lo: Math.min(...corners), hi: Math.max(...corners), mid: eqRisk, note: 'price ±10%, discount rate ±1 point' }];
+  const M = MARKET[commodityOf(a)] || {};
+  if (M.pnav) methods.push({ k: 'pnav', label: 'Peers’ P/NAV', lo: an.base.npvAttr * M.pnav.q1 + net, hi: an.base.npvAttr * M.pnav.q3 + net, mid: an.base.npvAttr * M.pnav.median + net,
+    note: `${num1(M.pnav.q1, 2)}–${num1(M.pnav.q3, 2)}× value before risks (median ${num1(M.pnav.median, 2)}×, ${M.pnav.n} developers)` });
+  if (M.perUnit && res > 0) methods.push({ k: 'deals', label: 'Precedent deals', lo: res * M.perUnit.q1 + net, hi: res * M.perUnit.q3 + net, mid: res * M.perUnit.median + net,
+    note: `US$${num1(M.perUnit.q1, 0)}–${num1(M.perUnit.q3, 0)} per ${M.unit} of resource (median US$${num1(M.perUnit.median, 0)}, ${M.perUnit.n} deals)` });
+  const med = (xs) => { const s = [...xs].sort((x, y) => x - y); const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+  const range = methods.length > 1 ? { lo: med(methods.map((m) => m.lo)), hi: med(methods.map((m) => m.hi)) } : { lo: methods[0].lo, hi: methods[0].hi };
+  return { k, net, eqRisk, eqBase, gap, listed, shares, priceUsd, mcap, ev, equityRaised, debtRaised, issue, newShares, res, methods, range,
+    perShare: listed ? eqRisk / shares : null, perShareBase: listed ? eqBase / shares : null,
+    funded: listed && newShares != null ? (eqRisk + equityRaised) / (shares + newShares) : null,
+    pnavBase: listed && eqBase > 0 ? mcap / eqBase : null, pnavRisk: listed && eqRisk > 0 ? mcap / eqRisk : null,
+    evPerUnit: listed && res > 0 ? ev / res : null, upside: listed && eqRisk !== 0 ? (eqRisk / mcap) - 1 : null };
+}
+let dealChart = null;   // what the football field draws
+function dealHTML(a, an) {
+  const v = dealValues(a, an); const k = v.k; dealChart = v;
+  const sh = (x, sym) => `${x < 0 ? MINUS : ''}${sym}${num1(Math.abs(x), Math.abs(x) < 1 ? 3 : 2)}`;
+  const usdSh = (x) => (x == null || !isFinite(x) ? '–' : sh(x, 'US$'));
+  const local = (x) => (x == null || !isFinite(x) || k.ccy === 'USD' ? '' : ` (${sh(x / k.fx, k.sym)})`);
+  const rows = [
+    ['Equity value after risks', money(v.eqRisk), v.listed ? `${usdSh(v.perShare)}${local(v.perShare)} a share` : 'NPV after risks + cash − debt'],
+    ['Equity value before risks', money(v.eqBase), v.listed ? `${usdSh(v.perShareBase)}${local(v.perShareBase)} a share` : ''],
+    ['Funding gap', money(v.gap), v.gap > 0 ? `${num1(k.gear * 100, 0)}% debt, ${num1((1 - k.gear) * 100, 0)}% new shares` : 'cash covers the capex']
+  ];
+  if (v.listed) {
+    rows.push(['Fully funded, after risks', `${usdSh(v.funded)}${local(v.funded)}`, `a share, after ${num1(v.newShares / 1e6, 0)}M new shares at ${num1(k.disc * 100, 0)}% below the price`]);
+    rows.push(['Market cap', money(v.mcap), `${num1(k.shares, 1)}M shares at ${k.sym}${num1(k.price, k.price < 1 ? 3 : 2)}`]);
+    rows.push(['Price ÷ value', v.pnavBase == null ? '–' : `${v.pnavBase.toFixed(2)}× before risks`, `${v.pnavRisk == null ? 'value after risks is below zero' : `${v.pnavRisk.toFixed(2)}× after risks`}; ${v.upside >= 0 ? 'upside' : 'downside'} ${pct(Math.abs(v.upside), 0)} to value after risks`]);
+    if (v.evPerUnit != null) rows.push(['EV per tonne of LCE', `US$${num1(v.evPerUnit, 0)}`, `EV ${money(v.ev)} over ${num1(v.res / 1e6, 2)} Mt LCE (owner’s share)`]);
+  }
+  const tip = `<p>For a rough deal price. <b>Equity value</b> is NPV (owner’s share, after head office and capex) plus cash, less debt, plus other assets. <b>Fully funded</b> raises the funding gap (capex less cash) as debt and new shares issued below the price, and spreads the value over the new share count.</p>
+    <p>The chart sets the methods side by side: the DCF after risks with price ±10% and the discount rate ±1 point; peers’ price ÷ NAV applied to value before risks; and prices paid in deals per unit of resource. The shaded band runs from the median low to the median high; the dashed line is the market cap.</p>
+    <p>Debt ${FUND_DEBT}% of the gap and a ${RAISE_DISC}% discount on new shares are assumptions when left blank. Set the company’s figures under <b>Company and deal</b>.</p>`;
+  const kv = rows.map(([t, val, sub]) => `<div><dt>${esc(t)}</dt><dd><b>${esc(val)}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</dd></div>`).join('');
+  const meth = v.methods.map((m) => `<tr><th scope="row">${esc(m.label)}</th>${moneyCell(m.lo)}${moneyCell(m.mid)}${moneyCell(m.hi)}<td class="wrap-cell small">${esc(m.note)}</td></tr>`).join('');
+  const missing = ['pnav', 'deals'].filter((x) => !v.methods.some((m) => m.k === x));
+  return `<section class="panel c-panel" aria-labelledby="deal-t"><div class="c-ph"><h2 id="deal-t">Deal price${info('i-deal', tip, 'About the deal price')}</h2></div>
+    <p class="c-deal-range"><span class="muted">Indicated equity value</span> <b>${money(v.range.lo)} – ${money(v.range.hi)}</b>${v.listed ? ` <span class="muted">${usdSh(v.range.lo / v.shares)}–${usdSh(v.range.hi / v.shares)} a share</span>` : ''}</p>
+    <dl class="c-kn c-kv2">${kv}</dl>
+    <div class="chart" id="deal-chart"></div>
+    <div class="table-wrap"><table class="cmp"><thead><tr><th scope="col">Method</th><th scope="col">Low</th><th scope="col">Mid</th><th scope="col">High</th><th scope="col">Basis</th></tr></thead><tbody>${meth}</tbody></table></div>
+    ${!v.listed ? '<p class="small muted">Add the share price and shares outstanding under <b>Company and deal</b> for market cap, P/NAV and value per share.</p>' : ''}${missing.length ? `<p class="small muted">${missing.map((x) => (x === 'pnav' ? 'Peers’ P/NAV' : 'Precedent deals')).join(' and ')}: no market data for this commodity yet.</p>` : ''}</section>`;
+}
+// Football field: one bar per method across its range, the mid marked, the indicated band shaded, the market cap dashed.
+function fieldSVG(v, width) {
+  const W = Math.max(300, width); const narrow = W < 520; const labelW = narrow ? 104 : 150; const rowH = 34; const top = 22; const axisH = 24;
+  const rows = v.methods; const H = top + rows.length * rowH + axisH;
+  const vals = rows.flatMap((m) => [m.lo, m.hi]).concat(v.mcap != null ? [v.mcap] : [], [0]);
+  const ticks = niceTicks(Math.min(...vals), Math.max(...vals), narrow ? 3 : 5);
+  const x0v = Math.min(...vals, ticks[0]); const x1v = Math.max(...vals, ticks[ticks.length - 1]);
+  const x0 = labelW + 8; const x1 = W - 8; const sx = (x) => x0 + (x - x0v) / ((x1v - x0v) || 1) * (x1 - x0);
+  let g = '';
+  for (const t of ticks) g += `<line x1="${sx(t)}" x2="${sx(t)}" y1="${top - 4}" y2="${top + rows.length * rowH}" class="${t === 0 ? 's-axis' : 's-grid'}"/><text x="${sx(t)}" y="${H - 6}" text-anchor="middle" font-size="11" class="t-muted">${esc(axisMoney(t))}</text>`;
+  g += `<rect x="${sx(v.range.lo)}" y="${top - 4}" width="${Math.max(1, sx(v.range.hi) - sx(v.range.lo))}" height="${rows.length * rowH + 4}" class="f-band"/>`;
+  rows.forEach((m, i) => {
+    const y = top + i * rowH + rowH / 2; const xa = sx(Math.min(m.lo, m.hi)); const w = Math.max(2, Math.abs(sx(m.hi) - sx(m.lo)));
+    g += `<text x="0" y="${y + 4}" font-size="12.5" class="t-ink">${esc(m.label)}</text>`;
+    g += `<rect x="${xa}" y="${y - 7}" width="${w}" height="14" rx="3" class="f-range"/><line x1="${sx(m.mid)}" x2="${sx(m.mid)}" y1="${y - 10}" y2="${y + 10}" class="s-after" stroke-width="2.5"/>`;
+  });
+  if (v.mcap != null) {
+    const xm = sx(v.mcap); const right = xm < (x0 + x1) / 2;
+    g += `<line x1="${xm}" x2="${xm}" y1="${top - 8}" y2="${top + rows.length * rowH}" class="s-gold" stroke-width="2" stroke-dasharray="5 4"/><text x="${right ? xm + 5 : xm - 5}" y="${top - 10}" text-anchor="${right ? 'start' : 'end'}" font-size="11" class="t-ink">Market cap ${esc(money(v.mcap))}</text>`;
+  }
+  const desc = `Equity value by method: ${rows.map((m) => `${m.label} ${money(m.lo)} to ${money(m.hi)}, mid ${money(m.mid)}`).join('; ')}. Indicated ${money(v.range.lo)} to ${money(v.range.hi)}.${v.mcap != null ? ` Market cap ${money(v.mcap)}.` : ''}`;
+  return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(desc)}">${g}</svg>`;
+}
+function drawDeal() {
+  const el = document.getElementById('deal-chart'); if (!el || !el.getClientRects().length || !dealChart) return;
+  el.innerHTML = fieldSVG(dealChart, el.clientWidth || 600);
 }
 
 /* ---------- Sensitivities: each input ±10% on its own; the full view has the rest ---------- */
 let panelSens = null;   // what the panel's tornado draws
 function sensHTML() {
   panelSens = inputSens(0.1); const more = panelSens.rows.length - 8;
-  return `<section class="panel c-panel" aria-labelledby="sens-t"><div class="c-ph"><h2 id="sens-t">Sensitivities${info('i-sens', '<p>Value after risks when each input moves 10% down and up on its own, the biggest first: red, value falls; blue, value rises. Years to construction moves by one year, later only.</p><p><b>Full view</b> has every input at ±10, 20 or 50%, any one sensitivity across its whole range, and price × capex, each with a table of the figures. The chart button on each risk and what-if opens its own chart.</p>', 'About the sensitivities')}</h2><button type="button" class="btn c-expand" data-sens-sheet>${ICON_EXPAND}Full view</button></div>
+  return `<section class="panel c-panel" aria-labelledby="sens-t"><div class="c-ph"><h2 id="sens-t">Sensitivities${info('i-sens', '<p>Value after risks when each input moves 10% down and up on its own, the biggest first: red, value falls; blue, value rises. Years to construction moves by one year, later only.</p><p><b>Full view</b> has every input at ±10, 20 or 50%, any one sensitivity across its whole range, and price × capex, each with a table of the figures. The chart button on each risk and scenario opens its own chart.</p>', 'About the sensitivities')}</h2><button type="button" class="btn c-expand" data-sens-sheet>${ICON_EXPAND}Full view</button></div>
     <p class="small muted">Each input ±10%, biggest first${more > 0 ? `; ${more} more in the full view` : ''}.</p><div class="chart" id="sens-chart"></div></section>`;
 }
 function drawCharts() {
+  drawDeal();
   const el = document.getElementById('sens-chart'); if (!el || !el.getClientRects().length || !panelSens) return;
   el.innerHTML = tornadoSVG({ base: panelSens.base, cases: panelSens.rows.slice(0, 8) }, el.clientWidth || 600);
 }
 
-/* ---------- Download: results, key numbers, risks, what-ifs, the inputs used and the annual cash flow ---------- */
+/* ---------- Downloads: a CSV of everything, an Excel workbook with live formulas, a one-page PDF memo ---------- */
 // Inside claude.ai the viewer confirms each save; a page of its own downloads directly. A page framed elsewhere offers nothing.
 let saver = null; let canExport = window.self === window.top;
 const syncExport = () => { const b = document.getElementById('export'); if (b) b.hidden = !canExport; };
@@ -1603,23 +1729,35 @@ function initExport() {
   if (!window.claude || typeof window.claude.use !== 'function') return;
   window.claude.use('downloads').then((d) => { saver = d; canExport = !!d || window.self === window.top; syncExport(); }, () => {});
 }
-function buildCSV() {
-  const a = assetById('custom'); const an = ANALYSIS.custom; const D = a.derived; const d = state.dep;
-  const q = (v) => { const t = v == null ? '' : String(v); return /[",\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t; };
-  const line = (...cells) => cells.map(q).join(',');
-  const m2 = (x) => (x == null || !isFinite(x) ? '' : (x / 1e6).toFixed(2));
-  const deck = LITHIUM_DECKS[state.deckBy.spodumene] || LITHIUM_DECKS.req; const pick = (list, k) => (list.find((o) => o[0] === k) || [k, k])[1];
-  const out = [line('Mining Risk Explorer', d.name || 'Project'), line('Valuation date 1 January 2026; real US$; owner’s share unless stated'), ''];
-  out.push(line('Result', 'Value', 'Unit'), line('NPV after risks', m2(an.risk.npvAttr), 'US$M'), line('NPV before risks', m2(an.base.npvAttr), 'US$M'),
-    line('IRR after risks', an.risk.irr == null ? '' : (an.risk.irr * 100).toFixed(1), '%'), line('Discount rate used', (an.risk.rate * 100).toFixed(2), '% real, with country risk'), '');
-  out.push(line('Key number', 'Value', 'Unit'), ...keyNumbers(a, an).map((k) => line(k.label, k.csv, k.unit)), '');
-  out.push(line('Setting', 'Value', 'Note'), line('Price deck', deck.label, deck.desc), line('Long-term price you set', state.lt.spodumene ?? '', 'US$/t SC6; blank uses the deck'),
-    line('Discount rate before country risk', (curRateFor(a) * 100).toFixed(2), '% real'), line('Country risk premium', (D.crp * 100).toFixed(2), `% (${D.crpBasis})`), '');
-  out.push(line('Risk', 'Setting', 'Figure', 'Value taken (US$M)'), ...DIALS.map((dl) => { const x = levelNum(state.levels.custom[dl.id]); const f = riskFigure(dl, x, a);
-    return line(dl.name, levelName(x), `${f.fig}${f.note ? ` (${f.note})` : ''}`, m2(an.bridge.find((b) => b.dial.id === dl.id).delta)); }), '');
-  out.push(line('What if', 'Move', 'Figure'), ...WHATIF.map((w) => line(w.label, wiText(w, state.whatIf[w.k] || 0), wiFigure(w.k, state.whatIf, a).fig)), '');
+const fileBase = () => (state.dep.name || 'project').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'project';
+function saveFile(filename, data, mime) {
+  if (saver) {   // called straight from the click, so a small file may skip the confirmation
+    saver.save({ filename, data }).catch((e) => {
+      const code = (e && e.code) || 'unavailable';
+      if (code === 'declined') return;
+      if (code === 'rate_limited') { showToast('Another save is waiting for an answer. Try again in a moment.'); return; }
+      saver = null; canExport = false; syncExport();
+      showToast(code === 'host_unavailable' ? 'This app cannot save files. Open the page in a browser or on a computer to download it.' : 'Downloads are not available here.');
+    });
+    return;
+  }
+  const url = URL.createObjectURL(new Blob([data], { type: mime }));
+  const link = document.createElement('a'); link.href = url; link.download = filename;
+  document.body.appendChild(link); link.click(); link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+function exportFile(kind) {
+  if (ANALYSIS.custom.pending) return;
+  if (kind === 'xlsx') saveFile(`${fileBase()}-valuation.xlsx`, buildXLSX(), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  else if (kind === 'pdf') saveFile(`${fileBase()}-memo.pdf`, buildPDF(), 'application/pdf');
+  else saveFile(`${fileBase()}-valuation.csv`, '﻿' + buildCSV(), 'text/csv;charset=utf-8');   // the byte-order mark tells Excel the file is UTF-8
+}
+
+// The inputs the model used, with the scenarios applied: [label, value, unit].
+function inputsUsed(a) {
+  const D = a.derived; const d = state.dep; const pick = (list, k) => (list.find((o) => o[0] === k) || [k, k])[1];
   const royalty = (r) => (r.bands ? r.bands.map((b) => `${(b.rate * 100).toFixed(1)}% ${b.upTo ? `to US$${b.upTo}/t` : 'above'}`).join('; ') : (r.rate * 100).toFixed(2));
-  const used = [
+  return [
     ['Jurisdiction', D.juris.label || D.juris.country, ''], ['Mining method', pick(OPT.method, d.method), ''], ['Process route', pick(OPT.route, d.route), ''],
     ['Resource', D.resMt.toFixed(2), 'Mt'], ['Resource grade', D.resGrade.toFixed(3), '% Li2O'], ['Inferred share of the plan', (D.inferredShare * 100).toFixed(1), '%'],
     ['Plan tonnes', D.planMt.toFixed(2), 'Mt'], ['Plan grade', D.planGrade.toFixed(3), '% Li2O'], ['Ore per year', D.rate.toFixed(3), 'Mtpa'], ['Strip ratio', D.strip.toFixed(2), 'waste : ore'],
@@ -1631,37 +1769,243 @@ function buildCSV() {
     ['Sustaining capex', D.sustaining.toFixed(2), 'US$/t concentrate'], ['Closure', D.closureM.toFixed(1), 'US$M'], ['Head office', D.corporateM.toFixed(1), 'US$M a year'],
     ['Receivables', D.wcDays.toFixed(0), 'days of revenue'], ['Construction starts', MODEL.firstYear + D.decision, 'year'], ['Build time', D.build, 'years'], ['First production', D.firstProd, 'year'], ['Ownership', (d.ownership * 100).toFixed(1), '%']
   ];
-  out.push(line('Input used (with the what-ifs)', 'Value', 'Unit'), ...used.map((u) => line(...u)), '');
+}
+const riskRows = (a, an) => DIALS.map((dl) => { const x = levelNum(state.levels.custom[dl.id]); const f = riskFigure(dl, x, a);
+  return [dl.name, levelName(x), `${f.fig}${f.note ? ` (${f.note})` : ''}`, an.bridge.find((b) => b.dial.id === dl.id).delta]; });
+// The cash-flow lines, in US$M unless stated: [label, value(y), kind]. kind 'q' is a quantity, 'm' money, 'x' computed in the workbook.
+const CASH_LINES = [
+  ['Ore milled (Mt)', (y) => (y.release ? null : y.milled), 'q3'], ['Head grade (% Li2O)', (y) => (y.release || !y.ore ? null : y.grade), 'q3'],
+  ['Concentrate (kt)', (y) => (y.release ? null : y.oz / 1000), 'q1'], ['Price (US$/t SC6)', (y) => (y.release || !y.ore ? null : y.price), 'q0'],
+  ['Revenue', (y) => y.revenue / 1e6, 'm'], ['By-product credits', (y) => (y.byproduct || 0) / 1e6, 'm'], ['Royalties', (y) => -y.royalties / 1e6, 'm'], ['Site costs', (y) => -y.site / 1e6, 'm'],
+  ['Head office', (y) => -(y.corporate + y.exploration) / 1e6, 'm'], ['Haulage to port', (y) => -(y.logistics || 0) / 1e6, 'm'], ['Ocean freight', (y) => -(y.freight || 0) / 1e6, 'm'],
+  ['Other costs', (y) => -(y.other || 0) / 1e6, 'm']
+];
+function buildCSV() {
+  const a = assetById('custom'); const an = ANALYSIS.custom; const D = a.derived; const d = state.dep;
+  const q = (v) => { const t = v == null ? '' : String(v); return /[",\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t; };
+  const line = (...cells) => cells.map(q).join(',');
+  const m2 = (x) => (x == null || !isFinite(x) ? '' : (x / 1e6).toFixed(2));
+  const deck = LITHIUM_DECKS[state.deckBy.spodumene] || LITHIUM_DECKS.req;
+  const out = [line('Mining Risk Explorer', d.name || 'Project'), line('Valuation date 1 January 2026; real US$; owner’s share unless stated'), ''];
+  out.push(line('Result', 'Value', 'Unit'), line('NPV after risks', m2(an.risk.npvAttr), 'US$M'), line('NPV before risks', m2(an.base.npvAttr), 'US$M'),
+    line('IRR after risks', an.risk.irr == null ? '' : (an.risk.irr * 100).toFixed(1), '%'), line('Discount rate used', (an.risk.rate * 100).toFixed(2), '% real, with country risk'), '');
+  out.push(line('Key number', 'Value', 'Unit'), ...keyNumbers(a, an).map((k) => line(k.label, k.csv, k.unit)), '');
+  const dv = dealValues(a, an); const dk = dv.k; const n2 = (x, dp = 4) => (x == null || !isFinite(x) ? '' : x.toFixed(dp));
+  out.push(line('Deal', 'Value', 'Unit'), line('Indicated equity value, low', m2(dv.range.lo), 'US$M'), line('Indicated equity value, high', m2(dv.range.hi), 'US$M'),
+    line('Equity value after risks', m2(dv.eqRisk), 'US$M'), line('Equity value before risks', m2(dv.eqBase), 'US$M'), line('Funding gap', m2(dv.gap), 'US$M'),
+    line('Currency', dk.ccy, `US$${dk.fx.toFixed(4)} per unit`), line('Share price', dk.price ?? '', dk.ccy), line('Shares outstanding', dk.shares ?? '', 'M'),
+    line('Value per share after risks', n2(dv.perShare), 'US$'), line('Fully funded value per share after risks', n2(dv.funded), 'US$'), line('Market cap', m2(dv.mcap), 'US$M'),
+    line('Price ÷ value before risks', n2(dv.pnavBase, 2), '×'), line('Price ÷ value after risks', n2(dv.pnavRisk, 2), '×'), line('EV per t LCE (owner’s share)', n2(dv.evPerUnit, 0), 'US$'),
+    ...dv.methods.map((m) => line(`Method: ${m.label}`, `${m2(m.lo)} to ${m2(m.hi)}`, `US$M; mid ${m2(m.mid)}; ${m.note}`)), '');
+  out.push(line('Setting', 'Value', 'Note'), line('Price deck', deck.label, deck.desc), line('Long-term price you set', state.lt.spodumene ?? '', 'US$/t SC6; blank uses the deck'),
+    line('Discount rate before country risk', (curRateFor(a) * 100).toFixed(2), '% real'), line('Country risk premium', (D.crp * 100).toFixed(2), `% (${D.crpBasis})`), '');
+  out.push(line('Risk', 'Setting', 'Figure', 'Value taken (US$M)'), ...riskRows(a, an).map((r) => line(r[0], r[1], r[2], m2(r[3]))), '');
+  out.push(line('Scenario', 'Move', 'Figure'), ...WHATIF.map((w) => line(w.label, wiText(w, state.whatIf[w.k] || 0), wiFigure(w.k, state.whatIf, a).fig)), '');
+  out.push(line('Input used (with the scenarios)', 'Value', 'Unit'), ...inputsUsed(a).map((u) => line(...u)), '');
   const after = state.tableMode === 'risk'; const ys = (after ? an.risk : an.base).years;
-  const row = (label, f) => line(label, ...ys.map(f)); const op = (y) => !y.release;
+  const fmt = (v, kind) => (v == null || !isFinite(v) ? '' : kind === 'q0' ? Math.round(v) : kind === 'q1' ? v.toFixed(1) : kind === 'q3' ? v.toFixed(3) : v.toFixed(2));
+  const row = (label, f) => line(label, ...ys.map(f));
   out.push(line(`Annual cash flow, ${after ? 'after' : 'before'} risks (US$M, 100%, unless stated)`, ...ys.map((y) => (y.release ? `${y.year} (working capital back)` : y.year))),
-    row('Ore milled (Mt)', (y) => (op(y) ? y.milled.toFixed(3) : '')), row('Head grade (% Li2O)', (y) => (op(y) && y.ore ? y.grade.toFixed(3) : '')),
-    row('Concentrate (kt)', (y) => (op(y) ? (y.oz / 1000).toFixed(1) : '')), row('Price (US$/t SC6)', (y) => (op(y) && y.ore ? Math.round(y.price) : '')),
-    row('Revenue', (y) => m2(y.revenue)), row('By-product credits', (y) => m2(y.byproduct || 0)), row('Royalties', (y) => m2(-y.royalties)), row('Site costs', (y) => m2(-y.site)),
-    row('Head office', (y) => m2(-(y.corporate + y.exploration))), row('Haulage to port', (y) => m2(-(y.logistics || 0))), row('Ocean freight', (y) => m2(-(y.freight || 0))),
-    row('Other costs', (y) => m2(-(y.other || 0))), row('EBITDA', (y) => m2(y.ebitda)), row('Capex', (y) => m2(-y.capex)), row('Tax', (y) => m2(-y.tax)),
+    ...CASH_LINES.map(([label, f, kind]) => row(label, (y) => fmt(f(y), kind))),
+    row('EBITDA', (y) => m2(y.ebitda)), row('Capex', (y) => m2(-y.capex)), row('Tax', (y) => m2(-y.tax)),
     row('Working capital', (y) => m2(-y.dWC)), row('Closure', (y) => m2(-y.closure)), row('Free cash flow', (y) => m2(y.fcf)),
     row('Owner’s share (%)', (y) => (y.ownerShare * 100).toFixed(1)), row('Owner’s cash flow', (y) => m2(y.attrFcf)), row('Discount factor', (y) => y.df.toFixed(4)), row('Owner’s present value', (y) => m2(y.pvAttr)));
   return out.join('\r\n') + '\r\n';
 }
-function exportCSV() {
-  if (ANALYSIS.custom.pending) return;
-  const data = '﻿' + buildCSV();   // the byte-order mark tells Excel the file is UTF-8
-  const filename = `${(state.dep.name || 'project').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'project'}-valuation.csv`;
-  if (saver) {
-    saver.save({ filename, data }).catch((e) => {
-      const code = (e && e.code) || 'unavailable';
-      if (code === 'declined') return;
-      if (code === 'rate_limited') { showToast('Another save is waiting for an answer. Try again in a moment.'); return; }
-      saver = null; canExport = false; syncExport();
-      showToast(code === 'host_unavailable' ? 'This app cannot save files. Open the page in a browser or on a computer to download it.' : 'Downloads are not available here.');
-    });
-    return;
+
+/* Excel: a store-only zip of SpreadsheetML parts. Cash-flow lines come from the model; totals, the owner's share,
+   discounting, NPV and IRR are formulas, so changing a rate on the Summary sheet recalculates the workbook. */
+const CRC_TABLE = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function crc32(b) { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = CRC_TABLE[(c ^ b[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function zipStore(files) {
+  const enc = new TextEncoder(); const parts = []; const central = []; let offset = 0;
+  const u16 = (v) => [v & 255, (v >>> 8) & 255]; const u32 = (v) => [v & 255, (v >>> 8) & 255, (v >>> 16) & 255, (v >>> 24) & 255];
+  for (const f of files) {
+    const name = enc.encode(f.name); const data = typeof f.data === 'string' ? enc.encode(f.data) : f.data; const crc = crc32(data); const n = data.length;
+    const head = Uint8Array.from([...u32(0x04034b50), ...u16(20), ...u16(0x0800), ...u16(0), ...u16(0), ...u16(0x21), ...u32(crc), ...u32(n), ...u32(n), ...u16(name.length), ...u16(0)]);
+    parts.push(head, name, data);
+    central.push(Uint8Array.from([...u32(0x02014b50), ...u16(20), ...u16(20), ...u16(0x0800), ...u16(0), ...u16(0), ...u16(0x21), ...u32(crc), ...u32(n), ...u32(n), ...u16(name.length), ...u16(0), ...u16(0), ...u16(0), ...u16(0), ...u32(0), ...u32(offset)]), name);
+    offset += head.length + name.length + n;
   }
-  const url = URL.createObjectURL(new Blob([data], { type: 'text/csv;charset=utf-8' }));
-  const link = document.createElement('a'); link.href = url; link.download = filename;
-  document.body.appendChild(link); link.click(); link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  const size = central.reduce((t, p) => t + p.length, 0);
+  const end = Uint8Array.from([...u32(0x06054b50), ...u16(0), ...u16(0), ...u16(files.length), ...u16(files.length), ...u32(size), ...u32(offset), ...u16(0)]);
+  const all = [...parts, ...central, end]; const out = new Uint8Array(all.reduce((t, p) => t + p.length, 0)); let o = 0;
+  for (const p of all) { out.set(p, o); o += p.length; }
+  return out;
+}
+const xcol = (i) => { let t = ''; let n = i + 1; while (n > 0) { const m = (n - 1) % 26; t = String.fromCharCode(65 + m) + t; n = Math.floor((n - 1) / 26); } return t; };
+// styles: 0 text, 1 bold, 2 #,##0.0, 3 0.0%, 4 0.0000, 5 date, 6 bold #,##0.0, 7 #,##0.000, 8 #,##0, 9 #,##0.00
+function xlsxPack(sheets) {
+  const x = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const cell = (c, ref) => {
+    if (c == null || c === '') return '';
+    const o = typeof c === 'object' ? c : { v: c }; const st = o.s ? ` s="${o.s}"` : '';
+    if (o.f) return `<c r="${ref}"${st}><f>${x(o.f)}</f></c>`;
+    if (typeof o.v === 'number') return isFinite(o.v) ? `<c r="${ref}"${st}><v>${o.v}</v></c>` : '';
+    return `<c r="${ref}" t="inlineStr"${st}><is><t xml:space="preserve">${x(o.v)}</t></is></c>`;
+  };
+  const NS = 'xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"'; const HEAD = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n';
+  const sheetXml = (sh) => `${HEAD}<worksheet ${NS}>${sh.freeze ? `<sheetViews><sheetView workbookViewId="0"><pane xSplit="${sh.freeze[0]}" ySplit="${sh.freeze[1]}" topLeftCell="${xcol(sh.freeze[0])}${sh.freeze[1] + 1}" activePane="bottomRight" state="frozen"/></sheetView></sheetViews>` : ''}<cols>${sh.widths.map((w, i) => `<col min="${i + 1}" max="${i + 1}" width="${w}" customWidth="1"/>`).join('')}</cols><sheetData>${sh.rows.map((r, i) => `<row r="${i + 1}">${(r || []).map((c, j) => cell(c, xcol(j) + (i + 1))).join('')}</row>`).join('')}</sheetData></worksheet>`;
+  const fmts = [['164', '#,##0.0'], ['165', '0.0%'], ['166', '0.0000'], ['167', 'yyyy-mm-dd'], ['168', '#,##0.000'], ['169', '#,##0'], ['170', '#,##0.00']];
+  const xf = (fmt, font = 0) => `<xf numFmtId="${fmt}" fontId="${font}" fillId="0" borderId="0" xfId="0"${fmt ? ' applyNumberFormat="1"' : ''}${font ? ' applyFont="1"' : ''}/>`;
+  const styles = `${HEAD}<styleSheet ${NS}><numFmts count="${fmts.length}">${fmts.map(([i, c]) => `<numFmt numFmtId="${i}" formatCode="${x(c)}"/>`).join('')}</numFmts><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="10">${[xf(0), xf(0, 1), xf(164), xf(165), xf(166), xf(167), xf(164, 1), xf(168), xf(169), xf(170)].join('')}</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`;
+  const R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'; const PR = 'http://schemas.openxmlformats.org/package/2006/relationships';
+  const files = [
+    { name: '[Content_Types].xml', data: `${HEAD}<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((_, i) => `<Override PartName="/xl/worksheets/sheet${i + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}</Types>` },
+    { name: '_rels/.rels', data: `${HEAD}<Relationships xmlns="${PR}"><Relationship Id="rId1" Type="${R}/officeDocument" Target="xl/workbook.xml"/></Relationships>` },
+    { name: 'xl/workbook.xml', data: `${HEAD}<workbook ${NS} xmlns:r="${R}"><sheets>${sheets.map((sh, i) => `<sheet name="${x(sh.name)}" sheetId="${i + 1}" r:id="rId${i + 1}"/>`).join('')}</sheets><calcPr calcId="191029" fullCalcOnLoad="1"/></workbook>` },
+    { name: 'xl/_rels/workbook.xml.rels', data: `${HEAD}<Relationships xmlns="${PR}">${sheets.map((_, i) => `<Relationship Id="rId${i + 1}" Type="${R}/worksheet" Target="worksheets/sheet${i + 1}.xml"/>`).join('')}<Relationship Id="rId${sheets.length + 1}" Type="${R}/styles" Target="styles.xml"/></Relationships>` },
+    { name: 'xl/styles.xml', data: styles },
+    ...sheets.map((sh, i) => ({ name: `xl/worksheets/sheet${i + 1}.xml`, data: sheetXml(sh) }))
+  ];
+  return zipStore(files);
+}
+// One cash-flow sheet; returns the sheet and the cells the summary points at.
+function cashSheet(name, r, rateCell) {
+  const ys = r.years; const n = ys.length; const c0 = 2; const last = xcol(c0 + n - 1); const span = (row) => `${xcol(c0)}${row}:${last}${row}`;
+  const serial = (y) => (Date.UTC(y.release ? y.year : y.year, 11, 31) - Date.UTC(1899, 11, 30)) / 86400000;
+  const rows = [
+    [{ v: `${name} (US$M, 100% of the project unless stated)`, s: 1 }],
+    ['Lines come from the model. Totals, the owner’s share, discounting, NPV and IRR are formulas: change the rates on the Summary sheet and they recalculate.'],
+    [{ v: 'Year', s: 1 }, { v: 'Total', s: 1 }, ...ys.map((y) => ({ v: y.release ? `${y.year} WC back` : y.year, s: 1 }))],
+    ['Cash flow date', '', ...ys.map((y) => ({ v: serial(y), s: 5 }))],
+    ['Years from 1 Jan 2026', '', ...ys.map((_, i) => ({ f: `(${xcol(c0 + i)}4-DATE(2026,1,1))/365`, s: 4 }))]
+  ];
+  const style = { q3: 7, q1: 2, q0: 8, m: 9 };
+  const first = rows.length + 1;
+  for (const [label, f, kind] of CASH_LINES) rows.push([label, kind === 'm' ? { f: `SUM(${span(rows.length + 1)})`, s: 9 } : '', ...ys.map((y) => { const v = f(y); return v == null ? '' : { v, s: style[kind] }; })]);
+  const at = (label) => first + CASH_LINES.findIndex((l) => l[0] === label);
+  const rowOf = {}; const add = (key, label, cells, total = true, st = 9) => { rows.push([label, total ? { f: `SUM(${span(rows.length + 1)})`, s: st } : '', ...cells]); rowOf[key] = rows.length; };
+  const colRef = (i, row) => `${xcol(c0 + i)}${row}`;
+  add('ebitda', { v: 'EBITDA', s: 1 }, ys.map((_, i) => ({ f: `SUM(${colRef(i, at('Revenue'))}:${colRef(i, at('Other costs'))})`, s: 9 })));
+  add('capex', 'Capex', ys.map((y) => ({ v: -y.capex / 1e6, s: 9 })));
+  add('tax', 'Tax', ys.map((y) => ({ v: -y.tax / 1e6, s: 9 })));
+  add('wc', 'Working capital', ys.map((y) => ({ v: -y.dWC / 1e6, s: 9 })));
+  add('closure', 'Closure', ys.map((y) => ({ v: -y.closure / 1e6, s: 9 })));
+  add('fcf', { v: 'Free cash flow', s: 1 }, ys.map((_, i) => ({ f: `${colRef(i, rowOf.ebitda)}+SUM(${colRef(i, rowOf.capex)}:${colRef(i, rowOf.closure)})`, s: 9 })));
+  add('share', 'Owner’s share', ys.map((y) => ({ v: y.ownerShare, s: 3 })), false);
+  add('own', 'Owner’s cash flow', ys.map((_, i) => { const f = colRef(i, rowOf.fcf); const sh = colRef(i, rowOf.share); return { f: `IF(${f}>=0,${f}*${sh}*(1-Summary!$B$6)*(1-Summary!$B$7),${f}*${sh})`, s: 9 }; }));
+  add('df', 'Discount factor', ys.map((_, i) => ({ f: `1/(1+${rateCell})^${colRef(i, 5)}`, s: 4 })), false);
+  add('pv', { v: 'Owner’s present value', s: 1 }, ys.map((_, i) => ({ f: `${colRef(i, rowOf.own)}*${colRef(i, rowOf.df)}`, s: 9 })));
+  rows.push([{ v: 'NPV', s: 1 }, { f: `SUM(${span(rowOf.pv)})`, s: 6 }]); const npvRow = rows.length;
+  rows.push([{ v: 'IRR', s: 1 }, { f: `IFERROR(XIRR(${span(rowOf.own)},${span(4)}),"")`, s: 3 }]); const irrRow = rows.length;
+  return { sheet: { name, widths: [30, 12, ...ys.map(() => 11)], freeze: [2, 3], rows }, npv: `'${name}'!$B$${npvRow}`, irr: `'${name}'!$B$${irrRow}` };
+}
+function buildXLSX() {
+  const a = assetById('custom'); const an = ANALYSIS.custom; const D = a.derived; const dv = dealValues(a, an); const k = dv.k;
+  const risk = cashSheet('Cash flow after risks', an.risk, 'Summary!$B$4'); const base = cashSheet('Cash flow before risks', an.base, 'Summary!$B$5');
+  const S = [
+    [{ v: `Mining Risk Explorer: ${state.dep.name || 'Project'}`, s: 1 }],
+    ['Valuation date 1 January 2026; real US$; owner’s share unless stated. The rates below drive both cash-flow sheets.'],
+    [],
+    ['Discount rate after risks (real, with country risk)', { v: an.risk.rate, s: 3 }],
+    ['Discount rate before risks (real)', { v: an.base.rate, s: 3 }],
+    ['State free carry', { v: a.freeCarry || 0, s: 3 }],
+    ['Dividend withholding tax', { v: a.wht || 0, s: 3 }],
+    [],
+    [{ v: 'Result', s: 1 }, { v: 'US$M', s: 1 }],
+    ['NPV after risks', { f: risk.npv, s: 6 }], ['NPV before risks', { f: base.npv, s: 6 }],
+    ['IRR after risks', { f: risk.irr, s: 3 }], ['IRR before risks', { f: base.irr, s: 3 }],
+    ['Check: the app’s NPV after risks at these rates', { v: an.risk.npvAttr / 1e6, s: 9 }],
+    [],
+    [{ v: 'Company and deal', s: 1 }, { v: 'Value', s: 1 }, { v: 'Unit', s: 1 }],
+    ['Cash', { v: (k.cash * k.fx), s: 9 }, 'US$M'], ['Debt', { v: (k.debt * k.fx), s: 9 }, 'US$M'], ['Other assets', { v: (k.other * k.fx), s: 9 }, 'US$M'],
+    ['Equity value after risks', { f: 'B10+B17-B18+B19', s: 6 }, 'US$M'], ['Equity value before risks', { f: 'B11+B17-B18+B19', s: 6 }, 'US$M'],
+    ['Shares outstanding', dv.listed ? { v: k.shares, s: 2 } : '', 'M'], ['Share price', dv.listed ? { v: dv.priceUsd, s: 4 } : '', 'US$'],
+    ['Value per share after risks', { f: 'IF(B22>0,B20/B22,"")', s: 4 }, 'US$'], ['Market cap', { f: 'IF(B22>0,B22*B23,"")', s: 9 }, 'US$M'],
+    ['Price ÷ value before risks', { f: 'IF(AND(B22>0,B21>0),B25/B21,"")', s: 9 }, '×'], ['Price ÷ value after risks', { f: 'IF(AND(B22>0,B20>0),B25/B20,"")', s: 9 }, '×'],
+    ['Indicated equity value, low', { v: dv.range.lo / 1e6, s: 9 }, 'US$M'], ['Indicated equity value, high', { v: dv.range.hi / 1e6, s: 9 }, 'US$M'],
+    [],
+    [{ v: 'Key number', s: 1 }, { v: 'Value', s: 1 }, { v: 'Unit', s: 1 }],
+    ...keyNumbers(a, an).map((kn) => [kn.label, kn.csv === '' ? '' : { v: Number(kn.csv), s: 9 }, kn.unit])
+  ];
+  const sheets = [
+    { name: 'Summary', widths: [48, 16, 34], rows: S },
+    risk.sheet, base.sheet,
+    { name: 'Risks', widths: [30, 18, 44, 18], rows: [[{ v: 'Risk', s: 1 }, { v: 'Setting', s: 1 }, { v: 'Figure', s: 1 }, { v: 'Value taken (US$M)', s: 1 }], ...riskRows(a, an).map((r) => [r[0], r[1], r[2], { v: r[3] / 1e6, s: 9 }])] },
+    { name: 'Inputs', widths: [44, 18, 24], rows: [[{ v: 'Input used (with the scenarios)', s: 1 }, { v: 'Value', s: 1 }, { v: 'Unit', s: 1 }], ...inputsUsed(a).map((u) => [u[0], isFinite(Number(u[1])) && u[1] !== '' ? { v: Number(u[1]), s: 0 } : String(u[1]), u[2]]),
+      [], [{ v: 'Scenario', s: 1 }, { v: 'Move', s: 1 }, { v: 'Figure', s: 1 }], ...WHATIF.map((w) => [w.label, wiText(w, state.whatIf[w.k] || 0), wiFigure(w.k, state.whatIf, a).fig])] },
+    { name: 'Sensitivities', widths: [30, 14, 14, 14, 16, 16], rows: [[{ v: 'Each input ±10% on its own: value after risks', s: 1 }], [{ v: 'Input', s: 1 }, { v: 'Now', s: 1 }, { v: '−10%', s: 1 }, { v: '+10%', s: 1 }, { v: 'Value at −10% (US$M)', s: 1 }, { v: 'Value at +10% (US$M)', s: 1 }],
+      ...inputSens(0.1).rows.map((r) => [`${r.label} (${r.unit})`, { v: r.now, s: 7 }, r.lo == null ? '' : { v: r.lo, s: 7 }, { v: r.hi, s: 7 }, r.vLo == null ? '' : { v: r.vLo / 1e6, s: 9 }, { v: r.vHi / 1e6, s: 9 }])] }
+  ];
+  return xlsxPack(sheets);
+}
+
+/* PDF memo: one A4 page in Helvetica, the PDF base font every reader has. */
+const HELV = [278, 278, 355, 556, 556, 889, 667, 191, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 278, 278, 584, 584, 584, 556, 1015, 667, 667, 722, 722, 667, 611, 778, 722, 278, 500, 667, 556, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 278, 278, 278, 469, 556, 333, 556, 556, 500, 556, 556, 278, 556, 556, 222, 222, 500, 222, 833, 556, 556, 556, 556, 333, 500, 278, 556, 500, 722, 500, 500, 500, 334, 260, 334, 584];
+const HELVB = [278, 333, 474, 556, 556, 889, 722, 238, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 333, 333, 584, 584, 584, 611, 975, 722, 722, 722, 722, 667, 611, 778, 722, 278, 556, 722, 611, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 333, 278, 333, 584, 556, 333, 556, 611, 556, 611, 556, 333, 611, 611, 278, 278, 556, 278, 889, 611, 611, 611, 611, 389, 556, 333, 611, 556, 778, 556, 556, 500, 389, 280, 389, 584];
+// Characters outside ASCII, mapped to WinAnsi codes with their widths [code, regular, bold], or to ASCII stand-ins.
+const WIN = { '–': [0x96, 556, 556], '—': [0x97, 1000, 1000], '’': [0x92, 222, 278], '‘': [0x91, 222, 278], '“': [0x93, 333, 500], '”': [0x94, 333, 500], '×': [0xD7, 584, 584], '÷': [0xF7, 584, 584],
+  '·': [0xB7, 278, 278], '•': [0x95, 350, 350], '…': [0x85, 1000, 1000], '£': [0xA3, 556, 556], 'é': [0xE9, 556, 556], 'è': [0xE8, 556, 556], '±': [0xB1, 584, 584], '°': [0xB0, 400, 400] };
+const ASCII_FOR = { '−': '-', '₂': '2', '≈': '~', '≤': '<=', '≥': '>=', ' ': ' ', ' ': ' ', '→': '->' };
+function pdfText(t) { return [...String(t)].map((ch) => ASCII_FOR[ch] || ch).join(''); }
+function pdfWidth(t, size, bold) {
+  const W = bold ? HELVB : HELV; let w = 0;
+  for (const ch of pdfText(t)) { const c = ch.charCodeAt(0); w += c >= 32 && c <= 126 ? W[c - 32] : WIN[ch] ? WIN[ch][bold ? 2 : 1] : 556; }
+  return w * size / 1000;
+}
+function pdfStr(t) {
+  let o = '';
+  for (const ch of pdfText(t)) { const c = ch.charCodeAt(0); if (ch === '(' || ch === ')' || ch === '\\') o += '\\' + ch; else if (c >= 32 && c <= 126) o += ch; else if (WIN[ch]) o += '\\' + WIN[ch][0].toString(8).padStart(3, '0'); else o += '?'; }
+  return `(${o})`;
+}
+function buildPDF() {
+  const a = assetById('custom'); const an = ANALYSIS.custom; const dv = dealValues(a, an); const k = dv.k;
+  const Wp = 595.28; const Hp = 841.89; const M = 42; let y = Hp - M; const ops = [];
+  const gray = (g) => `${g} ${g} ${g}`;
+  const text = (x, yy, t, size = 9, bold = false, align = 'left', g = 0.1) => { const w = pdfWidth(t, size, bold); const xx = align === 'right' ? x - w : align === 'center' ? x - w / 2 : x;
+    ops.push(`BT /${bold ? 'F2' : 'F1'} ${size} Tf ${gray(g)} rg ${xx.toFixed(2)} ${yy.toFixed(2)} Td ${pdfStr(t)} Tj ET`); };
+  const fit = (t, size, bold, maxW) => { let s = String(t); while (s.length > 3 && pdfWidth(s, size, bold) > maxW) s = s.slice(0, -2); return s === String(t) ? s : s.trimEnd() + '…'; };
+  const wrap = (t, size, maxW) => { const out = []; let cur = ''; for (const w of String(t).split(' ')) { const next = cur ? `${cur} ${w}` : w; if (cur && pdfWidth(next, size, false) > maxW) { out.push(cur); cur = w; } else cur = next; } if (cur) out.push(cur); return out; };
+  const para = (t, size, g = 0.1) => { for (const l of wrap(t, size, Wp - 2 * M)) { text(M, y, l, size, false, 'left', g); y -= size + 3.4; } };
+  const perSh = (x) => `${x < 0 ? '-' : ''}US$${num1(Math.abs(x), 3)}`;
+  const rule = (yy, g = 0.82) => ops.push(`${gray(g)} RG 0.6 w ${M} ${yy.toFixed(2)} m ${(Wp - M).toFixed(2)} ${yy.toFixed(2)} l S`);
+  const box = (x, yy, w, h, g) => ops.push(`${gray(g)} rg ${x.toFixed(2)} ${yy.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re f`);
+  const heading = (t) => { y -= 16; text(M, y, t, 10.5, true); y -= 4; rule(y); y -= 11; };
+  const table = (cols, rows, size = 8.2) => { for (const r of rows) { r.forEach((c, i) => { const col = cols[i]; const t = fit(c.t ?? c, size, !!c.b, col.w - 4); text(col.align === 'right' ? col.x + col.w : col.x, y, t, size, !!c.b, col.align || 'left', c.g ?? 0.1); }); y -= size + 3.6; } };
+  const usd = (x) => money(x); const name = state.dep.name || 'Project';
+  text(M, y, `Mining Risk Explorer: ${name}`, 15, true); y -= 15;
+  text(M, y, `Valuation memo · 1 January 2026 valuation date · real US$ · ${LITHIUM_DECKS[state.deckBy.spodumene].label} price deck · ${pct(an.risk.rate, 1)} real after country risk`, 8.5, false, 'left', 0.38); y -= 8; rule(y, 0.6); y -= 20;
+  const head = [['NPV after risks', usd(an.risk.npvAttr)], ['NPV before risks', usd(an.base.npvAttr)], ['IRR after risks', irrText(an.risk.irr)], ['Breakeven SC6', beText(an.be)]];
+  head.forEach(([t, v], i) => { const x = M + i * (Wp - 2 * M) / 4; text(x, y + 11, t, 8, false, 'left', 0.4); text(x, y - 4, v, 14, true); }); y -= 18;
+  heading('Deal price');
+  text(M, y, `Indicated equity value ${usd(dv.range.lo)} to ${usd(dv.range.hi)}${dv.listed ? ` (${perSh(dv.range.lo / dv.shares)} to ${perSh(dv.range.hi / dv.shares)} a share)` : ''}`, 9.5, true); y -= 14;
+  const lines = [`Equity value after risks ${usd(dv.eqRisk)}; before risks ${usd(dv.eqBase)}. Funding gap ${usd(dv.gap)} (${num1(k.gear * 100, 0)}% debt, the rest new shares at ${num1(k.disc * 100, 0)}% below the price).`];
+  if (dv.listed) lines.push(`Market cap ${usd(dv.mcap)} (${num1(k.shares, 1)}M shares at ${k.sym}${num1(k.price, 3)}); price ÷ value ${dv.pnavBase == null ? '–' : dv.pnavBase.toFixed(2)}× before risks, ${dv.pnavRisk == null ? '–' : dv.pnavRisk.toFixed(2)}× after; fully funded value US$${num1(dv.funded, 3)} a share.`);
+  for (const l of lines) para(l, 8.4);
+  // football field
+  const vals = dv.methods.flatMap((m) => [m.lo, m.hi]).concat(dv.mcap != null ? [dv.mcap] : [], [0]); const lo = Math.min(...vals); const hi = Math.max(...vals);
+  const fx0 = M + 150; const fx1 = Wp - M - 52; const sx = (v) => fx0 + (v - lo) / ((hi - lo) || 1) * (fx1 - fx0);
+  y -= 14; const top = y + 6;
+  box(sx(dv.range.lo), y - dv.methods.length * 16 + 10, Math.max(1, sx(dv.range.hi) - sx(dv.range.lo)), dv.methods.length * 16, 0.93);
+  for (const m of dv.methods) { text(M, y - 2, m.label, 8.2, true); box(sx(Math.min(m.lo, m.hi)), y - 4, Math.max(1.5, Math.abs(sx(m.hi) - sx(m.lo))), 8, 0.62); box(sx(m.mid) - 0.9, y - 6, 1.8, 12, 0.1); text(sx(m.lo) - 3, y - 2, usd(m.lo), 7, false, 'right', 0.35); text(sx(m.hi) + 3, y - 2, usd(m.hi), 7, false, 'left', 0.35); y -= 16; }
+  if (dv.mcap != null) { ops.push(`0.7 0.5 0.1 RG 1 w [3 2] 0 d ${sx(dv.mcap).toFixed(2)} ${(y + 8).toFixed(2)} m ${sx(dv.mcap).toFixed(2)} ${(top + 6).toFixed(2)} l S [] 0 d`); text(sx(dv.mcap) + 3, top + 2, `Market cap ${usd(dv.mcap)}`, 7, false, 'left', 0.35); }
+  y -= 2;
+  heading('Key numbers');
+  const kn = keyNumbers(a, an); const half = Math.ceil(kn.length / 2); const cw = (Wp - 2 * M) / 2;
+  for (let i = 0; i < half; i++) { [kn[i], kn[i + half]].forEach((q, j) => { if (!q) return; text(M + j * cw, y, q.label, 8.2, false, 'left', 0.4); text(M + j * cw + 92, y, q.value, 8.6, true); text(M + j * cw + 92 + pdfWidth(q.value, 8.6, true) + 5, y, fit(q.sub, 7.4, false, cw - 100 - pdfWidth(q.value, 8.6, true)), 7.4, false, 'left', 0.45); }); y -= 12; }
+  heading('Risks: settings and the value each takes');
+  const rc = [{ x: M, w: 150 }, { x: M + 150, w: 80 }, { x: M + 230, w: 190 }, { x: M + 420, w: Wp - 2 * M - 420, align: 'right' }];
+  table(rc, [[{ t: 'Risk', b: true }, { t: 'Setting', b: true }, { t: 'Figure', b: true }, { t: 'Value taken', b: true }], ...riskRows(a, an).map((r) => [r[0], r[1], r[2], Math.abs(r[3]) < 0.05e6 ? '–' : money(r[3], { plus: true })])]);
+  const on = WHATIF.filter((w) => state.whatIf[w.k]);
+  if (on.length) { heading('Scenarios applied'); table([{ x: M, w: 150 }, { x: M + 150, w: 80 }, { x: M + 230, w: 190 }], on.map((w) => [w.label, wiText(w, state.whatIf[w.k]), wiFigure(w.k, state.whatIf, a).fig])); }
+  heading('What moves the value most: each input ±10% on its own');
+  const sc = [{ x: M, w: 230 }, { x: M + 230, w: 120, align: 'right' }, { x: M + 350, w: Wp - 2 * M - 350, align: 'right' }];
+  table(sc, [[{ t: 'Input', b: true }, { t: 'At −10%', b: true }, { t: 'At +10%', b: true }], ...inputSens(0.1).rows.slice(0, 6).map((r) => [r.label, r.dlo == null ? '–' : money(r.dlo, { plus: true }), money(r.dhi, { plus: true })])]);
+  y = Math.max(y, M + 36); rule(M + 30, 0.75);
+  wrap('A screening tool, not investment advice. Blank inputs use medians of published studies (page references in the app’s Data sheet); risk settings are estimates. Market multiples are from public data.', 7, Wp - 2 * M).slice(0, 2).forEach((l, i) => text(M, M + 20 - i * 9, l, 7, false, 'left', 0.45));
+  text(M, M + 2,`Generated ${new Date().toISOString().slice(0, 10)} by Mining Risk Explorer.`, 7, false, 'left', 0.45);
+  const content = ops.join('\n');
+  const objs = ['<< /Type /Catalog /Pages 2 0 R >>', '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+    `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${Wp} ${Hp}] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>`,
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>', '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>',
+    `<< /Length ${content.length} >>\nstream\n${content}\nendstream`,
+    `<< /Title ${pdfStr(`${name}: valuation memo`)} /Producer (Mining Risk Explorer) >>`];
+  let pdf = '%PDF-1.4\n%\xE2\xE3\xCF\xD3\n'; const offs = [];
+  objs.forEach((o, i) => { offs.push(pdf.length); pdf += `${i + 1} 0 obj\n${o}\nendobj\n`; });
+  const xref = pdf.length;
+  pdf += `xref\n0 ${objs.length + 1}\n0000000000 65535 f \n${offs.map((o) => `${String(o).padStart(10, '0')} 00000 n \n`).join('')}trailer\n<< /Size ${objs.length + 1} /Root 1 0 R /Info 7 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
+  return Uint8Array.from(pdf, (ch) => ch.charCodeAt(0) & 255);   // every character is one byte by construction
 }
 
 // Value against one driver: after risks (bold) and, where given, before risks. pts: [{ x, tick, r, b? }].
@@ -1703,7 +2047,7 @@ function cashHTML(a, an) {
 function renderTinker() {
   const a = assetById('custom'); const an = ANALYSIS.custom;
   if (an.pending) { morph($('#tinker'), '<section class="panel c-panel"><p class="muted">Enter the resource (tonnes and grade) under Deposit to see the value.</p></section>'); return; }
-  morph($('#tinker'), keyNumbersHTML(a, an) + risksHTML(a, an) + whatIfHTML(a, an) + sensHTML() + cashHTML(a, an));
+  morph($('#tinker'), keyNumbersHTML(a, an) + dealHTML(a, an) + risksHTML(a, an) + whatIfHTML(a, an) + sensHTML() + cashHTML(a, an));
 }
 
 /* ---------- Sensitivities, full size: every input, any one sensitivity, price × capex ---------- */
@@ -1754,7 +2098,7 @@ function inputSens(move) {
 // Every sensitivity the page offers: the what-ifs, each input and each risk, as a series of points across its range.
 function sensItems() {
   const a = assetById('custom');
-  return [...WHATIF.map((w) => ({ id: `wi:${w.k}`, group: 'What if', label: w.label })),
+  return [...WHATIF.map((w) => ({ id: `wi:${w.k}`, group: 'Scenarios', label: w.label })),
     ...liveInputs(a).map((s) => ({ id: `in:${s.k}`, group: 'Inputs', label: s.label })),
     ...DIALS.map((d) => ({ id: `risk:${d.id}`, group: 'Risks', label: d.name }))];
 }
@@ -1798,7 +2142,7 @@ function sensSheetHTML(view, move, item) {
   if (view === 'one') {
     const items = sensItems(); const id = items.some((x) => x.id === item) ? item : items[0].id;
     const S = sensSeries(id); sheetData = { kind: 'curve', ...S };
-    const groups = ['What if', 'Inputs', 'Risks'].map((gname) => `<optgroup label="${gname}">${items.filter((x) => x.group === gname).map((x) => `<option value="${x.id}" ${x.id === id ? 'selected' : ''}>${esc(x.label)}</option>`).join('')}</optgroup>`).join('');
+    const groups = ['Scenarios', 'Inputs', 'Risks'].map((gname) => `<optgroup label="${gname}">${items.filter((x) => x.group === gname).map((x) => `<option value="${x.id}" ${x.id === id ? 'selected' : ''}>${esc(x.label)}</option>`).join('')}</optgroup>`).join('');
     const nowR = (S.pts.find((q) => Math.abs(q.x - S.now) < 1e-9) || {}).r;
     const hasB = S.pts.some((q) => q.b != null);
     return `${tabs}<div class="c-sheet-bar"><label class="c-pick" for="sheet-item">Sensitivity</label><select id="sheet-item" class="c-pick-sel" data-role="sheet-item">${groups}</select><span class="small muted">Value against ${esc(S.label.toLowerCase())} across its range, everything else as it is now.</span></div>
@@ -2117,7 +2461,7 @@ function runChecks() {
   add('Tropicana reserve life ≈ 4.2 years', within(tb.life, 4.2, 0.05), yrs(tb.life));
   add('Tropicana site cost backs out near US$60/t', within(R.resolved.calibration.siteCostPerT, 60, 3), `US$${R.resolved.calibration.siteCostPerT.toFixed(2)}/t`);
   // 3. Bridge sums
-  group = 'Your project: risks, what-ifs and sensitivities';
+  group = 'Your project: risks, scenarios and sensitivities';
   {
     const C = assetById('custom'); const anC = ANALYSIS.custom; const anE = ANALYSIS['ex-ewoyaa'];
     add('Value after risks uses the rate that includes country risk', Math.abs(anE.risk.npvAttr - anE.risk.pvAt(anE.risk.rate)) < 1e3,
@@ -2138,11 +2482,11 @@ function runChecks() {
     const v0 = wiValue({});
     const dirs = [['capex +20% lowers it', wiValue({ capex: 20 }) < v0], ['operating cost +20% lowers it', wiValue({ opex: 20 }) < v0], ['recovery +5 points raises it', wiValue({ recovery: 5 }) > v0],
       ['grade +10% raises it', wiValue({ grade: 10 }) > v0], ['discount rate +2 points lowers it', wiValue({ rate: 2 }) < v0]];
-    add('Each what-if moves value the right way', dirs.every((x) => x[1]), dirs.map(([n, ok]) => `${n}: ${ok ? 'yes' : 'NO'}`).join('; '));
+    add('Each scenario slider moves value the right way', dirs.every((x) => x[1]), dirs.map(([n, ok]) => `${n}: ${ok ? 'yes' : 'NO'}`).join('; '));
     const C0 = depositAsset(state.dep, 'custom', { wi: { ...state.whatIf, price: 0 } }); const ctl0 = ctlFor(C0);
     const viaTweak = runModel(C0, { ...ctl0, deck: baseDeckFor(C0), rate: curRateFor(C0), enabled: ALL_DIALS(), tweak: { gold: 1.1 } }).npvAttr;
     const viaWhatIf = valueWith({ ...state.whatIf, price: 10 });
-    add('The price what-if matches the engine’s price lever', Math.abs(viaTweak - viaWhatIf) < 1, `+10%: ${money(viaWhatIf)} vs ${money(viaTweak)}`);
+    add('The price scenario matches the engine’s price lever', Math.abs(viaTweak - viaWhatIf) < 1, `+10%: ${money(viaWhatIf)} vs ${money(viaTweak)}`);
     const lv0 = { ...state.levels.custom }; const unsteady = [];
     for (const dl of DIALS) {
       const vals = [0, 0.5, 1, 1.5, 2].map((x) => runModel(C, { ...ctlC, levels: { ...lv0, [dl.id]: x }, enabled: ALL_DIALS() }).npvAttr);
@@ -2197,7 +2541,7 @@ function runChecks() {
   add('A risk change updates the value and the sensitivities', before !== afterLv && snap() === before, 'Recovery risk moved and moved back');
   const oldP = state.whatIf.price; state.whatIf.price = oldP + 10; rebuildCustom(); renderAll(true); const afterP = snap();
   state.whatIf.price = oldP; rebuildCustom(); renderAll(true);
-  add('A what-if move updates the value and the sensitivities', before !== afterP && snap() === before, 'Price +10% and back');
+  add('A scenario move updates the value and the sensitivities', before !== afterP && snap() === before, 'Price +10% and back');
   const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
   add('No horizontal page scroll at this width', overflow <= 1, `viewport ${window.innerWidth}px, overflow ${overflow}px.${window.innerWidth > 420 ? ' Narrow the window to 375px to test the phone layout.' : ''}`);
   return out;
@@ -2223,6 +2567,7 @@ function renderAll(silent) {
   const active = document.activeElement && document.activeElement.id ? document.activeElement.id : null;
   const a = assetById('custom'); UCTX = 'spodumene';
   ANALYSIS.custom = a.derived.resMt > 0 ? analyse(a, ctlFor(a)) : { pending: true };
+  if (!ANALYSIS.custom.pending) ANALYSIS.custom.be = breakevenPrice(a, ctlFor(a));
   inputsValue = null;
   hidePop(); INFO.clear();
   renderTop(); renderInputs(); renderTinker(); drawCharts();
@@ -2256,7 +2601,7 @@ function quickUpdate() {
   const i = ASSETS.findIndex((x) => x.id === 'custom'); ASSETS[i] = depositAsset(state.dep, 'custom', { wi: state.whatIf });
   const a = ASSETS[i]; if (!(a.derived.resMt > 0)) return;
   const ctl = ctlFor(a);
-  setKpis(a, runModel(a, { ...ctl, enabled: ALL_DIALS() }), runModel(a, { ...ctl, enabled: new Set() }));
+  setKpis(a, runModel(a, { ...ctl, enabled: ALL_DIALS() }), runModel(a, { ...ctl, enabled: new Set() }), breakevenPrice(a, ctl));
   for (const w of WHATIF) { const el = document.getElementById(`wi-${w.k}-f`); if (el) el.textContent = wiFigure(w.k, state.whatIf, a).fig; }
   syncBar();
 }
@@ -2308,7 +2653,7 @@ document.addEventListener('click', (e) => {
   if (el.hasAttribute('data-wi-reset')) { for (const k of Object.keys(state.whatIf)) state.whatIf[k] = 0; rebuildCustom(); renderAll(true); return; }
   if (el.hasAttribute('data-undo-load')) { undoLoad(); return; }
   if (el.hasAttribute('data-sens-sheet')) { openSensSheet(); return; }
-  if (el.hasAttribute('data-export')) { exportCSV(); return; }
+  if (el.dataset.export) { exportFile(el.dataset.export); return; }
   if (el.dataset.sensItem) { openSensSheet('one', state.sheet.move, el.dataset.sensItem); return; }
   if (el.dataset.depTyp) { state.undo = null; hideToast(); setPath(state.dep, el.dataset.depTyp, null); rebuildCustom(); renderAll(true); return; }
   if (el.dataset.depSrc) { hidePop(); evidenceSheet(el.dataset.depSrc); return; }
