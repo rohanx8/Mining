@@ -15,9 +15,9 @@ One page, no tabs.
 | **Value bar** (stays at the top) | Owner's NPV after risks, NPV before risks, IRR, capex and first production. NPV after risks is the most you could pay at your rate, country risk included. With a what-if on, the bar shows the change against your inputs. |
 | **Start from** | Loads a published study (Manna DFS, Ewoyaa DFS or Finniss DFS) or a blank new deposit. A message then offers **Undo** for ten seconds. |
 | **Inputs** (left on a laptop, first on a phone) | Seven folding groups: Deposit, Mine plan, Processing, Haulage, Fiscal, Capital, Price and rate. Each shows a one-line summary when folded. A blank field uses the value shown in grey. |
-| **Risks** | Ten standard risks, each a slider from Low (left) through Medium to High (right) in quarter steps, nine positions in all. Under each slider: what it does to this project in figures (for example capex US$294M → 368M, 9 months later). Beside it: what it costs. The amounts add up to the gap between value before and after risks. |
-| **What if** | Seven sliders that each move one driver on top of your inputs. Under each: the figure it sets (the long-term price, the capex, and so on). The value bar updates while a slider moves. |
-| **Sensitivities** | A tornado (each driver moved on its own), a price × capex grid, and value against the whole price deck with breakeven marked. All are centred on the what-if case. **Every input** opens a full-size view: each input moved up and down on its own, as a chart and a table with the figures. |
+| **Risks** | Ten standard risks, each a slider from Low (left) through Medium to High (right) in quarter steps, nine positions in all. In bold next to each title: the figure it gives this project now (for example capex US$368M, 9 mo late). At the slider ends: the figure at Low and at High. On the right: what it takes. The amounts add up to the gap between value before and after risks. |
+| **What if** | Seven sliders that each move one driver on top of your inputs. In bold next to each title: the figure the model uses now (the long-term price, the capex, and so on). At the slider ends: the figure at each end of its range. On the right: what that move is worth. The value bar updates while a slider moves. |
+| **Sensitivities** | A tornado (each driver moved on its own), a price × capex grid, and value against the whole price deck with breakeven marked. All are centred on the what-if case. Every risk and what-if row has a chart button that opens its own chart and table; **Every input** opens the full-size view. |
 | **Annual cash flow** | The year-by-year model, after or before risks. |
 | **Data** and **Checks** (footer) | The typical values with their ranges and study pages, the other data sources and the assumptions; and the checks that test the engine. |
 
@@ -116,7 +116,7 @@ Calibration evidence: Shaakichiuwaanaan's total development capex rose 44% from 
 | Start delay | 0 to 4 years | Years before construction starts |
 | Discount rate | −5 to +5 points | The real discount rate |
 
-Under each slider is the figure it sets: the long-term SC6 price, the capex, opex per tonne of ore, the recovery, the grade, the year construction starts and the discount rate. The value bar updates while a slider moves and shows the change against your inputs. **Reset** clears them.
+In bold next to each title is the figure the model uses now: the long-term SC6 price, the capex, opex per tonne of ore, the recovery, the grade, the year construction starts and the discount rate. The slider ends show the figure at each end of its range, and the right-hand column what that one move is worth. The value bar updates while a slider moves and shows the change against your inputs. **Reset** clears them.
 
 **Sensitivities** are centred on the what-if case:
 
@@ -124,12 +124,11 @@ Under each slider is the figure it sets: the long-term SC6 price, the capex, ope
 - **Price × capex:** value after risks, in US$M, for price −30% to +30% and capex −20% to +50%.
 - **Price curve:** value before and after risks as the whole price deck moves from −50% to +50%, with breakeven after risks marked.
 
-**Every input** (the button on the Sensitivities panel) opens a full-size view, full screen on a phone, with four tabs:
+**A chart and a table for every sensitivity.** The chart button on each risk and what-if row, and the **Every input** button on the Sensitivities panel, open a full-size view (full screen on a phone) with three tabs:
 
-- **Every input:** each of about 20 inputs moved down and up by 10%, 20% or 50% on its own, from the current case, plus one more year to construction. A tornado ranks them, and a table gives each input's figure now and after the move, the value after risks at each, and the swing. Inputs that are zero for this project are left out.
-- **Key drivers:** the what-if drivers, as a chart and a table with the figures.
+- **Every input:** each of about 20 inputs moved down and up by 10%, 20% or 50% on its own, from the current case, plus one more year to construction. A tornado ranks them, and a table gives each input's figure now and after the move, the value after risks at each, and the swing. Inputs that are zero for this project are left out. Click an input's name for its own chart.
+- **One at a time:** pick any of the seven what-ifs, the inputs or the ten risks. A chart shows value after risks (and before risks, where it differs) across that driver's whole range, with the current setting and the breakeven marked, and the x-axis in the driver's own figures. The table gives each step's setting, its figure, the value before and after risks and the change from now.
 - **Price × capex:** a 7 × 7 grid, with the long-term price and the capex under each move.
-- **Price curve:** the chart, and a table of the long-term price and the value before and after risks at each step.
 
 ## Valuation engine
 
