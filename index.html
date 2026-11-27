@@ -350,9 +350,13 @@ const LITHIUM_DECKS = {
   study:    { id: 'study', label: 'Study LT', prices: {}, flat: 1620, desc: 'US$1,620/t SC6 flat', source: 'Long-term price in PLS’s P2000 feasibility study (PLS quarterly report, 28 Oct 2026, p3)', url: '', flag: 'sourced' },
   downside: { id: 'downside', label: 'Downside', prices: {}, flat: 817, desc: 'US$817/t SC6 flat, the 2025 average in real terms', source: 'REQ Sep 2026, Table 14.1: 2025 average, real 2026 US$ (the last trough)', url: '', flag: 'sourced' }
 };
-const DECKS = { gold: PRICE_DECKS, spodumene: LITHIUM_DECKS };
+const LB_PER_T = 2204.62262;   // pounds in a metric tonne
+// Copper, US$/lb, real 2026 US$. Filled from the REQ (Sep 2026, Table 11.1) once the deck is in.
+const COPPER_DECKS = {};
+const DECKS = { gold: PRICE_DECKS, spodumene: LITHIUM_DECKS, copper: COPPER_DECKS };
 const UNITS = {
   gold: { u: 'oz', k: 'koz', price: 'US$/oz', product: 'payable gold', priceName: 'gold price', grade: 'g/t', containedName: 'gold in the mine plan', basis: '', perUnit: 'per ounce' },
+  copper: { u: 'lb', k: 'Mlb', price: 'US$/lb', product: 'payable copper', priceName: 'copper price', grade: '% Cu', containedName: 'copper in the mine plan', basis: '', perUnit: 'per pound of payable copper' },
   spodumene: { u: 't', k: 'kt', price: 'US$/t', product: 'concentrate', priceName: 'spodumene price (SC6)', grade: '% Li₂O', containedName: 'lithia in the mine plan, counted as SC6 concentrate', basis: ' SC6', perUnit: 'per tonne of concentrate' }
 };
 let UCTX = 'gold';   // units used by the formatters while one asset's content is rendered
@@ -617,6 +621,12 @@ const COMMODITY = {
     containedRef: (milledMt, grade) => milledMt * 1e6 * grade / G_PER_OZ,           // ounces in the ground
     refUnits: (units) => units                                                      // payable ounces, already at reference basis
   },
+  copper: {   // payable pounds, priced net of the treatment charge (per dry tonne of concentrate) and refining charge (per pound)
+    units: (milledMt, grade, rec, pr) => milledMt * 1e6 * grade / 100 * rec * pr.payability * LB_PER_T,
+    unitPrice: (price, pr) => price - (pr.rc || 0) - (pr.tc || 0) / (pr.concGrade / 100 * LB_PER_T * pr.payability),
+    containedRef: (milledMt, grade) => milledMt * 1e6 * grade / 100 * LB_PER_T,
+    refUnits: (units) => units
+  },
   spodumene: {
     units: (milledMt, grade, rec, pr) => milledMt * 1e6 * grade / 100 * rec / (pr.concGrade / 100),
     unitPrice: (price, pr) => price * pr.concGrade / 6 * (pr.realisation != null ? pr.realisation : 1),
@@ -875,7 +885,23 @@ const LI_STUDIES = {
   LTR: { source: 'Liontown, Quarterly Activities Report to 30 Sep 2026 (29 Oct 2026)', url: '' },
   TAYLOR: { source: 'Taylor’s rule (H.K. Taylor, 1977): mine life in years ≈ 0.2 × (ore tonnes)^0.25', url: '' }
 };
-const typical = (k) => LI_TYPICALS[k];
+const TYPICALS = { spodumene: LI_TYPICALS };
+// What differs by commodity: units, process routes and the typical values behind them, the default deck and rate.
+const CP = {
+  spodumene: { name: 'Lithium (spodumene)', grade: '% Li₂O', gradeEnd: '%', unit: 't', unitLong: 'tonne of concentrate', per: 'US$/t conc', price: 'US$/t SC6', priceDp: 0, priceSuffix: '/t',
+    routes: [['dms', 'DMS only'], ['flot', 'DMS + flotation']], recKey: { dms: 'recovery_dms', flot: 'recovery_flotation' }, procKey: { dms: 'processing_cost_dms', flot: 'processing_cost_flotation' },
+    sustKey: 'sustaining_capex_per_t_conc', deck: 'req', rate: 0.08, resUnit: 't LCE' },
+  gold: { name: 'Gold', grade: 'g/t Au', gradeEnd: ' g/t', unit: 'oz', unitLong: 'ounce', per: 'US$/oz', price: 'US$/oz', priceDp: 0, priceSuffix: '/oz',
+    routes: [['cil', 'Mill and CIL'], ['heap', 'Heap leach']], recKey: { cil: 'recovery_cil', heap: 'recovery_heap' }, procKey: { cil: 'processing_cost_cil', heap: 'processing_cost_heap' },
+    sustKey: 'sustaining_capex_per_oz', deck: 'req', rate: 0.05, resUnit: 'oz' },
+  copper: { name: 'Copper (concentrate)', grade: '% Cu', gradeEnd: '%', unit: 'lb', unitLong: 'pound of payable copper', per: 'US$/lb', price: 'US$/lb', priceDp: 2, priceSuffix: '/lb',
+    routes: [['flot', 'Flotation to concentrate']], recKey: { flot: 'recovery_cu' }, procKey: { flot: 'processing_cost_cu' },
+    sustKey: 'sustaining_capex_per_lb', deck: 'req', rate: 0.08, resUnit: 'lb Cu' }
+};
+const fmtPrice = (p, c) => `US$${num1(p, CP[c].priceDp)}${CP[c].priceSuffix}`;
+const comOf = (d) => (d && TYPICALS[d.commodity] ? d.commodity : 'spodumene');   // the commodity a deposit produces
+const typicalIn = (c, k) => TYPICALS[c][k];
+const typical = (k) => typicalIn(comOf(state.dep), k);   // for the page: your project's commodity
 const countryRow = (name) => COUNTRY_RISK.find((r) => r[0] === name);
 
 // Jurisdictions with fiscal terms taken from the studies; any other country uses Damodaran's tax rate and your royalty.
@@ -895,7 +921,9 @@ const LI_STATE_ACTIONS = {
   Chile: { text: 'announced state control of strategic lithium projects in April 2023' },
   Mali: { text: 'adopted a new mining code in August 2023 that raised royalties and the state’s potential stake' }
 };
-const jurisOf = (id) => LI_JURIS.find((j) => j.id === id) || (() => {
+const JURIS_BY = { spodumene: LI_JURIS };
+const jurisList = (c) => JURIS_BY[c] || [];
+const jurisOf = (id, c = 'spodumene') => jurisList(c).find((j) => j.id === id) || (() => {
   const r = countryRow(id); return { id, label: id, country: id, royalties: null, tax: r ? r[4] : null, carry: 0, src: null, page: null, note: 'No study covers this country yet: enter its royalty. Tax is Damodaran’s corporate rate.' };
 })();
 
@@ -947,40 +975,54 @@ function liAssumptions() {
 // wi holds the what-if moves (percent or points), all zero for your inputs as entered, and wi.scale multiplies single
 // inputs for the sensitivity of each input. A blank input takes the typical value from the studies before it is scaled.
 function depositDerived(d, wi = {}) {
+  const c = comOf(d); const P = CP[c]; const typ = (k) => typicalIn(c, k);
+  const isLi = c === 'spodumene'; const isAu = c === 'gold'; const isCu = c === 'copper';
+  const missing = [];   // inputs with no typical value that you must enter
+  const tv = (k, label) => { const t = typ(k); if (t) return t.median; missing.push(label); return 0; };
   const sc = (k) => (wi.scale && wi.scale[k]) || 1;
-  const juris = jurisOf(d.juris);
-  const cats = [['mea', d.mea], ['ind', d.ind], ['inf', d.inf]].filter(([k, c]) => c && c.mt > 0 && (k !== 'inf' || d.includeInferred));
-  const resMt = sum(cats, ([, c]) => c.mt);
-  const resGrade = resMt > 0 ? sum(cats, ([, c]) => c.mt * c.g) / resMt : 0;
+  const juris = jurisOf(d.juris, c);
+  const cats = [['mea', d.mea], ['ind', d.ind], ['inf', d.inf]].filter(([k, x]) => x && x.mt > 0 && (k !== 'inf' || d.includeInferred));
+  const resMt = sum(cats, ([, x]) => x.mt);
+  const resGrade = resMt > 0 ? sum(cats, ([, x]) => x.mt * x.g) / resMt : 0;
   const infMt = d.includeInferred && d.inf ? d.inf.mt : 0;
-  const share = (d.planShare != null ? d.planShare : typical('plan_share_of_resource').median) / 100;
-  const dil = (d.dilution != null ? d.dilution : typical('dilution_pct').median) / 100;
+  const share = (d.planShare != null ? d.planShare : tv('plan_share_of_resource', 'share of resource mined')) / 100;
+  const dil = (d.dilution != null ? d.dilution : tv('dilution_pct', 'dilution')) / 100;
   const planMt = (d.planMt != null ? d.planMt : resMt * share * (1 + dil)) * sc('tonnes');
   const planGrade = (d.planGrade != null ? d.planGrade : resGrade / (1 + dil)) * (1 + (wi.grade || 0) / 100) * sc('grade');
   const inferredShare = d.inferredShare != null ? d.inferredShare / 100 : (resMt > 0 ? infMt / resMt : 0);
   const taylorLife = planMt > 0 ? 0.2 * Math.pow(planMt * 1e6, 0.25) : 0;
   const rate = (d.rate != null ? d.rate : (taylorLife > 0 ? planMt / taylorLife : 0)) * sc('rate');
-  const strip = d.method === 'ug' ? 0 : (d.strip != null ? d.strip : typical('strip_ratio_op').median) * sc('strip');
-  const mOp = (d.miningOp != null ? d.miningOp : typical('mining_cost_op_per_t_material').median) * sc('miningOp');
-  const mUg = (d.miningUg != null ? d.miningUg : typical('mining_cost_ug_per_t_ore').median) * sc('miningUg');
+  const strip = d.method === 'ug' ? 0 : (d.strip != null ? d.strip : tv('strip_ratio_op', 'strip ratio')) * sc('strip');
+  const tvIf = (need, k, label) => (need ? tv(k, label) : (typ(k) ? typ(k).median : 0));   // only a value the plan uses must be entered
+  const mOp = (d.miningOp != null ? d.miningOp : tvIf(d.method !== 'ug', 'mining_cost_op_per_t_material', 'open-pit mining cost')) * sc('miningOp');
+  const mUg = (d.miningUg != null ? d.miningUg : tvIf(d.method !== 'op', 'mining_cost_ug_per_t_ore', 'underground mining cost')) * sc('miningUg');
   const ug = d.method === 'ug' ? 1 : d.method === 'op' ? 0 : (d.ugShare != null ? d.ugShare / 100 : 0.3);
   const ox = 1 + (wi.opex || 0) / 100;
   const miningPerTOre = ((1 - ug) * mOp * (1 + strip) + ug * mUg) * ox;
-  // Blank inputs take the typical value from the studies.
-  const flot = d.route === 'flot';
-  const recovery = Math.max(1, Math.min(100, (d.recovery != null ? d.recovery : typical(flot ? 'recovery_flotation' : 'recovery_dms').median) * sc('recovery') + (wi.recovery || 0)));
-  const processing = (d.processing != null ? d.processing : typical(flot ? 'processing_cost_flotation' : 'processing_cost_dms').median) * ox * sc('processing');
-  const ga = (d.ga != null ? d.ga : typical('site_ga_per_t_ore').median) * ox * sc('ga');
-  const sustaining = (d.sustaining != null ? d.sustaining : typical('sustaining_capex_per_t_conc').median) * sc('sustaining');
-  const freight = (d.freight != null ? d.freight : typical('ocean_freight').median) * sc('freight');
-  const concGrade = d.concGrade || 6;
-  const legs = (d.legs || []).filter((l) => l && l.km > 0);
-  const legRate = (l) => l.rate != null ? l.rate : (l.mode === 'truck' ? typical('road_haul_per_t_km').median : 0);
+  // Blank inputs take the typical value from the studies of this commodity.
+  const route = P.routes.some(([k]) => k === d.route) ? d.route : P.routes[0][0];
+  const recovery = Math.max(1, Math.min(100, (d.recovery != null ? d.recovery : tv(P.recKey[route], 'recovery')) * sc('recovery') + (wi.recovery || 0)));
+  const processing = (d.processing != null ? d.processing : tv(P.procKey[route], 'processing cost')) * ox * sc('processing');
+  const ga = (d.ga != null ? d.ga : tv('site_ga_per_t_ore', 'site G&A')) * ox * sc('ga');
+  const sustaining = (d.sustaining != null ? d.sustaining : tv(P.sustKey, 'sustaining capex')) * sc('sustaining');
+  // What the product earns: lithium concentrate is priced pro rata to SC6; gold doré is paid on payable ounces;
+  // copper concentrate on payable copper less treatment and refining charges.
+  const concGrade = isLi ? (d.concGrade || 6) : isCu ? (d.concGradeCu != null ? d.concGradeCu : tv('conc_grade_cu_pct', 'concentrate grade')) : 100;
+  const payability = isLi ? 1 : (d.payability != null ? d.payability : tv(isAu ? 'payability_pct' : 'payability_cu_pct', 'payability')) / 100;
+  const moisture = isCu ? (d.moisture != null ? d.moisture : tv('moisture_pct', 'concentrate moisture')) / 100 : 0;
+  const tc = isCu ? (d.tc != null ? d.tc : tv('tc_per_dmt', 'treatment charge')) : 0;   // US$ per dry tonne of concentrate
+  const rc = isCu ? (d.rc != null ? d.rc : tv('rc_per_lb', 'refining charge')) : 0;    // US$ per payable lb
+  const refining = isAu ? (d.refining != null ? d.refining : tv('refining_per_oz', 'refining and transport')) : 0;   // US$ per oz
+  // Haulage and freight are entered per tonne of concentrate (wet tonne for copper) and charged per unit sold.
+  const perUnit = isCu ? 1 / (1 - moisture) / (concGrade / 100 * LB_PER_T * payability) : 1;
+  const freight = isAu ? 0 : (d.freight != null ? d.freight : tv('ocean_freight', 'ocean freight')) * sc('freight');
+  const legs = isAu ? [] : (d.legs || []).filter((l) => l && l.km > 0);
+  const legRate = (l) => l.rate != null ? l.rate : (l.mode === 'truck' ? typicalIn('spodumene', 'road_haul_per_t_km').median : 0);   // road haulage is not commodity-specific
   const missingRates = legs.filter((l) => l.rate == null && l.mode !== 'truck').map((l) => l.mode);
-  const logisticsPerT = (sum(legs, (l) => l.km * legRate(l)) + (d.port || 0)) * sc('logistics');
-  const oreHaulPerT = d.plantMode === 'existing' ? (d.oreHaulKm || 0) * (d.oreHaulRate != null ? d.oreHaulRate : typical('road_haul_per_t_km').median) : 0;
-  const intensity = typical('capex_per_annual_t_ore').median;
-  const capexTypical = rate * 1e6 * intensity / 1e6 * (d.plantMode === 'existing' ? typical('existing_plant_capex_ratio').median / 100 : 1);
+  const logisticsPerT = isAu ? refining * sc('logistics') : (sum(legs, (l) => l.km * legRate(l)) + (d.port || 0)) * sc('logistics');
+  const oreHaulPerT = isLi && d.plantMode === 'existing' ? (d.oreHaulKm || 0) * (d.oreHaulRate != null ? d.oreHaulRate : typ('road_haul_per_t_km').median) : 0;
+  const intensity = tvIf(d.capex == null, 'capex_per_annual_t_ore', 'initial capex');
+  const capexTypical = rate * 1e6 * intensity / 1e6 * (isLi && d.plantMode === 'existing' ? typ('existing_plant_capex_ratio').median / 100 : 1);
   const capexM = ((d.capex != null ? d.capex : capexTypical) + (d.infraCapex || 0)) * (1 + (wi.capex || 0) / 100) * sc('capex');
   const decision = (d.decisionYears != null ? d.decisionYears : ({ granted: 0, progress: 1, none: 2 }[d.permits] ?? 1)) + (wi.delay || 0);
   const build = d.buildYears || 2;
@@ -994,21 +1036,29 @@ function depositDerived(d, wi = {}) {
   let royalties = d.royalty != null ? [{ name: d.royaltyName || 'Royalty (your input)', rate: d.royalty / 100, base: d.royaltyBase || 'gross' }] : (juris.royalties || []);
   if (d.privateRoyalty) royalties = royalties.concat([{ name: 'Private royalty on the tenement', rate: d.privateRoyalty / 100, base: 'gross' }]);
   if (sc('royalty') !== 1) royalties = royalties.map((r) => ({ ...r, rate: r.rate * sc('royalty'), bands: r.bands && r.bands.map((b) => ({ ...b, rate: b.rate * sc('royalty') })) }));
-  const realisation = (d.realisation != null ? d.realisation : typical('realisation_discount_pct').median) / 100 * sc('realisation');   // price received below the SC6 benchmark
-  const corporateM = (d.corporate != null ? d.corporate : typical('corporate_overhead_usd_m').median) * sc('corporate');               // head office, US$M a year
+  const realisation = isLi ? (d.realisation != null ? d.realisation : typ('realisation_discount_pct').median) / 100 * sc('realisation') : 0;   // lithium: price received below the SC6 benchmark
+  const corporateM = (d.corporate != null ? d.corporate : typicalIn('spodumene', 'corporate_overhead_usd_m').median) * sc('corporate');   // head office, US$M a year: not commodity-specific
   const wcDays = (d.wcDays != null ? d.wcDays : 30) * sc('wcDays');                                                                    // receivables, days of revenue (assumption)
   const tax = (d.tax != null ? d.tax / 100 : (juris.tax != null ? juris.tax : 0.30)) * sc('tax');
   const carry = (d.freeCarry != null ? d.freeCarry / 100 : juris.carry || 0) * sc('carry');
-  const closureM = (d.closure != null ? d.closure : typical('closure_usd_m').median) * sc('closure');
+  const closureM = (d.closure != null ? d.closure : tv('closure_usd_m', 'closure cost')) * sc('closure');
   const otherPerT = (d.otherPerT || 0) * sc('otherPerT');
   const byproduct = (d.byproduct || 0) * sc('byproduct');
   const cr = countryRow(juris.country);
-  const conc = planMt * 1e6 * planGrade / 100 * (recovery / 100) / (concGrade / 100);
-  const priceSC6 = (d.deckOverride && d.deckOverride.flat) || LITHIUM_DECKS[d.deck || 'req'].flat;
-  return { juris, resMt, resGrade, infMt, planMt, planGrade, inferredShare, taylorLife, rate, life: rate > 0 ? planMt / rate : 0, strip, ug, miningPerTOre, miningOp: mOp, miningUg: mUg,
-    recovery, processing, ga, sustaining, freight, concGrade, closureM, otherPerT, byproduct, logisticsPerT, oreHaulPerT, missingRates, capexTypical, capexM, decision, build, firstProd, devCapex, rows, royalties, tax, carry, realisation, corporateM, wcDays,
-    crp: cr ? cr[2] : 0, crpBasis: cr ? cr[1] : 'not in Damodaran’s table', concLom: conc, concPerYear: rate * 1e6 * planGrade / 100 * (recovery / 100) / (concGrade / 100),
-    logisticsShare: priceSC6 > 0 ? (logisticsPerT + freight) / (priceSC6 * concGrade / 6) : NaN };
+  // Units sold per tonne of ore: tonnes of concentrate, payable ounces or payable pounds.
+  const conc = isLi ? planMt * 1e6 * planGrade / 100 * (recovery / 100) / (concGrade / 100) : planMt * 1e6 * unitsPerTOre(c, planGrade, recovery, concGrade, payability);
+  const perYear = isLi ? rate * 1e6 * planGrade / 100 * (recovery / 100) / (concGrade / 100) : rate * 1e6 * unitsPerTOre(c, planGrade, recovery, concGrade, payability);
+  const priceSC6 = isLi ? (d.deckOverride && d.deckOverride.flat) || LITHIUM_DECKS[d.deck || 'req'].flat : NaN;   // lithium only: for the haulage share
+  return { commodity: c, route, juris, resMt, resGrade, infMt, planMt, planGrade, inferredShare, taylorLife, rate, life: rate > 0 ? planMt / rate : 0, strip, ug, miningPerTOre, miningOp: mOp, miningUg: mUg,
+    recovery, processing, ga, sustaining, freight, concGrade, payability, moisture, tc, rc, refining, perUnit, closureM, otherPerT, byproduct, logisticsPerT, oreHaulPerT, missingRates, capexTypical, capexM, decision, build, firstProd, devCapex, rows, royalties, tax, carry, realisation, corporateM, wcDays,
+    crp: cr ? cr[2] : 0, crpBasis: cr ? cr[1] : 'not in Damodaran’s table', concLom: conc, concPerYear: perYear, missing: [...new Set(missing)],
+    logisticsShare: isLi && priceSC6 > 0 ? (logisticsPerT + freight) / (priceSC6 * concGrade / 6) : NaN };
+}
+// Units sold per tonne of ore at a grade and recovery: payable ounces of gold, or payable pounds of copper.
+function unitsPerTOre(c, grade, recovery, concGrade, payability) {
+  if (c === 'gold') return grade / G_PER_OZ * (recovery / 100) * payability;
+  if (c === 'copper') return grade / 100 * (recovery / 100) * payability * LB_PER_T;
+  return grade / 100 * (recovery / 100) / (concGrade / 100);
 }
 
 // Starting risk levels for a deposit, set by stated rules from its inputs. Thresholds are starting assumptions to calibrate.
@@ -1054,12 +1104,12 @@ function depositDialDefaults(d, D) {
 function depositAsset(d, id, opts = {}) {
   const D = depositDerived(d, opts.wi || {});
   return {
-    id, name: d.name, commodity: 'spodumene', stage: 'deposit', ownerShare: d.ownership, stateStake: D.carry, freeCarry: D.carry,
+    id, name: d.name, commodity: comOf(d), stage: 'deposit', ownerShare: d.ownership, stateStake: D.carry, freeCarry: D.carry,
     schedule: { kind: 'fixed', rows: D.rows },
-    processing: { recovery: D.recovery / 100, concGrade: D.concGrade, payability: 1, realisation: 1 - D.realisation },
+    processing: { recovery: D.recovery / 100, concGrade: D.concGrade, payability: D.payability, realisation: 1 - D.realisation, tc: D.tc, rc: D.rc },
     resolved: { split: { mining: D.miningPerTOre, processing: D.processing, transport: D.oreHaulPerT, ga: D.ga }, sustainingPerT: 0, sustainingPerUnit: D.sustaining,
-      growthCapex: {}, devCapex: D.devCapex, corporatePerOz: 0, corporateFixed: D.corporateM * 1e6, explorationPerOz: 0, haulagePerT: 0, logisticsPerUnit: D.logisticsPerT, otherPerUnit: D.otherPerT,
-      freightPerUnit: D.freight, byproductPerUnit: D.byproduct, calibration: null },
+      growthCapex: {}, devCapex: D.devCapex, corporatePerOz: 0, corporateFixed: D.corporateM * 1e6, explorationPerOz: 0, haulagePerT: 0, logisticsPerUnit: D.logisticsPerT * D.perUnit, otherPerUnit: D.otherPerT,
+      freightPerUnit: D.freight * D.perUnit, byproductPerUnit: D.byproduct, calibration: null },
     fiscal: { royalties: D.royalties, taxRate: D.tax, taxBase: 0, closure: D.closureM * 1e6,
       wc: D.wcDays > 0 ? { receivableDays: D.wcDays, inventoryDays: 30, payableDays: 45 } : { receivableDays: 0, inventoryDays: 0, payableDays: 0 }, wcReleaseHorizon: null, lossCarryForward: true, openingLosses: (d.openingLosses || 0) * 1e6 },
     wht: (d.wht || 0) / 100,
@@ -1143,8 +1193,8 @@ for (const a of ASSETS) if (!a.resolved) a.resolved = resolveCosts(a, ASSETS);
 
 const state = {
   dep: INITIAL_DEP,
-  deckBy: { gold: 'spot', spodumene: 'req' },
-  rateBy: { gold: MODEL.defaultRate, spodumene: 0.08 },
+  deckBy: { gold: 'spot', spodumene: 'req', custom: 'req' },   // custom: your project's deck, in its commodity's decks
+  rateBy: { gold: MODEL.defaultRate, spodumene: 0.08, custom: 0.08 },
   levels: Object.fromEntries(ASSETS.map((a) => [a.id, Object.fromEntries(DIALS.map((d) => [d.id, a.dialDefaults[d.id].level]))])),
   ext: Object.fromEntries(ASSETS.map((a) => [a.id, 0])),
   tableMode: 'risk',
@@ -1152,7 +1202,7 @@ const state = {
   whatIf: { price: 0, capex: 0, opex: 0, recovery: 0, grade: 0, delay: 0, rate: 0 },   // what-if moves on top of your inputs (your project only)
   sheet: { view: 'all', move: 10, item: 'wi:price' },   // the full-size sensitivity view
   undo: null,                             // the inputs before a study was loaded, for one step back
-  lt: { gold: null, spodumene: null }    // long-term price override (null = the deck's own)
+  lt: { gold: null, spodumene: null, custom: null }    // long-term price override (null = the deck's own)
 };
 const assetById = (id) => ASSETS.find((a) => a.id === id);
 // A long-term price, if set, replaces the deck's flat tail (the near-term forecast years stay as they are).
@@ -1167,10 +1217,14 @@ function scaleDeck(deck, f) {
   const prices = Object.fromEntries(Object.entries(deck.prices || {}).map(([y, p]) => [y, p * f]));
   return { ...deck, prices, flat: deck.flat * f, byProdYear: deck.byProdYear ? deck.byProdYear.map((p) => p * f) : deck.byProdYear };
 }
-const baseDeckFor = (a) => { const c = commodityOf(a); const id = state.deckBy[c]; return withLongTerm(id === 'studydeck' ? (a.deckOverride || DECKS[c].req) : (DECKS[c][id] || DECKS[c].req), state.lt[c]); };
+const keyFor = (a) => (a.id === 'custom' ? 'custom' : commodityOf(a));
+const firstDeck = (c) => Object.values(DECKS[c])[0];
+const baseDeckFor = (a) => { const c = commodityOf(a); const id = state.deckBy[keyFor(a)]; return withLongTerm(id === 'studydeck' ? (a.deckOverride || firstDeck(c)) : (DECKS[c][id] || firstDeck(c)), state.lt[keyFor(a)]); };
+const myDecks = () => DECKS[comOf(state.dep)];
+const myDeck = () => myDecks()[state.deckBy.custom] || Object.values(myDecks())[0];
 // Your project carries the price and discount-rate what-ifs; the reference assets do not.
 const curDeckFor = (a) => (a.id === 'custom' ? scaleDeck(baseDeckFor(a), 1 + (state.whatIf.price || 0) / 100) : baseDeckFor(a));
-const curRateFor = (a) => { const r = state.rateBy[commodityOf(a)]; return a.id === 'custom' ? Math.max(0, r + (state.whatIf.rate || 0) / 100) : r; };
+const curRateFor = (a) => { const r = state.rateBy[keyFor(a)]; return a.id === 'custom' ? Math.max(0, r + (state.whatIf.rate || 0) / 100) : r; };
 const ctlFor = (a) => ({ deck: curDeckFor(a), rate: curRateFor(a), levels: state.levels[a.id], ext: state.ext[a.id] });
 let ANALYSIS = {};
 function recompute() { ANALYSIS = {}; for (const a of ASSETS) ANALYSIS[a.id] = analyse(a, ctlFor(a)); }
@@ -1257,7 +1311,7 @@ function info(id, html, label) {
 }
 
 /* ---------- Inputs: seven folding groups ---------- */
-const T = (k) => () => typical(k);
+const T = (k) => (d) => typicalIn(comOf(d), k);
 // Spot rates for converting a share price to US$ (blank exchange-rate input). Sources: RBA 4 pm rate, 26 Nov 2026;
 // Bank of Canada daily rate, 10 Nov 2026 (1.4181 CAD per USD); GBP/USD market quote, 25 Nov 2026 (Trading Economics).
 const FX_DEFAULT = { USD: 1, AUD: 0.6644, CAD: 1 / 1.4181, GBP: 1.3117 };
@@ -1267,7 +1321,7 @@ const CCY_SYM = { USD: 'US$', AUD: 'A$', CAD: 'C$', GBP: '£' };
 const MARKET = { spodumene: { pnav: null, perUnit: null, unit: 't LCE' } };
 const FUND_DEBT = 50; const RAISE_DISC = 10;   // assumptions for a fully funded build: half the funding gap as debt, new shares 10% below the price
 
-const byRoute = (dms, flot) => (d) => typical(d.route === 'flot' ? flot : dms);
+const byRoute = (dms, flot) => (d) => typicalIn(comOf(d), d.route === 'flot' ? flot : dms);
 const OPT = {
   yesno: [['yes', 'Yes'], ['no', 'No']],
   method: [['op', 'Open pit'], ['ug', 'Underground'], ['opug', 'Open pit + underground']],
@@ -1345,7 +1399,7 @@ const SECTIONS = [
   { id: 'logistics', title: 'Haulage', keys: ['plantMode', 'oreHaulKm', 'oreHaulRate', 'LEGS', 'port', 'freight', 'otherPerT', 'infraCapex'], sum: (d, D) => `US$${num1(D.logisticsPerT + D.freight, 0)}/t to buyer` },
   { id: 'fiscal', title: 'Fiscal', keys: ['juris', 'royalty', 'royaltyBase', 'tax', 'freeCarry', 'privateRoyalty', 'wht'], sum: (d, D) => `${D.juris.label} · tax ${pct(D.tax, 0)}` },
   { id: 'capital', title: 'Capital', keys: ['capex', 'sustaining', 'closure', 'corporate', 'wcDays', 'decisionYears', 'buildYears', 'ramp'], sum: (d, D) => `US$${num1(D.capexM, 0)}M · first production ${D.firstProd}` },
-  { id: 'price', title: 'Price and rate', keys: ['deck', 'lt', 'realisation', 'rateIn', 'ownership'], sum: () => `${LITHIUM_DECKS[state.deckBy.spodumene].label} · ${pct(state.rateBy.spodumene, 1)} real` },
+  { id: 'price', title: 'Price and rate', keys: ['deck', 'lt', 'realisation', 'rateIn', 'ownership'], sum: () => `${myDeck().label} · ${pct(state.rateBy.custom, 1)} real` },
   { id: 'deal', title: 'Company and deal', keys: ['dealCcy', 'dealFx', 'sharePrice', 'sharesM', 'cashM', 'debtM', 'otherM', 'fundDebtPct', 'raiseDiscPct'],
     sum: (d) => { const k = dealInputs(d); return k.price > 0 && k.shares > 0 ? `${k.sym}${num1(k.price, 3)} × ${num1(k.shares, 1)}M shares` : 'no share price yet'; } }
 ];
@@ -1353,7 +1407,7 @@ const SECTIONS = [
 // What a blank field means, shown in grey.
 function blankValue(key, d, D, t) {
   if (t) return num1(t.median, dpFor(t.median));
-  const J = jurisOf(d.juris);
+  const J = jurisOf(d.juris, comOf(d));
   const m = { capex: Math.round(D.capexTypical), rate: num1(D.rate), planMt: num1(D.planMt, 1), planGrade: num1(D.planGrade), inferredShare: num1(D.inferredShare * 100, 0), ugShare: 30,
     dealFx: num1(FX_DEFAULT[CCY_SYM[d.dealCcy] ? d.dealCcy : 'USD'], 4), fundDebtPct: FUND_DEBT, raiseDiscPct: RAISE_DISC, sharePrice: '', sharesM: '',
     decisionYears: D.decision, wcDays: 30, royalty: num1(sum(J.royalties || [], (r) => r.rate) * 100, 2), tax: num1(D.tax * 100, 1), freeCarry: num1((J.carry || 0) * 100, 0) };
@@ -1363,7 +1417,7 @@ function blankValue(key, d, D, t) {
 function fieldInfo(key, f, d, t, v) {
   const parts = [];
   if (f.help) parts.push(`<p>${esc(f.help)}</p>`);
-  if (key === 'juris') { const J = jurisOf(d.juris); if (J.note) parts.push(`<p>${esc(J.note)}</p>`); }
+  if (key === 'juris') { const J = jurisOf(d.juris, comOf(d)); if (J.note) parts.push(`<p>${esc(J.note)}</p>`); }
   if (key === 'deck') parts.push(`<p>${Object.values(LITHIUM_DECKS).map((k) => `<b>${esc(k.label)}:</b> ${esc(k.desc)}`).join('<br>')}</p>`);
   if (key === 'capex') { const c = typical('capex_per_annual_t_ore'); parts.push(`<p><b>Typical:</b> US$${num1(c.median, 1)} per tonne of yearly ore capacity (${c.n} studies, ${num1(c.low, 0)}–${num1(c.high, 0)}). Remote greenfield sites sit at the top.</p><p><button type="button" class="link-btn" data-dep-src="capex">Sources</button></p>`); }
   if (t) parts.push(`<p><b>Typical:</b> ${num1(t.median, dpFor(t.median))} ${esc(t.unit)} (${t.n} ${t.n === 1 ? 'study' : 'studies'}${t.n > 1 ? `, ${num1(t.low)}–${num1(t.high)}` : ''}). Leave blank to use it.</p>
@@ -1386,9 +1440,9 @@ function fieldRow(key, d, D) {
     control = `<select id="${id}" data-dep="${key}" data-type="${f.num ? 'numsel' : 'sel'}">${options(f.opts.concat(extra), cur)}</select>`;
   } else if (f.type === 'juris') {
     control = `<select id="${id}" data-dep="juris" data-type="sel"><optgroup label="Presets from studies">${options(LI_JURIS.map((j) => [j.id, j.label]), v)}</optgroup><optgroup label="Other countries">${options(COUNTRY_RISK.map((r) => [r[0], r[0]]), v)}</optgroup></select>`;
-  } else if (f.type === 'deck') control = `<select id="${id}" data-dep-deck="1">${options(Object.values(LITHIUM_DECKS).map((k) => [k.id, k.label]), state.deckBy.spodumene)}</select>`;
-  else if (f.type === 'rate') control = number('data-dep-rate="1" step="0.5" max="20"', (state.rateBy.spodumene * 100).toFixed(1));
-  else if (f.type === 'lt') control = number('data-dep-lt="1" step="any"', state.lt.spodumene ?? '', Math.round(LITHIUM_DECKS[state.deckBy.spodumene].flat));
+  } else if (f.type === 'deck') control = `<select id="${id}" data-dep-deck="1">${options(Object.values(myDecks()).map((k) => [k.id, k.label]), myDeck().id)}</select>`;
+  else if (f.type === 'rate') control = number('data-dep-rate="1" step="0.5" max="20"', (state.rateBy.custom * 100).toFixed(1));
+  else if (f.type === 'lt') control = number('data-dep-lt="1" step="any"', state.lt.custom ?? '', Math.round(myDeck().flat));
   else if (f.type === 'pct') control = number(`data-dep="${key}" data-type="pct" step="any" max="100"`, v != null ? +(v * 100).toFixed(4) : '');
   else control = number(`data-dep="${key}" data-type="num" step="any"`, v ?? '', blankValue(key, d, D, t));
   const unit = control.startsWith('<input') && f.type !== 'text' ? `<span class="u">${esc(f.unit || '')}</span>` : '';
@@ -1460,7 +1514,7 @@ const whatIfOn = () => Object.values(state.whatIf).some((v) => v);
 function valueWith(wi, before = false) {
   const a = depositAsset(state.dep, 'custom', { wi }); const sc = wi.scale || {};
   const deck = scaleDeck(baseDeckFor(a), (1 + (wi.price || 0) / 100) * (sc.price || 1));
-  const rate = Math.max(0, state.rateBy.spodumene + (wi.rate || 0) / 100) * (sc.drate || 1);
+  const rate = Math.max(0, state.rateBy.custom + (wi.rate || 0) / 100) * (sc.drate || 1);
   return runModel(a, { ...ctlFor(a), deck, rate, enabled: before ? new Set() : ALL_DIALS() }).npvAttr;
 }
 let inputsValue = null;   // value after risks with no what-ifs, worked out once per redraw
@@ -1558,7 +1612,7 @@ function wiFigure(k, wi, a = depositAsset(state.dep, 'custom', { wi })) {
   if (k === 'recovery') { const r = `${num1(D.recovery, 1)}%`; return { fig: r, end: r }; }
   if (k === 'grade') { const g = num1(D.planGrade); return { fig: `${g}% Li₂O`, end: `${g}%` }; }
   if (k === 'delay') { const y = String(MODEL.firstYear + D.decision); return { fig: `build ${y}`, end: y }; }
-  const r = pct(Math.max(0, state.rateBy.spodumene + (wi.rate || 0) / 100), 1); return { fig: `${r} real`, end: r };
+  const r = pct(Math.max(0, state.rateBy.custom + (wi.rate || 0) / 100), 1); return { fig: `${r} real`, end: r };
 }
 function whatIfHTML(a, an) {
   const rows = WHATIF.map((w) => {
@@ -1785,7 +1839,7 @@ function buildCSV() {
   const q = (v) => { const t = v == null ? '' : String(v); return /[",\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t; };
   const line = (...cells) => cells.map(q).join(',');
   const m2 = (x) => (x == null || !isFinite(x) ? '' : (x / 1e6).toFixed(2));
-  const deck = LITHIUM_DECKS[state.deckBy.spodumene] || LITHIUM_DECKS.req;
+  const deck = myDeck();
   const out = [line('Mining Risk Explorer', d.name || 'Project'), line('Valuation date 1 January 2026; real US$; owner’s share unless stated'), ''];
   out.push(line('Result', 'Value', 'Unit'), line('NPV after risks', m2(an.risk.npvAttr), 'US$M'), line('NPV before risks', m2(an.base.npvAttr), 'US$M'),
     line('IRR after risks', an.risk.irr == null ? '' : (an.risk.irr * 100).toFixed(1), '%'), line('Discount rate used', (an.risk.rate * 100).toFixed(2), '% real, with country risk'), '');
@@ -1797,7 +1851,7 @@ function buildCSV() {
     line('Value per share after risks', n2(dv.perShare), 'US$'), line('Fully funded value per share after risks', n2(dv.funded), 'US$'), line('Market cap', m2(dv.mcap), 'US$M'),
     line('Price ÷ value before risks', n2(dv.pnavBase, 2), '×'), line('Price ÷ value after risks', n2(dv.pnavRisk, 2), '×'), line('EV per t LCE (owner’s share)', n2(dv.evPerUnit, 0), 'US$'),
     ...dv.methods.map((m) => line(`Method: ${m.label}`, `${m2(m.lo)} to ${m2(m.hi)}`, `US$M; mid ${m2(m.mid)}; ${m.note}`)), '');
-  out.push(line('Setting', 'Value', 'Note'), line('Price deck', deck.label, deck.desc), line('Long-term price you set', state.lt.spodumene ?? '', 'US$/t SC6; blank uses the deck'),
+  out.push(line('Setting', 'Value', 'Note'), line('Price deck', deck.label, deck.desc), line('Long-term price you set', state.lt.custom ?? '', 'US$/t SC6; blank uses the deck'),
     line('Discount rate before country risk', (curRateFor(a) * 100).toFixed(2), '% real'), line('Country risk premium', (D.crp * 100).toFixed(2), `% (${D.crpBasis})`), '');
   out.push(line('Risk', 'Setting', 'Figure', 'Value taken (US$M)'), ...riskRows(a, an).map((r) => line(r[0], r[1], r[2], m2(r[3]))), '');
   out.push(line('Scenario', 'Move', 'Figure'), ...WHATIF.map((w) => line(w.label, wiText(w, state.whatIf[w.k] || 0), wiFigure(w.k, state.whatIf, a).fig)), '');
@@ -1965,7 +2019,7 @@ function buildPDF() {
   const table = (cols, rows, size = 8.2) => { for (const r of rows) { r.forEach((c, i) => { const col = cols[i]; const t = fit(c.t ?? c, size, !!c.b, col.w - 4); text(col.align === 'right' ? col.x + col.w : col.x, y, t, size, !!c.b, col.align || 'left', c.g ?? 0.1); }); y -= size + 3.6; } };
   const usd = (x) => money(x); const name = state.dep.name || 'Project';
   text(M, y, `Mining Risk Explorer: ${name}`, 15, true); y -= 15;
-  text(M, y, `Valuation memo · 1 January 2026 valuation date · real US$ · ${LITHIUM_DECKS[state.deckBy.spodumene].label} price deck · ${pct(an.risk.rate, 1)} real after country risk`, 8.5, false, 'left', 0.38); y -= 8; rule(y, 0.6); y -= 20;
+  text(M, y, `Valuation memo · 1 January 2026 valuation date · real US$ · ${myDeck().label} price deck · ${pct(an.risk.rate, 1)} real after country risk`, 8.5, false, 'left', 0.38); y -= 8; rule(y, 0.6); y -= 20;
   const head = [['NPV after risks', usd(an.risk.npvAttr)], ['NPV before risks', usd(an.base.npvAttr)], ['IRR after risks', irrText(an.risk.irr)], ['Breakeven SC6', beText(an.be)]];
   head.forEach(([t, v], i) => { const x = M + i * (Wp - 2 * M) / 4; text(x, y + 11, t, 8, false, 'left', 0.4); text(x, y - 4, v, 14, true); }); y -= 18;
   heading('Deal price');
@@ -2237,16 +2291,16 @@ function rebuildCustom() {
 // Risk levels, what-ifs, deck and rate are kept in this browser with the inputs.
 const SET_STORE = 'mre-settings-v1';
 function saveSettings() {
-  try { localStorage.setItem(SET_STORE, JSON.stringify({ levels: state.levels.custom, whatIf: state.whatIf, deck: state.deckBy.spodumene, rate: state.rateBy.spodumene, lt: state.lt.spodumene, tableMode: state.tableMode })); } catch (e) { /* storage unavailable */ }
+  try { localStorage.setItem(SET_STORE, JSON.stringify({ levels: state.levels.custom, whatIf: state.whatIf, deck: state.deckBy.custom, rate: state.rateBy.custom, lt: state.lt.custom, tableMode: state.tableMode })); } catch (e) { /* storage unavailable */ }
 }
 function loadSettings() {
   let o = null; try { o = JSON.parse(localStorage.getItem(SET_STORE)); } catch (e) { /* storage unavailable */ }
   if (!o || typeof o !== 'object') return;
   for (const d of DIALS) { const v = o.levels && o.levels[d.id]; if (LEVELS.includes(v) || (typeof v === 'number' && v >= 0 && v <= 2)) state.levels.custom[d.id] = v; }
   for (const w of WHATIF) { const v = Number(o.whatIf && o.whatIf[w.k]); if (isFinite(v) && v >= w.min && v <= w.max) state.whatIf[w.k] = v; }
-  if (LITHIUM_DECKS[o.deck]) state.deckBy.spodumene = o.deck;
-  if (isFinite(o.rate) && o.rate >= 0 && o.rate <= 0.2) state.rateBy.spodumene = o.rate;
-  if (o.lt == null || (isFinite(o.lt) && o.lt > 0)) state.lt.spodumene = o.lt ?? null;
+  if (myDecks()[o.deck]) state.deckBy.custom = o.deck;
+  if (isFinite(o.rate) && o.rate >= 0 && o.rate <= 0.2) state.rateBy.custom = o.rate;
+  if (o.lt == null || (isFinite(o.lt) && o.lt > 0)) state.lt.custom = o.lt ?? null;
   if (['risk', 'base'].includes(o.tableMode)) state.tableMode = o.tableMode;
 }
 
@@ -2610,9 +2664,9 @@ function quickUpdate() {
 function applyField(t) {
   const ds = t.dataset;
   if (ds.dep) { onDepInput(t); return; }
-  if (ds.depDeck) { state.deckBy.spodumene = t.value; renderAll(); return; }
-  if (ds.depRate) { const v = Number(t.value); if (t.value !== '' && isFinite(v)) { state.rateBy.spodumene = Math.max(0, Math.min(0.2, v / 100)); renderAll(); } return; }
-  if (ds.depLt) { const v = t.value === '' ? null : Number(t.value); if (v == null || (isFinite(v) && v > 0)) { state.lt.spodumene = v; renderAll(); } }
+  if (ds.depDeck) { state.deckBy.custom = t.value; renderAll(); return; }
+  if (ds.depRate) { const v = Number(t.value); if (t.value !== '' && isFinite(v)) { state.rateBy.custom = Math.max(0, Math.min(0.2, v / 100)); renderAll(); } return; }
+  if (ds.depLt) { const v = t.value === '' ? null : Number(t.value); if (v == null || (isFinite(v) && v > 0)) { state.lt.custom = v; renderAll(); } }
 }
 let typeTimer = null;
 document.addEventListener('input', (e) => {
