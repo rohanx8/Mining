@@ -939,7 +939,22 @@ const LI_STATE_ACTIONS = {
   Chile: { text: 'announced state control of strategic lithium projects in April 2023' },
   Mali: { text: 'adopted a new mining code in August 2023 that raised royalties and the state’s potential stake' }
 };
-const JURIS_BY = { spodumene: LI_JURIS };
+// Gold presets (data/research/fiscal.json and gold_market_fiscal.json, from web-search results in Nov 2026; not checked
+// against the gazetted texts). Profit-based regimes (Ontario, Quebec, BC, Nevada, Chile, Peru) are not presets: the engine
+// charges royalties on revenue, so enter an effective rate there.
+const AU_JURIS = [
+  { id: 'AU-WA', label: 'Australia: Western Australia', country: 'Australia', royalties: [{ name: 'WA gold royalty, on the royalty value of gold produced', rate: 0.025, base: 'gross' }], tax: 0.30, carry: 0, src: null, page: null,
+    note: 'WA gold royalty 2.5% of the royalty value (Mining (Royalties) Regulations 2025; WA fact sheet, Sep 2025). Company tax 30%.' },
+  { id: 'AU-NSW', label: 'Australia: New South Wales', country: 'Australia', royalties: [{ name: 'NSW gold royalty, on ex-mine value', rate: 0.04, base: 'gross' }], tax: 0.30, carry: 0, src: null, page: null,
+    note: 'NSW royalty 4% of ex-mine value (value less allowable deductions, so a little under 4% of revenue; NSW Resources). Company tax 30%.' },
+  { id: 'GH', label: 'Ghana', country: 'Ghana', royalties: [{ name: 'Government royalty, sliding with the gold price', rate: 0.05, base: 'gross', bands: [{ upTo: 1900, rate: 0.05 }, { upTo: 2000, rate: 0.06 }, { upTo: 2500, rate: 0.07 }, { upTo: 3000, rate: 0.08 }, { upTo: 3500, rate: 0.09 }, { upTo: 4000, rate: 0.10 }, { upTo: 4500, rate: 0.11 }, { upTo: null, rate: 0.12 }] },
+    { name: 'Growth and Sustainability levy', rate: 0.01, base: 'gross' }], tax: 0.35, carry: 0.10, src: null, page: null,
+    note: 'L.I. 2517 (in force 10 Mar 2026): 5% up to US$1,900/oz rising to 12% above US$4,500. Growth and Sustainability Levy 1% (Act 1166, Mar 2026). State free carry 10% (Act 703, s.43). Tax 35%.' },
+  { id: 'CI', label: 'Côte d’Ivoire', country: 'Côte d\'Ivoire', royalties: [{ name: 'Gold ad valorem tax, sliding with the gold price', rate: 0.05, base: 'gross', bands: [{ upTo: 1000, rate: 0.05 }, { upTo: 1300, rate: 0.055 }, { upTo: 1600, rate: 0.06 }, { upTo: 2000, rate: 0.07 }, { upTo: null, rate: 0.08 }] },
+    { name: 'Local development contribution', rate: 0.005, base: 'gross' }], tax: 0.25, carry: 0, src: null, page: null,
+    note: 'Ad valorem tax 5% to 8% by gold price (2025 finance law annex, each band up 2 points from 10 Jan 2025); 0.5% local development contribution. Tax is Damodaran’s rate. The state’s free carry was not researched: enter it. Increases for 2027 were pending in Nov 2026.' }
+];
+const JURIS_BY = { spodumene: LI_JURIS, gold: AU_JURIS };
 const jurisList = (c) => JURIS_BY[c] || [];
 const jurisOf = (id, c = 'spodumene') => jurisList(c).find((j) => j.id === id) || (() => {
   const r = countryRow(id); return { id, label: id, country: id, royalties: null, tax: r ? r[4] : null, carry: 0, src: null, page: null, note: 'No study covers this country yet: enter its royalty. Tax is Damodaran’s corporate rate.' };
@@ -1360,7 +1375,10 @@ const MARKET = {
     takeovers: { values: [0.04, 0.239, 0.375], note: 'Fortescue for Alta Copper (2026), Central Asia Metals for New World (2025), Jiangxi Copper for SolGold (2026)' },
     perUnit: { values: [0.006, 0.030], unit: 'lb Cu', fmt: (x) => `${num1(x * 100, 1)}¢`, note: 'Alta Copper and SolGold, per pound of copper equivalent (What Drives Mining Project Value)' }
   },
-  gold: { takeovers: { values: [0.75], note: 'OceanaGold’s 2026 offer for Ausgold, against its DFS NPV at 5%' } }
+  gold: {
+    trading: { values: [0.115, 0.14, 0.22, 0.25, 0.39], note: 'five gold developers, late Oct to late Nov 2026 (Troilus, Astral, First Mining, Saturn, Turaco); Ausgold, under offer, left out' },
+    takeovers: { values: [0.75], note: 'OceanaGold’s 2026 offer for Ausgold, against its DFS NPV at 5%' }
+  }
 };
 // Market value ÷ study NPV by stage: analytical judgement drawn from market practice, not a measured sample
 // (What Drives Mining Project Value, section 1.1, note 5).
@@ -1468,22 +1486,23 @@ const SECTIONS = [
   { id: 'capital', title: 'Capital', keys: ['capex', 'sustaining', 'closure', 'corporate', 'wcDays', 'decisionYears', 'buildYears', 'ramp'], sum: (d, D) => `US$${num1(D.capexM, 0)}M · first production ${D.firstProd}` },
   { id: 'price', title: 'Price and rate', keys: ['deck', 'lt', 'realisation', 'rateIn', 'ownership'], sum: () => `${myDeck().label} · ${pct(state.rateBy.custom, 1)} real` },
   { id: 'deal', title: 'Company and deal', keys: ['buyer', 'stage', 'studyNpv', 'dealCcy', 'dealFx', 'sharePrice', 'sharesM', 'cashM', 'debtM', 'otherM', 'fundDebtPct', 'raiseDiscPct'],
-    sum: (d) => { const k = dealInputs(d); return `${d.buyer === 'buyer' ? 'Funded buyer' : 'As it stands'} · ${k.price > 0 && k.shares > 0 ? `${k.sym}${num1(k.price, 3)} × ${num1(k.shares, 1)}M shares` : 'no share price'}`; } }
+    sum: (d) => { const k = dealInputs(d); return `${d.buyer === 'buyer' ? 'Funded buyer · ' : ''}${k.price > 0 && k.shares > 0 ? `${k.sym}${num1(k.price, 3)}, ${num1(k.shares, 0)}M shares` : 'no share price'}`; } }
 ];
 
 // A new commodity clears the inputs that mean something different for it, and takes that commodity's deck and rate.
 const COMMODITY_KEYS = ['mea', 'ind', 'inf', 'planGrade', 'planMt', 'route', 'recovery', 'processing', 'ga', 'miningOp', 'miningUg', 'strip', 'concGrade', 'concGradeCu', 'payability', 'moisture', 'tc', 'rc', 'refining',
   'byproduct', 'port', 'freight', 'otherPerT', 'sustaining', 'closure', 'capex', 'capexBasis', 'capexStudy', 'royalty', 'royaltyName', 'tax', 'freeCarry', 'juris', 'realisation', 'plantMode', 'oreHaulKm', 'oreHaulRate', 'legs', 'deckOverride', 'testwork'];
-function switchCommodity(c) {
+// The country a new project of a commodity starts in: its first fiscal preset, else Australia (no country premium).
+const defaultJuris = (c) => (jurisList(c)[0] || { id: 'Australia' }).id;
+function switchCommodity(c, name) {
   state.undo = { dep: JSON.parse(JSON.stringify(state.dep)), levels: { ...state.levels.custom }, whatIf: { ...state.whatIf }, deck: state.deckBy.custom, rate: state.rateBy.custom, lt: state.lt.custom };
-  const keep = { name: state.dep.name, ownership: state.dep.ownership, method: state.dep.method, ugShare: state.dep.ugShare, includeInferred: state.dep.includeInferred, decisionYears: state.dep.decisionYears, buildYears: state.dep.buildYears, ramp: state.dep.ramp,
-    permits: state.dep.permits, operator: state.dep.operator, funding: state.dep.funding, power: state.dep.power, dealCcy: state.dep.dealCcy, dealFx: state.dep.dealFx, sharePrice: state.dep.sharePrice, sharesM: state.dep.sharesM, cashM: state.dep.cashM, debtM: state.dep.debtM, otherM: state.dep.otherM, fundDebtPct: state.dep.fundDebtPct, raiseDiscPct: state.dep.raiseDiscPct };
-  state.dep = { ...blankDeposit(), ...keep, commodity: c, juris: (jurisList(c)[0] || { id: 'AU-WA' }).id };
+  state.dep = { ...blankDeposit(), commodity: c, name: name || `New ${CP[c].name.toLowerCase().replace(/ \(.*\)/, '')} project`, juris: defaultJuris(c), buyer: state.dep.buyer, dealCcy: state.dep.dealCcy };
   state.deckBy.custom = CP[c].deck; state.rateBy.custom = CP[c].rate; state.lt.custom = null;
   for (const k of Object.keys(state.whatIf)) state.whatIf[k] = 0;
   rebuildCustom(); const a = assetById('custom'); for (const dl of DIALS) state.levels.custom[dl.id] = a.dialDefaults[dl.id].level;
-  renderAll();
-  showToast(`${esc(CP[c].name)}: enter the resource and the study’s figures; blanks use typical values where the studies give them. <button type="button" class="link-btn" data-undo-load>Undo</button>`);
+  renderAll(true);
+  const sec = document.querySelector('[data-open-id="sec-deposit"]'); if (sec && !sec.open) { sec.open = true; state.open.add('sec-deposit'); }
+  showToast(`${esc(CP[c].name)}: enter the resource and your study’s figures; blanks use typical values where the studies give them. <button type="button" class="link-btn" data-undo-load>Undo</button>`);
 }
 // What a blank field means, shown in grey.
 function blankValue(key, d, D, t) {
@@ -1587,7 +1606,7 @@ function evidenceSheet(key) {
   const f = F[key];
   const t = k ? typical(k) : (f && f.typical ? f.typical(state.dep) : null);
   if (!t) return;
-  const items = t.points.map((p) => `<li><div class="ev-head"><span>${esc(({ ...LI_STUDIES, ...STUDY_NAMES }[p[0]] || { source: p[0] }).source)}</span><span class="pill flag-${p[3] ? 'derived' : 'sourced'}">${p[3] ? 'Derived' : 'Sourced'}</span></div><span class="ev-val">${num1(p[1], 3)} ${esc(t.unit)}</span><span class="ev-src">Page ${esc(p[2])}${p[3] ? ` · ${esc(p[3])}` : ''}</span></li>`).join('');
+  const items = t.points.map((p) => `<li><div class="ev-head"><span>${esc(({ ...LI_STUDIES, ...STUDY_NAMES }[p[0]] || { source: p[0] }).source)}</span><span class="pill flag-${p[3] ? 'derived' : 'sourced'}">${p[3] ? 'Derived' : 'Sourced'}</span></div><span class="ev-val">${num1(p[1], 3)} ${esc(t.unit)}</span><span class="ev-src">${p[2] != null ? `Page ${esc(p[2])}` : 'From the announcement, via web search; page not checked'}${p[3] ? ` · ${esc(p[3])}` : ''}</span></li>`).join('');
   openSheet(t.label, `<div class="kv"><span>Median</span><span>${num1(t.median, 3)} ${esc(t.unit)}</span><span>Range</span><span>${num1(t.low, 3)}–${num1(t.high, 3)}</span><span>Studies</span><span>${t.n}</span></div>
     ${t.note ? `<p class="small muted">${esc(t.note)}</p>` : ''}<h3>Where it comes from</h3><ul class="ev-list">${items}</ul>
     <p class="small muted">In US$ at each study’s own exchange rate, escalated to November 2025 prices where marked. The calculator uses the median.</p>`);
@@ -2369,15 +2388,15 @@ function dataHTML() {
     return `<tr><th scope="row" class="wrap-cell">${esc(t.label)}</th><td class="n">${num1(t.median, dpFor(t.median))} ${esc(t.unit)}</td><td class="n">${t.n > 1 ? `${num1(t.low)}–${num1(t.high)}` : '–'}</td><td class="n">${t.n}</td><td class="wrap-cell small">${t.points.map((p) => `${p[0]}${p[2] != null ? ` p${p[2]}` : ''}`).join(', ')}</td></tr>`; }).join('');
   const names = { ...LI_STUDIES, ...STUDY_NAMES };
   const keys = [...used].filter((k) => names[k]).map((k) => `<li><b>${k}</b> ${esc(names[k].source)}</li>`).join('');
-  return `<p class="small muted">Medians of published studies, with costs at November 2025 prices, just before the valuation date. A blank input uses its row; head grade, contingency and the studies’ discount rates are there for comparison.</p>
+  return `<p class="small muted">Medians of published studies, with costs at November 2025 prices, just before the valuation date. A blank input uses its row; head grade, contingency and the studies’ discount rates are there for comparison.${c !== 'spodumene' ? ` ${esc(CP[c].name)} values rest on few studies and came from the companies’ announcements through web search, page not checked; inputs with no row here must be entered.` : ''}</p>
     <div class="table-wrap"><table class="cmp"><thead><tr><th scope="col">Input</th><th scope="col">Typical</th><th scope="col">Range</th><th scope="col">Studies</th><th scope="col">Where</th></tr></thead><tbody>${rows}</tbody></table></div>
     <h3>Studies</h3><ul class="small">${keys}</ul>
-    <h3>Other data</h3><ul class="small"><li>Country risk premiums and tax rates: Damodaran, January 2026, 178 countries.</li>${Object.values(myDecks()).map((dk) => `<li>${esc(dk.label)} price: ${esc(dk.desc)}. <span class="muted">${esc(dk.source || '')}</span></li>`).join('')}<li>Fiscal presets for WA, NT, Ghana (2025 sliding royalty, Ewoyaa lease terms), Mali (pre-2023 terms) and Quebec.</li></ul>
+    <h3>Other data</h3><ul class="small"><li>Country risk premiums and tax rates: Damodaran, January 2026, 178 countries.</li>${Object.values(myDecks()).map((dk) => `<li>${esc(dk.label)} price: ${esc(dk.desc)}. <span class="muted">${esc(dk.source || '')}</span></li>`).join('')}<li>Fiscal presets: ${esc(jurisList(c).map((j) => j.label).join(', ') || 'none for this commodity: tax is Damodaran’s rate and you enter the royalty')}.</li></ul>
     <h3>Assumptions</h3><ul class="small c-assume">${liAssumptions().map((x) => `<li><b>${esc(x.label)}:</b> ${esc(x.value)}.${x.note ? ` <span class="muted">${esc(x.note)}</span>` : ''}</li>`).join('')}</ul>`;
 }
 
 /* ---------- Start from a study or a blank deposit ---------- */
-const PRESETS = [['ex-manna', 'Manna DFS (WA)'], ['ex-ewoyaa', 'Ewoyaa DFS (Ghana)'], ['ex-finniss', 'Finniss DFS (NT)'], ['blank', 'New deposit']];
+const PRESETS = [['ex-manna', 'Manna DFS (WA)'], ['ex-ewoyaa', 'Ewoyaa DFS (Ghana)'], ['ex-finniss', 'Finniss DFS (NT)'], ['blank', 'New lithium deposit'], ['blank-gold', 'New gold project'], ['blank-copper', 'New copper project']];
 function blankDeposit() {
   return { name: 'New deposit', juris: 'AU-WA', mea: { mt: null, g: null }, ind: { mt: null, g: null }, inf: { mt: null, g: null }, includeInferred: true,
     method: 'op', ugShare: null, strip: null, planMt: null, planGrade: null, inferredShare: null, planShare: null, dilution: null, rate: null, miningOp: null, miningUg: null,
@@ -2392,9 +2411,11 @@ function showToast(html) { const t = $('#toast'); t.innerHTML = html; t.hidden =
 function hideToast() { clearTimeout(toastTimer); const t = $('#toast'); if (t) t.hidden = true; }
 function loadPreset(v) {
   const p = PRESETS.find(([k]) => k === v); if (!p) return;
+  if (v === 'blank-gold' || v === 'blank-copper') { switchCommodity(v.slice(6), p[1]); return; }
   const ex = LI_EXAMPLES.find((x) => x.id === v);
-  state.undo = { dep: JSON.parse(JSON.stringify(state.dep)), levels: { ...state.levels.custom }, whatIf: { ...state.whatIf } };   // one step back
-  state.dep = ex ? toMyDeposit(ex, p[1]) : blankDeposit();
+  state.undo = { dep: JSON.parse(JSON.stringify(state.dep)), levels: { ...state.levels.custom }, whatIf: { ...state.whatIf }, deck: state.deckBy.custom, rate: state.rateBy.custom, lt: state.lt.custom };   // one step back
+  state.dep = ex ? toMyDeposit(ex, p[1]) : { ...blankDeposit(), name: 'New lithium deposit' };
+  if (!ex || comOf(state.dep) === 'spodumene') { state.deckBy.custom = CP.spodumene.deck; state.rateBy.custom = CP.spodumene.rate; state.lt.custom = null; }
   for (const k of Object.keys(state.whatIf)) state.whatIf[k] = 0;
   rebuildCustom();
   const a = assetById('custom'); for (const d of DIALS) state.levels.custom[d.id] = a.dialDefaults[d.id].level;
@@ -2412,6 +2433,7 @@ function undoLoad() {
   const u = state.undo; if (!u) return;
   state.undo = null; hideToast();
   state.dep = u.dep; Object.assign(state.whatIf, u.whatIf);
+  if (u.deck) { state.deckBy.custom = u.deck; state.rateBy.custom = u.rate; state.lt.custom = u.lt; }
   rebuildCustom(); Object.assign(state.levels.custom, u.levels);
   renderAll(true);
 }

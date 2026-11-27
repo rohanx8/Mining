@@ -1,6 +1,6 @@
 # Mining Risk Explorer
 
-A calculator for pricing a new spodumene (lithium) mine. Enter what you know about the deposit. Every input you leave blank takes a typical value from published studies, and ten standard risk settings take their share of the value. Then move the drivers (price, capex, operating cost, recovery, grade, delay, discount rate) and watch the value change.
+A calculator for a rough deal price on a mining project: lithium (spodumene), gold or copper concentrate. It is built for small-cap funds, private equity and investment banks. Enter what you know about the deposit and the company. Blank inputs take a typical value from published studies where the studies give one; ten standard risk settings take their share of the value. A football field then sets the DCF beside what listed peers trade at, what takeovers paid and what deals paid per unit of resource. Move the drivers (price, capex, operating cost, recovery, grade, delay, discount rate) and watch the value change.
 
 The engine is tested against three published feasibility studies, and it reconciles to the Tongon gold mine's spreadsheet to the cent. Those tests run under **Checks** at the foot of the page.
 
@@ -12,17 +12,20 @@ One page, no tabs.
 
 | Part | What it does |
 |---|---|
-| **Value bar** (stays at the top) | Owner's NPV after risks, NPV before risks, IRR, capex and first production. NPV after risks is the most you could pay at your rate, country risk included. With a what-if on, the bar shows the change against your inputs. |
+| **Value bar** (stays at the top) | Owner's NPV after risks, NPV before risks, IRR and the breakeven price after risks. NPV after risks is the most you could pay at your rate, country risk included. With a scenario on, the bar shows the change against your inputs. |
 | **Start from** | Loads a published study (Manna DFS, Ewoyaa DFS or Finniss DFS) or a blank new deposit, priced today: a study dated 2024 or earlier comes with its costs at November 2025 prices, and Ewoyaa takes Ghana's current royalty and free carry. A message says so and offers **Undo** for ten seconds. |
-| **Inputs** (left on a laptop, first on a phone) | Seven folding groups: Deposit, Mine plan, Processing, Haulage, Fiscal, Capital, Price and rate. Each shows a one-line summary when folded. A blank field uses the value shown in grey. |
-| **Key numbers** | Output (kt of concentrate a year, and kt LCE), mine life, C1 and AISC per tonne of concentrate (free on board), breakeven SC6 price after risks, payback year, value ÷ capex, and the resource in Mt LCE with value per tonne of LCE. **Download CSV** saves the results, key numbers, risk settings, what-ifs, the inputs used and the annual cash flow. |
+| **Inputs** (left on a laptop, first on a phone) | Eight folding groups: Deposit (with the commodity), Mine plan, Processing, Haulage and sales, Fiscal, Capital, Price and rate, Company and deal. Each shows a one-line summary when folded. A blank field uses the value shown in grey; a box that says *enter* has no typical value and needs your figure. |
+| **Key numbers** | Output, mine life, C1 (gold: cash cost) and AISC, breakeven price after risks, payback year, value ÷ capex, and the resource with value per unit of it, in each commodity's units (lithium: kt and LCE, US$/t; gold: koz, US$/oz, Moz; copper: kt of payable copper, US$/lb, Mt Cu). **Download** saves an Excel workbook with live formulas, a one-page PDF memo or a CSV. |
+| **Deal price** | Equity value after and before risks, the funding gap and a fully funded value per share, market cap, price ÷ value, EV per unit of resource, and a football field of methods with the market cap marked. |
 | **Risks** | Ten standard risks, each a slider from Low (left) through Medium to High (right) in quarter steps, nine positions in all. In bold next to each title: the figure it gives this project now (for example capex US$368M, 9 mo late). At the slider ends: the figure at Low and at High. On the right: what it takes. The amounts add up to the gap between value before and after risks. |
-| **What if** | Seven sliders that each move one driver on top of your inputs. In bold next to each title: the figure the model uses now (the long-term price, the capex, and so on). At the slider ends: the figure at each end of its range. On the right: what that move is worth. The value bar updates while a slider moves. |
-| **Sensitivities** | The eight inputs that move value most when each moves ±10% on its own, as a tornado, centred on the what-if case. **Full view** opens every input, any one sensitivity across its range, and price × capex, each with a table. Every risk and what-if row has a chart button that opens its own chart and table. |
+| **Scenarios** | Seven sliders that each move one driver on top of your inputs. In bold next to each title: the figure the model uses now (the long-term price, the capex, and so on). At the slider ends: the figure at each end of its range. On the right: what that move is worth. The value bar updates while a slider moves. |
+| **Sensitivities** | The eight inputs that move value most when each moves ±10% on its own, as a tornado, centred on the scenario case. **Full view** opens every input, any one sensitivity across its range, and price × capex, each with a table. Every risk and scenario row has a chart button that opens its own chart and table. |
 | **Annual cash flow** | The year-by-year model, after or before risks. |
 | **Data** and **Checks** (footer) | The typical values with their ranges and study pages, the other data sources and the assumptions; and the checks that test the engine. |
 
 Explanations sit behind the small **i** buttons rather than on the page. An input's **i** gives what it means, its typical value and range, and a **Sources** link to the study pages behind it. A risk's **i** gives its plain question, what each level does and why it starts where it does.
+
+Gold decks: **Forecast** (REQ Sep 2026, Table 9.1, real: US$4,613/oz in 2026 falling to US$3,760 from 2031), **Spot** (US$3,700), **Consensus** and **Downside** (US$3,000). Copper decks: **Forecast** (REQ Sep 2026, Table 11.1, p106, real LME: US$6.11/lb in 2026 falling to US$5.26 from 2031), **Long term** (US$5.26) and **Downside** (US$4.58, the 2025 average). Default discount rates follow industry norms: 8% real for lithium and base metals, 5% for gold (KPMG, 2014, as cited in *What Drives Mining Project Value*); the lithium studies' median is also 8%.
 
 Lithium price decks: **Forecast** (*Resources and Energy Quarterly*, Australian Department of Industry, Science and Resources, Sep 2026, real: US$2,411/t SC6 in 2026 falling to US$1,498 from 2031), **Spot** (US$2,105), **Study LT** (US$1,620, the long-term price in PLS's P2000 feasibility study) and **Downside** (US$817). A long-term price you enter replaces the deck's long-run price. The default discount rate is 8% real, the median across the studies.
 
@@ -144,6 +147,46 @@ Output and unit costs are as planned, before risks; breakeven, payback and value
 
 **Download CSV** saves one file: the results, the key numbers, the price deck and rates, each risk's setting, figure and value taken, the what-ifs, the inputs used (with the what-ifs) and the annual cash flow, after or before risks as the table shows. Inside claude.ai the viewer confirms the save; a copy opened on its own downloads directly.
 
+## Deal price, for funds, private equity and banks
+
+The **Deal price** panel turns the project value into a company value and a rough price.
+
+- **Equity value** = NPV (owner's share, after head office and capex) + cash − debt + other assets, all from **Company and deal** (share price, shares, cash, debt and other assets in A$, C$, £ or US$; exchange rates from the RBA, 26 Nov 2026, the Bank of Canada, 10 Nov 2026, and the market, 25 Nov 2026).
+- **Fully funded value per share**: the funding gap (capex less cash) is raised as debt (50% when blank, an assumption) and new shares issued 10% below the price (an assumption); the value spreads over the new share count.
+- **Price ÷ value** before and after risks, and **EV per unit of resource** (t LCE, oz, lb Cu).
+
+The football field shows each method's low, mid and high:
+
+| Method | How |
+|---|---|
+| DCF after risks | Your settings; price ±10% and the discount rate ±1 point |
+| DCF, funded buyer | The same with People and Funding at Low: a buyer that runs and pays for the build |
+| Trading peers | Listed developers' EV ÷ attributable study NPV (25th to 75th percentile), applied to the published study NPV |
+| Takeovers | Prices paid ÷ the target's study NPV, applied the same way |
+| Stage multiple | *What Drives Mining Project Value*, section 1.1 note 5: scoping 0.10–0.25×, PFS 0.25–0.50×, FS 0.50–0.85×, in construction 0.80–1.0× study NPV (analytical judgement, not a measured sample) |
+| Deals per resource | Prices paid per unit of resource, times your resource |
+
+The shaded band runs from the median low to the median high of the methods. Multiples apply to the **published study NPV** (an input; without it, to value before risks).
+
+**Market data** (`data/research/`, curated in the app's `MARKET` table): five DFS/FS lithium developers traded at 0.01–0.15× study NPV in late November 2026 (median 0.03×); the two lithium takeovers agreed in 2026 paid 0.32× and 0.34× (Titan for Global Lithium, Huayou for Atlantic Lithium); five copper developers traded at 0.05–0.30× (median 0.11×) and three copper takeovers paid 0.04–0.38×; five gold developers traded at 0.12–0.39× (median 0.22×), and one gold takeover offer paid about 0.75× (OceanaGold for Ausgold). These came through web-search results, because page fetches were blocked in the build environment; they have not been checked page by page against the filings.
+
+### Calibration: who owns the project
+
+The risk settings were tested against these prices. As the listed owner stands (a team that has not built a mine, no funding yet), the Manna DFS keeps 8% of its value after risks, close to where lithium developers trade (median 0.03–0.06× study NPV). For a funded, experienced buyer (People and Funding at Low) it keeps 63%, close to the roughly 70% that Titan's offer for Global Lithium implies against the same value before risks. So the settings stand, and **Valued for** (Company and deal) switches between the two views. Ewoyaa as a buyer keeps 31%, below what Huayou's offer implies (about 66%): Ghana's 9.7% country risk premium in full, plus a High Fiscal start, is harsher than that buyer was; with Political at Low and Fiscal at Medium it keeps 52%.
+
+## Gold and copper
+
+The same engine values gold (payable ounces from grade, recovery and payability, less refining and transport per ounce) and copper concentrate (payable pounds priced net of the treatment charge per dry tonne and the refining charge per pound; haulage and freight per wet tonne). Key numbers, the deal price, the exports and the sensitivities follow the commodity's units.
+
+Typical values are thin. They come from public study announcements, gathered through web search (`data/research/`, compiled by `tools/compile_typicals_au_cu.py` into `data/gold_typicals.json` and `data/copper_typicals.json`): gold recovery 90.9% (4 studies), mill processing US$13.4/t (2), site G&A US$5.6/t (2), capex US$138 per tonne of yearly capacity (2), strip 2.4 (3); copper recovery 86% (3), concentrate grade 25% Cu (3), payability 96.5% (1), capex US$61 per tonne of yearly capacity (3). Figures stated only in A$ or C$ were left out, because the studies' exchange rates were not found.
+
+Gold fiscal presets: Western Australia (2.5% of royalty value, tax 30%), New South Wales (4% of ex-mine value, tax 30%), Ghana (L.I. 2517: 5% up to US$1,900/oz rising to 12% above US$4,500, the 1% Growth and Sustainability Levy, tax 35%, state free carry 10%) and Côte d'Ivoire (ad valorem 5–8% by gold price, 0.5% local development contribution; tax is Damodaran's rate and the free carry must be entered). No copper presets yet. Regimes that tax profit rather than revenue (Ontario, Quebec, British Columbia, Nevada, Chile, Peru) are not presets: the engine charges royalties on revenue, so enter an effective rate. All of these came through web search and have not been checked against the legislation. Inputs with no typical value (gold: mining costs, payability, refining, sustaining; copper: mining and processing costs, G&A, moisture, TC/RC, freight, closure) say *enter*, and the page lists them until you do.
+
+## Data behind this round
+
+- `data/research/`: the raw research, one JSON file per question (lithium, gold and copper developers' market data; gold and copper studies and unit costs; fiscal terms; discount-rate norms, deals and decks). Every value carries the URL and quote a web search returned, marked `"via": "search"`.
+- `data/gold_typicals.json`, `data/copper_typicals.json`: built from it by `tools/compile_typicals_au_cu.py` and embedded in the page by `tools/embed_typicals_au_cu.py`.
+
 ## Valuation engine
 
 The engine is a set of pure functions in section 2 of the script: `buildSchedule`, `cutLife`, `shiftSchedule`, `tierOz`, `dialParams`, `runModel`, `transactionMetrics`, `irr` and `analyse`. A product adapter (`COMMODITY`) handles gold (payable ounces) and spodumene (tonnes of concentrate), so the same engine and risks serve both. It runs annually, in real US$. Cash flows are dated 31 December and discounted from the valuation date, 1 Jan 2026, by actual days ÷ 365, the way Excel's XNPV does in the Tongon spreadsheet: NPV = Σ FCFₜ / (1+r)^tₜ, with t = 364/365 for 2026. IRR uses the same dates, like XIRR.
@@ -202,12 +245,13 @@ Tropicana checks: year-1 production is 420 koz (target 400–430). Year-1 AISC i
 
 ### Running the checks
 
-- In the app: **Checks** in the footer. The two gold mines are test cases only: the engine must rebuild their spreadsheet and published figures before it values a spodumene project. There are 64 checks:
+- In the app: **Checks** in the footer. The two gold mines are test cases only: the engine must rebuild their spreadsheet and published figures before it values a project. There are 69 checks:
   - the Tongon spreadsheet match: 15 cases, the 20-cell grid, FCF by year and AISC
   - the brief's Tongon targets
   - the three lithium studies, each within ±20% of its published NPV
   - the Tropicana calibration
   - your project: value after risks uses the rate that includes country risk; Funding takes value from deposits only; a loss-making mine closes rather than mining at a loss; value after risks is no more than before; value rises with the price; each year of delay costs value; each what-if moves value the right way; the price what-if matches the engine's own price lever; each risk takes more value as its slider moves from Low to High; a whole step gives exactly the stated setting; a step between settings blends them in a straight line; every input in the full-size view moves value the right way; typical capex excludes the existing-plant case and is escalated to the valuation date
+  - gold ounces and copper pounds from tonnes, grade, recovery and payability; copper priced net of TC/RC; a funded buyer's DCF at least the DCF as set; the quartiles behind the market multiples
   - risk amounts summing to the change (within US$0.1M) for every asset
   - each asset's value ladder adding up from in-situ value to risk-adjusted value
   - 312 model runs with no NaN and no negative production
@@ -351,7 +395,9 @@ The lithium ones also appear in the app under **Data**.
 ## Not built yet
 
 - The data pack behind the typical values: more studies per input, and benchmarks for rail, conveyor and barge rates, separate port charges and infrastructure capex per kilometre.
-- Calibration of the risk settings against outcomes. For a junior, the settings can take more value than market multiples imply: the Manna DFS keeps about 8% of its value after risks. Testing that needs prices paid for comparable projects, or listed developers' values against their study NPVs (see DATA_GAPS.md).
+- Calibration against outcomes (grade reconciliation, recovery shortfalls, overruns), beyond the market check above.
+- Market data checked against the filings, more of it (gold trading multiples especially), and dated snapshots.
+- Gold and copper unit costs from the technical reports, and fiscal presets for the main gold and copper jurisdictions.
 - Grade and cost profiles by year.
 - Other commodities (iron ore is the natural next one: haulage already takes rail legs).
 - P10/P50/P90 ranges, several projects side by side, and a one-page PDF.

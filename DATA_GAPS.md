@@ -2,6 +2,28 @@
 
 These are the gaps hit while building the app, with why each matters and where to look. Tongon and Tropicana are no longer on the page; they stay in the engine as test cases, so their gaps matter only for those checks. Loulo-Gounkoto, which never had enough public data for an NPV, has been removed.
 
+## Deal price and market data
+
+| Gap | Effect in the app | Where to look |
+|---|---|---|
+| Market data checked page by page | Trading multiples, takeover multiples, share prices and cash came through web-search results in Nov 2026 (`data/research/`): page fetches were blocked by the build environment's network policy. Each value carries the URL and quote the search returned, but not a page read | The filings and quote pages themselves (ASX, SEDAR+, LSE RNS, company sites); widen the environment's network access or upload the PDFs and rerun |
+| Gold trading multiples | Five developers (Troilus, Astral, First Mining, Saturn, Turaco), with prices dated late Oct to late Nov 2026 and Saturn's undated; NPV bases differ (Saturn's tax basis and Astral's rate not stated); one takeover (OceanaGold for Ausgold, about 0.75× NPV) | Dated quotes and the studies' NPV statements; Rox, Toubani and Mayfair, which lacked an NPV or a price |
+| Thin samples | Lithium trading 5, lithium takeovers 2, lithium deals per t LCE 2, copper trading 5, copper takeovers 3, copper deals per lb 2 | More developers and deals, dated snapshots each quarter |
+| Stage multiples | Analytical judgement from *What Drives Mining Project Value*, not a measured sample | A measured P/NAV-by-stage sample from the market data above |
+| Funding assumptions | Debt 50% of the funding gap and new shares 10% below the price, when blank | Recent developer financings: debt share, equity discounts, streams and offtake prepayments |
+| Exchange rates | A$ (RBA, 26 Nov 2026), C$ (Bank of Canada, 10 Nov 2026), £ (market, 25 Nov 2026) | Update with the deal date |
+
+## Gold and copper
+
+| Gap | Effect in the app | Where to look |
+|---|---|---|
+| Unit operating costs | Gold: only one study (Diamba Sud) gave mining, processing and G&A; copper: one underground mining cost (Copperwood). Inputs with no typical value say *enter* | The operating-cost tables in the technical reports (NI 43-101 section 21) and ASX study announcements |
+| Product terms | No typical value for gold payability and refining, or copper TC/RC, moisture and freight | Offtake and smelter terms in the studies; annual TC/RC benchmarks |
+| A$ and C$ figures | Left out of the medians: the studies' exchange rates were not found | The studies' stated FX assumptions |
+| Fiscal presets | Gold: WA, NSW, Ghana and Côte d'Ivoire only (Côte d'Ivoire without its free carry); copper: none. Elsewhere tax is Damodaran's rate and you enter the royalty | Royalty acts and revenue offices; the EY mining tax guide; WA and NSW copper rates (WA Mining (Royalties) Regulations 2025, Schedule 1); Queensland's reference prices |
+| Profit-based mining taxes | Ontario (10% of mining profit), Quebec (progressive on margin), British Columbia (2% then 13%), Nevada (net proceeds 2–5%), Chile (margin component) and Peru (royalty on operating profit plus the special mining tax) are not modelled: the engine charges royalties on revenue | An engine option for a mining tax on profit, deductible for income tax; the rate tables in each act |
+| Study examples | No gold or copper study to start from | One complete study per commodity, with its cost tables |
+
 ## Lithium calculator
 
 | Gap | Effect in the app | Where to look |
@@ -11,7 +33,7 @@ These are the gaps hit while building the app, with why each matters and where t
 | Infrastructure capex per km of road, rail or power line | Must be entered by hand in the Haulage step | Studies that build access roads or power lines (Rose, Shaakichiuwaanaan, Ewoyaa); public road-building cost benchmarks |
 | Fiscal terms beyond the five presets | Presets cover WA, NT, Ghana, Mali (pre-2023 terms) and Quebec. Elsewhere, tax is Damodaran's corporate rate and you enter the royalty. | EY *Global Mining and Metals Tax Guide*, country chapters (use the extraction prompt; the full guide is 2,147 pages) |
 | Quebec mining tax | Modelled as an effective rate: the Quebec preset uses the 41.7% income-and-mining-tax rate Rose reports (p3), not the progressive mining tax itself | Quebec Mining Tax Act; the Rose FS tax section; EY guide, Canada chapter |
-| Ghana's 2025 royalty bands | The preset slides the government royalty with the SC6 price: 5% up to US$1,500/t, 7% above, 12% above US$3,200/t. The rate for US$2,501–3,200 is not confirmed, so 7% is used. The bands and the 13% free carry come from news reports of the regulations and of the Ewoyaa lease ratified in March 2026, not from the gazetted text | The Minerals and Mining (Royalty) Regulations, 2025 as gazetted; the ratified Ewoyaa lease; Atlantic Lithium's ASX releases |
+| Ghana's 2025 royalty bands | The preset uses L.I. 2517 as WTS Global and TaxLawGH summarise it: 5% to US$1,500/t SC6, 7% to US$2,500, 10% to US$3,000, 12% above. Reports of the ratified Ewoyaa lease put the 12% band above US$3,200. From search results, not the gazetted text | The Minerals and Mining (Royalty) Regulations, 2025 as gazetted; the ratified Ewoyaa lease; Atlantic Lithium's ASX releases |
 | Mali's 2023 mining code | The Mali preset uses the 2020 Bougouni terms (3% + 0.5% royalties, 3% ISCP, 25% tax), which the 2023 code replaced with higher royalties and state stakes | The 2023 code and decrees; recent Goulamina or Bougouni filings; EY guide, Mali chapter |
 | Grade and cost profiles by year | The screener uses one grade and one cost set for every year, which explains most of the ±20% gap against studies (Manna −16%: its study mines 0.93% Li₂O early against a 0.88% average) | Year-by-year schedules in DFS appendices |
 | Ewoyaa's product mix | Entered as SC6 at 62.1% recovery; the study sells SC6 and SC5.5 (67.2% recovery to SC5.5) | Ewoyaa DFS product split by year |
@@ -28,7 +50,7 @@ These are the gaps hit while building the app, with why each matters and where t
 | C1 and AISC against the studies | The key numbers come from the model's flat cost set and are not yet checked against the C1 or AISC each study reports | The cost summary tables of the Manna, Ewoyaa and Finniss studies |
 | State actions on lithium | From news reports; primary sources not yet attached | Government gazettes and statements: Zimbabwe (Dec 2022), Namibia (Jun 2023), Mexico (Apr 2022), Chile (Apr 2023), Mali (Aug 2023) |
 | Care-and-maintenance cost | Uses the 40% fixed share of site costs as a proxy | Care-and-maintenance costs reported by paused lithium operations (Finniss and others, 2024) |
-| Dials against market multiples | After risks, a feasibility-stage deposit can sit far below the 0.50–0.85× of value before risks that the market typically pays, so the dials may be too harsh in combination | Acquisition prices and market values of lithium developers against their study NPVs |
+| Dials against market multiples | Tested (README, Calibration): as the listed owner stands, values sit near where developers trade; for a funded buyer, near what 2026 takeovers paid. Country risk in full looks harsher than a strategic buyer in Ghana was | More takeovers with their targets' NPVs, especially in high-risk countries |
 
 ## Tongon (Côte d'Ivoire)
 

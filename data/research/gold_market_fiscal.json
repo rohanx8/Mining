@@ -1,0 +1,1489 @@
+{
+ "asOf": "2026-11-27",
+ "target_price_date": "2026-11-26",
+ "status": "PARTIAL_FROM_SEARCH",
+ "source_note": "All values come from WebSearch results (40 searches: 24 for market data and FX, 16 for fiscal terms). WebFetch and the container network are blocked, so no page was opened. 'quote' is the text exactly as the search result gave it: sometimes page text, often the search tool's own summary wording; none was checked against the page. 'url' is the page the result cites; url_certain=false where the result did not tie the statement to one listed page. Nothing was filled from memory.",
+ "conventions": {
+  "v": "Only a number a search result states for that exact item; null otherwise.",
+  "derived_v": "Arithmetic on stated numbers, shown in 'working' (e.g. price x shares). No result states it; use with care.",
+  "alternatives": "Other stated values for the same item (different date or basis).",
+  "confidence": "high = dated within a few days of 26 Nov 2026; medium = dated Oct-Nov 2026 or a Nov 2026 document without a price date; low = undated, stale or conflicting.",
+  "units": "share_price per share in the listed currency; shares_M in millions; market_cap_M, cash_M and debt_M in millions of the stated currency; ownership_pct in %.",
+  "fiscal": "rate_pct holds a single stated rate; sliding or tiered regimes use rate_min_pct/rate_max_pct, tiers or components with rate_pct null. confirmed = true (a result states the rate for this item), 'partial' (structure or band stated, details missing) or false."
+ },
+ "gold_companies": [
+  {
+   "company": "Saturn Metals Ltd",
+   "ticker": "ASX: STN",
+   "project": "Apollo Hill (WA)",
+   "share_price": {
+    "v": 0.47,
+    "unit": "per share",
+    "currency": "AUD",
+    "date": "undated (quote page)",
+    "via": "search",
+    "url": "https://www.fool.com/quote/asx/stn/",
+    "url_certain": true,
+    "quote": "Saturn Metals is trading at A$0.47 per share.",
+    "confidence": "low",
+    "note": "The result says the page 'is undated, so it may not reflect the September quarter.' Last dated price found: 'Saturn Metals Limited (ASX:STN) announced a two-tranche institutional placement of AUD 100 million on 29 July 2026, with new shares offered at AUD 0.40 each.'"
+   },
+   "shares_M": {
+    "v": 752.2,
+    "unit": "million shares",
+    "currency": "",
+    "date": "2026-11 (shareholder meeting presentation)",
+    "via": "search",
+    "url": "https://6ix.com/deck/47ryd2ik/saturn-metals-shareholder-meeting-november-2026",
+    "url_certain": true,
+    "quote": "Shares on Issue 752.2M",
+    "confidence": "high",
+    "note": "At 30 Sep 2026 the company was yet to receive placement proceeds for '99.47 million new shares' pending FIRB approval; the result does not say whether 752.2M includes them."
+   },
+   "market_cap_M": {
+    "v": null,
+    "unit": "million",
+    "currency": "AUD",
+    "date": null,
+    "via": "search",
+    "derived_v": 353.5,
+    "working": "0.47 (undated price) x 752.2M shares (Nov 2026)",
+    "confidence": "low",
+    "alternatives": [
+     {
+      "v": 284.14,
+      "currency": "AUD",
+      "date": "undated",
+      "url": "https://www.fool.com/quote/asx/stn/",
+      "quote": "The Motley Fool page shows A$284.14 million, calculated from publicly traded shares only, with the stock at A$0.47",
+      "note": "Free-float basis; does not reconcile with 752.2M shares."
+     }
+    ]
+   },
+   "cash_M": {
+    "v": 110.7,
+    "unit": "million",
+    "currency": "AUD",
+    "date": "2026-09-30",
+    "via": "search",
+    "url": "https://6ix.com/news/quarterly-activities-and-cashflow-report-357",
+    "url_certain": false,
+    "alt_urls": [
+     "https://www.listcorp.com/asx/stn/saturn-metals-limited/news/quarterly-activities-and-amp-cashflow-report-3308023.html",
+     "https://kalkine.com.au/news/mining/how-has-saturn-metals-limiteds-asxstn-aud-12128-million-capital-raising-changed-the-outlook-for-apollo-hill"
+    ],
+    "quote": "The cash position of the Company at the end of the quarter was $110.7 million.",
+    "note": "Second summary: 'The September 2026 quarterly report disclosed approximately A$110.74 million in cash at quarter-end.' Not yet received: 'The Company is yet to receive placement proceeds of $39.79 million (99.47 million new shares). These funds are expected to be received once Foreign Investment Review Board (FIRB) approval has been received for a new cornerstone shareholder.'"
+   },
+   "debt_M": {
+    "v": null,
+    "unit": "million",
+    "currency": "AUD",
+    "date": null,
+    "via": "search",
+    "url": null,
+    "quote": null,
+    "note": "No result gave a debt figure."
+   },
+   "ownership_pct": {
+    "v": 100,
+    "unit": "%",
+    "currency": "",
+    "date": "2025-12 (PFS)",
+    "via": "search",
+    "url": "https://minedocs.com/30/Apollo-Hill-PFS-12172025.pdf",
+    "url_certain": false,
+    "quote": "The PFS was released in December 2025 and covers the 100%-owned project near Leonora in Western Australia.",
+    "note": "Carried over from the earlier search recorded in gold_pnav.json; not searched again here."
+   },
+   "notes": "DFS on schedule for the December quarter of 2026 (as of the 28 Oct 2026 quarterly)."
+  },
+  {
+   "company": "Rox Resources Ltd",
+   "ticker": "ASX: RXL",
+   "project": "Youanmi (WA)",
+   "share_price": {
+    "v": 0.495,
+    "unit": "per share",
+    "currency": "AUD",
+    "date": "2026-11 (AGM presentation; price date not stated)",
+    "via": "search",
+    "url": "https://www.listcorp.com/asx/rxl/rox-resources/news/agm-presentation-3441216.html",
+    "url_certain": true,
+    "quote": "The same presentation lists a share price of A$0.495 and a market capitalisation of A$692m.",
+    "confidence": "medium",
+    "alternatives": [
+     {
+      "v": 0.56,
+      "currency": "AUD",
+      "date": "2026-11-05",
+      "url": "https://stockinvest.us/stock/RXL.AX",
+      "quote": "as of the end of day on the Nov 05, 2026, the price of an Rox Resources Limited (RXL.AX) share was A$0.560"
+     }
+    ]
+   },
+   "shares_M": {
+    "v": 1397.36844,
+    "unit": "million shares",
+    "currency": "",
+    "date": "2026-11-19",
+    "via": "search",
+    "url": "https://kalkinemedia.com/au/news/announcements/rox-resources-seeks-asx-quotation-for-150000-shares-after-performance-rights-conversion-on-19-november-2026",
+    "url_certain": true,
+    "quote": "A Kalkine filing from around 19 November 2026 gives a total of 1,397,368,440 quoted ordinary shares after a 150,000-share performance rights conversion.",
+    "confidence": "high",
+    "note": "The AGM presentation shows '1,397m shares on issue' and 35.0m performance rights."
+   },
+   "market_cap_M": {
+    "v": 692,
+    "unit": "million",
+    "currency": "AUD",
+    "date": "2026-11 (AGM presentation; price date not stated)",
+    "via": "search",
+    "url": "https://www.listcorp.com/asx/rxl/rox-resources/news/agm-presentation-3441216.html",
+    "url_certain": true,
+    "quote": "The same presentation lists a share price of A$0.495 and a market capitalisation of A$692m.",
+    "confidence": "medium"
+   },
+   "cash_M": {
+    "v": 149.2,
+    "unit": "million",
+    "currency": "AUD",
+    "date": "2026-10-02 (after the first debt drawdown)",
+    "via": "search",
+    "url": "https://kalkinemedia.com/au/news/announcements/rox-resources-announces-39-completion-of-youanmi-processing-plant-and-1492m-cash-post-902m-debt-drawdown",
+    "url_certain": true,
+    "quote": "After the quarter closed, the first $90.2 million drawdown under its Debt Facilities was completed on 2 October 2026, lifting cash on hand to $149.2 million.",
+    "alternatives": [
+     {
+      "v": 59.0,
+      "currency": "AUD",
+      "date": "2026-09-30",
+      "url": "https://discoveryalert.com/asx-stock-news/mining/rxl-rox-resources-youanmi-construction-progress-october-2026/",
+      "quote": "Cash was $59.0 million at 30 September 2026, per the 12 October 2026 update reported by Discovery Alert."
+     }
+    ],
+    "note": "Use with debt_M of the same date. Net cash is A$59.0M on either basis."
+   },
+   "debt_M": {
+    "v": 90.2,
+    "unit": "million",
+    "currency": "AUD",
+    "date": "2026-10-02",
+    "via": "search",
+    "url": "https://kalkinemedia.com/au/news/announcements/rox-resources-announces-39-completion-of-youanmi-processing-plant-and-1492m-cash-post-902m-debt-drawdown",
+    "url_certain": true,
+    "quote": "After the quarter closed, the first $90.2 million drawdown under its Debt Facilities was completed on 2 October 2026, lifting cash on hand to $149.2 million.",
+    "note": "Facility: 'The package is A$350 million in total. It comprises a $300 million Project Term Loan Facility, a $20 million Cost Overrun Facility and a $30 million Bank Guarantee Facility.' Drawn debt at 30 Sep 2026 was not stated."
+   },
+   "ownership_pct": {
+    "v": null,
+    "unit": "%",
+    "via": "search",
+    "url": null,
+    "quote": null,
+    "note": "No result stated Rox's interest in Youanmi."
+   },
+   "notes": "In construction: plant 39% complete (Oct 2026). Sources differ on first gold: mid-2027 (Discovery Alert) or the Sep quarter of 2027 (Ord Minnett)."
+  },
+  {
+   "company": "Astral Resources NL",
+   "ticker": "ASX: AAR",
+   "project": "Mandilla (WA)",
+   "share_price": {
+    "v": 0.14,
+    "unit": "per share",
+    "currency": "AUD",
+    "date": "2026-11-02",
+    "via": "search",
+    "url": "https://kalkine.com.au/news/penny-stocks/astral-resources-nl-asxaar-mandilla-drilling-cash-position-and-gold-project-milestones",
+    "url_certain": true,
+    "quote": "The same source puts the share price at AUD 0.14 in the price information dated 2 November 2026.",
+    "confidence": "medium"
+   },
+   "shares_M": {
+    "v": 1800,
+    "unit": "million shares",
+    "currency": "",
+    "date": "2025-12 (estimate after the placement)",
+    "via": "search",
+    "url": "https://www.marketindex.com.au/data-api/api/v1/announcements/XASX:AAR:6A1302540/pdf/inline/strongly-supported-65m-placement-to-advance-mandilla",
+    "url_certain": false,
+    "quote": "Once complete, the company will have about 1.8 billion shares on issue.",
+    "confidence": "low",
+    "note": "Approximate, from Dec 2025; the result could not find a count from 2026. Later: 'Astral agreed to buy Estrella's nickel rights at Mandilla for 20,000,000 Astral shares at a deemed $0.15, totalling $3,000,000' (Oct 2026, subject to approvals)."
+   },
+   "market_cap_M": {
+    "v": null,
+    "unit": "million",
+    "currency": "AUD",
+    "date": null,
+    "via": "search",
+    "derived_v": 252,
+    "working": "0.14 (2 Nov 2026) x ~1,800M shares (Dec 2025 estimate)",
+    "confidence": "low",
+    "alternatives": [
+     {
+      "v": 225,
+      "currency": "AUD",
+      "date": "mid-2026",
+      "url": "https://kalkine.com.au/news/mining/astral-resources-pushes-mandilla-towards-development-is-this-asx-gold-junior-entering-its-re-rating-phase",
+      "url_certain": false,
+      "quote": "A mid-2026 analysis put the shares at about 12.5 cents, for a market capitalisation near A$225 million."
+     }
+    ]
+   },
+   "cash_M": {
+    "v": 59,
+    "unit": "million",
+    "currency": "AUD",
+    "date": "2026-09-30",
+    "via": "search",
+    "url": "https://www.tipranks.com/news/company-announcements/astral-resources-advances-mandilla-dfs-and-boosts-wa-gold-portfolio",
+    "url_certain": true,
+    "quote": "TipRanks describes the same quarter as one where the company progressed the Mandilla Definitive Feasibility Study, secured key land and tenure for project development, and maintained a strong $59 million cash position.",
+    "note": "Kalkine: 'The September 2026 quarter report shows cash of about A$59 million, down from about A$65 million.' Released 29 Oct 2026."
+   },
+   "debt_M": {
+    "v": null,
+    "unit": "million",
+    "currency": "AUD",
+    "date": null,
+    "via": "search",
+    "url": null,
+    "quote": null,
+    "note": "No result gave a debt figure."
+   },
+   "ownership_pct": {
+    "v": null,
+    "unit": "%",
+    "via": "search",
+    "url": null,
+    "quote": "The results don't state Astral's percentage interest in Mandilla.",
+    "note": "Possible dilution of the economic interest: 'A separate arrangement with MMS, under which MMS funds development and mining and recoups its costs from early production before a profit split, may affect the economic interest, but the sources don't give details.' StockAnalysis says the DFS is 'delayed to March 2027 due to ownership complexities'."
+   },
+   "notes": "The Mandilla resource figure differs by date (2.07Moz Apr 2026 vs 1.74Moz in a May 2026 article)."
+  },
+  {
+   "company": "Turaco Gold Ltd",
+   "ticker": "ASX: TCG",
+   "project": "Afema (Cote d'Ivoire)",
+   "share_price": {
+    "v": 0.685,
+    "unit": "per share",
+    "currency": "AUD",
+    "date": "2026-10-26",
+    "via": "search",
+    "url": "https://www.listcorp.com/asx/tcg/turaco-gold-limited/news/turaco-to-consolidate-afema-ownership-3427930.html",
+    "url_certain": false,
+    "quote": "The Sodim consideration includes 55.1M Turaco shares valued at US$26.5M based on Turaco's last close price of A$0.685 as at 26 October 2026.",
+    "confidence": "medium",
+    "note": "No November price found. 'The placement itself is at A$0.60, a 12.4% discount to the last closing price.' One source: 'the company share price dropped 7% following the capital raising and project buyout announcement'."
+   },
+   "shares_M": {
+    "v": 1081.08387,
+    "unit": "million shares",
+    "currency": "",
+    "date": "2026-10 (before the placement)",
+    "via": "search",
+    "url": "https://www.listcorp.com/asx/tcg/turaco-gold-limited/news/turaco-to-consolidate-afema-ownership-3427930.html",
+    "url_certain": false,
+    "quote": "The company's filing lists shares on issue of 1,081,083,870.",
+    "confidence": "medium",
+    "note": "Excludes the ~A$120M placement at A$0.60 ('Roughly 200 million shares were issued at that price'; 'new shares are issued on 19 November 2026') and the 55.1M Sodim shares (subject to the early-Dec 2026 meeting). No count after the placement was found."
+   },
+   "market_cap_M": {
+    "v": null,
+    "unit": "million",
+    "currency": "AUD",
+    "date": null,
+    "via": "search",
+    "derived_v": 740.5,
+    "working": "0.685 x 1,081.08M shares (26 Oct 2026, before the placement)",
+    "confidence": "medium",
+    "alternatives": [
+     {
+      "v": 693,
+      "basis": "enterprise value, not market cap",
+      "currency": "AUD",
+      "date": "price of 2026-10-26; cash at 2026-09-30",
+      "url": "https://www.listcorp.com/asx/tcg/turaco-gold-limited/news/turaco-to-consolidate-afema-ownership-3427930.html",
+      "url_certain": false,
+      "quote": "The same filing puts enterprise value at A$693m at that price, with cash of $47.4m as at 30 September 2026."
+     }
+    ]
+   },
+   "cash_M": {
+    "v": 47.4,
+    "unit": "million",
+    "currency": "AUD",
+    "date": "2026-09-30",
+    "via": "search",
+    "url": "https://www.listcorp.com/asx/tcg/turaco-gold-limited/news/turaco-to-consolidate-afema-ownership-3427930.html",
+    "url_certain": true,
+    "quote": "cash of $47.4m as at 30 September 2026",
+    "note": "After the deal: 'Pro-forma cash is expected to be about $125 million following the transaction.'"
+   },
+   "debt_M": {
+    "v": null,
+    "unit": "million",
+    "currency": "AUD",
+    "date": null,
+    "via": "search",
+    "url": null,
+    "quote": null,
+    "note": "No result gave a debt figure."
+   },
+   "ownership_pct": {
+    "v": 80,
+    "unit": "%",
+    "currency": "",
+    "date": "2026-10 (before the Sodim buy-out)",
+    "via": "search",
+    "url": "https://discoveryalert.com/asx-stock-news/mining/tcg-turaco-gold-afema-project-acquisition-october-2026/",
+    "url_certain": false,
+    "quote": "Before the deal, company disclosures indicate Turaco holds a majority interest in the Afema project (reported at approximately 80%).",
+    "note": "Search-summary wording. 'Completion depends on shareholder approval at a meeting expected in early December 2026.'",
+    "post_completion": {
+     "v": 100,
+     "unit": "%",
+     "url": "https://kalkine.com.au/news/mining/turaco-gold-asxtcg-moves-to-100-ownership-of-afema-gold-project",
+     "url_certain": false,
+     "quote": "Turaco has agreed to buy Sodim's remaining 20% interest in Afema, which would take it to 100% subject to the State's 10% non-contributing interest.",
+     "note": "The State's 10% non-contributing interest still applies."
+    }
+   },
+   "notes": "Consideration for Sodim's 20%: 'a US$3 million option fee, US$30 million in cash, 55.1 million Turaco shares valued at about US$26.5 million, and 36.7 million unlisted options valued at about US$6.9 million.'"
+  },
+  {
+   "company": "Ausgold Ltd",
+   "ticker": "ASX: AUC",
+   "project": "Katanning (WA)",
+   "share_price": {
+    "v": 1.26,
+    "unit": "per share",
+    "currency": "AUD",
+    "date": "2026-10-21",
+    "via": "search",
+    "url": "https://kalkinemedia.com/au/stocks/penny/will-ausgold-asxauc-owners-back-the-katanning-takeover",
+    "url_certain": false,
+    "quote": "A Kalkine page captured 1.26 AUD for AUC, last updated 21 October 2026.",
+    "confidence": "medium",
+    "note": "Under the OceanaGold scheme: 'Ausgold shareholders will receive 0.03365 common shares of OceanaGold for each share of Ausgold held, which was a total offer value of A$1.36 per Ausgold share at announcement.' The scheme meeting was 'expected in late November 2026'; no result was found."
+   },
+   "shares_M": {
+    "v": null,
+    "unit": "million shares",
+    "currency": "",
+    "date": null,
+    "via": "search",
+    "derived_v": 570.78,
+    "working": "19,206,738 OceanaGold shares / 0.03365 exchange ratio (fully diluted: includes performance rights, options and warrants; assumes 100% scrip)",
+    "url": "https://announcements.asx.com.au/asxpdf/20260817/pdf/072v90xcnvqwk9.pdf",
+    "url_certain": false,
+    "quote": "19,206,738 OceanaGold Shares would be issued to Ausgold shareholders, including performance rights, options and warrants exercised, assuming 100% scrip consideration.",
+    "confidence": "low",
+    "note": "No result stated Ausgold's shares on issue."
+   },
+   "market_cap_M": {
+    "v": null,
+    "unit": "million",
+    "currency": "AUD",
+    "date": null,
+    "via": "search",
+    "derived_v": 719.2,
+    "working": "1.26 (21 Oct 2026) x 570.78M derived fully diluted shares",
+    "confidence": "low",
+    "alternatives": [
+     {
+      "v": 776,
+      "basis": "takeover offer equity value at announcement (17 Aug 2026), not market cap",
+      "currency": "AUD",
+      "url": "https://oceanagold.com/news/oceanagold-announces-acquisition-of-ausgold",
+      "url_certain": false,
+      "quote": "Ausgold holders would get 0.03365 OceanaGold shares per share, valued at A$1.36 and about A$776M in total."
+     }
+    ]
+   },
+   "cash_M": {
+    "v": 87,
+    "unit": "million",
+    "currency": "AUD",
+    "date": "2026-06-30",
+    "via": "search",
+    "url": "https://www.prnewswire.com/news-releases/oceanagold-announces-acquisition-of-ausgold-302852694.html",
+    "url_certain": false,
+    "quote": "Ausgold had A$87M (approximately US$62M) of cash and equivalents, and no debt.",
+    "note": "Latest found; no Sep 2026 quarterly figure appeared in any result."
+   },
+   "debt_M": {
+    "v": 0,
+    "unit": "million",
+    "currency": "AUD",
+    "date": "2026-06-30",
+    "via": "search",
+    "url": "https://www.prnewswire.com/news-releases/oceanagold-announces-acquisition-of-ausgold-302852694.html",
+    "url_certain": false,
+    "quote": "Ausgold had A$87M (approximately US$62M) of cash and equivalents, and no debt.",
+    "note": "Since then: 'an unsecured term loan facility of up to A$20 million was agreed with OceanaGold and documented on 9 September 2026' (another source: 'a bridge loan of A$20m to Ausgold in November 2026'). Drawn amount not stated."
+   },
+   "ownership_pct": {
+    "v": 100,
+    "unit": "%",
+    "currency": "",
+    "date": "2026-10",
+    "via": "search",
+    "url": "https://kalkine.com.au/news/mining/ausgold-limited-asxauc-how-the-oceanagold-scheme-reshapes-katanning-development",
+    "url_certain": false,
+    "quote": "One Kalkine article describes Ausgold as focused on its wholly owned Katanning Gold Project in Western Australia",
+    "note": "'wholly owned' recorded as 100."
+   },
+   "notes": "Under a scheme with OceanaGold, completion expected by December 2026. Treat as a deal multiple, separate from the developer set."
+  },
+  {
+   "company": "Toubani Resources Ltd",
+   "ticker": "ASX: TRE",
+   "project": "Kobada (Mali)",
+   "share_price": {
+    "v": 0.26,
+    "unit": "per share",
+    "currency": "AUD",
+    "date": "undated (quote page)",
+    "via": "search",
+    "url": "https://www.tradingview.com/symbols/ASX-TRE/",
+    "url_certain": true,
+    "quote": "TradingView lists TRE at 0.260 AUD, but the page gives no date for that quote.",
+    "confidence": "low",
+    "note": "The same page shows a 1-week change of -7.14% and a 1-month change of -8.77%. The entitlement offer was priced at A$0.30 and closed in Aug 2026."
+   },
+   "shares_M": {
+    "v": null,
+    "unit": "million shares",
+    "currency": "",
+    "date": null,
+    "via": "search",
+    "url": null,
+    "quote": null,
+    "note": "No result stated shares on issue."
+   },
+   "market_cap_M": {
+    "v": null,
+    "unit": "million",
+    "currency": "AUD",
+    "date": null,
+    "via": "search",
+    "url": null,
+    "quote": null,
+    "note": "The only figure was stale: 'The only figure is 149.18M from Investing.com, but that page is dated to late 2025, so it is stale.'"
+   },
+   "cash_M": {
+    "v": 73.5,
+    "unit": "million",
+    "currency": "AUD",
+    "date": "2026-06-30",
+    "via": "search",
+    "url": "https://cdn-api.markitdigital.com/apiman-gateway/ASX/asx-research/1.0/file/2924-03133679-6A1343009",
+    "url_certain": false,
+    "quote": "Cash and cash equivalents were $73.5 million at 30 June 2026, compared with $117.0 million at 31 December 2025.",
+    "note": "Half-year figure; the Sep 2026 quarterly was not found. Both of these came after 30 Jun: 'The A$70 million entitlement offer closed in August 2026, with approximately $70.0 million before costs through the issue of ordinary shares at $0.30 per share.' and 'On 24 August 2026, the company drew down the first US$25.0 million tranche under the gold stream facility.'"
+   },
+   "debt_M": {
+    "v": null,
+    "unit": "million",
+    "currency": "",
+    "date": null,
+    "via": "search",
+    "url": null,
+    "quote": null,
+    "note": "No drawn bank debt was stated. Facilities: 'A binding debt agreement with Coris Bank for A$102 million in development debt was reported in May 2026.'; 'a term sheet for a Senior Secured Facility of up to US$40 million from a syndicate led by AFG Bank'; and a US$160M gold stream with Eagle Eye Asset.",
+    "debt_like_post_period": {
+     "v": 25.0,
+     "unit": "million",
+     "currency": "USD",
+     "date": "2026-08-24",
+     "via": "search",
+     "url": "https://kalkine.com.au/news/announcements/toubani-resources-advances-kobada-gold-construction-with-61-capex-committed-and-160m-gold-stream-secured",
+     "url_certain": false,
+     "quote": "On 24 August 2026, the company drew down the first US$25.0 million tranche under the gold stream facility.",
+     "note": "Gold stream deposit (debt-like). Dated after the 30 Jun cash figure."
+    }
+   },
+   "ownership_pct": {
+    "v": null,
+    "unit": "%",
+    "via": "search",
+    "url": null,
+    "quote": "The state entity Sopamim oversees the government's interest in Kobada, but no percentage was given.",
+    "note": "No result stated Toubani's percentage interest in Kobada."
+   },
+   "notes": "In construction; first gold targeted for the third quarter of calendar 2027."
+  },
+  {
+   "company": "First Mining Gold Corp.",
+   "ticker": "TSX: FF",
+   "project": "Springpole (Ontario)",
+   "share_price": {
+    "v": 0.52,
+    "unit": "per share",
+    "currency": "CAD",
+    "date": "2026-11-24",
+    "via": "search",
+    "url": "https://money.tmx.com/en/quote/FF",
+    "url_certain": true,
+    "quote": "The most recent data I found is from TMX Money, updated November 24, 2026. It puts the TSX close at C$0.52, with a day range of C$0.485 to C$0.52 and a 52-week range of C$0.315 to C$0.98.",
+    "confidence": "high",
+    "note": "Morningstar (as of Nov 21, 2026): 'Bid/ask of CA$0.49 / CA$0.50'."
+   },
+   "shares_M": {
+    "v": 1490.417891,
+    "unit": "million shares",
+    "currency": "",
+    "date": "2026-11-24",
+    "via": "search",
+    "url": "https://money.tmx.com/en/quote/FF",
+    "url_certain": true,
+    "quote": "Market cap is listed at 737,756,857, with 746,130,206 for all classes, and 1,490,417,891 issued and outstanding listed shares, against 1,507,333,748 total shares across all classes.",
+    "confidence": "high",
+    "note": "All classes: 1,507.333748M."
+   },
+   "market_cap_M": {
+    "v": 737.756857,
+    "unit": "million",
+    "currency": "CAD",
+    "date": "2026-11-24 (TMX page update)",
+    "via": "search",
+    "url": "https://money.tmx.com/en/quote/FF",
+    "url_certain": true,
+    "quote": "Market cap is listed at 737,756,857, with 746,130,206 for all classes, and 1,490,417,891 issued and outstanding listed shares, against 1,507,333,748 total shares across all classes.",
+    "confidence": "high",
+    "note": "C$746.130206M for all classes. The stated cap implies about C$0.495/share, not the C$0.52 close (C$0.52 x 1,490.42M = about C$775.0M). Morningstar (as of Nov 21, 2026): 'a CA$746.13M market cap'."
+   },
+   "cash_M": {
+    "v": 78.1,
+    "unit": "million",
+    "currency": "CAD",
+    "date": "2026-09-30",
+    "via": "search",
+    "url": "https://www.stocktitan.net/news/FFMGF/first-mining-announces-2026-third-quarter-financial-results-and-yt459vzq3hbd.html",
+    "url_certain": false,
+    "alt_urls": [
+     "https://www.prnewswire.com/news-releases/first-mining-announces-2026-third-quarter-financial-results-and-operating-highlights-302935835.html"
+    ],
+    "quote": "Cash and cash equivalents reached C$78.1 million at quarter-end, up from C$43.3 million on December 31, 2025, while cash and marketable securities together totaled C$81.0 million.",
+    "note": "Excludes other holdings: 'the market value of its Seva Mining holding was $35 million and the equity interest in PC Gold Inc. was $14.3 million.' Includes the bought deal closed 24 Sep 2026 (68,459,500 shares at $0.84, gross $57,506,000)."
+   },
+   "debt_M": {
+    "v": null,
+    "unit": "million",
+    "currency": "CAD",
+    "date": null,
+    "via": "search",
+    "url": null,
+    "quote": null,
+    "note": "No debt figure in any result. The results mention a non-cash fair-value loss on the 'Silver Stream derivative'."
+   },
+   "ownership_pct": {
+    "v": null,
+    "unit": "%",
+    "via": "search",
+    "url": null,
+    "quote": null,
+    "note": "No result stated First Mining's interest in Springpole."
+   },
+   "notes": "Several assets (Duparquet, plus stakes in Seva Mining and PC Gold). Ontario EA decision expected Q4 2026."
+  },
+  {
+   "company": "Troilus Mining Corp.",
+   "ticker": "TSX: TLG",
+   "project": "Troilus (Quebec; Au-Cu)",
+   "share_price": {
+    "v": 1.16,
+    "unit": "per share",
+    "currency": "CAD",
+    "date": "about 2026-11-25 (previous close; page shows trailing returns as of 2026-11-25)",
+    "via": "search",
+    "url": "https://ca.finance.yahoo.com/quote/TLG.TO/",
+    "url_certain": true,
+    "quote": "Previous Close · 1.1600 · Open · 1.1200",
+    "confidence": "medium",
+    "note": "The result: 'It also reports trailing returns as of 2026-11-25, so this is the best candidate for late November, though the page metadata is dated September 30, 2026.' Undated alternatives: 'Troilus Mining is trading at CA$1.58 per share' (Motley Fool); 'last close at CA$1.53' (Stockopedia)."
+   },
+   "shares_M": {
+    "v": 554.75,
+    "unit": "million shares",
+    "currency": "",
+    "date": "undated",
+    "via": "search",
+    "url": "https://stockanalysis.com/quote/tsx/TLG/statistics/",
+    "url_certain": true,
+    "quote": "Stockanalysis cites a market cap or net worth of CAD 1.06 billion and 554.75 million shares outstanding.",
+    "confidence": "low"
+   },
+   "market_cap_M": {
+    "v": 638.158,
+    "unit": "million",
+    "currency": "CAD",
+    "date": "about 2026-11-25 (intraday)",
+    "via": "search",
+    "url": "https://ca.finance.yahoo.com/quote/TLG.TO/",
+    "url_certain": true,
+    "quote": "Market Cap (intraday) 638.158M",
+    "confidence": "medium",
+    "alternatives": [
+     {
+      "v": 854.97,
+      "currency": "CAD",
+      "date": "undated",
+      "url": "https://www.fool.com/quote/tsx/tlg/",
+      "quote": "CA$854.97M market cap calculated using publicly traded shares outstanding only"
+     },
+     {
+      "v": 846.84,
+      "currency": "CAD",
+      "date": "undated",
+      "url": "https://www.stockopedia.com/share-prices/troilus-mining-TSE:TLG/",
+      "quote": "last close at CA$1.53 and a market capitalisation of CA$846.84m"
+     },
+     {
+      "v": 1060,
+      "currency": "CAD",
+      "date": "undated",
+      "url": "https://stockanalysis.com/quote/tsx/TLG/statistics/",
+      "quote": "Stockanalysis cites a market cap or net worth of CAD 1.06 billion and 554.75 million shares outstanding."
+     }
+    ]
+   },
+   "cash_M": {
+    "v": 114.664925,
+    "unit": "million",
+    "currency": "CAD",
+    "date": "2026-04-30",
+    "via": "search",
+    "url": "https://www.troilusmining.com/_resources/financials/MDA-Q3-2026.pdf?v=100201",
+    "url_certain": false,
+    "alt_urls": [
+     "https://fr.troilusmining.com/_resources/financials/FS-Q3-2026.pdf"
+    ],
+    "quote": "Working capital was $137,762,431 as at April 30, 2026, including cash and cash equivalents of $114,664,925 and short term bank investments of $25,500,000.",
+    "note": "Add C$25.5M of short-term bank investments. The fiscal year ends 31 July; FY2026 (31 Jul 2026) results were not found. Undated alternative: 'Stockanalysis reports 142.23 million in cash and 1.72 million in debt, with a net cash position of 140.51 million.'"
+   },
+   "debt_M": {
+    "v": 1.72,
+    "unit": "million",
+    "currency": "CAD",
+    "date": "undated",
+    "via": "search",
+    "url": "https://stockanalysis.com/quote/tsx/TLG/statistics/",
+    "url_certain": false,
+    "quote": "Stockanalysis reports 142.23 million in cash and 1.72 million in debt, with a net cash position of 140.51 million.",
+    "confidence": "low",
+    "note": "Undated aggregator figure. Project financing (an earlier result cites '$1.2B Financing and Offtake Deals Advance Toward Close') was not confirmed as drawn."
+   },
+   "ownership_pct": {
+    "v": 100,
+    "unit": "%",
+    "currency": "",
+    "date": null,
+    "via": "search",
+    "url": "https://ca.finance.yahoo.com/quote/TLG.TO/",
+    "url_certain": false,
+    "quote": "Yahoo describes the 100% owned Troilus Gold project",
+    "note": "Search-summary wording."
+   },
+   "notes": "Formerly Troilus Gold Corp. Copper by-product."
+  },
+  {
+   "company": "Mayfair Gold Corp.",
+   "ticker": "TSX-V: MFG; NYSE American: MINE",
+   "project": "Fenn-Gib (Ontario)",
+   "share_price": {
+    "v": null,
+    "unit": "per share",
+    "currency": "CAD",
+    "date": null,
+    "via": "search",
+    "url": null,
+    "quote": null,
+    "confidence": "low",
+    "note": "No dated market price from late Nov 2026 was found, and the values below conflict. StockTitan also notes 'a share consolidation at a ratio of two pre-consolidation shares to one post-consolidation share' (date not given), so the values may sit on different share bases.",
+    "alternatives": [
+     {
+      "v": 3.42,
+      "currency": "CAD",
+      "date": "undated",
+      "url": "https://uk.investing.com/equities/mayfair-gold",
+      "quote": "Investing.com lists a figure of 215.40M CAD with a stock price of 3.42 CAD, but it doesn't say when that was captured."
+     },
+     {
+      "v": 4.26,
+      "basis": "private placement price, not a market quote",
+      "currency": "CAD",
+      "date": "2026-10-14",
+      "url": "https://www.panabee.com/news/mayfair-gold-earnings-q3-2026",
+      "quote": "The October 14 placement issued 2,346,701 common shares at C$4.26 each, for gross proceeds of C$9,996,946"
+     },
+     {
+      "v": 2.88,
+      "currency": "unlabelled ($)",
+      "date": "2026-08-17",
+      "url": "https://pitchbook.com/profiles/company/463180-78",
+      "quote": "PitchBook, as of August 17, 2026, reported a market cap of $194M with 67.1M shares at a stock price of $2.88."
+     },
+     {
+      "v": 2.65,
+      "basis": "unit offering price (one share plus a half warrant); year of the offering not stated",
+      "currency": "unlabelled ($)",
+      "date": "closing 'on or about Dec. 1'",
+      "url": "https://mugglehead.com/mayfair-gold-corp-overnight-offering-fenn-gib/",
+      "quote": "Mayfair priced an offering of 13,220,000 units at $2.65 each, each unit including one common share and a half-warrant. It expects the offering to close on or about Dec. 1, subject to regulatory approvals."
+     }
+    ]
+   },
+   "shares_M": {
+    "v": 67.1385,
+    "unit": "million shares",
+    "currency": "",
+    "date": "undated (PitchBook gives 67.1M as of 2026-08-17)",
+    "via": "search",
+    "url": "https://www.tipranks.com/stocks/tse:mfg",
+    "url_certain": true,
+    "quote": "TipRanks reports 67,138,500 shares outstanding, which matches PitchBook's share count.",
+    "confidence": "low",
+    "note": "May exclude the 2,346,701 Macquarie shares (14 Oct 2026) and any shares from the 13,220,000-unit offering."
+   },
+   "market_cap_M": {
+    "v": null,
+    "unit": "million",
+    "currency": "CAD",
+    "date": null,
+    "via": "search",
+    "url": null,
+    "quote": null,
+    "confidence": "low",
+    "alternatives": [
+     {
+      "v": 215.4,
+      "currency": "CAD",
+      "date": "undated",
+      "url": "https://uk.investing.com/equities/mayfair-gold",
+      "quote": "Investing.com lists a figure of 215.40M CAD with a stock price of 3.42 CAD, but it doesn't say when that was captured."
+     },
+     {
+      "v": 194,
+      "currency": "unlabelled ($)",
+      "date": "2026-08-17",
+      "url": "https://pitchbook.com/profiles/company/463180-78",
+      "quote": "PitchBook, as of August 17, 2026, reported a market cap of $194M with 67.1M shares at a stock price of $2.88."
+     }
+    ]
+   },
+   "cash_M": {
+    "v": 15.640847,
+    "unit": "million",
+    "currency": "CAD",
+    "date": "2026-09-30",
+    "via": "search",
+    "url": "https://www.panabee.com/news/mayfair-gold-earnings-q3-2026",
+    "url_certain": true,
+    "quote": "One report puts cash and cash equivalents at C$15,640,847 on September 30, 2026, against total liabilities of C$2,051,434",
+    "note": "Pro forma: 'Adding about C$10.0 million from Macquarie Bank's strategic investment, which closed October 14, 2026, gives roughly C$25.6 million'."
+   },
+   "debt_M": {
+    "v": null,
+    "unit": "million",
+    "currency": "CAD",
+    "date": "2026-09-30",
+    "via": "search",
+    "url": "https://www.panabee.com/news/mayfair-gold-earnings-q3-2026",
+    "url_certain": true,
+    "quote": "One report puts cash and cash equivalents at C$15,640,847 on September 30, 2026, against total liabilities of C$2,051,434",
+    "note": "No borrowings were stated; total liabilities were C$2.05M. A non-binding term sheet covers up to C$300 million of Fenn-Gib project financing."
+   },
+   "ownership_pct": {
+    "v": 100,
+    "unit": "%",
+    "currency": "",
+    "date": null,
+    "via": "search",
+    "url": "https://mayfairgold.ca/investors/",
+    "url_certain": false,
+    "quote": "Fenn-Gib is described as the company's 100%-owned Fenn-Gib gold project, located in northeast Ontario's Timmins region."
+   },
+   "notes": "Single asset."
+  },
+  {
+   "company": "Osisko Development Corp. (renamed Osisko Gold Group Inc., 14 Jul 2026)",
+   "ticker": "NYSE / TSX-V: ODV (a Kalkine headline uses TSXV: OGG)",
+   "project": "Cariboo (BC)",
+   "share_price": {
+    "v": 2.27,
+    "unit": "per share",
+    "currency": "USD",
+    "date": "2026-07-17 (Stocktitan); Robinhood page undated",
+    "via": "search",
+    "url": "https://www.stocktitan.net/overview/ODV/",
+    "url_certain": true,
+    "quote": "Stocktitan showed a similar figure, $2.27 as of July 17, 2026, with a market cap of approximately $691.7M.",
+    "confidence": "low",
+    "note": "Stale: this is from before the Q3 2026 notes, convertible and Trafigura equity financings. Robinhood: 'A Robinhood page shows the stock priced at $2.27, giving the company a market capitalization of 694.19M. It also references 2026-11-04, but gives no trading data for that date.'"
+   },
+   "shares_M": {
+    "v": null,
+    "unit": "million shares",
+    "currency": "",
+    "date": null,
+    "via": "search",
+    "url": null,
+    "quote": null,
+    "note": "No result stated a share count."
+   },
+   "market_cap_M": {
+    "v": 691.7,
+    "unit": "million",
+    "currency": "USD",
+    "date": "2026-07-17",
+    "via": "search",
+    "url": "https://www.stocktitan.net/overview/ODV/",
+    "url_certain": true,
+    "quote": "Stocktitan showed a similar figure, $2.27 as of July 17, 2026, with a market cap of approximately $691.7M.",
+    "confidence": "low",
+    "note": "Stale (July 2026). Alternative: US$694.19M (Robinhood, undated)."
+   },
+   "cash_M": {
+    "v": 733.7,
+    "unit": "million",
+    "currency": "CAD",
+    "date": "2026-09-30",
+    "via": "search",
+    "url": "https://irw-press.com/en/osisko-gold-reports-third-quarter-2026-results",
+    "url_certain": false,
+    "alt_urls": [
+     "https://www.theglobeandmail.com/investing/markets/markets-news/GlobeNewswire/37055795/osisko-gold-reports-third-quarter-2026-results/"
+    ],
+    "quote": "At quarter-end the company held about C$1,501.9 million in cash, restricted cash and investments. That total breaks down to roughly C$733.7 million in unrestricted cash and equivalents, C$691.2 million in restricted cash, and C$77.0 million in investments",
+    "note": "Unrestricted cash only. On the restricted C$691.2M: 'The restricted portion sits in segregated accounts tied to the senior secured notes and to Trafigura equity subscription proceeds received before closing'."
+   },
+   "debt_M": {
+    "v": 1140,
+    "unit": "million",
+    "currency": "CAD",
+    "date": "2026-09-30",
+    "via": "search",
+    "url": "https://www.panabee.com/news/osisko-gold-earnings-q3-2026",
+    "url_certain": true,
+    "quote": "One analysis reports total long-term debt and lease liabilities of about C$1.14 billion, up from C$137.8 million at year-end 2025. The increase came mainly from US$600 million of 9.25% senior secured notes due 2031 and US$300 million of convertible notes.",
+    "confidence": "medium",
+    "note": "Secondary source; includes lease liabilities. The result notes the exact figure was not in the company's release excerpts."
+   },
+   "ownership_pct": {
+    "v": 100,
+    "unit": "%",
+    "currency": "",
+    "date": null,
+    "via": "search",
+    "url": "https://www.stocktitan.net/overview/ODV/",
+    "url_certain": false,
+    "quote": "its objective is to become an intermediate gold producer through the development of its fully permitted, 100%-owned Cariboo Gold Project, currently under construction in central B.C."
+   },
+   "notes": "Construction decision 14 Sep 2026; 'The estimated remaining cost to complete construction is about C$907 million as of September 30'; first gold targeted Q1 2029. Also owns Tintic (Utah), which made Q3 2026 test-mining sales."
+  }
+ ],
+ "fx": {
+  "AUDUSD": {
+   "v": 0.663113,
+   "unit": "USD per AUD",
+   "currency": "USD",
+   "date": "2026-11-26 12:05 UTC (intraday)",
+   "via": "search",
+   "url": "https://www.xe.com/en-us/currencycharts/?from=AUD&to=USD",
+   "url_certain": true,
+   "quote": "Xe's chart shows 1 AUD equals to 0.663113 USD as of 12:05 UTC on 26 November 2026.",
+   "note": "Not an official fix. Macrotrends gives 'a close of 0.6632 U.S. dollars as of November 25, 2026'."
+  },
+  "CADUSD": {
+   "v": null,
+   "unit": "USD per CAD",
+   "currency": "USD",
+   "date": "2026-11-26 12:05 UTC (intraday)",
+   "via": "search",
+   "derived_v": 0.7026,
+   "working": "AUDUSD 0.663113 / AUDCAD 0.943754 (same Xe snapshot); equal to USD/CAD 1.4232",
+   "url": "https://www.xe.com/en-us/currencycharts/?from=AUD&to=USD",
+   "url_certain": true,
+   "quote": "On the same Xe snapshot, 1 AUD equals to 0.943754 CAD.",
+   "note": "No result stated CAD/USD directly; the search tool itself derived 'USD/CAD: about 1.423'. The Bank of Canada rate for 26 Nov did not appear in any result."
+  },
+  "AUDCAD": {
+   "v": 0.943754,
+   "unit": "CAD per AUD",
+   "currency": "CAD",
+   "date": "2026-11-26 12:05 UTC (intraday)",
+   "via": "search",
+   "url": "https://www.xe.com/en-us/currencycharts/?from=AUD&to=USD",
+   "url_certain": true,
+   "quote": "On the same Xe snapshot, 1 AUD equals to 0.943754 CAD."
+  }
+ },
+ "fiscal": [
+  {
+   "id": "AU-WA",
+   "name": "Western Australia, Australia",
+   "gold_royalty": {
+    "rate_pct": 2.5,
+    "base": "royalty value of gold produced (valued at the London Bullion Market price in A$)",
+    "type": "state ad valorem royalty",
+    "confirmed": true,
+    "via": "search",
+    "notes": "Rates now sit in the Mining (Royalties) Regulations 2025 (WA government fact sheet, Sep 2025).",
+    "url": "https://www.wa.gov.au/system/files/2025-09/mineral-royalties-wa-fact-sheet.pdf",
+    "url_certain": true,
+    "quote": "The rate of royalty is 2.5% of the royalty value of gold produced. Gold is valued at the price fixed on the London Bullion Market in Australian dollars."
+   },
+   "copper_royalty": {
+    "rate_pct": null,
+    "base": "royalty value; the ad valorem rate depends on the form sold (e.g. concentrate or metal)",
+    "type": "state ad valorem royalty",
+    "confirmed": false,
+    "via": "search",
+    "notes": "Two searches returned no copper rate. Check Schedule 1 of the Mining (Royalties) Regulations 2025: https://www.legislation.wa.gov.au/legislation/statutes.nsf/RedirectURL?OpenAgent=&query=mrdoc_48780.pdf",
+    "url": "https://www.wa.gov.au/system/files/2025-09/mineral-royalties-wa-fact-sheet.pdf",
+    "url_certain": true,
+    "quote": "The fact sheet says ad valorem rates depend on how the mineral is processed in Western Australia, but it does not list the tiers in the excerpt."
+   },
+   "corporate_tax_pct": {
+    "v": 30,
+    "unit": "%",
+    "currency": "",
+    "date": "2025-26 and 2026-27 income years",
+    "via": "search",
+    "url": "https://www.ato.gov.au/tax-rates-and-codes/company-tax-rates/tax-rates-2025-26",
+    "url_certain": false,
+    "quote": "Because Hats 4 Cats Pty Ltd's aggregated turnover exceeds the $50 million aggregated turnover threshold, it is not a base rate entity for the 2025–26 income year, and the 30% company tax rate applies.",
+    "note": "Federal company tax rate; 25% applies only to base rate entities (turnover under A$50M). 'The ATO applies the same settings to 2025-26 and 2026-27.' No result covered a state-level income tax."
+   }
+  },
+  {
+   "id": "AU-QLD",
+   "name": "Queensland, Australia",
+   "gold_royalty": {
+    "rate_pct": null,
+    "rate_min_pct": 2.5,
+    "rate_max_pct": 5.0,
+    "base": "value of the mineral; variable rate set by the average market price for the return period (gold: LBMA p.m. fix converted to A$)",
+    "type": "state ad valorem royalty, price-linked sliding scale",
+    "confirmed": "partial",
+    "via": "search",
+    "notes": "Set by the Mineral Resources (Royalty) Regulation 2025, 'which took effect on 1 September 2025'. The rate is 2.5% at or below reference price 1 and scales up to 5% at reference price 2. Current gold reference prices were not retrieved. A 2023 AMEC paper on the superseded regime: 'a 2.50% royalty would apply at or below A$600 per troy ounce, and 5.00% at A$890'.",
+    "url": "https://qro.qld.gov.au/royalty/calculate-mineral/rates/",
+    "url_certain": false,
+    "quote": "Cobalt, copper, gold, lead, nickel, silver and zinc are \"prescribed minerals,\" and their royalty rate is between 2.5% and 5% of the value of the mineral, depending on the average market price for the return period."
+   },
+   "copper_royalty": {
+    "rate_pct": null,
+    "rate_min_pct": 2.5,
+    "rate_max_pct": 5.0,
+    "base": "value of the mineral; variable rate set by the average LME spot price for the return period",
+    "type": "state ad valorem royalty, price-linked sliding scale",
+    "confirmed": "partial",
+    "via": "search",
+    "notes": "Not confirmed whether A$3,600/t and A$9,200/t are the live copper reference prices or only an example. A 2016 version of the earlier regulation reduced royalty 'by 20% for cobalt, copper, iron ore, nickel, molybdenum and tungsten' when processed in Queensland; whether that still applies was not confirmed.",
+    "url": "https://www.legislation.qld.gov.au/view/whole/html/2025-12-11/sl-2025-0108",
+    "url_certain": false,
+    "quote": "An example in the regulation uses copper at A$8,300 per tonne, which sits between reference price 1 ($3,600) and reference price 2 ($9,200) and yields a royalty rate of 4.58%, rounded down to the nearest 0.02% increment."
+   },
+   "corporate_tax_pct": {
+    "v": 30,
+    "unit": "%",
+    "currency": "",
+    "date": "2025-26 and 2026-27 income years",
+    "via": "search",
+    "url": "https://www.ato.gov.au/tax-rates-and-codes/company-tax-rates/tax-rates-2025-26",
+    "url_certain": false,
+    "quote": "Because Hats 4 Cats Pty Ltd's aggregated turnover exceeds the $50 million aggregated turnover threshold, it is not a base rate entity for the 2025–26 income year, and the 30% company tax rate applies.",
+    "note": "Federal rate; see AU-WA."
+   }
+  },
+  {
+   "id": "AU-NSW",
+   "name": "New South Wales, Australia",
+   "gold_royalty": {
+    "rate_pct": 4,
+    "base": "ex-mine value (value of production less allowable deductions)",
+    "type": "state ad valorem royalty",
+    "confirmed": true,
+    "via": "search",
+    "notes": "On gold: 'Ad valorem treatment applies to minerals with a high value to volume ratio such as gold and silver.' On deductions: 'Deductions are generally confined to the direct costs incurred in upgrading the material and bringing it to market after the first stockpile.' Rates depend on Schedule 6 of the Mining Regulation 2016.",
+    "url": "https://www.resources.nsw.gov.au/invest-nsw/nsw-mineral-resources/royalties",
+    "url_certain": false,
+    "quote": "The base rate of royalty applicable to ad valorem minerals is 4% of the 'ex-mine' value."
+   },
+   "copper_royalty": {
+    "rate_pct": null,
+    "unconfirmed_rate_pct": 4,
+    "base": "ex-mine value (if copper is an ad valorem mineral)",
+    "type": "state ad valorem royalty",
+    "confirmed": false,
+    "via": "search",
+    "notes": "No result named copper's rate. The only support is an advocacy memo, and the result says: 'None of the results say whether copper is listed in Schedule 6.'",
+    "url": "https://sovereignaustraliaparty.com.au/memo-resource-royalties",
+    "url_certain": true,
+    "quote": "most minerals at 4 per cent"
+   },
+   "corporate_tax_pct": {
+    "v": 30,
+    "unit": "%",
+    "currency": "",
+    "date": "2025-26 and 2026-27 income years",
+    "via": "search",
+    "url": "https://www.ato.gov.au/tax-rates-and-codes/company-tax-rates/tax-rates-2025-26",
+    "url_certain": false,
+    "quote": "Because Hats 4 Cats Pty Ltd's aggregated turnover exceeds the $50 million aggregated turnover threshold, it is not a base rate entity for the 2025–26 income year, and the 30% company tax rate applies.",
+    "note": "Federal rate; see AU-WA."
+   }
+  },
+  {
+   "id": "CA-ON",
+   "name": "Ontario, Canada",
+   "gold_royalty": {
+    "rate_pct": 10,
+    "base": "mining profit above the $500,000 annual exemption",
+    "type": "provincial mining tax on profit (not commodity-specific)",
+    "confirmed": true,
+    "via": "search",
+    "notes": "Remote mines: 'After the tax exemption of profits for a new remote mine has been claimed, a tax rate of 5% is charged on profits derived from the operation of a remote mine.' New mines: 'Each new mine can claim a mining tax exemption on up to $10 million of profit during an exempt period. The exempt period for a non-remote mine is three years, and the exempt period for a remote mine is 10 years.' The rates page in the results is dated 2021.",
+    "url": "https://www.fin.gov.on.ca/en/tax/mining/rates.html",
+    "url_certain": false,
+    "quote": "The rate is 10% of an operator's profit in excess of $500,000 for 2004 and subsequent years."
+   },
+   "copper_royalty": {
+    "rate_pct": 10,
+    "base": "mining profit above the $500,000 annual exemption",
+    "type": "provincial mining tax on profit (not commodity-specific)",
+    "confirmed": true,
+    "via": "search",
+    "notes": "Same Ontario Mining Tax as gold (the results did not distinguish by commodity); 5% for certified remote mines; new-mine exemption as for gold.",
+    "url": "https://www.fin.gov.on.ca/en/tax/mining/rates.html",
+    "url_certain": false,
+    "quote": "The rate is 10% of an operator's profit in excess of $500,000 for 2004 and subsequent years."
+   },
+   "corporate_tax_pct": {
+    "v": 26.5,
+    "unit": "%",
+    "currency": "",
+    "date": "2026",
+    "via": "search",
+    "url": "https://www.taxdesk.ca/calculators/corporate-tax-rates-canada",
+    "url_certain": false,
+    "quote": "26.5% on general income (15% federal + 11.5% Ontario)",
+    "note": "General combined rate, not the small business rate."
+   }
+  },
+  {
+   "id": "CA-QC",
+   "name": "Quebec, Canada",
+   "gold_royalty": {
+    "rate_pct": null,
+    "rate_min_pct": 16,
+    "rate_max_pct": 28,
+    "base": "annual profit, progressive by profit margin (mine by mine); the operator pays the higher of this and a minimum mining tax on mine-mouth output value",
+    "type": "provincial mining tax (not commodity-specific)",
+    "confirmed": "partial",
+    "via": "search",
+    "notes": "No result confirmed the profit-margin brackets or the minimum-tax rates (1%/4%). The rate table is at https://www.revenuquebec.ca/en/businesses/sector-specific-measures/mining-tax/calculating-the-mining-tax-on-annual-profit/rates-of-the-mining-tax-on-annual-profit/ . Each rate applies 'to a portion of the operator's annual profit as determined on the basis of the operator's profit margin'. Mine-mouth output value 'cannot be less than 10% of the total of the following amounts'.",
+    "url": "https://mern.gouv.qc.ca/en/mines/mining-tax/regime/",
+    "url_certain": false,
+    "quote": "Operators pay the higher of two amounts, a minimum tax based on mine-mouth output value or a tax on annual profit. The profit tax runs at a progressive rate from 16% to 28%, depending on profit margin. The operator is required to pay mining duties corresponding to the higher of the following two amounts."
+   },
+   "copper_royalty": {
+    "rate_pct": null,
+    "rate_min_pct": 16,
+    "rate_max_pct": 28,
+    "base": "annual profit, progressive by profit margin (mine by mine); the operator pays the higher of this and a minimum mining tax on mine-mouth output value",
+    "type": "provincial mining tax (not commodity-specific)",
+    "confirmed": "partial",
+    "via": "search",
+    "notes": "Same Quebec mining tax as gold; minimum-tax rates not confirmed.",
+    "url": "https://mern.gouv.qc.ca/en/mines/mining-tax/regime/",
+    "url_certain": false,
+    "quote": "Operators pay the higher of two amounts, a minimum tax based on mine-mouth output value or a tax on annual profit. The profit tax runs at a progressive rate from 16% to 28%, depending on profit margin. The operator is required to pay mining duties corresponding to the higher of the following two amounts."
+   },
+   "corporate_tax_pct": {
+    "v": 26.5,
+    "unit": "%",
+    "currency": "",
+    "date": "2026",
+    "via": "search (components); sum derived",
+    "derived": true,
+    "working": "15% federal + 11.5% Quebec general rate",
+    "url": "https://www.ey.com/content/dam/ey-unified-site/ey-com/en-ca/services/tax/tax-calculators/2026/ey-tax-rates-provincial-2026-06-15.pdf",
+    "url_certain": false,
+    "quote": "An EY table lists Quebec ... 11.50 for general income not eligible for the small-business deduction",
+    "components": [
+     {
+      "v": 15,
+      "what": "federal general rate",
+      "url": "https://www.taxdesk.ca/calculators/corporate-tax-rates-canada",
+      "url_certain": false,
+      "quote": "26.5% on general income (15% federal + 11.5% Ontario)"
+     },
+     {
+      "v": 11.5,
+      "what": "Quebec general rate",
+      "url": "https://www.ey.com/content/dam/ey-unified-site/ey-com/en-ca/services/tax/tax-calculators/2026/ey-tax-rates-provincial-2026-06-15.pdf",
+      "url_certain": false,
+      "quote": "An EY table lists Quebec ... 11.50 for general income not eligible for the small-business deduction"
+     }
+    ],
+    "note": "No result stated Quebec's combined rate. On the Quebec 2026 budget: 'No corporate income tax rate changes were announced as part of the budget.'"
+   }
+  },
+  {
+   "id": "CA-BC",
+   "name": "British Columbia, Canada",
+   "gold_royalty": {
+    "rate_pct": null,
+    "tiers": [
+     {
+      "rate_pct": 2,
+      "base": "net current proceeds (gross revenue less current operating costs)",
+      "applies": "while a cumulative expenditure account (CEA) balance remains, i.e. during capital recovery"
+     },
+     {
+      "rate_pct": 13,
+      "base": "net revenue",
+      "applies": "once the CEA balance is nil"
+     }
+    ],
+    "base": "two-tier Mineral Tax: 2% of net current proceeds, then 13% of net revenue; a cumulative tax credit prevents double payment",
+    "type": "provincial mineral tax (not commodity-specific)",
+    "confirmed": true,
+    "via": "search",
+    "notes": "From the Province: 'While you have a balance in your CEA and still have capital to recover, you pay a 2% Net Current Proceeds (NCP) Tax.' / 'once you no longer have a balance in your CEA, you pay a 13% Net Revenue Tax.' / 'To calculate your net current proceeds, take your gross revenue and deduct your current operating costs.' Province page dated April 1, 2025: https://www2.gov.bc.ca/gov/content/taxes/natural-resource-taxes/mining/mineral-tax/coal-other-mines",
+    "url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96291_01",
+    "url_certain": true,
+    "quote": "The Act levies 13% of the net revenue of the operator derived from the operation of the mine, reduced by several credits and amounts, alongside a separate 2% charge on the mine's net current proceeds for the fiscal year (2% of the net current proceeds of the operator)."
+   },
+   "copper_royalty": {
+    "rate_pct": null,
+    "tiers": [
+     {
+      "rate_pct": 2,
+      "base": "net current proceeds (gross revenue less current operating costs)",
+      "applies": "while a cumulative expenditure account (CEA) balance remains, i.e. during capital recovery"
+     },
+     {
+      "rate_pct": 13,
+      "base": "net revenue",
+      "applies": "once the CEA balance is nil"
+     }
+    ],
+    "base": "two-tier Mineral Tax: 2% of net current proceeds, then 13% of net revenue; a cumulative tax credit prevents double payment",
+    "type": "provincial mineral tax (not commodity-specific)",
+    "confirmed": true,
+    "via": "search",
+    "notes": "Same BC Mineral Tax as gold.",
+    "url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96291_01",
+    "url_certain": true,
+    "quote": "The Act levies 13% of the net revenue of the operator derived from the operation of the mine, reduced by several credits and amounts, alongside a separate 2% charge on the mine's net current proceeds for the fiscal year (2% of the net current proceeds of the operator)."
+   },
+   "corporate_tax_pct": {
+    "v": 27,
+    "unit": "%",
+    "currency": "",
+    "date": "2026",
+    "via": "search",
+    "url": "https://www.taxdesk.ca/calculators/corporate-tax-rates-canada",
+    "url_certain": false,
+    "quote": "A BC CCPC pays 11% on its first $500,000 of active business income and 27% above that. BC's provincial general rate is 12%, and its 2026 provincial rates are 2% on income eligible for the small business deduction and 12% on other income.",
+    "note": "27% is the general combined rate (15% federal + 12% BC)."
+   }
+  },
+  {
+   "id": "US-NV",
+   "name": "Nevada, USA",
+   "gold_royalty": {
+    "rate_pct": null,
+    "base": "three state levies: Net Proceeds of Minerals Tax on net proceeds (2-5% sliding), Gold and Silver Excise Tax on Nevada gross revenue (0.75%/1.10%), and Commerce Tax on Nevada gross revenue (0.051%)",
+    "type": "state severance-style taxes",
+    "components": [
+     {
+      "name": "Net Proceeds of Minerals Tax",
+      "rate_min_pct": 2,
+      "rate_max_pct": 5,
+      "base": "net proceeds (gross revenue less allowable mining, processing and transport deductions); the rate depends on the ratio of net proceeds to gross proceeds; royalties are taxed at 5%",
+      "url": "https://tax.nv.gov/tax-types/net-proceeds-of-minerals-tax/",
+      "url_certain": true,
+      "quote": "The tax rate for royalties is 5%. The tax rate applied to the net proceeds is based on a sliding scale between 2% and 5%, depending on the ratio of net proceeds to gross proceeds."
+     },
+     {
+      "name": "Gold and Silver Excise Tax (NRS 363D)",
+      "tiers": [
+       {
+        "rate_pct": 0.75,
+        "band": "Nevada gross revenue US$20M-150M"
+       },
+       {
+        "rate_pct": 1.1,
+        "band": "Nevada gross revenue above US$150M"
+       }
+      ],
+      "base": "Nevada gross revenue; applies only above US$20M a year",
+      "url": "https://www.leg.state.nv.us/nrs/NRS-363D.html",
+      "url_certain": true,
+      "quote": "This applies to Nevada gross revenue above $20 million a year, at 0.75% on revenue from $20 million to $150 million and 1.10% on revenue above $150 million (NRS 363D.010, per the statute's rate schedule)."
+     },
+     {
+      "name": "Commerce Tax (mining category)",
+      "rate_pct": 0.051,
+      "base": "Nevada gross revenue above US$4,000,000",
+      "url": "https://www.leg.state.nv.us/nrs/NRS-363C.html",
+      "url_certain": true,
+      "quote": "The statute sets the mining category at 0.051 percent of Nevada gross revenue above $4,000,000."
+     }
+    ],
+    "confirmed": true,
+    "via": "search",
+    "notes": "Mining companies also pay the Modified Business Tax on payroll; the rate conflicts across sources (1.554%, 1.853% or about 1.378%).",
+    "url": "https://tax.nv.gov/tax-types/net-proceeds-of-minerals-tax/",
+    "url_certain": true,
+    "quote": "The tax rate for royalties is 5%. The tax rate applied to the net proceeds is based on a sliding scale between 2% and 5%, depending on the ratio of net proceeds to gross proceeds."
+   },
+   "copper_royalty": {
+    "rate_pct": null,
+    "base": "Net Proceeds of Minerals Tax on net proceeds (2-5% sliding) plus Commerce Tax (0.051% of Nevada gross revenue above US$4M); the Gold and Silver Excise Tax does not apply to copper revenue",
+    "type": "state severance-style taxes",
+    "components": [
+     {
+      "name": "Net Proceeds of Minerals Tax",
+      "rate_min_pct": 2,
+      "rate_max_pct": 5,
+      "base": "net proceeds; the rate depends on the ratio of net proceeds to gross proceeds",
+      "url": "https://tax.nv.gov/tax-types/net-proceeds-of-minerals-tax/",
+      "url_certain": true,
+      "quote": "The tax rate for royalties is 5%. The tax rate applied to the net proceeds is based on a sliding scale between 2% and 5%, depending on the ratio of net proceeds to gross proceeds."
+     },
+     {
+      "name": "Commerce Tax (mining category)",
+      "rate_pct": 0.051,
+      "base": "Nevada gross revenue above US$4,000,000",
+      "url": "https://www.leg.state.nv.us/nrs/NRS-363C.html",
+      "url_certain": true,
+      "quote": "The statute sets the mining category at 0.051 percent of Nevada gross revenue above $4,000,000."
+     }
+    ],
+    "confirmed": true,
+    "via": "search",
+    "notes": "The NPOM result is not commodity-specific; it applies to 'the gross revenue from the minerals extracted minus allowable deductions'. NRS 363D is titled 'TAX ON GROSS REVENUE OF GOLD AND SILVER MINING BUSINESSES'.",
+    "url": "https://tax.nv.gov/tax-types/net-proceeds-of-minerals-tax/",
+    "url_certain": true,
+    "quote": "The tax rate for royalties is 5%. The tax rate applied to the net proceeds is based on a sliding scale between 2% and 5%, depending on the ratio of net proceeds to gross proceeds."
+   },
+   "corporate_tax_pct": {
+    "v": 21,
+    "unit": "%",
+    "currency": "",
+    "date": "2026",
+    "via": "search",
+    "url": "https://www.cleertax.com/resources/corporate-state-taxes/nevada/",
+    "url_certain": false,
+    "quote": "One notes that a C corporation pays no state income tax, so its combined rate is just the 21% federal rate.",
+    "note": "Federal 21%, plus no Nevada corporate income tax ('Sources agree the state levies neither a corporate nor a personal income tax.'). Secondary sources."
+   }
+  },
+  {
+   "id": "CL",
+   "name": "Chile",
+   "gold_royalty": {
+    "rate_pct": null,
+    "base": "Mining royalty (Law 21.591, from 1 Jan 2024), banded by annual sales in metric tonnes of fine copper equivalent (MTFC) and charged on adjusted mining operating income (RIOMA); not gold-specific",
+    "type": "national mining royalty (specific mining tax)",
+    "tiers": [
+     {
+      "band": "up to 12,000 MTFC",
+      "rate_pct": 0,
+      "note": "Exempt per an older (2019) Lexology summary that predates Law 21.591.",
+      "url": "https://www.lexology.com/library/detail.aspx?g=67f8dd12-8360-4300-a527-9281a10c609a",
+      "quote": "An older Lexology summary gives a progressive rate of between 0.5 per cent and 4.5 per cent for the 12,000–50,000 band, and says companies at or below 12,000 tonnes are exempt."
+     },
+     {
+      "band": "12,000-50,000 MTFC",
+      "rate_min_pct": 0.4,
+      "rate_max_pct": 4.4,
+      "note": "Marginal rates by production level (EY, on the approved law); Lexology (2019) gave 0.5%-4.5%.",
+      "url": "https://www.ey.com/en_gl/technical/tax-alerts/chile---new-mining-royalty-is-approved-and-ready-to-become-law",
+      "quote": "the marginal tax rates fluctuate from 0.4% to 4.4% depending on the levels of production for sales above the equivalent of 12,000 but below 50,000 MTFC, and progressive tax rates ranging from 5% to 14% above 50,000 MTFC."
+     },
+     {
+      "band": "over 50,000 MTFC, copper half or less of sales",
+      "rate_min_pct": 5,
+      "rate_max_pct": 34.5,
+      "note": "Reported by a commercial web page; EY gives 5% to 14% above 50,000 MTFC. The sources conflict.",
+      "url": "https://farmonaut.com/mining/chilean-copper-mining-companies-2025-market-power-trends",
+      "quote": "Operators with half or less of their sales from copper follow a different scale, reported as 5% up to 34.5%"
+     }
+    ],
+    "confirmed": "partial",
+    "via": "search",
+    "notes": "The result says 'Nothing in these results sets a gold-specific rate.' How gold sales convert to copper equivalent was not confirmed.",
+    "url": "https://www.ey.com/en_gl/technical/tax-alerts/chile---new-mining-royalty-is-approved-and-ready-to-become-law",
+    "url_certain": true,
+    "quote": "the marginal tax rates fluctuate from 0.4% to 4.4% depending on the levels of production for sales above the equivalent of 12,000 but below 50,000 MTFC, and progressive tax rates ranging from 5% to 14% above 50,000 MTFC."
+   },
+   "copper_royalty": {
+    "rate_pct": null,
+    "base": "For operators selling more than 50,000 MTFC with over half of revenue from copper: 1% ad valorem on copper sales plus a margin component of 8-26% on RIOMA (rate set by mining operating margin = RIOMA / mining operating income x 100), with a cap on the total burden. Mid-size producers (12,000-50,000 MTFC) pay the 0.4-4.4% marginal scale in gold_royalty.tiers.",
+    "type": "national mining royalty (Law 21.591)",
+    "components": [
+     {
+      "name": "ad valorem component",
+      "rate_pct": 1,
+      "base": "copper sales (operators above 50,000 MTFC); reduced or offset when RIOMA is negative",
+      "url": "https://www.ey.com/en_gl/technical/tax-alerts/chile---new-mining-royalty-is-approved-and-ready-to-become-law",
+      "url_certain": true,
+      "quote": "Sources agree on a flat 1% charge on copper sales for operators above the equivalent of 50,000 metric tons of fine copper."
+     },
+     {
+      "name": "margin component",
+      "rate_min_pct": 8,
+      "rate_max_pct": 26,
+      "base": "RIOMA (adjusted mining operating income)",
+      "url": "https://farmonaut.com/mining/chilean-copper-mining-companies-2025-market-power-trends",
+      "url_certain": true,
+      "quote": "One summary describes the schedule as 8% at a margin of 20 or less, rising to 12% at a margin of 45, reaching 26% at a margin of 60, and staying at 26% above that",
+      "note": "Commercial web page; check the bands against the statute."
+     },
+     {
+      "name": "cap on total tax burden",
+      "cap_pct": "45.5 (up to 80,000 t) / 46.5 (above 80,000 t) of adjusted mining taxable income",
+      "url": "https://latamthread.com/country/chile/guide/sectors/mining-energy-and-key-sectors/",
+      "url_certain": true,
+      "quote": "One says total tax is capped at 46.5% of adjusted mining taxable income. The same source gives 45.5% for operators up to 80,000 tonnes"
+     }
+    ],
+    "confirmed": "partial",
+    "via": "search",
+    "notes": "Structure confirmed by EY; the margin bands come from a commercial page. 'The law took effect on 1 January 2024.'",
+    "url": "https://www.ey.com/en_gl/technical/tax-alerts/chile---new-mining-royalty-is-approved-and-ready-to-become-law",
+    "url_certain": true,
+    "quote": "Sources agree on a flat 1% charge on copper sales for operators above the equivalent of 50,000 metric tons of fine copper."
+   },
+   "corporate_tax_pct": {
+    "v": 27,
+    "unit": "%",
+    "currency": "",
+    "date": "rate before the Law 21.850 cuts",
+    "via": "search",
+    "url": "https://www.bnamericas.com/en/analysis/chile-cuts-corporate-tax-and-creates-a-tax-stability-regime-whats-in-it-for-mining",
+    "url_certain": true,
+    "quote": "Law 21.850 reduces the first-category rate from 27% to 23% by 2029 and creates a tax stability regime for investments starting at US$50mn.",
+    "note": "First Category tax. A Rio Times piece (Apr 2026) called the cut a proposal ('First Category corporate income tax cuts from 27% to 23% gradually'). Neither enactment nor the rate that applies in 2026-27 was confirmed. Dividend withholding not covered."
+   }
+  },
+  {
+   "id": "PE",
+   "name": "Peru",
+   "gold_royalty": {
+    "rate_pct": null,
+    "rate_min_pct": 1,
+    "rate_max_pct": 12,
+    "base": "Mining royalty on quarterly operating profit (minimum 1% of sales); plus Special Mining Tax of 2-8.4% on operating profit; GEM of 4-13.12% only under tax stability agreements",
+    "type": "national mining royalty plus special mining tax",
+    "components": [
+     {
+      "name": "Mining royalty (Regalia Minera)",
+      "rate_min_pct": 1,
+      "rate_max_pct": 12,
+      "base": "quarterly operating profit; minimum 1% of sales",
+      "url": "https://www.pwc.pe/es/publicaciones/assets/PwC-Doing-Business-in-Peru-Mining.pdf",
+      "url_certain": true,
+      "quote": "PwC lists it at 1% - 12% (minimum 1% of sales). It is calculated quarterly."
+     },
+     {
+      "name": "Special Mining Tax (SMT / IEM)",
+      "rate_min_pct": 2,
+      "rate_max_pct": 8.4,
+      "base": "operating profit from sales of metallic minerals",
+      "url": "https://www.pwc.pe/es/publicaciones/assets/PwC-Doing-Business-in-Peru-Mining.pdf",
+      "url_certain": true,
+      "quote": "PwC gives 2% - 8.4%. It applies only to operating profit."
+     },
+     {
+      "name": "Special Mining Contribution (GEM)",
+      "rate_min_pct": 4,
+      "rate_max_pct": 13.12,
+      "base": "applies only to companies with valid tax stability agreements",
+      "url": "https://www.pwc.pe/es/publicaciones/assets/PwC-Doing-Business-in-Peru-Mining.pdf",
+      "url_certain": false,
+      "quote": "PwC gives 4% - 13.12%. Lexology notes that the GEM is only applicable to the mining companies that have valid tax stability agreements."
+     }
+    ],
+    "confirmed": true,
+    "via": "search",
+    "notes": "The sources are dated (PwC 2020). Lexology on the royalty base: 'the basis is the operating profit or the sales revenue of the quarter (in the case of the mining royalty)'. Not commodity-specific.",
+    "url": "https://www.pwc.pe/es/publicaciones/assets/PwC-Doing-Business-in-Peru-Mining.pdf",
+    "url_certain": true,
+    "quote": "PwC lists it at 1% - 12% (minimum 1% of sales). It is calculated quarterly."
+   },
+   "copper_royalty": {
+    "rate_pct": null,
+    "rate_min_pct": 1,
+    "rate_max_pct": 12,
+    "base": "Mining royalty on quarterly operating profit (minimum 1% of sales); plus Special Mining Tax of 2-8.4% on operating profit; GEM of 4-13.12% only under tax stability agreements",
+    "type": "national mining royalty plus special mining tax",
+    "confirmed": true,
+    "via": "search",
+    "notes": "Same regime as gold (see gold_royalty.components). The sources are dated (PwC 2020).",
+    "url": "https://www.pwc.pe/es/publicaciones/assets/PwC-Doing-Business-in-Peru-Mining.pdf",
+    "url_certain": true,
+    "quote": "PwC lists it at 1% - 12% (minimum 1% of sales). It is calculated quarterly."
+   },
+   "corporate_tax_pct": {
+    "v": 29.5,
+    "unit": "%",
+    "currency": "",
+    "date": "current (sources 2020-2022)",
+    "via": "search",
+    "url": "https://www.imf.org/-/media/files/publications/cr/2022/english/1perea2022002.pdf",
+    "url_certain": false,
+    "quote": "The general income tax rate is 29.5 percent.",
+    "note": "'Projects with a stability agreement pay a higher rate. Per the IMF, the rate is two percentage points higher than the rate in effect at the time of signing.' Dividend withholding not covered."
+   }
+  }
+ ],
+ "summary": {
+  "market_cap_stated_near_late_nov_2026": [
+   "First Mining Gold (C$737.8M, TMX 24 Nov)",
+   "Troilus Mining (C$638.2M, Yahoo, about 25 Nov)",
+   "Rox Resources (A$692M, Nov 2026 AGM presentation)"
+  ],
+  "market_cap_derivable_from_stated_price_and_shares": [
+   "Turaco Gold (A$740.5M at A$0.685 on 26 Oct; before the ~200M placement shares)",
+   "Ausgold (A$719.2M at A$1.26 on 21 Oct, using diluted shares derived from the scheme; offer value A$776M)",
+   "Astral Resources (A$252M at A$0.14 on 2 Nov x ~1.8B shares from Dec 2025)",
+   "Saturn Metals (A$353.5M at an undated A$0.47 x 752.2M shares from Nov 2026)"
+  ],
+  "market_cap_stale_or_conflicting": [
+   "Osisko Development (US$691.7M, 17 Jul 2026; predates the Q3 financings)",
+   "Mayfair Gold (C$215.4M undated or $194M at 17 Aug 2026; prices conflict)"
+  ],
+  "market_cap_missing": [
+   "Toubani Resources (undated price A$0.26; no share count)"
+  ],
+  "cash_found": "10 of 10. At 30 Sep 2026: Saturn, Astral, Turaco, First Mining, Mayfair, Osisko. Rox at 2 Oct 2026 (30 Sep also given). At 30 Jun 2026: Ausgold, Toubani. At 30 Apr 2026: Troilus.",
+  "debt_found": "Rox A$90.2M (2 Oct 2026); Osisko about C$1.14B (secondary source); Ausgold nil (30 Jun 2026); Troilus C$1.72M (undated). Toubani has a US$25M stream drawdown (debt-like). Debt not stated for Saturn, Astral, Turaco, First Mining or Mayfair.",
+  "ownership_found": "Saturn 100, Turaco 80 (100 after the Sodim deal, with the State's 10% carried), Ausgold 100, Troilus 100, Mayfair 100, Osisko 100. Not found: Rox, Astral, Toubani, First Mining."
+ },
+ "gaps": [
+  "Toubani: no share count or market cap; latest cash is at 30 Jun 2026 (before the A$70M raise and US$25M stream drawdown); Kobada ownership % not found.",
+  "Osisko Development: price and market cap date from Jul 2026; no share count after the 2026 financings.",
+  "Mayfair: undated or conflicting price, share count and market cap (2:1 consolidation and a 13.22M-unit offering at $2.65 whose year is not stated).",
+  "Saturn: share price undated; unclear whether the 99.47M placement shares pending FIRB are in the 752.2M count.",
+  "Astral: share count is a Dec 2025 estimate; Mandilla ownership not stated (MMS profit-share arrangement).",
+  "Turaco: share count after the placement not found; latest price is 26 Oct 2026.",
+  "Ausgold: shares on issue not stated (derived from the scheme); cash only at 30 Jun 2026; scheme vote (late Nov 2026) not found.",
+  "Troilus: cash only at 30 Apr 2026 (FY ends 31 Jul; FY2026 accounts not found); debt figure undated.",
+  "Ownership % not found for Rox (Youanmi), Astral (Mandilla), Toubani (Kobada) or First Mining (Springpole).",
+  "FX: CAD/USD not stated directly (derived from the Xe AUD cross); no official RBA or BoC fixes.",
+  "Fiscal: WA copper rate; current Queensland reference prices; NSW copper not named; Quebec profit brackets and minimum-tax rates; Chile gold-specific treatment and margin bands (sources conflict); Chile CIT path under Law 21.850; Peru sources dated 2020-2022."
+ ]
+}
