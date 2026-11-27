@@ -367,7 +367,7 @@ const COPPER_DECKS = {
 const DECKS = { gold: PRICE_DECKS, spodumene: LITHIUM_DECKS, copper: COPPER_DECKS };
 const UNITS = {
   gold: { u: 'oz', k: 'koz', price: 'US$/oz', product: 'payable gold', priceName: 'gold price', grade: 'g/t', containedName: 'gold in the mine plan', basis: '', perUnit: 'per ounce' },
-  copper: { u: 'lb', k: 'Mlb', price: 'US$/lb', product: 'payable copper', priceName: 'copper price', grade: '% Cu', containedName: 'copper in the mine plan', basis: '', perUnit: 'per pound of payable copper' },
+  copper: { u: 'lb', k: 'Mlb', div: 1e6, pdp: 2, price: 'US$/lb', product: 'payable copper', priceName: 'copper price', grade: '% Cu', containedName: 'copper in the mine plan', basis: '', perUnit: 'per pound of payable copper' },
   spodumene: { u: 't', k: 'kt', price: 'US$/t', product: 'concentrate', priceName: 'spodumene price (SC6)', grade: '% Li₂O', containedName: 'lithia in the mine plan, counted as SC6 concentrate', basis: ' SC6', perUnit: 'per tonne of concentrate' }
 };
 let UCTX = 'gold';   // units used by the formatters while one asset's content is rendered
@@ -701,6 +701,7 @@ function runCore(asset, o) {
   const carry = asset.freeCarry || 0;
   let remOre = sum(rows, (r) => r.ore); let taxBase = f.taxBase; let cumOz = 0; let wcPrev = null;
   let losses = f.lossCarryForward ? (f.openingLosses || 0) : 0;
+  const bc = { cum: 0, credit: 0 };   // British Columbia: the cumulative account and the 2% paid, credited against the 13% later
   const years = [];
   rows.forEach((r, i) => {
     const last = i === lastProd || !!r.closeHere;
@@ -735,6 +736,21 @@ function runCore(asset, o) {
     const depreciation = (taxBase + capex) * Math.min(1, share);
     taxBase = taxBase + capex - depreciation; remOre -= r.ore;
     let taxable = ebitda - depreciation;
+    // Mining taxes on profit, charged each year on mining profit (EBITDA less tax depreciation) and deductible for income tax.
+    let miningTax = 0;
+    for (const m of f.miningTaxes || []) {
+      if (m.kind === 'bc') {   // 2% of net current proceeds until capital is recovered, then 13% of net revenue less the 2% paid
+        const before = bc.cum; bc.cum += ebitda - capex;
+        if (bc.cum <= 0) { const t = 0.02 * Math.max(0, ebitda); bc.credit += t; miningTax += t; }
+        else { const t13 = 0.13 * Math.max(0, bc.cum - Math.max(0, before)); const use = Math.min(bc.credit, t13); bc.credit -= use; miningTax += t13 - use; }
+      } else {
+        const profit = Math.max(0, taxable);
+        let t = m.segments ? sliceTax(m.segments, gross > 0 ? profit / gross : 0) * gross : profit * (m.rate || 0);
+        if (m.minPctRevenue) t = Math.max(t, m.minPctRevenue * gross);
+        miningTax += t;
+      }
+    }
+    taxable -= miningTax;
     if (f.lossCarryForward) {
       if (taxable < 0) { losses += -taxable; taxable = 0; } else { const use = Math.min(losses, taxable); taxable -= use; losses -= use; }
     }
@@ -743,16 +759,16 @@ function runCore(asset, o) {
     const wc = revenueAfterStream * f.wc.receivableDays / 365 + site * f.wc.inventoryDays / 365 - site * f.wc.payableDays / 365;
     const dWC = wcPrev == null ? 0 : wc - wcPrev; wcPrev = wc;
     const closure = last ? closureCost : 0;
-    const fcf = ebitda - capex - tax - dWC - closure;
+    const fcf = ebitda - capex - tax - miningTax - dWC - closure;
     const ownerShare = asset.ownerShare * (1 - P.stateProb * ramp(r.year, MODEL.fiscalWithinYears) * dil);
     years.push({ year: r.year, ore: r.ore, milled, grade, recovery, oz, price, revenue, byproduct, streamOz: sOz, stream: streamCost, royaltyRate: royaltyShare, royalties,
-      site, corporate, exploration, other, logistics, freight, ebitda, sustaining, growth, development, capex, depreciation, tax, wc, dWC, closure, fcf, ownerShare });
+      site, corporate, exploration, other, logistics, freight, ebitda, sustaining, growth, development, capex, depreciation, tax, miningTax, wc, dWC, closure, fcf, ownerShare });
   });
   if (years.length) {
     const relYear = years[years.length - 1].year + 1;
     if (f.wcReleaseHorizon == null || relYear <= f.wcReleaseHorizon) {
       const z = { year: relYear, release: true, ore: 0, milled: 0, grade: 0, recovery: 0, oz: 0, price: 0, revenue: 0, byproduct: 0, streamOz: 0, stream: 0, royaltyRate: 0,
-        royalties: 0, site: 0, corporate: 0, exploration: 0, other: 0, logistics: 0, freight: 0, ebitda: 0, sustaining: 0, growth: 0, development: 0, capex: 0, depreciation: 0, tax: 0,
+        royalties: 0, site: 0, corporate: 0, exploration: 0, other: 0, logistics: 0, freight: 0, ebitda: 0, sustaining: 0, growth: 0, development: 0, capex: 0, depreciation: 0, tax: 0, miningTax: 0,
         wc: 0, dWC: -wcPrev, closure: 0, fcf: wcPrev, ownerShare: years[years.length - 1].ownerShare };
       years.push(z);
     }
@@ -848,6 +864,8 @@ function irr(flows) {
 }
 
 const ALL_DIALS = () => new Set(DIALS.map((d) => d.id));
+// A tax charged in slices of the profit margin (Quebec): each slice of margin pays its own rate. Returns tax as a share of revenue.
+function sliceTax(segments, margin) { let t = 0; let lo = 0; for (const sg of segments) { const hi = sg.upTo == null ? Infinity : sg.upTo; if (margin > lo) t += (Math.min(margin, hi) - lo) * sg.rate; lo = hi; } return t; }
 // The flat benchmark price (real) at which the owner's NPV after risks is zero; null if it is not reached by hi.
 function breakevenPrice(asset, ctl, hi = (CP[commodityOf(asset)] || { beMax: 10000 }).beMax) {
   const at = (p) => runModel(asset, { ...ctl, enabled: ALL_DIALS(), flatPrice: p }).npvAttr;
@@ -954,7 +972,18 @@ const AU_JURIS = [
     { name: 'Local development contribution', rate: 0.005, base: 'gross' }], tax: 0.25, carry: 0, src: null, page: null,
     note: 'Ad valorem tax 5% to 8% by gold price (2025 finance law annex, each band up 2 points from 10 Jan 2025); 0.5% local development contribution. Tax is Damodaran’s rate. The state’s free carry was not researched: enter it. Increases for 2027 were pending in Nov 2026.' }
 ];
-const JURIS_BY = { spodumene: LI_JURIS, gold: AU_JURIS };
+// Profit-based regimes, for gold and copper (data/research/gold_market_fiscal.json; NRS 362.140; Revenu Québec; via web search).
+const PROFIT_JURIS = (c) => [
+  { id: 'CA-ON', label: 'Canada: Ontario', country: 'Canada', royalties: [], miningTaxes: [{ name: 'Ontario mining tax, 10% of mining profit', rate: 0.10 }], tax: 0.265, carry: 0, src: null, page: null,
+    note: 'Ontario Mining Tax: 10% of mining profit above a C$500,000 exemption (5% for remote mines; new mines can claim a profit exemption, not modelled). Deductible for income tax here. Combined federal and Ontario income tax 26.5%.' },
+  { id: 'CA-QC', label: 'Canada: Quebec', country: 'Canada', royalties: [], miningTaxes: [{ name: 'Quebec mining tax on annual profit, by profit margin', segments: [{ upTo: 0.35, rate: 0.16 }, { upTo: 0.50, rate: 0.22 }, { upTo: null, rate: 0.28 }] }], tax: 0.265, carry: 0, src: null, page: null,
+    note: 'Quebec mining tax on annual profit: 16% on the slice of profit up to a 35% margin, 22% from 35% to 50%, 28% above (Revenu Québec; Clark Wilson). The minimum mining tax on mine-mouth output value is not modelled: its rates were not confirmed. Income tax 26.5%.' },
+  { id: 'CA-BC', label: 'Canada: British Columbia', country: 'Canada', royalties: [], miningTaxes: [{ name: 'BC mineral tax: 2% of net current proceeds, then 13% of net revenue', kind: 'bc' }], tax: 0.27, carry: 0, src: null, page: null,
+    note: 'BC Mineral Tax: 2% of net current proceeds while the cumulative expenditure account has a balance, then 13% of net revenue, with the 2% paid credited against it. Income tax 27%.' },
+  { id: 'US-NV', label: 'USA: Nevada', country: 'United States', royalties: c === 'gold' ? [{ name: 'Gold and silver excise tax (revenue over US$150M)', rate: 0.011, base: 'gross' }] : [], miningTaxes: [{ name: 'Net proceeds of minerals tax', rate: 0.05 }], tax: 0.21, carry: 0, src: null, page: null,
+    note: `Net proceeds of minerals tax 5% once net proceeds pass US$4M a year (NRS 362.140), on net proceeds, here mining profit.${c === 'gold' ? ' Gold and silver excise tax 1.1% of gross revenue above US$150M (0.75% from US$20M to 150M).' : ''} Federal income tax 21%; Nevada has none.` }
+];
+const JURIS_BY = { spodumene: LI_JURIS, gold: [...AU_JURIS, ...PROFIT_JURIS('gold')], copper: PROFIT_JURIS('copper') };
 const jurisList = (c) => JURIS_BY[c] || [];
 const jurisOf = (id, c = 'spodumene') => jurisList(c).find((j) => j.id === id) || (() => {
   const r = countryRow(id); return { id, label: id, country: id, royalties: null, tax: r ? r[4] : null, carry: 0, src: null, page: null, note: 'No study covers this country yet: enter its royalty. Tax is Damodaran’s corporate rate.' };
@@ -999,6 +1028,7 @@ function liAssumptions() {
     { label: 'Rule changes “within three years”', value: 'Equally likely in each of years 1–3', note: 'The expected royalty rise ramps in at min(1, t/3).' },
     { label: 'Higher state stake', value: 'Taken without payment', note: 'The owner’s share falls pro rata.' },
     { label: 'Tax depreciation', value: 'Units of production', note: 'Whatever is left is deducted in the final year.' },
+    { label: 'Mining taxes on profit', value: 'Charged each year on mining profit (EBITDA less tax depreciation) and deducted for income tax', note: 'Flat (Ontario 10%, Nevada 5%), by profit-margin slice (Quebec 16/22/28%) or BC’s 2% then 13% once capital is recovered. No loss carry-forward for the mining tax; exemptions and minimum taxes are not modelled.' },
     { label: 'Discounting', value: 'Cash flows dated 31 December and discounted from 1 January 2026 by actual days', note: 'As Excel’s XNPV and XIRR do.' },
     { label: 'Scenarios', value: 'Each slider moves one driver on top of your inputs; your inputs stay as entered', note: 'The sensitivities are centred on the scenario case, so they show what moves the value from there.' }
   ];
@@ -1074,6 +1104,8 @@ function depositDerived(d, wi = {}) {
   const corporateM = (d.corporate != null ? d.corporate : typicalIn('spodumene', 'corporate_overhead_usd_m').median) * sc('corporate');   // head office, US$M a year: not commodity-specific
   const wcDays = (d.wcDays != null ? d.wcDays : 30) * sc('wcDays');                                                                    // receivables, days of revenue (assumption)
   const tax = (d.tax != null ? d.tax / 100 : (juris.tax != null ? juris.tax : 0.30)) * sc('tax');
+  const miningTaxes = d.miningTax != null ? (d.miningTax > 0 ? [{ name: 'Mining tax on profit (your input)', rate: d.miningTax / 100 * sc('tax') }] : [])
+    : (juris.miningTaxes || []).map((m) => (sc('tax') === 1 ? m : { ...m, rate: m.rate != null ? m.rate * sc('tax') : m.rate, segments: m.segments && m.segments.map((g) => ({ ...g, rate: g.rate * sc('tax') })) }));
   const carry = (d.freeCarry != null ? d.freeCarry / 100 : juris.carry || 0) * sc('carry');
   const closureM = (d.closure != null ? d.closure : tv('closure_usd_m', 'closure cost')) * sc('closure');
   const otherPerT = (d.otherPerT || 0) * sc('otherPerT');
@@ -1084,7 +1116,7 @@ function depositDerived(d, wi = {}) {
   const perYear = isLi ? rate * 1e6 * planGrade / 100 * (recovery / 100) / (concGrade / 100) : rate * 1e6 * unitsPerTOre(c, planGrade, recovery, concGrade, payability);
   const priceSC6 = isLi ? (d.deckOverride && d.deckOverride.flat) || LITHIUM_DECKS[d.deck || 'req'].flat : NaN;   // lithium only: for the haulage share
   return { commodity: c, route, juris, resMt, resGrade, infMt, planMt, planGrade, inferredShare, taylorLife, rate, life: rate > 0 ? planMt / rate : 0, strip, ug, miningPerTOre, miningOp: mOp, miningUg: mUg,
-    recovery, processing, ga, sustaining, freight, concGrade, payability, moisture, tc, rc, refining, perUnit, closureM, otherPerT, byproduct, logisticsPerT, oreHaulPerT, missingRates, capexTypical, capexM, decision, build, firstProd, devCapex, rows, royalties, tax, carry, realisation, corporateM, wcDays,
+    recovery, processing, ga, sustaining, freight, concGrade, payability, moisture, tc, rc, refining, perUnit, closureM, otherPerT, byproduct, logisticsPerT, oreHaulPerT, missingRates, capexTypical, capexM, decision, build, firstProd, devCapex, rows, royalties, miningTaxes, tax, carry, realisation, corporateM, wcDays,
     crp: cr ? cr[2] : 0, crpBasis: cr ? cr[1] : 'not in Damodaran’s table', concLom: conc, concPerYear: perYear, missing: [...new Set(missing)],
     logisticsShare: isLi && priceSC6 > 0 ? (logisticsPerT + freight) / (priceSC6 * concGrade / 6) : NaN };
 }
@@ -1148,7 +1180,7 @@ function depositAsset(d, id, opts = {}) {
     resolved: { split: { mining: D.miningPerTOre, processing: D.processing, transport: D.oreHaulPerT, ga: D.ga }, sustainingPerT: 0, sustainingPerUnit: D.sustaining,
       growthCapex: {}, devCapex: D.devCapex, corporatePerOz: 0, corporateFixed: D.corporateM * 1e6, explorationPerOz: 0, haulagePerT: 0, logisticsPerUnit: D.logisticsPerT * D.perUnit, otherPerUnit: D.otherPerT,
       freightPerUnit: D.freight * D.perUnit, byproductPerUnit: D.byproduct, calibration: null },
-    fiscal: { royalties: D.royalties, taxRate: D.tax, taxBase: 0, closure: D.closureM * 1e6,
+    fiscal: { royalties: D.royalties, miningTaxes: D.miningTaxes, taxRate: D.tax, taxBase: 0, closure: D.closureM * 1e6,
       wc: D.wcDays > 0 ? { receivableDays: D.wcDays, inventoryDays: 30, payableDays: 45 } : { receivableDays: 0, inventoryDays: 0, payableDays: 0 }, wcReleaseHorizon: null, lossCarryForward: true, openingLosses: (d.openingLosses || 0) * 1e6 },
     wht: (d.wht || 0) / 100,
     stream: null, transaction: null,
@@ -1447,6 +1479,7 @@ const F = {
   royalty: { label: 'Royalty', unit: '%', type: 'num', help: 'Total rate. Blank: the preset for the country or state.' },
   royaltyBase: { label: 'Royalty on', type: 'sel', opts: OPT.base, show: (d) => d.royalty != null },
   tax: { label: 'Income tax', unit: '%', type: 'num', help: 'Blank: the preset, or Damodaran’s rate for the country.' },
+  miningTax: { label: 'Mining tax on profit', unit: '%', type: 'num', help: 'A tax on mining profit (revenue less costs and tax depreciation), deductible for income tax, as Ontario charges 10%. Blank: the preset’s; 0 for none.' },
   freeCarry: { label: 'State free carry', unit: '%', type: 'num', help: 'Share the state holds without paying for it.' },
   privateRoyalty: { label: 'Private royalty', unit: '%', type: 'num', help: 'On top of the state royalty, on gross revenue.' },
   wht: { label: 'Dividend withholding tax', unit: '%', type: 'num', help: 'For a foreign owner; depends on tax treaties.' },
@@ -1482,7 +1515,7 @@ const SECTIONS = [
   { id: 'process', title: 'Processing', keys: ['route', 'recovery', 'concGrade', 'concGradeCu', 'payability', 'processing', 'ga', 'byproduct'], sum: (d, D) => `${(CP[comOf(d)].routes.find(([k]) => k === D.route) || ['', ''])[1]} · ${num1(D.recovery, 1)}%${isLiD(d) ? ` · SC${D.concGrade}` : ''}` },
   { id: 'logistics', title: 'Haulage and sales', keys: ['plantMode', 'oreHaulKm', 'oreHaulRate', 'LEGS', 'port', 'freight', 'moisture', 'tc', 'rc', 'refining', 'otherPerT', 'infraCapex'],
     sum: (d, D) => (isAuD(d) ? `US$${num1(D.refining, 1)}/oz to refine` : isCuD(d) ? `US$${num1(D.logisticsPerT + D.freight, 0)}/wmt to buyer · TC US$${num1(D.tc, 0)}` : `US$${num1(D.logisticsPerT + D.freight, 0)}/t to buyer`) },
-  { id: 'fiscal', title: 'Fiscal', keys: ['juris', 'royalty', 'royaltyBase', 'tax', 'freeCarry', 'privateRoyalty', 'wht'], sum: (d, D) => `${D.juris.label} · tax ${pct(D.tax, 0)}` },
+  { id: 'fiscal', title: 'Fiscal', keys: ['juris', 'royalty', 'royaltyBase', 'tax', 'miningTax', 'freeCarry', 'privateRoyalty', 'wht'], sum: (d, D) => `${D.juris.label} · tax ${pct(D.tax, 0)}${D.miningTaxes.length ? ' + mining tax' : ''}` },
   { id: 'capital', title: 'Capital', keys: ['capex', 'sustaining', 'closure', 'corporate', 'wcDays', 'decisionYears', 'buildYears', 'ramp'], sum: (d, D) => `US$${num1(D.capexM, 0)}M · first production ${D.firstProd}` },
   { id: 'price', title: 'Price and rate', keys: ['deck', 'lt', 'realisation', 'rateIn', 'ownership'], sum: () => `${myDeck().label} · ${pct(state.rateBy.custom, 1)} real` },
   { id: 'deal', title: 'Company and deal', keys: ['buyer', 'stage', 'studyNpv', 'dealCcy', 'dealFx', 'sharePrice', 'sharesM', 'cashM', 'debtM', 'otherM', 'fundDebtPct', 'raiseDiscPct'],
@@ -1509,7 +1542,8 @@ function blankValue(key, d, D, t) {
   if (t) return num1(t.median, dpFor(t.median));
   const J = jurisOf(d.juris, comOf(d));
   const m = { capex: Math.round(D.capexTypical), rate: num1(D.rate), planMt: num1(D.planMt, 1), planGrade: num1(D.planGrade), inferredShare: num1(D.inferredShare * 100, 0), ugShare: 30,
-    dealFx: num1(FX_DEFAULT[CCY_SYM[d.dealCcy] ? d.dealCcy : 'USD'], 4), freight: '', studyNpv: '', fundDebtPct: FUND_DEBT, raiseDiscPct: RAISE_DISC, sharePrice: '', sharesM: '',
+    dealFx: num1(FX_DEFAULT[CCY_SYM[d.dealCcy] ? d.dealCcy : 'USD'], 4), freight: '', studyNpv: '',
+    miningTax: (J.miningTaxes || []).length ? (J.miningTaxes[0].rate != null ? num1(J.miningTaxes[0].rate * 100, 1) : 'preset') : 0, fundDebtPct: FUND_DEBT, raiseDiscPct: RAISE_DISC, sharePrice: '', sharesM: '',
     decisionYears: D.decision, wcDays: 30, royalty: num1(sum(J.royalties || [], (r) => r.rate) * 100, 2), tax: num1(D.tax * 100, 1), freeCarry: num1((J.carry || 0) * 100, 0) };
   return key in m ? m[key] : 0;
 }
@@ -1958,7 +1992,7 @@ function inputsUsed(a) {
     ['Processing cost', D.processing.toFixed(2), 'US$/t ore'], ['Site G&A', D.ga.toFixed(2), 'US$/t ore'], ...(D.commodity === 'gold' ? [] : [['Haulage to port', D.logisticsPerT.toFixed(2), UNIT_CONC[D.commodity]], ['Ocean freight', D.freight.toFixed(2), UNIT_CONC[D.commodity]]]),
     ['Other costs', D.otherPerT.toFixed(2), UNIT_SOLD[D.commodity]], ['By-product credit', D.byproduct.toFixed(2), UNIT_SOLD[D.commodity]],
     ...(D.commodity === 'spodumene' ? [['Discount to benchmark', (D.realisation * 100).toFixed(2), '%']] : []), ...D.royalties.map((r) => [r.name, royalty(r), r.bands ? 'by price' : `% of ${r.base === 'fob' ? 'FOB value' : 'revenue'}`]),
-    ['Income tax', (D.tax * 100).toFixed(1), '%'], ['State free carry', (D.carry * 100).toFixed(1), '%'], ['Initial capex', D.capexM.toFixed(1), 'US$M, 100%'],
+    ['Income tax', (D.tax * 100).toFixed(1), '%'], ...D.miningTaxes.map((m) => [m.name, m.kind === 'bc' ? '2% then 13%' : m.segments ? m.segments.map((g) => `${(g.rate * 100).toFixed(0)}%`).join('/') : (m.rate * 100).toFixed(1), m.kind === 'bc' ? 'of net current proceeds, then net revenue' : m.segments ? 'by profit-margin slice' : '% of mining profit']), ['State free carry', (D.carry * 100).toFixed(1), '%'], ['Initial capex', D.capexM.toFixed(1), 'US$M, 100%'],
     ['Sustaining capex', D.sustaining.toFixed(2), UNIT_SOLD[D.commodity]], ['Closure', D.closureM.toFixed(1), 'US$M'], ['Head office', D.corporateM.toFixed(1), 'US$M a year'],
     ['Receivables', D.wcDays.toFixed(0), 'days of revenue'], ['Construction starts', MODEL.firstYear + D.decision, 'year'], ['Build time', D.build, 'years'], ['First production', D.firstProd, 'year'], ['Ownership', (d.ownership * 100).toFixed(1), '%']
   ];
@@ -2008,7 +2042,7 @@ function buildCSV() {
   out.push(line(`Annual cash flow, ${after ? 'after' : 'before'} risks (US$M, 100%, unless stated)`, ...ys.map((y) => (y.release ? `${y.year} (working capital back)` : y.year))),
     ...CASH_LINES.map(([label, f, kind]) => row(cashLabel(label, D.commodity), (y) => fmt(f(y), kind))),
     row('EBITDA', (y) => m2(y.ebitda)), row('Capex', (y) => m2(-y.capex)), row('Tax', (y) => m2(-y.tax)),
-    row('Working capital', (y) => m2(-y.dWC)), row('Closure', (y) => m2(-y.closure)), row('Free cash flow', (y) => m2(y.fcf)),
+    row('Mining tax on profit', (y) => m2(-(y.miningTax || 0))), row('Working capital', (y) => m2(-y.dWC)), row('Closure', (y) => m2(-y.closure)), row('Free cash flow', (y) => m2(y.fcf)),
     row('Owner’s share (%)', (y) => (y.ownerShare * 100).toFixed(1)), row('Owner’s cash flow', (y) => m2(y.attrFcf)), row('Discount factor', (y) => y.df.toFixed(4)), row('Owner’s present value', (y) => m2(y.pvAttr)));
   return out.join('\r\n') + '\r\n';
 }
@@ -2080,6 +2114,7 @@ function cashSheet(name, r, rateCell) {
   add('ebitda', { v: 'EBITDA', s: 1 }, ys.map((_, i) => ({ f: `SUM(${colRef(i, at('Revenue'))}:${colRef(i, at('Other costs'))})`, s: 9 })));
   add('capex', 'Capex', ys.map((y) => ({ v: -y.capex / 1e6, s: 9 })));
   add('tax', 'Tax', ys.map((y) => ({ v: -y.tax / 1e6, s: 9 })));
+  add('mtax', 'Mining tax on profit', ys.map((y) => ({ v: -(y.miningTax || 0) / 1e6, s: 9 })));
   add('wc', 'Working capital', ys.map((y) => ({ v: -y.dWC / 1e6, s: 9 })));
   add('closure', 'Closure', ys.map((y) => ({ v: -y.closure / 1e6, s: 9 })));
   add('fcf', { v: 'Free cash flow', s: 1 }, ys.map((_, i) => ({ f: `${colRef(i, rowOf.ebitda)}+SUM(${colRef(i, rowOf.capex)}:${colRef(i, rowOf.closure)})`, s: 9 })));
@@ -2485,7 +2520,7 @@ function valueLadder(asset, an) {
     overhead: -sum(b.years, (y) => y.corporate + y.exploration),
     capex: -sum(b.years, (y) => y.capex),
     closure: -sum(b.years, (y) => y.closure),
-    tax: -sum(b.years, (y) => y.tax),
+    tax: -sum(b.years, (y) => y.tax + (y.miningTax || 0)),
     wc: -sum(b.years, (y) => y.dWC),
     cash: sum(b.years, (y) => y.fcf),
     npv: b.npv, attr: b.npvAttr, risk: an.risk.npvAttr
@@ -2552,8 +2587,8 @@ function cashTable(a, r) {
       ${row('Ore milled after stoppages (Mt)', (y) => y.release ? '' : y.milled.toFixed(2), '', sum(ys, (y) => y.milled).toFixed(2))}
       ${row(`Head grade (${UN().grade})`, (y) => y.release || !y.ore ? '' : y.grade.toFixed(2))}
       ${row('Recovery', (y) => y.release ? '' : pct(y.recovery, 1))}
-      ${row(`${cap1(UN().product)} (${UN().k})`, (y) => y.release ? '' : (y.oz / 1000).toFixed(1), '', (sum(ys, (y) => y.oz) / 1000).toFixed(1))}
-      ${row(`Price (${UN().price}${UN().basis})`, (y) => y.release || !y.ore ? '' : Math.round(y.price).toLocaleString('en-US'))}
+      ${row(`${cap1(UN().product)} (${UN().k})`, (y) => y.release ? '' : (y.oz / (UN().div || 1000)).toFixed(1), '', (sum(ys, (y) => y.oz) / (UN().div || 1000)).toFixed(1))}
+      ${row(`Price (${UN().price}${UN().basis})`, (y) => y.release || !y.ore ? '' : y.price.toLocaleString('en-US', { minimumFractionDigits: UN().pdp || 0, maximumFractionDigits: UN().pdp || 0 }))}
       ${row('Revenue', flow('revenue'), 'sep', tot('revenue'))}
       ${a.stream ? row('Stream deliveries', neg('stream'), '', tot('stream', -1)) : ''}
       ${sum(ys, (y) => y.byproduct || 0) ? row('By-product credits', flow('byproduct'), '', tot('byproduct')) : ''}
@@ -2566,6 +2601,7 @@ function cashTable(a, r) {
       ${row('Capex', neg('capex'), '', tot('capex', -1))}
       ${row('Tax depreciation (not cash)', flow('depreciation'), 'muted', tot('depreciation'))}
       ${row('Tax', neg('tax'), '', tot('tax', -1))}
+      ${sum(ys, (y) => y.miningTax || 0) ? row('Mining tax on profit', neg('miningTax'), '', tot('miningTax', -1)) : ''}
       ${row('Change in working capital', neg('dWC'), '', tot('dWC', -1))}
       ${row('Closure', neg('closure'), '', tot('closure', -1))}
       ${row('Free cash flow (100%)', flow('fcf'), 'strong sep', tot('fcf'))}
@@ -2729,6 +2765,17 @@ function runChecks() {
     const dv = dealValues(assetById('custom'), ANALYSIS.custom);
     const b = dv.methods.find((m) => m.k === 'buyer'); const own = dv.methods.find((m) => m.k === 'dcf');
     add('A funded buyer’s DCF is at least the DCF as set', !b || b.mid >= own.mid - 1, b ? `${money(b.mid)} vs ${money(own.mid)}` : 'People and Funding already at Low');
+    // Mining taxes on profit
+    const qs = sliceTax([{ upTo: 0.35, rate: 0.16 }, { upTo: 0.50, rate: 0.22 }, { upTo: null, rate: 0.28 }], 0.60);
+    add('Quebec’s mining tax charges each slice of the margin its own rate', Math.abs(qs - (0.35 * 0.16 + 0.15 * 0.22 + 0.10 * 0.28)) < 1e-12, `a 60% margin pays ${pct(qs, 1)} of revenue (${pct(qs / 0.60, 1)} of profit)`);
+    const A = assetById('custom'); const ctlA = { ...ctlFor(A), enabled: new Set() };
+    const with10 = { ...A, fiscal: { ...A.fiscal, miningTaxes: [{ name: 'test', rate: 0.10 }] } };
+    const r0 = runModel(A, ctlA); const r1 = runModel(with10, ctlA);
+    const t0 = sum(r0.years, (y) => y.tax); const t1 = sum(r1.years, (y) => y.tax); const m1 = sum(r1.years, (y) => y.miningTax);
+    add('A 10% mining tax on profit cuts value, and is deducted for income tax', r1.npvAttr < r0.npvAttr && m1 > 0 && t1 < t0, `${money(r0.npvAttr)} to ${money(r1.npvAttr)}; income tax ${money(t0)} to ${money(t1)}`);
+    const rb = runModel({ ...A, fiscal: { ...A.fiscal, miningTaxes: [{ name: 'BC', kind: 'bc' }] } }, ctlA);
+    const y1 = rb.years.find((y) => y.oz > 0);
+    add('British Columbia: 2% of net current proceeds until capital is recovered', y1 && Math.abs(y1.miningTax - 0.02 * Math.max(0, y1.ebitda)) < 1, y1 ? `first year: ${money(y1.miningTax)} on EBITDA ${money(y1.ebitda)}` : 'no production');
     const q = quartiles([1, 2, 3, 4, 5]);
     add('Quartiles of the market multiples', q.q1 === 2 && q.median === 3 && q.q3 === 4, `1–5: ${q.q1}, ${q.median}, ${q.q3}`);
   }
@@ -2793,7 +2840,7 @@ const syncBar = () => document.documentElement.style.setProperty('--bar-h', $('#
 
 function renderAll(silent) {
   const active = document.activeElement && document.activeElement.id ? document.activeElement.id : null;
-  const a = assetById('custom'); UCTX = 'spodumene';
+  const a = assetById('custom'); UCTX = commodityOf(a);
   ANALYSIS.custom = a.derived.resMt > 0 && !a.derived.missing.length ? analyse(a, ctlFor(a)) : { pending: true, missing: a.derived.missing, noResource: !(a.derived.resMt > 0) };
   if (!ANALYSIS.custom.pending) ANALYSIS.custom.be = breakevenPrice(a, ctlFor(a));
   inputsValue = null;
