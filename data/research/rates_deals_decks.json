@@ -1,0 +1,611 @@
+{
+ "asOf": "2026-11-26",
+ "valuation_date": "2026-01-01",
+ "currency_basis": "US$ (real 2026 where stated)",
+ "discount_rates": [
+  {
+   "commodity": "gold",
+   "rate_pct": 5,
+   "basis": "real",
+   "what": "Industry-norm NAV discount rate for gold properties (all stages; analyst/company NAVs). KPMG notes the rate is a convention, not a market-derived cost of capital.",
+   "source": "KPMG, Insights into Mining, Issue 1, October 2014",
+   "url": "https://assets.kpmg.com/content/dam/kpmg/pdf/2016/06/6971-insights-into-mining-issue-1-october-2014.pdf",
+   "page": null,
+   "quote": "NAV calculations most commonly use a real discount rate of 5 percent for gold properties and 8 percent for most base metals.",
+   "via": "search"
+  },
+  {
+   "commodity": "gold",
+   "rate_pct": 5,
+   "basis": "real",
+   "what": "Same source, gold companies: 5% real used almost universally for NAV.",
+   "source": "KPMG, Insights into Mining, Issue 1, October 2014",
+   "url": "https://assets.kpmg.com/content/dam/kpmg/pdf/2016/06/6971-insights-into-mining-issue-1-october-2014.pdf",
+   "page": null,
+   "quote": "For gold companies, a 5 percent real discount rate is almost always used for NAV calculations.",
+   "via": "search"
+  },
+  {
+   "commodity": "copper",
+   "rate_pct": 8,
+   "basis": "real",
+   "what": "Industry-norm NAV discount rate for most base metals (copper included by KPMG's 'most base metals'; all stages). Per the search summary of the same article, these conventional rates are seldom adjusted for market returns, investor sentiment, or country and project risk (paraphrase, not a quote).",
+   "source": "KPMG, Insights into Mining, Issue 1, October 2014",
+   "url": "https://assets.kpmg.com/content/dam/kpmg/pdf/2016/06/6971-insights-into-mining-issue-1-october-2014.pdf",
+   "page": null,
+   "quote": "NAV calculations most commonly use a real discount rate of 5 percent for gold properties and 8 percent for most base metals.",
+   "via": "search"
+  },
+  {
+   "commodity": "lithium",
+   "rate_pct": 8,
+   "basis": "real",
+   "what": "Study base-case discount rate. Expansion FS at an operating mine (Pilgangoora, WA); spodumene",
+   "source": "PLS Group, P2000 expansion feasibility study (FID Oct 2026), reported in the September 2026 Quarterly Activities Report (ASX: PLS, 28 Oct 2026). Public company release; read from the user-supplied copy at /root/.claude/uploads/9a7876ef-1f5c-5580-a230-3f23cc139ec9/9088466d-Lithium_G3_PLS_SepQ2026_QuarterlyReport.pdf",
+   "url": null,
+   "page": 3,
+   "quote": "The P2000 Project is expected to deliver an incremental post-tax NPV of A$2.7B (8% real) and post-tax IRR of 29.5%, based on a long-term SC6 price assumption of US$1,620/t.",
+   "via": "local copy"
+  },
+  {
+   "commodity": "lithium",
+   "rate_pct": 8,
+   "basis": "real",
+   "what": "Study base-case discount rate. FS; spodumene; Quebec",
+   "source": "PMET Resources, Shaakichiuwaanaan updated lithium-tantalum Feasibility Study (Nov 2026). Public company release; read from the user-supplied copy at /root/.claude/uploads/9a7876ef-1f5c-5580-a230-3f23cc139ec9/7ac4a931-Lithium_S05_PMET_Shaakichiuwaanaan_UpdatedFS_Nov2026.pdf",
+   "url": null,
+   "page": 65,
+   "quote": "The economic analysis is carried out in real terms (i.e., without inflation factors) in 2025 Canadian dollars. An 8% discount rate was applied to the cash flow to derive the NPV for the Project on a pre-tax and after-tax basis.",
+   "via": "local copy"
+  },
+  {
+   "commodity": "lithium",
+   "rate_pct": 8,
+   "basis": "real",
+   "what": "Study base-case discount rate. FS; spodumene; Quebec",
+   "source": "PMET Resources, Shaakichiuwaanaan lithium-only Feasibility Study (Oct 2025). Public company release; read from the user-supplied copy at /root/.claude/uploads/9a7876ef-1f5c-5580-a230-3f23cc139ec9/11c2672d-Lithium_S05_PMET_Shaakichiuwaanaan_LithiumOnlyFS_Oct2025.pdf",
+   "url": null,
+   "page": 65,
+   "quote": "The economic analysis is carried out in real terms (i.e., without inflation factors) in 2025 Canadian dollars. An 8% discount rate was applied to the cash flow to derive the NPV for the Project on a pre-tax and after-tax basis.",
+   "via": "local copy"
+  },
+  {
+   "commodity": "lithium",
+   "rate_pct": 8,
+   "basis": "unstated",
+   "what": "Study base-case discount rate. PEA; spodumene; Quebec. Real/nominal not stated on the page read.",
+   "source": "Patriot Battery Metals, Shaakichiuwaanaan PEA (Aug 2024). Public company release; read from the user-supplied copy at /root/.claude/uploads/9a7876ef-1f5c-5580-a230-3f23cc139ec9/ff504e8c-Lithium_S05_PatriotBatteryMetals_Shaakichiuwaanaan_PEA_Aug2024.pdf",
+   "url": null,
+   "page": 11,
+   "quote": "After-Tax NPV8% $ 2,937 2,232",
+   "via": "local copy"
+  },
+  {
+   "commodity": "lithium",
+   "rate_pct": 8,
+   "basis": "real",
+   "what": "Study base-case discount rate. DFS; spodumene; WA",
+   "source": "Global Lithium Resources, Manna Lithium Project DFS (Dec 2025). Public company release; read from the user-supplied copy at /root/.claude/uploads/9a7876ef-1f5c-5580-a230-3f23cc139ec9/295f41be-Lithium_S11_GlobalLithium_Manna_DFS_Dec2025.pdf",
+   "url": null,
+   "page": 35,
+   "quote": "An 8% real discount rate has been utilised to determine the NPV for the MLP.",
+   "via": "local copy"
+  },
+  {
+   "commodity": "lithium",
+   "rate_pct": 8,
+   "basis": "unstated",
+   "what": "Study base-case discount rate. DFS; spodumene; Ghana. Real/nominal not stated.",
+   "source": "Atlantic Lithium, Ewoyaa DFS (Jun 2023). Public company release; read from the user-supplied copy at /root/.claude/uploads/9a7876ef-1f5c-5580-a230-3f23cc139ec9/0f1de0ec-Lithium_S02_AtlanticLithium_Ewoyaa_DFS_Jun2023.pdf",
+   "url": null,
+   "page": 43,
+   "quote": "Discount rate % per annum 8.0",
+   "via": "local copy"
+  },
+  {
+   "commodity": "lithium",
+   "rate_pct": 8,
+   "basis": "unstated",
+   "what": "Study base-case discount rate. FS; spodumene; Quebec. Real/nominal not stated on the page read.",
+   "source": "Critical Elements Lithium, Rose Feasibility Study (Aug 2023). Public company release; read from the user-supplied copy at /root/.claude/uploads/9a7876ef-1f5c-5580-a230-3f23cc139ec9/a6278567-Lithium_S07_CriticalElements_Rose_FeasibilityStudy_Aug2023.pdf",
+   "url": null,
+   "page": 3,
+   "quote": "Discount Rate % 8.0%",
+   "via": "local copy"
+  },
+  {
+   "commodity": "lithium",
+   "rate_pct": 8,
+   "basis": "real",
+   "what": "Study base-case discount rate. DFS; spodumene; NT. Real basis from p57: 'all cashflows are in Australian dollars, are undiscounted and are in real terms (not subject to inflation/escalation factors)'.",
+   "source": "Core Lithium, Finniss Stage 1 DFS (Jul 2021). Public company release; read from the user-supplied copy at /root/.claude/uploads/9a7876ef-1f5c-5580-a230-3f23cc139ec9/49574d49-Lithium_S06_CoreLithium_Finniss_Stage1DFS_Jul2021.pdf",
+   "url": null,
+   "page": 45,
+   "quote": "...using an 8% discount rate shows that the Finniss Lithium Project has a Post-Tax NPV and IRR of A$170 million and 47% respectively for the Reserve Case.",
+   "via": "local copy"
+  },
+  {
+   "commodity": "lithium",
+   "rate_pct": 7,
+   "basis": "unstated",
+   "what": "Study base-case discount rate. FS; spodumene; Mali. Real/nominal not stated on the page read.",
+   "source": "Kodal Minerals, Bougouni Feasibility Study (Jan 2020). Public company release; read from the user-supplied copy at /root/.claude/uploads/9a7876ef-1f5c-5580-a230-3f23cc139ec9/77242df7-Lithium_S03_Kodal_Bougouni_FeasibilityStudy_Jan2020.pdf",
+   "url": null,
+   "page": 5,
+   "quote": "Post-Tax NPV @ 7%",
+   "via": "local copy"
+  }
+ ],
+ "discount_rate_summary": {
+  "gold": {
+   "norm_pct": 5,
+   "basis": "real",
+   "n_sources": 1,
+   "note": "KPMG 2014: 5% real is the near-universal gold NAV convention."
+  },
+  "copper": {
+   "norm_pct": 8,
+   "basis": "real",
+   "n_sources": 1,
+   "note": "KPMG 2014: 8% real for most base metals."
+  },
+  "lithium": {
+   "norm_pct": 8,
+   "basis": "real (where stated)",
+   "n_sources": 9,
+   "values": [
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    7
+   ],
+   "note": "Median of the base-case rates in 9 spodumene studies (2020-2026); 8 of 9 use 8%. This matches the app's existing 8% real default."
+  }
+ },
+ "damodaran": [
+  {
+   "industry": "Metals & Mining",
+   "region": "US",
+   "cost_of_capital_pct": null,
+   "date": "January 2026",
+   "url": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+   "quote": "Date of Analysis: Data used is as of January 2026",
+   "why_null": "The value was not retrieved. pages.stern.nyu.edu does not resolve from this session, and four searches returned only the page header, not the table rows. The quote confirms the dataset date only.",
+   "via": "search"
+  },
+  {
+   "industry": "Metals & Mining",
+   "region": "Global",
+   "cost_of_capital_pct": null,
+   "date": "January 2026 (unconfirmed)",
+   "url": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/waccGlobal.xls",
+   "quote": null,
+   "why_null": "Not retrieved, for the same reason. A search listing shows the file's metadata date as 5 January 2026, which suggests this is the January 2026 update but does not confirm it.",
+   "via": "search"
+  },
+  {
+   "industry": "Precious Metals",
+   "region": "US",
+   "cost_of_capital_pct": null,
+   "date": "January 2026",
+   "url": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+   "quote": "Date of Analysis: Data used is as of January 2026",
+   "why_null": "The value was not retrieved. pages.stern.nyu.edu does not resolve from this session, and four searches returned only the page header, not the table rows. The quote confirms the dataset date only.",
+   "via": "search"
+  },
+  {
+   "industry": "Precious Metals",
+   "region": "Global",
+   "cost_of_capital_pct": null,
+   "date": "January 2026 (unconfirmed)",
+   "url": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/waccGlobal.xls",
+   "quote": null,
+   "why_null": "Not retrieved, for the same reason. A search listing shows the file's metadata date as 5 January 2026, which suggests this is the January 2026 update but does not confirm it.",
+   "via": "search"
+  }
+ ],
+ "damodaran_context": [
+  {
+   "item": "Mature market equity risk premium, January 2026",
+   "v": 4.23,
+   "unit": "%",
+   "source": "Damodaran, ctryprem.xlsx (January 2026), sheet 'Explanation and FAQ', cells A12-A13; read from the user-supplied copy at /root/.claude/uploads/9a7876ef-1f5c-5580-a230-3f23cc139ec9/87630e2b-Lithium_G1_Damodaran_ctryprem_Jan2026.xlsx",
+   "url": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/ctryprem.html",
+   "quote": "Mature market premium = 4.61% - (0.23% × 1.52) = 4.23%",
+   "via": "local copy"
+  },
+  {
+   "item": "Implied ERP for the S&P 500, January 2026 (over the adjusted dollar riskfree rate)",
+   "v": 4.59,
+   "unit": "%",
+   "source": "Same sheet, cell A12. The sheet's own formula on the next line uses 4.61%, so the figure is inconsistent within the source.",
+   "url": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/ctryprem.html",
+   "quote": "In January 2026, for  example, when the implied ERP for the S&P 500 was 4.59% (over the adjusted dollar riskfree rate), the US had a rating of Aa1 and the default spread for that rating was 0.23% and the relative equity market volatility was 1.52",
+   "via": "local copy"
+  }
+ ],
+ "inflation_assumption": {
+  "v": 2.2,
+  "what": "US CPI inflation assumption (average CPI growth over the year) in REQ Sep 2026 Table 2.2: 2.7 (2025), 3.2 (2026), 2.1 (2027), 2.2 (2028-2031). Use 2.2% to turn a long-run nominal US$ WACC into a real rate: real = (1 + nominal) / 1.022 - 1. Using the same source as the price decks keeps the deflator consistent with the real 2026 US$ basis.",
+  "url": "https://www.industry.gov.au/sites/default/files/2026-10/resources-and-energy-quarterly-september-2026.pdf",
+  "page": 28,
+  "table": "Table 2.2: Exchange rate and inflation assumptions",
+  "by_year": {
+   "2025": 2.7,
+   "2026": 3.2,
+   "2027": 2.1,
+   "2028": 2.2,
+   "2029": 2.2,
+   "2030": 2.2,
+   "2031": 2.2
+  },
+  "quote": "Inflation rate b ... United States 2.7 3.2 2.1 2.2 2.2 2.2 2.2 ... Notes: a Assumption; b Average CPI growth over the specified year (fiscal or calendar).",
+  "via": "local copy",
+  "note": "Read from the user-supplied copy of the REQ PDF (scratchpad/li/REQ_full.pdf = printed pp1-96; scratchpad/li/REQ_short.pdf = printed pp97-147), the same copy behind the app's lithium deck. The URL was found by search; www.industry.gov.au could not be opened from this session."
+ },
+ "deals": [
+  {
+   "commodity": "lithium",
+   "date": "2024-08",
+   "acquirer": "Pilbara Minerals (now PLS Group)",
+   "target": "Latin Resources",
+   "project": "Salinas (Colina and Fog's Block deposits), Brazil",
+   "stage": "Developer (hard-rock spodumene)",
+   "consideration_usd_M": 370,
+   "resource": "77.7 Mt @ 1.24% Li2O (Colina + Fog's Block)",
+   "resource_units": 2382686,
+   "unit": "t LCE",
+   "usd_per_unit": 150,
+   "p_nav": null,
+   "url": "https://www.streetwisereports.com/article/2024/09/20/acquisition-has-other-brazil-lithium-cos-wondering-whos-next.html",
+   "quote": "BMO's analyst put the implied multiple at about US$150/t LCE, which is generally in line with multiples paid in other recent lithium developer transactions.",
+   "multiple_basis": "Stated: EV/resource from BMO's analyst. Derived check: US$370M equity consideration / 2.383 Mt LCE = US$155/t. Stifel's figure was US$152/t LCE (search summary).",
+   "resource_working": "77.7 Mt x 1.24% = 0.963 Mt Li2O; x 2.473 = 2.383 Mt LCE (derived)",
+   "other_sources": [
+    {
+     "url": "https://www.nsenergybusiness.com/news/pilbara-minerals-to-acquire-salinas-lithium-project-owner-latin-resources-in-370m-deal/",
+     "quote": "Pilbara Minerals has signed a SIA with Latin Resources to acquire the latter in an all-share deal worth around A$559.9m ($370m)."
+    },
+    {
+     "url": "https://www.streetwisereports.com/article/2024/08/19/lithium-co-s-shares-may-benefit-from-pilbara-minerals-bid-for-latin-resources.html",
+     "quote": "Jones said the consideration implies an EV (enterprise value)/resource multiple of ~US$150/t LCE, based on the 77.7 Mt at 1.24% Li2O resource he attributed to Latin. (search summary; the article is an attribution inferred from the result list)"
+    }
+   ],
+   "via": "search"
+  },
+  {
+   "commodity": "lithium",
+   "date": "2024-05",
+   "acquirer": "Ganfeng Lithium (GFL International)",
+   "target": "Leo Lithium (its remaining 40% of Goulamina)",
+   "project": "Goulamina, Mali",
+   "stage": "Developer, pre-production (Leo's Dec 2022 webinar title: 'less than 18 months to first concentrate production')",
+   "consideration_usd_M": 856.7,
+   "resource": "210.6 Mt @ 1.37% Li2O, ~2.88 Mt contained Li2O (31 Dec 2023). The June 2023 MRE was 211.0 Mt @ 1.37%, ~2.89 Mt Li2O",
+   "resource_units": 7122240,
+   "unit": "t LCE",
+   "usd_per_unit": 120.3,
+   "p_nav": null,
+   "url": "https://www.marketscreener.com/quote/stock/LEO-LITHIUM-137604526/news/GFL-International-Co-Ltd-executed-Binding-Sale-and-Purchase-Agreement-to-acquire-remaining-40-st-46672987/",
+   "quote": "GFL International Co., Ltd. executed Binding Sale and Purchase Agreement to acquire remaining 40% stake in Goulamina Lithium Project from Leo Lithium Limited for $342.7 million.",
+   "multiple_basis": "Derived. 100% basis = US$342.7M / 40% = US$856.75M; / 7.12 Mt LCE = US$120/t. Caveat: Mali's state stake was reported likely to rise from 20% to 30%, plus 5% to a local entity, so the 100%-equivalent value is approximate.",
+   "resource_working": "2.88 Mt Li2O x 2.473 = 7.12 Mt LCE (derived)",
+   "other_sources": [
+    {
+     "url": "https://api.investi.com.au/api/announcements/lll/e431c4cc-231.pdf",
+     "quote": "This resource contains approximately 2.88 million tonnes of Li2O in total. (Leo Lithium 2023 Annual Report; 210.6 Mt at 1.37% Li2O, per search summary)"
+    },
+    {
+     "url": "https://mining.com.au/leo-lithium-bolsters-goulamina-mineral-resource-to-211-million-tonnes-mali/",
+     "quote": "211.0 Mt at 1.37% Li2O, containing about 2.89 Mt of Li2O (search summary)"
+    },
+    {
+     "url": "https://cdn-api.markitdigital.com/apiman-gateway/ASX/asx-research/1.0/file/2924-02804665-6A1206594",
+     "quote": "Leo ASX announcement, 8 May 2024: US$342.7M, about A$517M (search summary)"
+    }
+   ],
+   "via": "search"
+  },
+  {
+   "commodity": "lithium",
+   "date": "2023-09",
+   "acquirer": "Albemarle (bid withdrawn Oct 2023; deal not completed)",
+   "target": "Liontown Resources",
+   "project": "Kathleen Valley, WA",
+   "stage": "Developer, pre-production (Mining Weekly: the operation 'will produce 500 000 t/y of spodumene concentrate')",
+   "consideration_usd_M": 4300,
+   "resource": "156 Mt @ 1.4% Li2O (April 2021 MRE, current at the time of the bid)",
+   "resource_units": 5401032,
+   "unit": "t LCE",
+   "usd_per_unit": 796.0,
+   "p_nav": null,
+   "url": "https://investors.albemarle.com/news-and-events/news/news-details/2023/Albemarle-confirms-non-binding-agreement-to-acquire-Liontown/default.aspx",
+   "quote": "The Revised Proposal values Liontown at A$6.6 billion or US$4.3 billion on an equity value basis.",
+   "multiple_basis": "Derived: US$4,300M equity value / 5.40 Mt LCE. This was a FAILED bid at the 2023 price peak, so treat it as an upper outlier.",
+   "resource_working": "156 Mt x 1.4% = 2.18 Mt Li2O; x 2.473 = 5.40 Mt LCE (derived)",
+   "other_sources": [
+    {
+     "url": "https://announcements.asx.com.au/asxpdf/20211111/pdf/452v4dtgf2cs05.pdf",
+     "quote": "the updated MRE released on the 8th April 2021 of 156Mt at 1.4% Li2O and 130ppm Ta2O5 (search summary; the result list does not say which listed URL holds this text, so this attribution is likely but unconfirmed)"
+    },
+    {
+     "url": "https://www.bloomberg.com/news/articles/2023-10-15/lithium-giant-albemarle-abandons-4-2-billion-liontown-takeover",
+     "quote": "Liontown agreed to the US company's 'best and final' offer of A$3 a share in September (search summary); the bid was abandoned in October 2023"
+    }
+   ],
+   "via": "search"
+  },
+  {
+   "commodity": "lithium",
+   "date": "2024-05",
+   "acquirer": "SQM and Hancock Prospecting (SH Mining)",
+   "target": "Azure Minerals",
+   "project": "Andover, West Pilbara, WA",
+   "stage": "Exploration (no Mineral Resource at the time of the deal)",
+   "consideration_usd_M": 1100,
+   "resource": null,
+   "resource_units": null,
+   "unit": "t LCE",
+   "usd_per_unit": null,
+   "p_nav": null,
+   "url": "https://www.hancockprospecting.com.au/sqm-and-hancock-prospecting-complete-1-7b-takeover-of-azure-minerals/",
+   "quote": "Azure Minerals has been officially acquired by joint bidders SQM and Hancock Prospecting for $1.7 billion.",
+   "multiple_basis": "Not computable: no resource had been declared at the time of the deal. US$1.1B is from Bloomberg ('values the miner at A$1.7 billion (US$1.1 billion)', search summary). The date is completion (holders on the register at 6 May 2024 were paid); announcement timing was not retrieved.",
+   "other_sources": [
+    {
+     "url": "https://www.bloomberg.com/news/articles/2024-04-08/australian-lithium-miner-azure-approves-rinehart-sqm-takeover",
+     "quote": "it values the miner at A$1.7 billion (US$1.1 billion) (search summary)"
+    }
+   ],
+   "via": "search"
+  },
+  {
+   "commodity": "lithium",
+   "date": "2024-10",
+   "acquirer": "Rio Tinto",
+   "target": "Arcadium Lithium",
+   "project": "Portfolio (brine and hard rock; Argentina, Australia, Canada)",
+   "stage": "Producer with expansions (75 kt LCE/yr capacity), not a developer",
+   "consideration_usd_M": 6700,
+   "resource": "Unclear: the search summary of the presentation slide reads about 9 Mt LCE of reserves and 37 Mt LCE of resources (exclusive), but the extracted text was garbled",
+   "resource_units": null,
+   "unit": "t LCE",
+   "usd_per_unit": null,
+   "p_nav": null,
+   "url": "https://www.riotinto.com/en/news/releases/2025/rio-tinto-completes-acquisition-of-arcadium-lithium",
+   "quote": "Rio Tinto has completed its acquisition of Arcadium Lithium plc for $6.7 billion, following the sanctioning of the Scheme of Arrangement by the Royal Court of Jersey on 5 March.",
+   "multiple_basis": "Not computed: the resource figure could not be confirmed. Wells Fargo puts it at about US$89,000 per tonne of current production capacity (US$6.7B / ~75 kt LCE; search summary). Excluded from the developer median.",
+   "other_sources": [
+    {
+     "url": "https://announcements.asx.com.au/asxpdf/20241009/pdf/068xsv7ch6xfk5.pdf",
+     "quote": "In reporting Arcadium Lithium's hard-rock lithium Mineral Resources and Mineral Reserves as LCE, Li2O is converted to LCE by multiplying by 2.473. (source of the Li2O-to-LCE factor used throughout this file)"
+    },
+    {
+     "url": "https://finance.yahoo.com/news/rio-tintos-acquisition-highlights-m-135018407.html",
+     "quote": "Wells Fargo: roughly $89,000 per tonne against ~75,000 t LCE output (search summary)"
+    }
+   ],
+   "via": "search"
+  },
+  {
+   "commodity": "lithium",
+   "date": "2024-11",
+   "acquirer": "Sayona Mining (now Elevra Lithium)",
+   "target": "Piedmont Lithium",
+   "project": "Portfolio (NAL interest, Quebec; Carolina Lithium; other)",
+   "stage": "Mixed: producer interest plus developers. All-stock merger, completed 29 Aug 2025",
+   "consideration_usd_M": null,
+   "resource": null,
+   "resource_units": null,
+   "unit": "t LCE",
+   "usd_per_unit": null,
+   "p_nav": null,
+   "url": "https://www.stocktitan.net/sec-filings/PLL/defm14a-piedmont-lithium-inc-merger-proxy-statement-48c58689487f.html",
+   "quote": "PLL shareholders to vote on Sayona merger; implied $13.03 per share",
+   "multiple_basis": "Not computable: the share count and an aggregate deal value were not retrieved. The implied value fell from US$13.03 per Piedmont share at signing (18 Nov 2024 prices) to US$8.97 at close: '...equivalent to an implied valuation of $8.97 per Piedmont share' (search summary).",
+   "via": "search"
+  }
+ ],
+ "deal_benchmarks": [
+  {
+   "commodity": "lithium",
+   "what": "Median price per tonne LCE in the ground across 16 Argentine brine transactions (brine, not spodumene)",
+   "v": 69,
+   "unit": "US$/t LCE",
+   "url": "https://www.zelandez.com/news/frameworks-for-lithium-mine-owners-and-buyers/",
+   "quote": "a median of $69 a tonne of LCE in the ground across 16 transactions in Argentina (search summary)",
+   "via": "search"
+  },
+  {
+   "commodity": "lithium",
+   "what": "Average deal price per tonne of acquired reserves and resources rose about 4x between H2'21-H1'22 and the prior period (price-cycle effect)",
+   "v": null,
+   "unit": null,
+   "url": "https://www.spglobal.com/market-intelligence/en/news-insights/research/lithium-ma-involving-assets-with-resources-h221-to-h122",
+   "quote": "the average deal price paid per tonne of acquired reserves and resources increased fourfold between mid-2021 to mid-2022 and the prior period (search summary)",
+   "via": "search"
+  },
+  {
+   "commodity": "lithium",
+   "what": "2026 US-listed lithium merger (McDermitt, a clay deposit, not spodumene): ~US$27/t LCE from US$571M EV on 21.5 Mt LCE. LOW confidence: the parties were not named in the result and the site is low-profile",
+   "v": null,
+   "unit": "US$/t LCE",
+   "url": "https://discoveryalert.com/cross-border-lithium-consolidation-strategic-rationale-2026/",
+   "quote": "approximately $27 per tonne LCE resource from a $571 million EV on 21.5 Mt LCE (search summary)",
+   "via": "search"
+  }
+ ],
+ "deal_summary": {
+  "lithium": {
+   "median_usd_per_t_LCE": 150,
+   "n": 3,
+   "values": [
+    150,
+    120.3,
+    796.0
+   ],
+   "median_completed_only": 135.0,
+   "n_completed": 2,
+   "note": "Developer-stage deals with a usable resource: PLS/Latin (stated, EV basis), Ganfeng/Leo (derived, 100% basis) and Albemarle/Liontown (derived; failed bid at the 2023 peak). The sample is too thin for a robust norm."
+  },
+  "gold": {
+   "median_usd_per_oz": null,
+   "n": 0,
+   "note": "No gold deals collected; see gaps."
+  },
+  "copper": {
+   "median_usd_per_t_Cu": null,
+   "n": 0,
+   "note": "No copper deals collected; see gaps."
+  }
+ },
+ "decks": {
+  "gold": {
+   "unit": "US$/oz",
+   "req": {
+    "table": "Table 9.1: Gold Outlook (World price, London Bullion Market Association)",
+    "page": 88,
+    "url": "https://www.industry.gov.au/sites/default/files/2026-10/resources-and-energy-quarterly-september-2026.pdf",
+    "real": {
+     "2025": 3492,
+     "2026": 4613,
+     "2027": 4471,
+     "2028": 4252,
+     "2029": 4077,
+     "2030": 3846,
+     "2031": 3760
+    },
+    "nominal": {
+     "2025": 3435,
+     "2026": 4613,
+     "2027": 4567,
+     "2028": 4395,
+     "2029": 4306,
+     "2030": 4151,
+     "2031": 4147
+    },
+    "basis": "Real = 2026 US dollars (note d). 2025 actual; 2026-2027 forecast (f); 2028-2031 projection (z).",
+    "quote": "Price c - nominal US$/oz 3,435 4,613 4,567 4,395 4,306 4,151 4,147 ... - real d US$/oz 3,492 4,613 4,471 4,252 4,077 3,846 3,760 ... Notes: ... c London Bullion Market Association; d in 2026 US dollars",
+    "text_quote_p86": "Prices are forecast to average US$4,600 an ounce in 2026, up 34% year-on-year, and to remain high through 2028, supported by geopolitical uncertainty, resilient investment demand and inflation concerns. Prices are forecast to ease to US$3,760 an ounce (real terms) by 2031 (Figure 9.3), as US inflation moderates and global growth recovers.",
+    "data_cutoff": "This report refers to developments and data up to 20 September 2026. (p4)",
+    "via": "local copy",
+    "note": "Read from the user-supplied copy of the REQ PDF (scratchpad/li/REQ_full.pdf = printed pp1-96; scratchpad/li/REQ_short.pdf = printed pp97-147), the same copy behind the app's lithium deck. The URL was found by search; www.industry.gov.au could not be opened from this session."
+   },
+   "spot": {
+    "v": null,
+    "date": "",
+    "url": "",
+    "why_null": "No November 2026 spot quote was retrieved: the search budget ran out before this step and quote pages cannot be opened from this session.",
+    "latest_in_req": {
+     "text": "From an estimated average of US$4,400 an ounce in the Q3 2026, the price will remain high in 2027, before falling to US$3,760 an ounce (real terms) in 2031. / Prices then rose above US$4,600 an ounce as US data showing tame inflation and weak employment appeared to rule out imminent US official rate hikes.",
+     "page": 85,
+     "url": "https://www.industry.gov.au/sites/default/files/2026-10/resources-and-energy-quarterly-september-2026.pdf",
+     "note": "Context only: September 2026, not November spot. p86 adds: 'After reaching US$5,400 an ounce in January, the gold price has declined and swung on worries over higher US official interest rates, the US dollar, and varying safe-haven demand.'"
+    }
+   },
+   "consensus": [],
+   "consensus_note": "No consensus long-term price was retrieved (World Bank CMO Oct 2026 and company study long-term prices: search budget exhausted).",
+   "long_run_anchor": {
+    "v": 3760,
+    "what": "REQ Sep 2026 end-of-outlook projection for 2031, real 2026 US$/oz. This is the REQ's own projection, NOT a consensus; flat after 2031 would be an assumption (as in the lithium deck).",
+    "url": "https://www.industry.gov.au/sites/default/files/2026-10/resources-and-energy-quarterly-september-2026.pdf",
+    "page": 88
+   }
+  },
+  "copper": {
+   "unit": "US$/t",
+   "req": {
+    "table": "Table 11.1: Copper outlook (Prices LME)",
+    "page": 107,
+    "url": "https://www.industry.gov.au/sites/default/files/2026-10/resources-and-energy-quarterly-september-2026.pdf",
+    "real": {
+     "2025": 10106,
+     "2026": 13466,
+     "2027": 13291,
+     "2028": 12718,
+     "2029": 12156,
+     "2030": 11821,
+     "2031": 11604
+    },
+    "nominal": {
+     "2025": 9939,
+     "2026": 13465,
+     "2027": 13576,
+     "2028": 13146,
+     "2029": 12840,
+     "2030": 12758,
+     "2031": 12798
+    },
+    "real_usc_lb": {
+     "2025": 458,
+     "2026": 611,
+     "2027": 603,
+     "2028": 577,
+     "2029": 551,
+     "2030": 536,
+     "2031": 526
+    },
+    "nominal_usc_lb": {
+     "2025": 451,
+     "2026": 611,
+     "2027": 616,
+     "2028": 596,
+     "2029": 582,
+     "2030": 579,
+     "2031": 580
+    },
+    "basis": "Real = 2026 calendar-year US dollars (note b). 2025 actual; 2026-2027 forecast (f); 2028-2031 projection (z).",
+    "quote": "Prices LME - nominal US$/t 9,939 13,465 13,576 13,146 12,840 12,758 12,798; USc/lb 451 611 616 596 582 579 580 - real b US$/t 10,106 13,466 13,291 12,718 12,156 11,821 11,604; USc/lb 458 611 603 577 551 536 526 ... b In 2026 calendar year US dollars",
+    "text_quote_p102": "Prices are forecast to average US$13,570 a tonne in 2027 before easing to US$11,600 a tonne (real terms) in 2031.",
+    "data_cutoff": "This report refers to developments and data up to 20 September 2026. (p4)",
+    "via": "local copy",
+    "note": "Read from the user-supplied copy of the REQ PDF (scratchpad/li/REQ_full.pdf = printed pp1-96; scratchpad/li/REQ_short.pdf = printed pp97-147), the same copy behind the app's lithium deck. The URL was found by search; www.industry.gov.au could not be opened from this session."
+   },
+   "spot": {
+    "v": null,
+    "date": "",
+    "url": "",
+    "why_null": "No November 2026 LME spot quote was retrieved: the search budget ran out before this step and quote pages cannot be opened from this session.",
+    "latest_in_req": {
+     "text": "In early September 2026, COMEX hit an all-time high of US$15,190 a tonne, while LME prices rose above US$14,700 a tonne, amid US tariff uncertainty.",
+     "page": 104,
+     "url": "https://www.industry.gov.au/sites/default/files/2026-10/resources-and-energy-quarterly-september-2026.pdf",
+     "note": "Context only: early September 2026, not November spot."
+    }
+   },
+   "consensus": [],
+   "consensus_note": "No consensus long-term price was retrieved (World Bank CMO Oct 2026 and company study long-term prices: search budget exhausted).",
+   "long_run_anchor": {
+    "v": 11604,
+    "what": "REQ Sep 2026 end-of-outlook projection for 2031, real 2026 US$/t (text rounds it to US$11,600). This is the REQ's own projection, NOT a consensus.",
+    "url": "https://www.industry.gov.au/sites/default/files/2026-10/resources-and-energy-quarterly-september-2026.pdf",
+    "page": 107
+   }
+  }
+ },
+ "gaps": [
+  "SEARCH BUDGET EXHAUSTED: after about 25 searches by this agent, WebSearch refused further calls ('limit: 200 WebSearch calls per turn, shared by every agent in it'), so collection stopped there. A follow-up turn (or a higher CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION) is needed to finish the gold deals, copper deals, Damodaran rows, November spot prices and consensus prices.",
+  "PAGES COULD NOT BE OPENED: WebFetch fails with 'getaddrinfo ENOTFOUND' for www.industry.gov.au and pages.stern.nyu.edu (sibling agents report the same for announcements.asx.com.au and www.montagegold.com); the environment's network policy blocks them. Every 'via: search' quote is text the search tool returned, sometimes summarised, so verify it on the page once these hosts are allowed: www.industry.gov.au, pages.stern.nyu.edu, announcements.asx.com.au, assets.kpmg.com, plus the news and company hosts cited in 'deals'.",
+  "GOLD DEALS: none collected. To do (from the brief): Northern Star/De Grey (Hemi), Ramelius/Spartan (Dalgaranga), Gold Fields/Osisko Mining (Windfall; Gold Fields already owned 50%, so gross up to 100%), Equinox/Calibre (Valentine), Zijin acquisitions, Perseus/OreCorp (Nyanzaga), Montage/African Gold (Didievi). Independent expert reports in the scheme booklets usually tabulate EV/oz precedents.",
+  "COPPER DEALS: none collected. To do: BHP/OZ Minerals, BHP+Lundin/Filo (Filo del Sol), Hudbay/Copper Mountain, Sandfire/MATSA (announced 2021, completed 2022), Harmony/MAC Copper (CSA). South32/Hermosa was 2018, outside the 2022-2026 window.",
+  "LITHIUM DEALS: only 3 of the 6 deals have a usable US$/t LCE multiple. Mineral Resources/Delta: no takeover found; MinRes was Delta's largest holder (17.4%) and underwrote its Nov 2023 entitlement offer. Azure (Andover) had no resource when bought. Sayona/Piedmont has no aggregate value (share count not retrieved). Arcadium's resource figure could not be read cleanly. More hard-rock deals are needed for a robust median.",
+  "P/NAV (price / study NPV): none stated in any source retrieved; p_nav is null throughout.",
+  "DAMODARAN Jan 2026 industry cost of capital (Metals & Mining, Precious Metals; US and Global): not retrieved, because search excerpts show only the page header. Unverified third-party leads from search results: a US market-wide WACC of 6.96% (7.72% excluding financials) across 5,994 firms; a 3.95% risk-free rate with a 4.46% ERP; precious metals' after-tax cost of debt of 4.51%. These are not used in this file.",
+  "VALUATION CODES (CIMVAL 2019, VALMIN 2015, SAMVAL 2016) on discount rates: not retrieved.",
+  "GOLD AND COPPER STUDY RATES: no study pages opened. Leads to verify, from the user's own Mining_Pipeline_Valuation.pdf (not a source): gold at 5% (Coffee PEA 2026, Springpole PFS 2025, Mt Todd FS 2025, Cariboo FS 2025); base metals at 8% (Canariaco PEA 2024, Santa Cruz PFS 2025, Cactus PFS 2025, Los Azules FS 2025).",
+  "KPMG 2014 is the only commodity-split norm found, and it is dated. A newer survey of NI 43-101/JORC discount rates was searched for and not found.",
+  "SPOT PRICES: no November 2026 spot gold or LME copper. The REQ's latest levels (Q3 2026 / early September) are given as context only.",
+  "CONSENSUS: World Bank CMO (Oct 2026) and company study long-term gold and copper prices were not retrieved. The REQ 2031 real projection is given as a long-run anchor and labelled as not a consensus.",
+  "REQ PAGE NUMBERS are printed page numbers, which equal PDF page numbers in the full report (the user-supplied copy is split in two: REQ_short page 11 = printed page 107).",
+  "ALL LITHIUM MULTIPLES are on resource (M+I+I), not reserve, and use equity consideration (not EV) where derived. The Li2O-to-LCE factor 2.473 is from Rio Tinto's Arcadium presentation (quote in that deal's other_sources)."
+ ],
+ "provenance_key": {
+  "local copy": "read in this task from a user-supplied copy of a public document (REQ PDF, company study PDFs, Damodaran workbook); page numbers are the document's own",
+  "search": "figure and quote returned by WebSearch (pages could not be opened); quotes may be summarised by the search tool"
+ }
+}

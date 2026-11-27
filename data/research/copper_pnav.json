@@ -1,0 +1,615 @@
+{
+ "asOf": "2026-11-26",
+ "commodity": "copper",
+ "provenance": "All values come from WebSearch results (the search tool reads pages on its side and returns quoted facts with their URLs). No page or PDF was opened in this session: WebFetch failed on www.listcorp.com, www.hotchili.net.au and announcements.asx.com.au (getaddrinfo ENOTFOUND: not in the session's allowed network domains), and the turn's 200-call web-search budget then ran out. So 'page' is null throughout; quote_kind 'extract' marks text the result presented as the page's own words, 'summary' marks the search tool's wording. Derived values show their sum and use no outside number. Verify each value against the document before it sets a typical value. Market data are the latest each search result showed (6-25 Nov 2026), not all on 26 Nov.",
+ "hosts_to_allow": {
+  "failed_in_webfetch": [
+   "www.listcorp.com",
+   "www.hotchili.net.au",
+   "announcements.asx.com.au"
+  ],
+  "also_needed_for_page_citations": [
+   "www.sedarplus.ca",
+   "losandescopper.com",
+   "www.highlandcopper.com",
+   "www.westerncopperandgold.com",
+   "newworldres.com",
+   "caravelminerals.com.au",
+   "solgold.com",
+   "cdn-api.markitdigital.com"
+  ]
+ },
+ "gaps": [
+  "No 26 Nov 2026 market FX rate: C$ uses the 1 Sep 2026 Los Andes conversion (0.7175), A$ the Oct 2026 Atlantic Lithium conversion (0.7199).",
+  "Ownership not found for Hot Chili, Western, Caravel and SolGold (computed at 100%).",
+  "Cash is from Jun or Sep 2026; Western's and Caravel's debt and SolGold's and New World's cash and debt not found.",
+  "Share counts missing for Hot Chili, Caravel, SolGold and New World; Los Andes's is from Sep 2025.",
+  "Caravel has only a pre-tax NPV; Western's share price fell about 70% in 2026 for a reason not in the results; completion and final price of the New World takeover not confirmed.",
+  "Foran (McIlvenna Bay) and other developers not collected: budget ran out."
+ ],
+ "companies": [
+  {
+   "company": "Hot Chili Limited",
+   "ticker": "ASX: HCH; TSXV: HCH",
+   "project": "Costa Fuego",
+   "stage": "PFS (Mar 2025); revised PFS under way",
+   "npv": {
+    "v": 1200,
+    "currency": "US$",
+    "rate_pct": 8,
+    "basis": null,
+    "tax": "post-tax",
+    "copper_price": 4.3,
+    "page": null,
+    "url": "https://www.prnewswire.com/news-releases/hot-chili-announces-pfs--maiden1-mineral-reserve2-for-the-costa-fuego-cu-au-project-302412863.html",
+    "via": "search",
+    "quote": "Post-tax Net Present Value (NPV8%) of US$1.2 billion (approximately, within a range of US$786 million to US$1.62 Billion) and post-tax Internal Rate of Return (IRR) of 19%"
+   },
+   "ownership_pct": null,
+   "share_price": {
+    "v": 1.245,
+    "currency": "A$",
+    "date": "2026-11-16",
+    "url": "https://www.investing.com/equities/hot-chili-f",
+    "via": "search",
+    "quote": "1.245 AUD as of 16 November 2026, with a 52-week range of 0.760 AUD to 2.190 AUD",
+    "note": "TSXV: C$1.30 on 10 Nov 2026 (TMX Money)."
+   },
+   "shares_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "note": "Not in results. Market cap / price would give about 189M, but the two figures are from different dates and pages."
+   },
+   "market_cap_M": {
+    "v": 235.37,
+    "currency": "A$",
+    "date": "2026-11-25",
+    "url": "https://hellostake.com/au/invest/aus/stocks/hch",
+    "via": "search",
+    "quote": "as of 25 November 2026 Hot Chili has a market cap of $235.37M"
+   },
+   "cash_M": {
+    "v": 29.3,
+    "currency": "A$",
+    "date": "2026-09-30",
+    "url": "https://www.prnewswire.com/news-releases/hot-chili-limited---quarterly-report-period-ending-30-september-2026-302925410.html",
+    "via": "search",
+    "quote": "the company had cash of A$29.3 million and no debt as of 30 September 2026",
+    "quote_kind": "summary"
+   },
+   "debt_M": {
+    "v": 0,
+    "currency": "A$",
+    "date": "2026-09-30",
+    "url": "https://www.prnewswire.com/news-releases/hot-chili-limited---quarterly-report-period-ending-30-september-2026-302925410.html",
+    "via": "search",
+    "quote": "the company had cash of A$29.3 million and no debt as of 30 September 2026",
+    "quote_kind": "summary"
+   },
+   "fx_to_usd": {
+    "v": 0.7199,
+    "unit": "US$ per A$",
+    "date": "2026-10",
+    "quote": "all-cash consideration of US$0.25486 per share (A$0.354 per share / £0.188 per share)",
+    "url": "https://www.investegate.co.uk/announcement/rns/atlantic-lithium-limited-npv-di---all/quarterly-activities-and-cash-flow-report/9842348",
+    "via": "search (by the lithium P/NAV agent in this task; recorded in lithium_pnav.json)",
+    "calc": "0.25486 / 0.354",
+    "note": "Company-stated conversion in an Oct 2026 report (fixing date not stated), not the 26 Nov 2026 market rate; used for consistency with lithium_pnav.json."
+   },
+   "ev_local_M": 206.07,
+   "ev_usd_M": 148.4,
+   "ev_calc": "(235.37 - 29.3 + 0) A$M x 0.7199",
+   "npv_attr_usd_M": 1200.0,
+   "npv_calc": "1,200 US$M at 100% (ownership not found; 100% assumed, so P/NAV is a lower bound if Hot Chili owns less)",
+   "p_nav": 0.124,
+   "notes": "Ownership of the Costa Fuego hub not found (computed at 100%). The A$/US$ rate is an Oct 2026 company-stated conversion taken from the lithium P/NAV file. Muddied by US$30M of OR Royalties royalty funding on Costa Fuego since the PFS, an asset-level partnering process, the La Verde addition and a PFS revision under way. Share price 16 Nov, market cap 25 Nov 2026."
+  },
+  {
+   "company": "Los Andes Copper Ltd.",
+   "ticker": "TSXV: LA",
+   "project": "Vizcachitas",
+   "stage": "PFS (Feb 2023)",
+   "npv": {
+    "v": 2776,
+    "currency": "US$",
+    "rate_pct": 8,
+    "basis": null,
+    "tax": "post-tax",
+    "copper_price": 3.68,
+    "page": null,
+    "url": "https://losandescopper.com/news/2023/los-andes-copper-announces-positive-pfs-for-vizcachitas-with-a-us-2.77-billion-post-tax-npv-and-24-irr/",
+    "via": "search",
+    "quote": "A US$2.776 billion after-tax net present value (NPV) using an 8% discount rate and an internal rate of return (IRR) of 24.2%"
+   },
+   "ownership_pct": 100,
+   "ownership_source": {
+    "url": "https://losandescopper.com/site/assets/files/3750/lac_-_mda_jun_30-_2026_-_final.pdf",
+    "via": "search",
+    "date": "2026-06-30",
+    "quote": "With this transaction, the entire resource contained in the Vizcachitas Property came under · unified ownership."
+   },
+   "share_price": {
+    "v": 11.46,
+    "currency": "C$",
+    "date": "2026-11-11",
+    "url": "https://www.investing.com/equities/los-andes-copper-ltd",
+    "via": "search",
+    "quote": "11.46 CAD, previous close 11.46 CAD; 52-week range spanning 8.26 CAD to 18.97 CAD"
+   },
+   "shares_M": {
+    "v": 29.564175,
+    "date": "2025-09-30",
+    "url": "https://losandescopper.com/site/assets/files/3704/los_andes_copper_february_2026.pdf",
+    "via": "search",
+    "quote": "Shares Outstanding · 29,564,175 · Options · 62,259 · Total shares · (fully diluted)** 29,626,434",
+    "note": "Before the Apr 2026 conversion of the US$5M 2021 debenture (558,502 shares plus 80,071 pending approval) and small interest share issues."
+   },
+   "market_cap_M": {
+    "v": 348.37,
+    "currency": "C$",
+    "date": "2026-11-11",
+    "url": "https://www.thestockobserver.com/2026/11/11/los-andes-copper-cvela-stock-jumps-0-5-still-a-buy.html",
+    "via": "search",
+    "quote": "market cap of C$348.37 million, a PE ratio of -45.84",
+    "note": "Other November articles give C$369.96M and C$332.87M; the search result did not tie each figure to a page with certainty."
+   },
+   "cash_M": {
+    "v": 17.616,
+    "currency": "C$ (the MD&A writes '$'; presumed C$)",
+    "date": "2026-06-30",
+    "url": "https://losandescopper.com/site/assets/files/3750/lac_-_mda_jun_30-_2026_-_final.pdf",
+    "via": "search",
+    "quote": "At June 30, 2026, the Company had a cash balance of $17,615,758 (September 30, 2025: $22,792,229)"
+   },
+   "debt_M": {
+    "v": 9.0,
+    "currency": "US$",
+    "date": "2026-09-01",
+    "url": "https://losandescopper.com/site/assets/files/3749/2026-09-01-los-andes-nr.pdf",
+    "via": "search",
+    "quote": "a US$4,000,000 debenture issued on April 4, 2022, and a US$5,000,000 debenture issued on September 2, 2022, for a combined face value of US$9,000,000.",
+    "note": "Still outstanding on 1 Sep 2026 (interest paid then); face value, convertible."
+   },
+   "fx_to_usd": {
+    "v": 0.7175,
+    "unit": "US$ per C$",
+    "date": "2026-09-01",
+    "quote": "the Company has elected to issue 7,281 common shares in the capital of the Company at a deemed price of US$9.27 (C$12.92)",
+    "url": "https://losandescopper.com/site/assets/files/3749/2026-09-01-los-andes-nr.pdf",
+    "via": "search",
+    "calc": "9.27 / 12.92 (also 67,495 / 94,071 in the same release)",
+    "note": "Company-stated conversion on 1 Sep 2026, not the 26 Nov 2026 rate; no search result gave a November rate."
+   },
+   "ev_usd_M": 246.3,
+   "ev_calc": "(348.37 - 17.62) C$M x 0.7175 + 9.0 US$M",
+   "npv_attr_usd_M": 2776.0,
+   "p_nav": 0.089,
+   "notes": "2023 PFS at US$3.68/lb Cu. Turnbrook Mining (private) holds 48.68% of the shares (thin float). Ecora and RCF royalties sold on the project; whether the PFS NPV deducts them is not known. Cash currency presumed C$."
+  },
+  {
+   "company": "Highland Copper Company Inc.",
+   "ticker": "TSXV: HI",
+   "project": "Copperwood",
+   "stage": "FS (Mar 2023); fully permitted, construction decision pending",
+   "npv": {
+    "v": 168,
+    "currency": "US$",
+    "rate_pct": 8,
+    "basis": null,
+    "tax": "post-tax",
+    "copper_price": 4.02,
+    "page": null,
+    "url": "https://www.highlandcopper.com/news/23-03-06-news/",
+    "via": "search",
+    "quote": "an NPV (8% Discount Rate) of $222 million before taxes and $168 million after taxes at a copper price of $4.02/lb and a silver price of $25.00/oz."
+   },
+   "ownership_pct": 100,
+   "ownership_source": {
+    "url": "https://www.highlandcopper.com/news/highland-copper-closes-sale-of-34-interest-in-white-pine-for-us30-million/",
+    "via": "search",
+    "date": "2026-03-02",
+    "quote": "100% owned, fully permitted Copperwood Project",
+    "quote_kind": "summary"
+   },
+   "share_price": {
+    "v": 0.125,
+    "currency": "C$",
+    "date": "2026-11-13",
+    "url": "https://money.tmx.com/en/quote/HI",
+    "via": "search",
+    "quote": "TMX shows a last trade of $0.125 on Nov 13, 2026, with a bid/ask of $0.125/$0.13.",
+    "quote_kind": "summary"
+   },
+   "shares_M": {
+    "v": 738.188122,
+    "date": "2026-03",
+    "url": "https://www.highlandcopper.com/news/highland-copper-closes-sale-of-34-interest-in-white-pine-for-us30-million/",
+    "via": "search",
+    "quote": "The company reported 738,188,122 common shares issued and outstanding.",
+    "quote_kind": "summary",
+    "note": "The result did not say which Highland page (closing release or interim statements) gave the count."
+   },
+   "market_cap_M": {
+    "v": 92.27,
+    "currency": "C$",
+    "date": "2026-11-13",
+    "url": null,
+    "via": "derived",
+    "calc": "738.188 M shares x C$0.125",
+    "note": "Investing.com gave C$110.73M at C$0.15 on 13 Aug 2026."
+   },
+   "cash_M": {
+    "v": 16.6,
+    "currency": "US$ (presumed: the release writes '$')",
+    "date": "2026-09-30",
+    "url": "https://www.globenewswire.com/news-release/2026/11/19/3407189/0/en/highland-copper-reports-q1-2027-financial-and-operational-results.html",
+    "via": "search",
+    "quote": "cash of $16.6 million at September 30, 2026, compared with $18.9 million as of June 30, 2026",
+    "quote_kind": "summary"
+   },
+   "debt_M": {
+    "v": 0,
+    "currency": "US$",
+    "date": "2026-03-02",
+    "url": "https://www.highlandcopper.com/news/highland-copper-closes-sale-of-34-interest-in-white-pine-for-us30-million/",
+    "via": "search",
+    "quote": "US$18.3 million in cash, net of the outstanding principal and accrued interest on the loan made by Kinterra to the Company's wholly owned subsidiary, Upper Peninsula Copper Holdings Inc., which was a total of US$11.8 million at closing.",
+    "note": "The Kinterra loan was settled out of the White Pine sale at closing; no later debt found."
+   },
+   "fx_to_usd": {
+    "v": 0.7175,
+    "unit": "US$ per C$",
+    "date": "2026-09-01",
+    "quote": "the Company has elected to issue 7,281 common shares in the capital of the Company at a deemed price of US$9.27 (C$12.92)",
+    "url": "https://losandescopper.com/site/assets/files/3749/2026-09-01-los-andes-nr.pdf",
+    "via": "search",
+    "calc": "9.27 / 12.92 (also 67,495 / 94,071 in the same release)",
+    "note": "Company-stated conversion on 1 Sep 2026, not the 26 Nov 2026 rate; no search result gave a November rate."
+   },
+   "ev_usd_M": 49.6,
+   "ev_calc": "92.27 C$M x 0.7175 - 16.6 US$M",
+   "npv_attr_usd_M": 168.0,
+   "p_nav": 0.295,
+   "notes": "NPV is the 2023 FS at US$4.02/lb Cu. If the US$16.6M cash were C$, P/NAV would be 0.323. OR Royalties holds an option to lift its silver royalty from 11.5% to 100% (US$3.0M, 31 Dec 2027). A US$50M Michigan grant depends on US$150M of other financing by 31 Mar 2028. Share price is 13 Nov 2026."
+  },
+  {
+   "company": "Western Copper and Gold Corporation",
+   "ticker": "TSX: WRN; NYSE American: WRN",
+   "project": "Casino",
+   "stage": "FS (Jun 2022); in Yukon assessment (ESE Statement submitted Oct 2025)",
+   "npv": {
+    "v": 2300,
+    "currency": "C$",
+    "rate_pct": 8,
+    "basis": null,
+    "tax": "post-tax",
+    "copper_price": 3.6,
+    "page": null,
+    "url": "https://www.westerncopperandgold.com/news-and-resources/news-release/western-copper-and-gold-announces-positive-feasibility-on-casino/",
+    "via": "search",
+    "quote": "$2.3 billion After-Tax NPV (8%) at Base Case metal prices"
+   },
+   "ownership_pct": null,
+   "share_price": {
+    "v": 1.18,
+    "currency": "US$",
+    "date": "2026-11-24",
+    "url": "https://robinhood.com/us/en/stocks/WRN/",
+    "via": "search",
+    "quote": "The current Western Copper & Gold(WRN) stock price is $1.18, with a market capitalization of 267.09M."
+   },
+   "shares_M": {
+    "v": 226.276171,
+    "date": null,
+    "url": "https://money.tmx.com/en/quote/WRN",
+    "via": "search",
+    "quote": "226,276,171 issued and outstanding listed shares",
+    "quote_kind": "summary",
+    "note": "Consistent with the Robinhood price and market cap (226.28 x 1.18 = 267.0)."
+   },
+   "market_cap_M": {
+    "v": 267.09,
+    "currency": "US$",
+    "date": "2026-11-24",
+    "url": "https://robinhood.com/us/en/stocks/WRN/",
+    "via": "search",
+    "quote": "The current Western Copper & Gold(WRN) stock price is $1.18, with a market capitalization of 267.09M."
+   },
+   "cash_M": {
+    "v": 128.64,
+    "currency": "C$",
+    "date": "2026-06-30",
+    "url": "https://www.westerncopperandgold.com/wp-content/uploads/2026/05/2026.06.30-WRN-Q2-2026-MDA.pdf",
+    "via": "search",
+    "quote": "Cash and cash equivalents and short-term investments totaled $128,640,227 as at June 30, 2026",
+    "note": "Q3 2026 figure not found; cash is expected to fall each period."
+   },
+   "debt_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "note": "Not in results; EV treats it as zero."
+   },
+   "fx_to_usd": {
+    "v": 0.7175,
+    "unit": "US$ per C$",
+    "date": "2026-09-01",
+    "quote": "the Company has elected to issue 7,281 common shares in the capital of the Company at a deemed price of US$9.27 (C$12.92)",
+    "url": "https://losandescopper.com/site/assets/files/3749/2026-09-01-los-andes-nr.pdf",
+    "via": "search",
+    "calc": "9.27 / 12.92 (also 67,495 / 94,071 in the same release)",
+    "note": "Company-stated conversion on 1 Sep 2026, not the 26 Nov 2026 rate; no search result gave a November rate."
+   },
+   "ev_usd_M": 174.8,
+   "ev_calc": "267.09 US$M - 128.64 C$M x 0.7175 + 0",
+   "npv_attr_usd_M": 1650.2,
+   "npv_calc": "2,300 C$M x 0.7175 at 100% (ownership not found; 100% assumed)",
+   "p_nav": 0.106,
+   "notes": "Share price fell from a C$4.15 bought deal (Feb 2026) to US$1.18 (52-week range US$1.11-4.26); the cause is not in the results, so check it before using this point. NPV is the 2022 FS at US$3.60/lb Cu in C$, converted at a Sep 2026 rate. Includes an oxide heap leach."
+  },
+  {
+   "company": "Caravel Minerals Limited",
+   "ticker": "ASX: CVV",
+   "project": "Caravel Copper Project",
+   "stage": "PFS (2022, updated 2023); DFS due Q4 2026",
+   "npv": {
+    "v": 1500,
+    "currency": "A$",
+    "rate_pct": 7,
+    "basis": "real",
+    "tax": "pre-tax",
+    "copper_price": null,
+    "page": null,
+    "url": "https://caravelminerals.com.au/wp-content/uploads/2023/01/CaravelMineralsCVVPFSUpdate.pdf",
+    "via": "search",
+    "quote": "At a 7% real discount rate the Project cashflows generate a pre-tax Net Present Value (NPV) of $1.5B (within a range of $1.3B to $1.7B) (PFS: $1.066B)"
+   },
+   "ownership_pct": null,
+   "share_price": {
+    "v": 0.185,
+    "currency": "A$",
+    "date": "2026-11-06",
+    "url": "https://www.investing.com/equities/caravel-minerals-ltd",
+    "via": "search",
+    "quote": "0.185 AUD as of Nov 6, 2026, with a previous close of 0.200 AUD",
+    "quote_kind": "summary"
+   },
+   "shares_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "note": "Not in results: an undated forum post says 223.4M, while market cap / price gives about 574M; they conflict."
+   },
+   "market_cap_M": {
+    "v": 106.16,
+    "currency": "A$",
+    "date": "2026-11-06",
+    "url": "https://www.investing.com/equities/caravel-minerals-ltd",
+    "via": "search",
+    "quote": "Investing.com gives 106.160M AUD, which fits the lower price.",
+    "quote_kind": "summary"
+   },
+   "cash_M": {
+    "v": 34.7,
+    "currency": "A$",
+    "date": "2026-06-30",
+    "url": "https://dilutionlens.com/company/CVV/",
+    "via": "search",
+    "quote": "as of the June 2026 quarter, the company reported A$34.7M in available cash",
+    "note": "Third-party summary of the June 2026 quarterly; September quarter not found."
+   },
+   "debt_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "note": "Not in results; EV treats it as zero."
+   },
+   "fx_to_usd": {
+    "v": 0.7199,
+    "unit": "US$ per A$",
+    "date": "2026-10",
+    "quote": "all-cash consideration of US$0.25486 per share (A$0.354 per share / £0.188 per share)",
+    "url": "https://www.investegate.co.uk/announcement/rns/atlantic-lithium-limited-npv-di---all/quarterly-activities-and-cash-flow-report/9842348",
+    "via": "search (by the lithium P/NAV agent in this task; recorded in lithium_pnav.json)",
+    "calc": "0.25486 / 0.354",
+    "note": "Company-stated conversion in an Oct 2026 report (fixing date not stated), not the 26 Nov 2026 market rate; used for consistency with lithium_pnav.json."
+   },
+   "ev_local_M": 71.46,
+   "ev_usd_M": 51.4,
+   "ev_calc": "(106.16 - 34.7 + 0) A$M x 0.7199",
+   "npv_attr_usd_M": 1079.9,
+   "npv_calc": "1,500 A$M pre-tax x 0.7199 at 100% (ownership not found)",
+   "p_nav": 0.048,
+   "p_nav_calc": "(106.16 - 34.7) A$M / 1,500 A$M, both in A$ so no FX is needed; at 100%",
+   "notes": "PRE-TAX NPV (no post-tax NPV published at PFS), so this P/NAV is low against post-tax peers. NPV is the Sep 2022 PFS update; on the Jul 2022 PFS (A$1,066M) it would be 0.067. Ownership not found (100% assumed). DFS imminent."
+  },
+  {
+   "company": "SolGold plc",
+   "ticker": "LSE: SOLG (delisted)",
+   "project": "Cascabel",
+   "stage": "PFS (Feb 2024); acquired by Jiangxi Copper at 28p (scheme effective 4 Mar 2026): deal price",
+   "npv": {
+    "v": 3200,
+    "currency": "US$",
+    "rate_pct": 8,
+    "basis": null,
+    "tax": "post-tax",
+    "copper_price": 3.85,
+    "page": null,
+    "url": "https://solgold.com/solgold-plc-announces-completion-of-new-cascabel-pre-feasibility-study/",
+    "via": "search",
+    "quote": "a $3.2bn after-tax NPV at 8% with a 24% IRR and a 4-year payback counted from the start of processing",
+    "quote_kind": "summary"
+   },
+   "ownership_pct": null,
+   "share_price": {
+    "v": 0.28,
+    "currency": "GBP (deal price)",
+    "date": "2026-03-04",
+    "url": "https://www.investegate.co.uk/announcement/rns/solgold--solg/recommended-acquisition-of-solgold-plc/9318552",
+    "via": "search",
+    "quote": "The offer is 28 pence per SolGold share valuing SolGold's entire issued share capital at £867 million."
+   },
+   "shares_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "note": "Not in results (867 / 0.28 would give about 3,096M)."
+   },
+   "market_cap_M": {
+    "v": 867.0,
+    "currency": "GBP (deal equity value)",
+    "date": "2026-03-04",
+    "url": "https://www.investegate.co.uk/announcement/rns/solgold--solg/recommended-acquisition-of-solgold-plc/9318552",
+    "via": "search",
+    "quote": "The offer is 28 pence per SolGold share valuing SolGold's entire issued share capital at £867 million."
+   },
+   "cash_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "note": "Not in results."
+   },
+   "debt_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "note": "Not in results; stream and NSR obligations exist (see notes)."
+   },
+   "fx_to_usd": {
+    "v": 1.384,
+    "unit": "US$ per GBP",
+    "via": "derived",
+    "calc": "US$1.2B headline / £867M",
+    "url": "https://www.mining.com/web/solgold-agrees-to-1-2-billion-takeover-by-top-investor-jiangxi-copper/",
+    "quote": "SolGold agrees to $1.2 billion takeover by top investor Jiangxi Copper",
+    "note": "Rounded news headline; low precision."
+   },
+   "ev_usd_M": 1200.0,
+   "ev_calc": "deal equity value US$1.2B (headline); cash and debt not adjusted",
+   "npv_attr_usd_M": 3200.0,
+   "p_nav": 0.375,
+   "notes": "Deal multiple, not a market price. The Feb 2024 PFS NPV is before the Jul 2024 US$750M stream/NSR package (Franco-Nevada 70%, OR 30%); in Feb 2026 SolGold/JCC bought back 50% of the stream and of the NSR (about US$97.5M cash plus about US$40.7M of gold to Franco-Nevada). Jiangxi was already the top shareholder. Cash and debt not found."
+  },
+  {
+   "company": "New World Resources Limited",
+   "ticker": "ASX: NWC",
+   "project": "Antler",
+   "stage": "PFS (Jul 2024); agreed takeover by Central Asia Metals at A$0.05 (announced May 2025): deal price",
+   "npv": {
+    "v": 498,
+    "currency": "US$",
+    "rate_pct": 7,
+    "basis": null,
+    "tax": "post-tax",
+    "copper_price": null,
+    "page": null,
+    "url": "https://www.globalminingreview.com/mining/23052025/caml-to-acquire-new-world-resources/",
+    "via": "search",
+    "quote": "The pre-feasibility study showed a post-tax net present value (NPV) of US$498 million at a 7% discount rate.",
+    "quote_kind": "summary"
+   },
+   "ownership_pct": 100,
+   "ownership_source": {
+    "url": "https://www.globalminingreview.com/mining/23052025/caml-to-acquire-new-world-resources/",
+    "via": "search",
+    "quote": "The acquisition of NWR will add to CAML's portfolio a 100% interest in the Antler Project"
+   },
+   "share_price": {
+    "v": 0.05,
+    "currency": "A$ (scheme consideration)",
+    "date": "2025-05-21",
+    "url": "https://www.investegate.co.uk/announcement/rns/central-asia-metals--caml/proposed-acquisition-of-new-world-resources-/8888759",
+    "via": "search",
+    "quote": "the Scheme Consideration values the fully diluted equity value of NWR at AUS$185 million (US$119 million)",
+    "quote_kind": "summary",
+    "note": "A$0.05 cash per share, a 78.6% premium to A$0.028 on 20 May 2025."
+   },
+   "shares_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "note": "Not in results."
+   },
+   "market_cap_M": {
+    "v": 185,
+    "currency": "A$ (deal, fully diluted equity)",
+    "date": "2025-05-21",
+    "url": "https://www.investegate.co.uk/announcement/rns/central-asia-metals--caml/proposed-acquisition-of-new-world-resources-/8888759",
+    "via": "search",
+    "quote": "the Scheme Consideration values the fully diluted equity value of NWR at AUS$185 million (US$119 million)"
+   },
+   "cash_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "note": "Not in results."
+   },
+   "debt_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "note": "Not in results."
+   },
+   "fx_to_usd": {
+    "v": 0.6432,
+    "unit": "US$ per A$",
+    "via": "derived",
+    "calc": "US$119M / A$185M (stated pair in the CAML announcement)",
+    "url": "https://www.investegate.co.uk/announcement/rns/central-asia-metals--caml/proposed-acquisition-of-new-world-resources-/8888759",
+    "date": "2025-05-21"
+   },
+   "ev_usd_M": 119.0,
+   "ev_calc": "fully diluted equity value US$119M; cash and debt not adjusted",
+   "npv_attr_usd_M": 498.0,
+   "p_nav": 0.239,
+   "notes": "Deal multiple at the announced terms. Completion not confirmed in the results, and one article (Discovery Alert, Jul 2025) reports a rival Kinterra bid and a final CAML offer of A$0.062 (about A$230M), unverified; at that price P/NAV would be about 0.30. Polymetallic underground project; NPV at 7%."
+  }
+ ],
+ "summary": {
+  "n": 7,
+  "median_p_nav": 0.124,
+  "median_note": "All seven, mixing five market prices with two deal prices, and one pre-tax NPV (Caravel).",
+  "median_listed_post_tax": {
+   "n": 4,
+   "v": 0.115,
+   "who": "Hot Chili, Los Andes, Highland, Western"
+  },
+  "median_deals": {
+   "n": 2,
+   "v": 0.307,
+   "who": "SolGold (Jiangxi, 28p), New World (CAML, A$0.05)"
+  },
+  "by_stage": {
+   "PFS, listed (market)": {
+    "n": 3,
+    "median": 0.089,
+    "values": [
+     0.124,
+     0.089,
+     0.048
+    ],
+    "note": "Hot Chili and Los Andes (post-tax), Caravel (pre-tax)"
+   },
+   "FS, listed (market)": {
+    "n": 2,
+    "median": 0.2,
+    "values": [
+     0.295,
+     0.106
+    ],
+    "note": "Highland and Western"
+   },
+   "PFS, acquired (deal price)": {
+    "n": 2,
+    "median": 0.307,
+    "values": [
+     0.375,
+     0.239
+    ],
+    "note": "New World and SolGold"
+   }
+  }
+ }
+}

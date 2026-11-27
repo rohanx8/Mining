@@ -1,0 +1,1810 @@
+{
+  "asOf": "2026-11-26",
+  "valuation_date": "2026-01-01",
+  "method_note": "Every value comes from text the WebSearch tool returned for the cited URL (via: 'search'). No page was opened with WebFetch, because this session's network policy blocks it. Some 'quotes' may be the search tool's close paraphrase and are marked where suspected. No number is filled from memory or derived; unknowns are null.",
+  "jurisdictions": [
+    {
+      "id": "GH",
+      "name": "Ghana",
+      "country": "Ghana",
+      "gold": {
+        "royalties": [
+          {
+            "name": "Mineral royalty: Minerals and Mining (Royalties) Regulations, 2025 (L.I. 2517), gold (non-small-scale mining operations)",
+            "rate_pct": null,
+            "base": "gross",
+            "price_unit": "US$/oz: weekly average LBMA London PM fix for the month's gold sales",
+            "bands": [
+              {
+                "up_to_price": 1900,
+                "rate_pct": 5.0
+              },
+              {
+                "up_to_price": 2000,
+                "rate_pct": 6.0
+              },
+              {
+                "up_to_price": 2500,
+                "rate_pct": 7.0
+              },
+              {
+                "up_to_price": 3000,
+                "rate_pct": 8.0
+              },
+              {
+                "up_to_price": 3500,
+                "rate_pct": 9.0
+              },
+              {
+                "up_to_price": 4000,
+                "rate_pct": 10.0
+              },
+              {
+                "up_to_price": 4500,
+                "rate_pct": 11.0
+              },
+              {
+                "up_to_price": null,
+                "rate_pct": 12.0
+              }
+            ],
+            "notes": "rate_pct is null because the rate is price-linked; apply the band (schedule wording 'Above X - Y', so upper bound inclusive). Small-scale gold has a separate 2% rate. Gazette notification 19 Dec 2025; in force 10 Mar 2026 (one report says 9 Mar). Replaced the flat 5% royalty: 'The fixed rate of 5% with royalty bands for gold and lithium have been abolished.' The flat 5% was the rate at the 1 Jan 2026 valuation date. Reportedly not applied to holders of a valid stability or development agreement fixed before the L.I.; a new lease pays the sliding scale. Royalty is due within 15 days after month end, on revenue from sales. A secondary source says 'a minimum of 5% royalty where gold price is below $2000'; the schedule text shows 5% only up to US$1,900."
+          },
+          {
+            "name": "Growth and Sustainability Levy (GSL)",
+            "rate_pct": 1.0,
+            "base": "gross",
+            "bands": [],
+            "notes": "1% of gross production. The GSL (Amendment) Act 2026 was passed on 13 Mar 2026; TaxLawGH reports it was assented to and gazetted as Act 1166 on 31 Mar 2026. It cut gold miners from 3% back to 1% and applies the 1% to mining and upstream petroleum companies generally. At the 1 Jan 2026 valuation date gold miners paid 3%. Quote (GhTaxClub news, https://ghtaxclub.com/news/ghana-reduces-gsl-on-mining-companies-from-3-to-1/, via search): 'The Government has now decided to revert to the original 1% for all mining and upstream petroleum entities.'",
+            "source": {
+              "url": "https://gna.org.gh/2026/03/parliament-passes-growth-and-sustainability-levy/",
+              "page": null,
+              "quote": "It will reduce the levy imposed on gold mining companies from three per cent to one per cent of gross production.",
+              "date": "2026-03 (bill passed 13 Mar 2026)",
+              "via": "search"
+            }
+          }
+        ],
+        "source": {
+          "url": "https://ghtaxclub.com/wp-content/uploads/2026/04/Minerals-and-Mining-Royalty-Regulations-2025-L.I.-2517.pdf",
+          "page": null,
+          "quote": "GOLD (NON-SMALL SCALE MINING OPERATIONS) Gold Price US$ / Ounce ... Up to US$1,900 · 5.0% Above US$1,900 - US$2,000 · 6.0% Above US$2,000 - US$2,500 · 7.0% Above US$2,500 - US$3,000 · 8.0% Above US$3,000 - US$3,500 · 9.0% Above US$3,500 - US$4,000 · 10.0% Above US$4,000 - US$4,500 · 11.0% Above US$4,500 · 12.0%",
+          "date": "L.I. 2517 gazetted 2025-12-19, in force 2026-03-10; PDF uploaded 2026-04",
+          "via": "search",
+          "note": "Band text returned by searches on this PDF and on the TaxLawGH LI 2517 page (https://www.taxlawgh.com/ghana-minerals-mining-royalties-regulations-li-2517); page number unknown. Price basis, from the same results: 'the weekly average of the London PM Fix Price of the London Bullion Market Association in United States Dollars per fine troy ounce with respect to the sales of gold during the month.' In-force date, from TaxLawGH: 'came into force on 10 March 2026'."
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": "Mineral royalty (copper)",
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Not found. Summaries of L.I. 2517 name gold, lithium, diamonds, bauxite, manganese, salt, industrial minerals, limestone and iron ore, and do not name copper. One search summary said the seven non-gold, non-lithium categories stay at a flat 5%. The rate for unnamed minerals was not verified."
+          },
+          {
+            "name": "Growth and Sustainability Levy (GSL)",
+            "rate_pct": 1.0,
+            "base": "gross",
+            "bands": [],
+            "notes": "1% of gross production. The GSL (Amendment) Act 2026 was passed on 13 Mar 2026; TaxLawGH reports it was assented to and gazetted as Act 1166 on 31 Mar 2026. It cut gold miners from 3% back to 1% and applies the 1% to mining and upstream petroleum companies generally. At the 1 Jan 2026 valuation date gold miners paid 3%. Quote (GhTaxClub news, https://ghtaxclub.com/news/ghana-reduces-gsl-on-mining-companies-from-3-to-1/, via search): 'The Government has now decided to revert to the original 1% for all mining and upstream petroleum entities.'",
+            "source": {
+              "url": "https://gna.org.gh/2026/03/parliament-passes-growth-and-sustainability-levy/",
+              "page": null,
+              "quote": "It will reduce the levy imposed on gold mining companies from three per cent to one per cent of gross production.",
+              "date": "2026-03 (bill passed 13 Mar 2026)",
+              "via": "search"
+            }
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": "Mineral royalty: L.I. 2517, lithium (spodumene)",
+            "rate_pct": null,
+            "base": "gross",
+            "price_unit": "US$/t spodumene concentrate. The market value is set by the parties at arm's length, having regard to international prices. No reference grade is stated, so SC6 is an assumption.",
+            "bands": [
+              {
+                "up_to_price": 1500,
+                "rate_pct": 5.0
+              },
+              {
+                "up_to_price": 2500,
+                "rate_pct": 7.0
+              },
+              {
+                "up_to_price": 3000,
+                "rate_pct": 10.0
+              },
+              {
+                "up_to_price": null,
+                "rate_pct": 12.0
+              }
+            ],
+            "alt_bands_ewoyaa_reports": [
+              {
+                "up_to_price": 1500,
+                "rate_pct": 5.0
+              },
+              {
+                "up_to_price": 2300,
+                "rate_pct": 7.0
+              },
+              {
+                "up_to_price": 3200,
+                "rate_pct": 10.0
+              },
+              {
+                "up_to_price": null,
+                "rate_pct": 12.0
+              }
+            ],
+            "notes": "SOURCES CONFLICT; the schedule page itself was not read. 'bands' follows summaries of the regulation (WTS Global, TaxLawGH) and Ecofin's Dec 2025 report. 'alt_bands_ewoyaa_reports' follows smallcaps.com.au's Mar 2026 report of the ratified Ewoyaa lease; Bloomberg (20 Mar 2026) and Reuters (via Mining Weekly and CNBC Africa) also put the 12% threshold at US$3,200, and a promotional Kodal piece (Oct 2026) says the 1,500/2,300/3,200 schedule is binding and 'earlier proposals used different breakpoints'. SC6 at US$2,501-3,000/t = 10% in every version. SC6 at US$3,001-3,200/t = 12% under 'bands' but 10% under the alt bands. Also, US$2,301-2,500 = 7% vs 10%. In Dec 2025 the Lands Minister said lithium was at 7% under then-current prices (quote: 'lithium attracts a royalty rate of 7%, which could rise to as much as 12% if prices increase significantly'). Before 10 Mar 2026 the lithium lease rate was 10% flat (original Ewoyaa lease).",
+            "other_sources": [
+              {
+                "url": "https://www.ecofinagency.com/news/2212-51608-ghana-sends-revised-ewoyaa-lithium-mining-lease-to-parliament",
+                "page": null,
+                "quote": "The framework sets the royalty at 5% when prices are at or below $1,500 per ton, 7% for prices between $1,501 and $2,500 per ton, 10% between $2,501 and $3,000 per ton, and 12% for prices above $3,000 per ton.",
+                "date": "2025-12-22",
+                "via": "search"
+              },
+              {
+                "url": "https://www.taxlawgh.com/ghana-minerals-mining-royalties-regulations-li-2517",
+                "page": null,
+                "quote": "The Schedule applies rates of 5%, 7%, 10% or 12%, depending on the lithium-spodumene price band stated in the instrument.",
+                "date": "2026 (after 10 Mar 2026)",
+                "via": "search",
+                "note": "Search summaries of this page give the bands as 5% up to US$1,500/t, 7% to 2,500, 10% to 3,000, 12% above 3,000. Valuation text from the regulation as surfaced by search: 'For the purposes of calculating royalties on lithium (spodumene) the market value of the lithium (spodumene) obtained pursuant to a mining operation shall be determined by the p[arties...]'"
+              },
+              {
+                "url": "https://smallcaps.com.au/article/atlantic-lithium-secures-ewoyaa-mining-lease-ratification-in-ghana",
+                "page": null,
+                "quote": "Royalties now range from 5% for spodumene priced up to US$1,500/t, escalating to 7% between US$1,500 and US$2,300/t, then 10% from US$2,300 to US$3,200/t, and reaching 12% for prices above US$3,200/t.",
+                "date": "2026-03",
+                "via": "search"
+              },
+              {
+                "url": "https://www.bloomberg.com/news/articles/2026-03-20/ghana-approves-lithium-project-that-will-ship-ore-to-the-us",
+                "page": null,
+                "quote": "It will range from 5% when the price for concentrate is below $1,500 a ton to 12% if it exceeds $3,200",
+                "date": "2026-03-20",
+                "via": "search",
+                "note": "Bloomberg may be paywalled."
+              },
+              {
+                "url": "https://www.gbcghanaonline.com/general/parliament-royalty-mining/2025/",
+                "page": null,
+                "quote": "once prices move beyond US$2,500, which gives us 10 percent, any rise above US$3,000 will attract up to 12 percent",
+                "date": "2025-12",
+                "via": "search",
+                "note": "Lands Minister quoted when the L.I. was laid."
+              },
+              {
+                "url": "https://www.investegate.co.uk/announcement/rns/atlantic-lithium-limited-npv-di---all/parliamentary-ratification-of-ewoyaa-mining-lease/9483510",
+                "page": null,
+                "quote": "following the expiration of the 21-sitting-day review period, a new Legislative Instrument, Minerals and Mining (Royalty) Regulations, 2025 ... has become legally binding",
+                "date": "2026-03",
+                "via": "search",
+                "note": "Atlantic Lithium RNS. Also: 'All other fiscal terms outlined in the October 2023 Mining Lease remain unchanged.'"
+              }
+            ]
+          },
+          {
+            "name": "Growth and Sustainability Levy (GSL)",
+            "rate_pct": 1.0,
+            "base": "gross",
+            "bands": [],
+            "notes": "1% of gross production. The GSL (Amendment) Act 2026 was passed on 13 Mar 2026; TaxLawGH reports it was assented to and gazetted as Act 1166 on 31 Mar 2026. It cut gold miners from 3% back to 1% and applies the 1% to mining and upstream petroleum companies generally. At the 1 Jan 2026 valuation date gold miners paid 3%. Quote (GhTaxClub news, https://ghtaxclub.com/news/ghana-reduces-gsl-on-mining-companies-from-3-to-1/, via search): 'The Government has now decided to revert to the original 1% for all mining and upstream petroleum entities.'",
+            "source": {
+              "url": "https://gna.org.gh/2026/03/parliament-passes-growth-and-sustainability-levy/",
+              "page": null,
+              "quote": "It will reduce the levy imposed on gold mining companies from three per cent to one per cent of gross production.",
+              "date": "2026-03 (bill passed 13 Mar 2026)",
+              "via": "search"
+            }
+          }
+        ],
+        "source": {
+          "url": "https://wts-global.com/publishing-article/ghana-new-royalty-regime-for-mining-industry~publishing-article",
+          "page": null,
+          "quote": "For Lithium, 5%: for lithium spodumene prices up to US$1,500 per tonne · 7%: for prices between US$1,501 and US$2,500 per tonne · 10%: for prices between US$2,501 and US$3,000 per tonne",
+          "date": "undated (after Dec 2025)",
+          "via": "search",
+          "note": "The 12% top band (above US$3,000) in 'bands' comes from Ecofin and TaxLawGH (see other_sources); this WTS snippet stops at 10%."
+        }
+      },
+      "corporate_tax_pct": {
+        "v": 35,
+        "url": "https://www.mincom.gov.gh/fiscal-regime/",
+        "quote": "Corporate Income Tax 35%",
+        "via": "search",
+        "notes": "Minerals Commission page, possibly dated 2023. Ghana Chamber of Mines FAQ (Dec 2025, https://ghanachamberofmines.org/storage/2025/12/Ghana-Chamber-of-Mines-FAQs.pdf, via search): 'However, mining companies with an Investment or Development Agreement have a CIT rate of 32.5%.'"
+      },
+      "mining_tax": {
+        "desc": "No separate profit-based mining tax was identified. The production levy is the GSL at 1% of gross production (3% for gold miners until 31 Mar 2026), listed under royalties.",
+        "url": "https://gna.org.gh/2026/03/parliament-passes-growth-and-sustainability-levy/"
+      },
+      "state_carry_pct": {
+        "v": 10,
+        "option_pct": null,
+        "url": "https://resourcegovernance.org/sites/default/files/Minerals%20and%20Mining%20Act%20703%20Ghana.pdf",
+        "quote": "(1) Where a mineral right is for mining or exploitation, the Government shall acquire a ten percent free carried interest in the rights and obligations of the mineral operations in respect of which financial contribution shall not be paid by Government.",
+        "via": "search",
+        "notes": "Act 703 s.43(1). Copies also at faolex.fao.org/docs/pdf/gha85046a.pdf and repository.parliament.gh; the search did not say which copy the quote came from. No statutory option to buy more was found (null). EWOYAA (Atlantic Lithium): the lease granted in Oct 2023 gives the state a 13% free carry, and the ratified lease keeps it. The Ministry is quoted at https://thebusinessexecutive.net/atlantic-lithium-mining-lease-terms-best-for-ghana-minister/: 'He had also said there had been an increase in state free carried interest from 10 per cent to 13 per cent.' Ecofin (Dec 2025): 'the revision leaves intact other key terms of the original lease, including the state's free equity stake'. One report gives 19% in total (13% free carry plus 6% held by MIIF). Mining Weekly dates ratification 20 Mar 2026; Accra Street Journal says 19 Mar. Graphic Online's report on the Barari DV lithium lease mentions a 12% free carried interest; that may refer to Barari DV, not Ewoyaa."
+      },
+      "dividend_wht_pct": {
+        "v": 8,
+        "url": "https://taxsummaries.pwc.com/ghana/corporate/withholding-taxes",
+        "via": "search",
+        "quote": "dividends are subject to income tax at the dividend WHT rate of 8%",
+        "notes": "The quote may be the search tool's paraphrase of PwC. Another guide, as returned by search: 'an 8% withholding tax is imposed on dividends paid to resident shareholders and nonresident shareholders unless an exemption or treaty applies'."
+      },
+      "notes": "Terms for a new mine producing in 2026: L.I. 2517 sliding-scale royalty, plus GSL 1%, plus CIT 35%, plus 10% free carry, plus 8% dividend WHT. At the 1 Jan 2026 valuation date the rules differed: flat 5% royalty and 3% GSL for gold. L.I. 2517 (Minerals and Mining (Royalties) Regulations, 2025): laid 19 Dec 2025, in force 10 Mar 2026 after 21 sitting days. GhTaxClub also hosts a Dec 2025 version (https://ghtaxclub.com/wp-content/uploads/2025/12/MINERALS-AND-MINING-ROYALTY-REGULATIONS-2025-GhTaxCLub-1.pdf), which may differ from the gazetted text. Atlantic Lithium is subject to a pending Huayou takeover (announced May 2026)."
+    },
+    {
+      "id": "ML",
+      "name": "Mali",
+      "country": "Mali",
+      "gold": {
+        "royalties": [
+          {
+            "name": "Taxe ad valorem (TAV) / royalty: Mining Code Law No. 2023-040 and implementing Decree No. 2024-0396/PT-RM",
+            "rate_pct": null,
+            "base": "gross",
+            "price_unit": "US$/oz",
+            "bands": [
+              {
+                "up_to_price": 1000,
+                "rate_pct": 3.0
+              },
+              {
+                "up_to_price": 1600,
+                "rate_pct": null
+              },
+              {
+                "up_to_price": 2000,
+                "rate_pct": 6.0
+              },
+              {
+                "up_to_price": 2500,
+                "rate_pct": 7.0
+              },
+              {
+                "up_to_price": null,
+                "rate_pct": null
+              }
+            ],
+            "notes": "UNRESOLVED; the decree text was not read. Ecofin (c. Oct 2025) gives a price-linked scale from the implementing decree, with no rate stated for US$1,000-1,600/oz or above US$2,500 (left null). Conflicting reports: Daily Beirut (https://dailybeirut.com/en/world/mining-companies-mali-face-pressure-rising-royalties-insecurity/): 'the rate ranges between 3% and 8% depending on the ounce price, with the possibility of increasing it by 0.5 to 1 percentage point whenever the price exceeds the $2,000 level'. DiscoveryAlert, Sep 2026 (https://discoveryalert.com/analysis/mali-gold-investment-risk-reopening-september-2026/): '...including the 35% mandatory state equity stake and the 10.5% gold royalty rate'. That may be an all-in figure; it is unverified. Unattributed excerpts: 'jumping from 6.5% to 10%' and 'around 10.5% of the value (up from around 6%)'. Do not use for production without Decree 2024-0396."
+          }
+        ],
+        "source": {
+          "url": "https://www.ecofinagency.com/news/0110-49161-west-africa-set-to-recalibrate-mining-royalties-as-gold-nears-4-000",
+          "page": null,
+          "quote": "According to an implementation decree of the 2023 mining code, a royalty of 3% applies when gold trades below $1,000 per ounce. This rate climbs to 6% between $1,600 and $2,000 per ounce, then to 7% up to $2,500.",
+          "date": "c. 2025-10 (inferred from URL and content)",
+          "via": "search"
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Not found: no copper rate surfaced for the 2023 Code."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": "TAV / royalty (lithium)",
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "No lithium rate found. UNCTAD says the implementing decree gives the government priority in permit allocation for 'strategic minerals' such as lithium and uranium. Kodal's Bougouni MoU: the State of Mali and national private investors hold 35% of LMLB combined, KMUK 65% (search paraphrase of https://kodalminerals.com/operations/bougouni-lithium-project/)."
+          }
+        ],
+        "source": {
+          "url": "https://practiceguides.chambers.com/practice-guides/mining-2026/mali",
+          "page": null,
+          "quote": "there is currently no specific legislation targeting energy-transition minerals like lithium, cobalt, rare earths or copper",
+          "date": "2026",
+          "via": "search"
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "notes": "Not found."
+      },
+      "mining_tax": {
+        "desc": "Not established. Mali Actuel says the code sets a modular royalty rate by substance and degree of processing, and that a decree fixes the TAV calculation and the rates of the overproduction and surface royalties. One unattributed excerpt (possibly discoveryalert.com, 'How Mali's Mining Revenues Are Funding a $900M Infrastructure Drive') reads: 'mandatory contributions from mining permit holders: 1% of quarterly turnover plus an ad valorem levy of 1% for the first five years, rising to 2% thereafter'. It is unverified and not used.",
+        "url": "https://maliactuel.com/secteur-minier-le-nouveau-code-minier-et-la-loi-portant-sur-le-contenu-local-promulgues/"
+      },
+      "state_carry_pct": {
+        "v": 10,
+        "option_pct": 20,
+        "local_investor_pct": 5,
+        "url": "https://www.sec.gov/Archives/edgar/data/1429937/000106299325006466/exhibit99-1.htm",
+        "quote": "the State's initial interest in Fekola Regional is maintained at 10%, but the State may acquire up to an additional 20% interest, and a further 5% interest must be available to be acquired by a local Malian stakeholder",
+        "via": "search",
+        "notes": "Free carry is 10%, with an option for up to 20% more; UNCTAD and mining.com put the option window at the first two years of commercial production. A further 5% is reserved for Malian private investors, for up to 35% in total. A second excerpt, as returned by search: 'The state holds a free 10% share in all mining projects, with the option to purchase an additional 20% equity stake for a total potential shareholding of 30%' ... 'a 5% stake can be ceded to locals, taking state and private Malian interests in new projects to 35%, and certain tax exemptions have been abolished.' B2Gold's 7 Aug 2026 release gives Fekola Regional as 65% B2Gold / 35% State."
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null,
+        "notes": "Not found."
+      },
+      "notes": "Mining Code: Law No. 2023-040 of 29 Aug 2023 (Official Journal 1 Sep 2023), repealing Ordinance 2019-022. Quote (ENS, https://www.ensafrica.com/news/detail/9042/mining-legislation-reform-in-mali-strengtheni, via search): 'The new Code repeals Ordinance No. 2019-022/P-RM of 27 September 2019 and has been supplemented by Implementing Decree No 2024-0396/PT-RM of 9 July 2024.' The decree was adopted by the Council of Ministers on 3 Jul 2024; its PDF is on mines.gouv.ml and was not read. Local content law: No. 2023-041, same date. Application to new permits: B2Gold's Menankoto exploitation permit (Aug 2026) was issued under the 2023 Code, while Fekola stays under the 2012 Code (search paraphrase of https://www.b2gold.com/news-media/news-releases/news-details/2026/B2Gold-Granted-Fekola-Regional-Exploitation-Permit-by-the-State-of-Mali/default.aspx). Kodal says Bougouni is compliant with the 2023 Code. Not found: the TAV rates by mineral, the special tax on certain products (ISCP), CIT and dividend WHT."
+    },
+    {
+      "id": "CI",
+      "name": "Côte d'Ivoire",
+      "country": "Côte d'Ivoire",
+      "gold": {
+        "royalties": [
+          {
+            "name": "Taxe ad valorem (gold), raised by the 2025 Annexe fiscale (Loi de finances n° 2024-1109 du 18 décembre 2024)",
+            "rate_pct": null,
+            "base": "gross",
+            "price_unit": "US$/oz (sale price of the ounce)",
+            "bands": [
+              {
+                "up_to_price": 1000,
+                "rate_pct": 5.0
+              },
+              {
+                "up_to_price": 1300,
+                "rate_pct": 5.5
+              },
+              {
+                "up_to_price": 1600,
+                "rate_pct": 6.0
+              },
+              {
+                "up_to_price": 2000,
+                "rate_pct": 7.0
+              },
+              {
+                "up_to_price": null,
+                "rate_pct": 8.0
+              }
+            ],
+            "notes": "Each band rose 2 points, effective 10 Jan 2025: 3 to 5, 3.5 to 5.5, 4 to 6, 5 to 7, and 6 to 8. Source of each band: the 1,000 and 1,300 bounds are in the annex excerpt; the 1,300-1,600 band is from Deloitte; the annex summary moves the 1,600-2,000 tier to 7%; 8% is the fifth, top band of the list. No excerpt shows the words 'above US$2,000' for that band. Mining Code art. 164 stability does not protect against these revisions; quote (Mines Actu / annex, via search): 'les dispositions de l'article 164 du Code minier relatives à l'intangibilité du régime fiscal et douanier ne s'appliquent pas aux révisions des taux prévus par l'annexe fiscale 2025'. Gold has been above US$2,000, so miners pay 8% in practice; Reuters via Kitco (16 Dec 2025, https://www.kitco.com/news/off-the-wire/2025-12-16/ivory-coast-miners-start-paying-higher-royalties-after-failed) reports the 8% applied retroactively to Jan 2025 after a dispute. No mining measure was found in the 2026 annex (Loi n° 2025-987 du 19 déc. 2025). PENDING, not in force at the valuation date: Bloomberg (20 Nov 2026, https://www.bloomberg.com/news/articles/2026-11-20/ivory-coast-to-raise-mineral-royalty-rates-before-imf-talks) reports a plan to lift the mineral royalty to 9.5% from 6% and the mining-area local contribution to 3% from 0.5%, as part of a mining-code overhaul. One analysis says a revised gold scale reaches 12% only above US$6,000/oz. The 2027 tax annex was before parliament in Nov 2026."
+          },
+          {
+            "name": "Contribution to financing projects in mining areas (local development)",
+            "rate_pct": 0.5,
+            "base": null,
+            "bands": [],
+            "notes": "Current rate as reported, with a proposed rise to 3%. The base is not stated in the excerpt.",
+            "source": {
+              "url": "https://fr.madar.mr/actualites/international/cote-divoire-mining-royalty-tax-increase-editor-20261122",
+              "page": null,
+              "quote": "la contribution au financement des projets dans les zones minières de 0,5 % à 3 %",
+              "date": "2026-11-22",
+              "via": "search",
+              "note": "Search paraphrase of a Bloomberg report."
+            }
+          }
+        ],
+        "source": {
+          "url": "https://www.dgbf.ci/wp-content/uploads/2025/01/Annexe1-Annexe-Fiscale.pdf",
+          "page": null,
+          "quote": "3,5% à 5,5%, lorsque le prix de vente de l'once d'or est supérieur à mille dollars US et inférieur ou égal à mille trois cents",
+          "date": "2025-01 (Loi n° 2024-1109 du 18 déc. 2024; in force 10 Jan 2025)",
+          "via": "search",
+          "note": "Also from the annex: 'il est proposé de relever de deux points de pourcentage, les taux de la taxe ad valorem concernant l'or.' Five-band list (page attribution uncertain: annex, minesenegal.com or minesactu.info): 'ces taux selon la fourchette de variation de prix de l'once d'or sont portés de 3 à 5%, de 3,5 à 5,5%, de 4 à 6%, 5 à 7% et de 6 à 8%.' Deloitte (https://blog.avocats.deloitte.fr/cote-divoire-les-principales-mesures-importantes-de-la-loi-de-finances-pour-2025/, search paraphrase): 'de 4 % à 6 % entre mille trois cents et mille six cents dollars'."
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Not found. Bloomberg (Nov 2026) says a general 'mineral royalty' of 6% would rise to 9.5%; which minerals carry the 6% was not established."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Not found. See the copper note."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "notes": "Not researched (search budget exhausted)."
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null,
+        "notes": "Not researched (search budget exhausted)."
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null,
+        "notes": "Not researched (search budget exhausted)."
+      },
+      "notes": "A mining-code overhaul and the 2027 finance-law royalty increases were pending in Nov 2026. A new mine starting production in 2027 or later should be modelled against those once they are enacted."
+    },
+    {
+      "id": "BF",
+      "name": "Burkina Faso",
+      "country": "Burkina Faso",
+      "gold": {
+        "royalties": [
+          {
+            "name": "Redevance proportionnelle (gold): Decree 2023-1454 of 27 Oct 2023, as revised by the decree signed 25 Mar 2025",
+            "rate_pct": null,
+            "base": "gross",
+            "price_unit": "US$/oz",
+            "bands": [
+              {
+                "up_to_price": 1000,
+                "rate_pct": 3.0
+              },
+              {
+                "up_to_price": 1300,
+                "rate_pct": 4.0
+              },
+              {
+                "up_to_price": 1500,
+                "rate_pct": 5.0
+              },
+              {
+                "up_to_price": 1700,
+                "rate_pct": 6.0
+              },
+              {
+                "up_to_price": 2000,
+                "rate_pct": 6.5
+              },
+              {
+                "up_to_price": 3000,
+                "rate_pct": 7.0
+              },
+              {
+                "up_to_price": 3500,
+                "rate_pct": 8.0
+              },
+              {
+                "up_to_price": 4000,
+                "rate_pct": null,
+                "note": "No source states this band; applying Ecofin's +1 point per US$500 rule would give 9%, but that is not recorded."
+              },
+              {
+                "up_to_price": 4500,
+                "rate_pct": 10.0
+              },
+              {
+                "up_to_price": null,
+                "rate_pct": null,
+                "step_rule": {
+                  "above_price": 3000,
+                  "step_price": 500,
+                  "step_rate_pct": 1.0,
+                  "text": "The rate rises by one percentage point for every additional $500 increase beyond that range."
+                }
+              }
+            ],
+            "notes": "Bands up to US$2,000 are from the Oct 2023 decree, as quoted by Mines Actu. Whether the Mar 2025 decree changed them is not confirmed. 2,000-3,000 = 7% (Mar 2025 decree, Mines Actu). 3,000-3,500 = 8% (Ecofin, Feb 2026: https://www.ecofinagency.com/news-industry/0202-52481-higher-gold-prices-lift-burkina-faso-s-revenue-from-sanbrado-by-67-in-2025). Quote (Bullionworld, https://bullionworld.in/documents/news/DtGold2_083126.html, via search): 'Burkina Faso reaching 10 per cent between USD 4,000 and USD 4,500 per ounce'. Quote (Miningmx, https://www.miningmx.com/news/gold/67212-gold-rally-lifts-west-african-resources-royalty-bill/, via search): '7% between $2,000/oz and $3,000/oz, rising by one percentage point for every US$500 increase in the gold price above $3,000/oz.' No cap reported. Base: proportional royalty on value; the exact base wording was not seen."
+          }
+        ],
+        "source": {
+          "url": "https://minesactu.info/2025/05/20/royalties-le-burkina-faso-revise-les-taux-de-perceptionsur-lor/",
+          "page": null,
+          "quote": "le décret a été signé avec les taux suivants : 3% si le cours de l'or est inférieur à 1.000 dollars/l'once, 4% si le cours est compris entre 1.000 et 1.300 dollars/l'once, 5% lorsqu'il est compris entre 1.300 et 1500 dollars l'once, 6% si le cours de l'once d'or est compris entre 1500 et 1700 dollars/l'once, 6,5% si le cours est compris entre 1700 et 2000 dollars/l'once et 7% si le cours est supé[rieur] ... le gouvernement a révisé le décret qui a été signé le 25 mars 2025. Le taux est fixé à 7% si le cours est compris entre 2000 et 3000 dollars/l'once.",
+          "date": "2025-05-20",
+          "via": "search",
+          "note": "Decree 2023-1454 PDF on dgi.bf: https://dgi.bf/wp-content/uploads/2023/10/DECRET-2023-1454-MOFIFIANT-LE-DECRET-2017-0023-PORTANT-FIXATION-DES-TAXES-ET-REDEVANCES-MINIERES.pdf (not read)."
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "notes": "Not found."
+      },
+      "mining_tax": {
+        "desc": "Not established. The 2024 Code sets by regulation the share of proportional royalties paid into the Fonds minier de développement (art. 28); no rate was found. Priority dividend to the State: West African Resources said its payment 'has become non-discretionary' (WAF's subsidiary declared a priority dividend equal to 15% of retained earnings to end-2024).",
+        "url": "https://leconomistedufaso.com/2024/07/29/nouveau-code-minier-retour-sur-les-actualites-et-innovations/"
+      },
+      "state_carry_pct": {
+        "v": 15,
+        "option_pct": 30,
+        "url": "https://www.ensafrica.com/news/detail/9259/new-mining-code-enacted-in-burkina-faso-major",
+        "quote": "It also allows the State to own a further contributing shareholding interest (up to 30% (thirty percent)) in the same mining company, or to allocate it to the \"national private sector\".",
+        "via": "search",
+        "notes": "Law No. 016-2024/ALT of 18 Jul 2024 raised the free carry to 15% (from 10%). Quote (via search, from https://volterrafietta.com/client-alert-burkina-fasos-new-mining-code-increased-state-control-and-domestic-participation/ or a similar summary): '15% free-carried state interest, meaning the government receives the stake without paying for it'. The further contributing interest of up to 30% (up to 45% in total) may go to the national private sector. The mining-registry director called a 35% request on Kiaka 'a solicitation – it is not forcing' (Mining Weekly, 5 Sep 2025). 'many provisions of the new Mining Code cannot be implemented, because they are dependent on the drafting and approval of implementation regulations.'"
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null,
+        "notes": "Not found."
+      },
+      "notes": "Mining Code: Loi n° 016-2024/ALT du 18 juillet 2024, replacing Loi 036-2015/CNT as amended by Loi 012-2023/ALT (energie-mines.gov.bf). The Oct 2023 decree lifted the 2017 decree's 5% cap ('l'ancien décret, celui de 2017, avait plafonné le taux de perception des royalties à 5%, si le cours de l'or dépasse 1500 dollars l'once')."
+    },
+    {
+      "id": "AU-WA",
+      "name": "Western Australia",
+      "country": "Australia",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: a search hit showed a WA instrument, 'Mining (Royalties) Regulations 2025' (https://www.legislation.wa.gov.au/legislation/statutes.nsf/RedirectURL?OpenAgent=&query=mrdoc_48780.pdf), so WA may have remade its royalty regulations in 2025; check it before relying on the Mining Regulations 1981. Also the DEMIRS royalty-rate page and the EY Global Mining & Metals Tax Guide."
+    },
+    {
+      "id": "AU-QLD",
+      "name": "Queensland",
+      "country": "Australia",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: Queensland Revenue Office mineral royalty rates (Mineral Resources Regulation); EY guide."
+    },
+    {
+      "id": "AU-NSW",
+      "name": "New South Wales",
+      "country": "Australia",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: NSW Mining Regulation and Revenue NSW royalty guidance; EY guide."
+    },
+    {
+      "id": "AU-NT",
+      "name": "Northern Territory",
+      "country": "Australia",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: NT Mineral Royalty Act and Territory Revenue Office; EY guide."
+    },
+    {
+      "id": "CA-ON",
+      "name": "Ontario",
+      "country": "Canada",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: Ontario Mining Tax Act (Ministry of Finance); federal/Ontario CIT; EY guide."
+    },
+    {
+      "id": "CA-QC",
+      "name": "Quebec",
+      "country": "Canada",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: Quebec Mining Tax Act (Revenu Québec, including minimum mining tax); EY guide."
+    },
+    {
+      "id": "CA-BC",
+      "name": "British Columbia",
+      "country": "Canada",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: BC Mineral Tax Act (net current proceeds and net revenue taxes); EY guide."
+    },
+    {
+      "id": "US-NV",
+      "name": "Nevada",
+      "country": "United States",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: Nevada Department of Taxation: net proceeds of minerals tax and the gold/silver excise tax; federal CIT."
+    },
+    {
+      "id": "SN",
+      "name": "Senegal",
+      "country": "Senegal",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: Senegal Code minier 2016 and its implementing decree; PwC/EY summaries."
+    },
+    {
+      "id": "GN",
+      "name": "Guinea",
+      "country": "Guinea",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: Guinea Code minier 2011 as amended 2013; EY guide."
+    },
+    {
+      "id": "TZ",
+      "name": "Tanzania",
+      "country": "Tanzania",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: Mining Act Cap. 123 and its regulations; Finance Acts; TRA; EY guide."
+    },
+    {
+      "id": "PE",
+      "name": "Peru",
+      "country": "Peru",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: SUNAT/MEF: regalía minera, Impuesto Especial a la Minería; EY guide."
+    },
+    {
+      "id": "CL",
+      "name": "Chile",
+      "country": "Chile",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: 2023 mining royalty law (SII); lithium terms via CORFO/Codelco contracts; EY guide."
+    },
+    {
+      "id": "BR",
+      "name": "Brazil",
+      "country": "Brazil",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: ANM CFEM rates; Receita Federal IRPJ/CSLL and SUDENE/SUDAM incentives; 2026 dividend-WHT reform; EY guide."
+    },
+    {
+      "id": "MX",
+      "name": "Mexico",
+      "country": "Mexico",
+      "gold": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "copper": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "lithium": {
+        "royalties": [
+          {
+            "name": null,
+            "rate_pct": null,
+            "base": null,
+            "bands": [],
+            "notes": "Unknown: not researched. The shared WebSearch budget (200 calls per turn) ran out before this jurisdiction, and WebFetch cannot reach any host in this session."
+          }
+        ],
+        "source": {
+          "url": null,
+          "page": null,
+          "quote": null,
+          "date": null,
+          "via": null
+        }
+      },
+      "corporate_tax_pct": {
+        "v": null,
+        "url": null,
+        "quote": null
+      },
+      "mining_tax": {
+        "desc": null,
+        "url": null
+      },
+      "state_carry_pct": {
+        "v": null,
+        "option_pct": null,
+        "url": null,
+        "quote": null
+      },
+      "dividend_wht_pct": {
+        "v": null,
+        "url": null
+      },
+      "notes": "NOT RESEARCHED (all values null). Unverified pointers for a follow-up run: Ley Federal de Derechos special and extraordinary mining duties (2025 amendments); lithium reserved to the state; EY guide."
+    }
+  ],
+  "gaps": [
+    "METHOD: WebFetch failed on every host tried (www.taxlawgh.com, wts-global.com, www.fao.org; the tool said to stop trying other hosts), so no primary page or PDF was opened and no page numbers exist. The shared WebSearch budget (200 calls per turn) then ran out mid-task. Verify every value against the primary text before production use. To finish, allow ghtaxclub.com, www.taxlawgh.com, wts-global.com, faolex.fao.org, www.mines.gouv.ml, www.dgbf.ci, minesactu.info and dgi.bf in the environment's network settings, or raise CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION and rerun.",
+    "Ghana lithium (L.I. 2517) thresholds conflict. Summaries of the regulation (WTS Global, TaxLawGH) and Ecofin (Dec 2025) give 5% to US$1,500/t, 7% to 2,500, 10% to 3,000, and 12% above. Post-ratification reports on Ewoyaa (smallcaps.com.au, Mar 2026; Bloomberg and Reuters, 20 Mar 2026) put 12% only above US$3,200; smallcaps gives 7% to 2,300 and 10% for 2,300-3,200. SC6 at US$2,501-3,000 is 10% in every version; at US$3,001-3,200 it is 12% or 10% depending on the version. Open the schedule page of the gazetted PDF (ghtaxclub.com, uploaded 2026-04) to settle it; the Dec 2025 version may differ.",
+    "Ghana: L.I. 2517 defines no spodumene reference grade (value is set at arm's length against international prices). Copper royalty not found. Any option for the state to buy beyond the 10% free carry not found. The 35% CIT (Minerals Commission page, possibly 2023) and 8% dividend WHT (PwC) are from search excerpts.",
+    "Mali: gold and lithium TAV/royalty rates not established. Secondary reports conflict (Ecofin: price-linked 3-7% with gaps; Daily Beirut: 3-8%; DiscoveryAlert: 10.5%, possibly all-in). Decree No. 2024-0396/PT-RM (on mines.gouv.ml) and Law 2023-040 Title 8 are needed. CIT, dividend WHT, ISCP and local development levies not found.",
+    "Côte d'Ivoire: no excerpt states the 'above US$2,000' wording of the top 8% band. Copper and lithium royalties, CIT, free carry and option, and dividend WHT not found. The 2027 royalty increases (9.5% royalty, 3% local contribution, gold scale to 12% above US$6,000/oz) were pending in Nov 2026; check enactment before modelling production from 2027.",
+    "Burkina Faso: no source states the US$3,500-4,000 rate (left null; the +1 point per US$500 rule is recorded instead). Not confirmed whether the Mar 2025 decree changed the bands below US$2,000. No cap reported. Copper and lithium royalties, CIT, dividend WHT and the local development fund rate not found.",
+    "NOT RESEARCHED, all fields null: Western Australia, Queensland, New South Wales, Northern Territory, Ontario, Quebec, British Columbia, Nevada, Senegal, Guinea, Tanzania, Peru, Chile, Brazil, Mexico.",
+    "Lead: a WA 'Mining (Royalties) Regulations 2025' appeared in search results (legislation.wa.gov.au mrdoc_48780). WA may have remade its royalty regulations; check it before using older Mining Regulations 1981 rates.",
+    "Bloomberg articles cited may be paywalled. Their claims are also carried by free outlets (Mining Weekly, CNBC Africa, Kitco/Reuters)."
+  ]
+}

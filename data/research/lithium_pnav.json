@@ -1,0 +1,1476 @@
+{
+  "asOf": "2026-11-26",
+  "commodity": "lithium",
+  "verification_status": "UNVERIFIED - every value was obtained via WebSearch ('via': 'search'); no page or PDF was opened because WebFetch is blocked by the session's network policy (DNS failure for discoveryalert.com, www.marketindex.com.au, wildcatresources.com.au). 'quote' is the text the search result gave; where marked quote_type 'search-summary wording' it is the search tool's phrasing, not page text. 'page' is null throughout. The 200-call per-turn WebSearch budget (shared by all agents) ran out before the file was complete; values no search result stated are null with a reason.",
+  "companies": [
+    {
+      "company": "Wildcat Resources Ltd",
+      "ticker": "WC8",
+      "exchange": "ASX",
+      "project": "Tabba Tabba (lithium-tantalum)",
+      "country": "Australia (Pilbara, WA)",
+      "stage": "DFS",
+      "study_date": "2026-10 (coverage dated 25-26 Oct 2026; exact ASX release date not stated)",
+      "npv": {
+        "v": 1503,
+        "url": "https://www.marketindex.com.au/data-api/api/v1/announcements/XASX:WC8:6A1351295/pdf/inline/tabba-tabba-dfs-clears-pathway-for-largescale-development",
+        "quote": "NPV8 real (post-tax) | A$M | 1,193 | 1,503 ; Post-tax NPV8 (FOB SC6 price: US$ 1,500/t) of ~A$1.5 billion, with 28.4% IRR",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "rate_pct": 8,
+        "basis": "real",
+        "lt_price": "US$1,500/t SC6 FOB, flat ('in real terms' per search result)",
+        "quote_seen_at": "https://discoveryalert.com/asx-stock-news/mining/wc8-wildcat-resources-tabba-tabba-dfs-october-2026/"
+      },
+      "ownership_pct": {
+        "v": 100,
+        "url": "https://discoveryalert.com/asx-stock-news/mining/wc8-wildcat-resources-tabba-tabba-dfs-october-2026/",
+        "quote": "Wildcat Resources has completed the DFS for its 100%-owned Tabba Tabba Project",
+        "page": null,
+        "via": "search",
+        "verified": false
+      },
+      "capex": {
+        "v": 774,
+        "url": "https://discoveryalert.com/asx-stock-news/mining/wc8-wildcat-resources-tabba-tabba-dfs-october-2026/",
+        "quote": "Pre-production capex rose from A$687m to A$774m",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "basis": "pre-production capex"
+      },
+      "share_price": {
+        "v": 0.19,
+        "url": "https://www.stockopedia.com/share-prices/wildcat-resources-ASX:WC8/",
+        "quote": "Wildcat Resources (ASX:WC8) share price: AU$0.19. -0.01 (-2.56%) today.",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "date": "2026-11-20 (page update date stated by search result)"
+      },
+      "shares_M": {
+        "v": 1600,
+        "url": "https://www.macroaxis.com/stock/WC8.AU/Wildcat-Resources",
+        "quote": "about 1.6 billion shares outstanding and a market cap of AUD 343.47 million, with the stock last trading at A$0.22 on November 13, 2026",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "date": "2026-11-13",
+        "precision": "approximate ('about 1.6 billion')",
+        "note": "Pre-placement count 'around 1.41 billion'; Sep-2026 placement 183,606,558 (T1) + 13,114,754 (T2, subject to Nov GM)."
+      },
+      "cash_M": {
+        "v": 76.1,
+        "url": "https://wcsecure.weblink.com.au/pdf/WC8/03147356.pdf",
+        "quote": "As at 30 September 2026, Wildcat maintained a strong cash position of approximately $76.1M.",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "date": "2026-09-30"
+      },
+      "debt_M": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated Wildcat's borrowings.",
+        "currency": "AUD",
+        "date": null
+      },
+      "fx_to_usd": {
+        "v": null,
+        "pair": "AUDUSD",
+        "date": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated a market FX rate near 26 Nov 2026 (search budget exhausted before FX searches)."
+      },
+      "notes": "Single-asset developer. Offtake 100% uncontracted, no project finance; FID targeted 1H2027. At US$1,250/t SC6 the DFS NPV8 is ~A$765m (P/NAV would roughly double). Bolt Cutter Central discovery not in DFS. Share count approximate.",
+      "market_cap_M": {
+        "v": 304.0,
+        "currency": "AUD",
+        "date": "2026-11-20",
+        "url": null,
+        "computed": true,
+        "method": "share_price x shares_M",
+        "cross_check": "Macroaxis stated A$343.47m at A$0.22 on 13 Nov 2026"
+      },
+      "ev_local_M": {
+        "v": 227.9,
+        "currency": "AUD",
+        "computed": true
+      },
+      "ev_usd_M": 164.07,
+      "npv_attr_usd_M": 1082.01,
+      "p_nav": 0.1516,
+      "ownership_used_in_calc_pct": {
+        "v": 100,
+        "basis": "stated 100%"
+      },
+      "fx_used_in_calc": [
+        {
+          "v": 0.7199,
+          "pair": "AUDUSD",
+          "computed": true,
+          "url": "https://www.investegate.co.uk/announcement/rns/atlantic-lithium-limited-npv-di---all/quarterly-activities-and-cash-flow-report/9842348",
+          "via": "search",
+          "quote": "all-cash consideration of US$0.25486 per share (A$0.354 per share / £0.188 per share)",
+          "method": "0.25486/0.354, i.e. the conversion Atlantic Lithium used in its Sep-2026 quarterly; not a quoted market rate"
+        }
+      ],
+      "calc_assumptions": [
+        "debt not stated by any search result: treated as 0 for EV",
+        "FX for US$ conversion derived from stated figures (see fx_used_in_calc): AUDUSD=0.7199"
+      ]
+    },
+    {
+      "company": "Global Lithium Resources Ltd",
+      "ticker": "GL1",
+      "exchange": "ASX",
+      "project": "Manna (processing at acquired Nova plant)",
+      "country": "Australia (Goldfields, WA)",
+      "stage": "DFS (Dec 2025) + Manna-Nova Integration Study (Class 3, +/-20%)",
+      "study_date": "2026-09-16",
+      "npv": {
+        "v": 945.7,
+        "url": "https://www.listcorp.com/asx/gl1/global-lithium-resources-limited/news/manna-nova-integration-study-increases-post-tax-npv-by-100-percentage-3406509.html",
+        "quote": "The study puts post-tax NPV8 at A$945.7 million, compared with A$472.4 million in the previous DFS.",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "rate_pct": 8,
+        "basis": null,
+        "lt_price": "LOM weighted average US$1,510/t SC5.5 (DFS equivalent US$1,253/t); adopted AUD/USD 0.69",
+        "lt_price_quote": "The integration study uses an average life-of-mine price of US$1510 a tonne for 5.5 per cent spodumene concentrate, compared with an equivalent US$1253 a tonne in the DFS.",
+        "lt_price_url": "https://www.australianmining.com.au/global-lithium-cuts-manna-funding-bill-by-more-than-half-with-nova-plan"
+      },
+      "ownership_pct": {
+        "v": 100,
+        "url": "https://globallithium.com.au/lithium-assets/manna-lithium-project/",
+        "quote": "The phrase \"100% owned Manna\" refers to Global Lithium Resources' (ASX: GL1) Manna Lithium Project ... Later filings describe the project as 100% owned.",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "quote_type": "search-summary wording, not page text"
+      },
+      "capex": {
+        "v": 180.1,
+        "url": "https://www.australianmining.com.au/global-lithium-cuts-manna-funding-bill-by-more-than-half-with-nova-plan",
+        "quote": "Pre-production funding falls by A$259 million, or 59 per cent, to A$180.1 million.",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "basis": "pre-production funding (integration study); Dec-2025 DFS pre-production capex was A$439.1m"
+      },
+      "share_price": {
+        "v": 0.955,
+        "url": "https://finance.yahoo.com/quote/GL1.AX/",
+        "quote": "GL1 closed at about A$0.955 ... Market Cap (intraday) 265.008M",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "date": "2026-11-23 (close; 'data through November 23, 2026')"
+      },
+      "shares_M": {
+        "v": 277.49,
+        "url": "https://www.morningstar.com.au/investments/security/ASX/GL1/summary",
+        "quote": "Shares Outstanding · 277.49 Mil",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "date": "not stated (quote page, Nov 2026)"
+      },
+      "cash_M": {
+        "v": 26.2,
+        "url": "https://6ix.com/news/annual-report-to-shareholders-252",
+        "quote": "cash and cash equivalents of $26.2 million and no material debt or other material liabilities at 30 June 2026",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "date": "2026-06-30",
+        "note": "Sep-2026 quarterly not found; stale ~5 months"
+      },
+      "debt_M": {
+        "v": 0,
+        "url": "https://6ix.com/news/annual-report-to-shareholders-252",
+        "quote": "no material debt or other material liabilities at 30 June 2026",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "date": "2026-06-30",
+        "note": "After 30 Jun: first drawdown under Titan's A$120m bridging facility reported (Tranche 1 sized A$9.3m); drawn amount not stated."
+      },
+      "fx_to_usd": {
+        "v": null,
+        "pair": "AUDUSD",
+        "date": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated a market FX rate near 26 Nov 2026 (search budget exhausted before FX searches)."
+      },
+      "notes": "TAKEOVER-AFFECTED. Titan Australia Mining scheme: A$1.15 cash/share (~A$333m fully diluted), 73% premium to A$0.665 close on 18 Sep 2026; BDO: fair and reasonable; scheme meeting 22 Dec 2026; FIRB/ACCC/court pending. Market price ~17% below offer. Lopal US$75m prepayment term sheet (subject to FID), 40% offtake for 10 yrs. NPV uplift vs DFS partly price-driven; on the Dec-2025 DFS NPV (A$472.4m) the market P/NAV would be ~0.5.",
+      "market_cap_M": {
+        "v": 265.0,
+        "currency": "AUD",
+        "date": "2026-11-23",
+        "url": null,
+        "computed": true,
+        "method": "share_price x shares_M",
+        "cross_check": "Yahoo stated A$265.008m (intraday)"
+      },
+      "ev_local_M": {
+        "v": 238.8,
+        "currency": "AUD",
+        "computed": true
+      },
+      "ev_usd_M": 171.91,
+      "npv_attr_usd_M": 680.81,
+      "p_nav": 0.2525,
+      "ownership_used_in_calc_pct": {
+        "v": 100,
+        "basis": "stated 100% (search-summary wording)"
+      },
+      "fx_used_in_calc": [
+        {
+          "v": 0.7199,
+          "pair": "AUDUSD",
+          "computed": true,
+          "url": "https://www.investegate.co.uk/announcement/rns/atlantic-lithium-limited-npv-di---all/quarterly-activities-and-cash-flow-report/9842348",
+          "via": "search",
+          "quote": "all-cash consideration of US$0.25486 per share (A$0.354 per share / £0.188 per share)",
+          "method": "0.25486/0.354, i.e. the conversion Atlantic Lithium used in its Sep-2026 quarterly; not a quoted market rate"
+        }
+      ],
+      "calc_assumptions": [
+        "FX for US$ conversion derived from stated figures (see fx_used_in_calc): AUDUSD=0.7199"
+      ],
+      "deal_price_check": {
+        "offer_equity_M": {
+          "v": 333,
+          "url": "https://kalkinemedia.com/au/news/announcements/global-lithium-resources-agrees-to-333-million-acquisition-by-titan-at-a115-per-share",
+          "quote": "Titan's offer is A$1.15 per share in cash, valuing the company at about A$333 million fully diluted",
+          "page": null,
+          "via": "search",
+          "verified": false,
+          "currency": "AUD"
+        },
+        "ev_at_offer_M_AUD": 306.8,
+        "p_nav_at_offer": 0.3244,
+        "computed": true
+      }
+    },
+    {
+      "company": "Atlantic Lithium Ltd",
+      "ticker": "A11 / ALL",
+      "exchange": "ASX / AIM",
+      "project": "Ewoyaa",
+      "country": "Ghana",
+      "stage": "DFS",
+      "study_date": "2023-06-29",
+      "npv": {
+        "v": 1500,
+        "url": "https://static1.squarespace.com/static/61711d27ed0db12cacbcfb5a/t/649d3f851c02121fcf7bffcd/1688027016483/2023.06.29+-+Project+Update+-+Ewoyaa+Definitive+Feasibility+Study+(ASX).pdf",
+        "quote": "The post-tax NPV8 is about US$1.5bn, and the IRR is 105%",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "quote_type": "search-summary wording",
+        "currency": "USD",
+        "rate_pct": 8,
+        "basis": null,
+        "lt_price": "LOM concentrate price US$1,587/t FOB Ghana Port (2023)",
+        "lt_price_quote": "The DFS used LOM concentrate pricing of US$1,587/t, FOB Ghana Port",
+        "lt_price_url": "https://www.rns-pdf.londonstockexchange.com/rns/6859H_1-2023-7-31.pdf"
+      },
+      "ownership_pct": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result states Atlantic's attributable % directly. Stated components: Huayou holds 22.5% of the Ghana portfolio and earns to 50% by sole-funding US$66m; Ghana Government 13% free carried interest; MIIF 6% (Government combined 19%).",
+        "components": [
+          {
+            "v": 22.5,
+            "url": "https://www.indexbox.io/blog/atlantic-lithium-completes-novation-of-ghana-lithium-portfolio-to-zhejiang-huayou-cobalt/",
+            "quote": "Huayou now holds a 22.5% interest ... would earn it a further 27.5% and a 50% total",
+            "page": null,
+            "via": "search",
+            "verified": false,
+            "label": "partner (Huayou) interest"
+          },
+          {
+            "v": 13,
+            "url": "https://www.ecofinagency.com/news/2212-51608-ghana-sends-revised-ewoyaa-lithium-mining-lease-to-parliament",
+            "quote": "had increased the state's free carried interest in the company from 10 per cent to 13 per cent",
+            "page": null,
+            "via": "search",
+            "verified": false,
+            "label": "state free carry"
+          },
+          {
+            "v": 6,
+            "url": "https://static1.squarespace.com/static/61711d27ed0db12cacbcfb5a/t/6532152bd6c00a6fed803a87/1697781036360/2023.10.20+-+Project+Development+Update+-+Ewoyaa+ML+Grant+(ASX).Final.pdf",
+            "quote": "agreed to a 6% interest in the Project, bringing the Government's combined interest in the Project to 19%",
+            "page": null,
+            "via": "search",
+            "verified": false,
+            "label": "MIIF"
+          }
+        ]
+      },
+      "capex": {
+        "v": 185,
+        "url": "https://www.globalminingreview.com/mining/06072023/atlantic-lithium-announces-dfs-for-ewoyaa-project-ghana/",
+        "quote": "The most consistent figure is US$185 million. US$127.5m was to be provided by funding partner Piedmont Lithium.",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "quote_type": "search-summary wording",
+        "currency": "USD",
+        "basis": "DFS pre-production capex (2023)"
+      },
+      "share_price": {
+        "v": 0.33,
+        "url": "https://au.finance.yahoo.com/quote/A11.AX/",
+        "quote": "Yahoo Finance shows A$0.33 as a delayed quote ... market cap of 264.496M on an intraday basis",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "date": "not stated (retrieved via search 2026-11-26)"
+      },
+      "shares_M": {
+        "v": 801.5,
+        "url": "https://au.advfn.com/stock-market/ASX/atlantic-lithium-A11/stock-price",
+        "quote": "ADVFN reports about 801.5 million shares in issue, and Google Finance shows the same 801.50M figure",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "date": "not stated"
+      },
+      "cash_M": {
+        "v": 7.7,
+        "url": "https://www.investegate.co.uk/announcement/rns/atlantic-lithium-limited-npv-di---all/quarterly-activities-and-cash-flow-report/9842348",
+        "quote": "Atlantic Lithium reported a cash balance of A$7.7 million at the end of the quarter.",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "date": "2026-09-30"
+      },
+      "debt_M": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated Atlantic Lithium's borrowings.",
+        "currency": "AUD"
+      },
+      "fx_to_usd": {
+        "v": null,
+        "pair": "AUDUSD",
+        "date": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated a market FX rate near 26 Nov 2026 (search budget exhausted before FX searches)."
+      },
+      "notes": "TAKEOVER-AFFECTED. Huayou scheme US$0.25486/share (A$0.354 / GBP0.188), ~US$210m; FIRB received; scheme meeting 14 Dec 2026. BDO valued A11 at A$0.108-0.244/sh (preferred A$0.178). Huayou sole-funds US$66m of capex (carry benefit not in the ratio). Stale 2023 DFS; lease ratified Mar 2026, royalty reportedly cut from 10% to a 5% sliding scale. Using a 62.8% look-through (77.5% x 81%, pre-Stage-3) instead of 40.5% gives P/NAV ~0.20. Also holds Cote d'Ivoire exploration ground.",
+      "market_cap_M": {
+        "v": 264.5,
+        "currency": "AUD",
+        "date": "2026-11 (undated quote)",
+        "url": null,
+        "computed": true,
+        "method": "share_price x shares_M",
+        "cross_check": "Yahoo stated A$264.496m (intraday)"
+      },
+      "ev_local_M": {
+        "v": 256.8,
+        "currency": "AUD",
+        "computed": true
+      },
+      "ev_usd_M": 184.87,
+      "npv_attr_usd_M": 607.5,
+      "p_nav": 0.3043,
+      "ownership_used_in_calc_pct": {
+        "v": 40.5,
+        "basis": "computed look-through = 50% (Huayou at 50% after Stage 3) x (100% - 13% state free carry - 6% MIIF) = 40.5%; structure assumed, not stated"
+      },
+      "fx_used_in_calc": [
+        {
+          "v": 0.7199,
+          "pair": "AUDUSD",
+          "computed": true,
+          "url": "https://www.investegate.co.uk/announcement/rns/atlantic-lithium-limited-npv-di---all/quarterly-activities-and-cash-flow-report/9842348",
+          "via": "search",
+          "quote": "all-cash consideration of US$0.25486 per share (A$0.354 per share / £0.188 per share)",
+          "method": "0.25486/0.354, i.e. the conversion Atlantic Lithium used in its Sep-2026 quarterly; not a quoted market rate"
+        }
+      ],
+      "calc_assumptions": [
+        "debt not stated by any search result: treated as 0 for EV",
+        "FX for US$ conversion derived from stated figures (see fx_used_in_calc): AUDUSD=0.7199"
+      ],
+      "deal_price_check": {
+        "offer_equity_M": {
+          "v": 210,
+          "url": "https://www.skillings.net/atlantic-lithium-awaits-clearances-for-210m-huayou-takeover/",
+          "quote": "maximum aggregate value of about US$210 million",
+          "page": null,
+          "via": "search",
+          "verified": false,
+          "currency": "USD",
+          "quote_type": "search-summary wording"
+        },
+        "ev_at_offer_M_USD": 204.5,
+        "p_nav_at_offer": 0.3366,
+        "computed": true
+      }
+    },
+    {
+      "company": "PMET Resources Inc. (formerly Patriot Battery Metals)",
+      "ticker": "PMET / PMT",
+      "exchange": "TSX / ASX",
+      "project": "Shaakichiuwaanaan (CV5) lithium-tantalum",
+      "country": "Canada (Quebec)",
+      "stage": "FS (updated)",
+      "study_date": "2026-11-10",
+      "npv": {
+        "v": 5100,
+        "url": "https://www.newswire.ca/news-releases/pmet-resources-delivers-enhanced-cv5-lithium-tantalum-feasibility-study-869908836.html",
+        "quote": "The after-tax NPV8% is about CA$5,100M (~US$3,723M)",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "CAD",
+        "rate_pct": 8,
+        "basis": null,
+        "lt_price": "US$1,788/t SC5.5 FOB Quebec ports, plus tantalum US$120/lb; ~US$1,400/t case gives ~C$3.29bn",
+        "lt_price_quote": "a long-term spodumene concentrate price of US$1,788/t (SC5.5, FOB Quebec ports)"
+      },
+      "ownership_pct": {
+        "v": 100,
+        "url": "https://www.newswire.ca/news-releases/pmet-resources-delivers-enhanced-cv5-lithium-tantalum-feasibility-study-869908836.html",
+        "quote": "the Company's wholly owned Shaakichiuwaanaan Property",
+        "page": null,
+        "via": "search",
+        "verified": false
+      },
+      "capex": {
+        "v": 1260,
+        "url": "https://www.newswire.ca/news-releases/pmet-resources-delivers-enhanced-cv5-lithium-tantalum-feasibility-study-869908836.html",
+        "quote": "Phase 1 initial capital is about CA$1,260 million, net of pre-production credit and before tax credits ... total development capital is about CA$2,063M",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "CAD",
+        "basis": "Phase 1 initial capital (StockTitan reports C$1,391m; total development C$2,063m)",
+        "quote_type": "search-summary wording"
+      },
+      "share_price": {
+        "v": 2.45,
+        "url": "https://money.tmx.com/en/quote/PMET",
+        "quote": "PMET was at C$2.45 on November 26, 2026, up C$0.03 (1.24%) as of about 10:22 AM ET",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "CAD",
+        "date": "2026-11-26 (intraday)"
+      },
+      "shares_M": {
+        "v": 185.942801,
+        "url": "https://kalkinemedia.com/au/news/announcements/pmet-resources-reports-c45-million-comprehensive-loss-for-h1-2026-ending-september-30",
+        "quote": "The total shares outstanding increased from 183,802,875 on March 31, 2026, to 185,942,801 on September 30, 2026.",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "date": "2026-09-30"
+      },
+      "cash_M": {
+        "v": 168.921,
+        "url": "https://kalkinemedia.com/au/news/announcements/pmet-resources-reports-c45-million-comprehensive-loss-for-h1-2026-ending-september-30",
+        "quote": "Cash and cash equivalents decreased to C$168,921,000 as of September 30, 2026",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "CAD",
+        "date": "2026-09-30"
+      },
+      "debt_M": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated PMET's borrowings.",
+        "currency": "CAD"
+      },
+      "fx_to_usd": {
+        "v": null,
+        "pair": "CADUSD",
+        "date": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated a market FX rate near 26 Nov 2026 (search budget exhausted before FX searches)."
+      },
+      "notes": "Large single-asset developer; FID targeted late 2027, commissioning from late 2029. High base-case price deck (US$1,788/t SC5.5). At the ~US$1,400/t case (C$3.29bn) P/NAV ~0.087; vs the Oct-2025 lithium-only FS (C$1.59bn at US$1,221/t) ~0.18. Includes tantalum. Shares fell from C$3.22 (10 Nov) to C$2.45 (26 Nov).",
+      "market_cap_M": {
+        "v": 455.56,
+        "currency": "CAD",
+        "date": "2026-11-26",
+        "url": null,
+        "computed": true,
+        "method": "share_price x shares_M",
+        "cross_check": "StockAnalysis stated C$455.56m (25 Nov 2026)"
+      },
+      "ev_local_M": {
+        "v": 286.64,
+        "currency": "CAD",
+        "computed": true
+      },
+      "ev_usd_M": 209.25,
+      "npv_attr_usd_M": 3723.0,
+      "p_nav": 0.0562,
+      "ownership_used_in_calc_pct": {
+        "v": 100,
+        "basis": "stated wholly owned"
+      },
+      "fx_used_in_calc": [
+        {
+          "v": 0.73,
+          "pair": "CADUSD",
+          "computed": true,
+          "url": "https://www.newswire.ca/news-releases/pmet-resources-delivers-enhanced-cv5-lithium-tantalum-feasibility-study-869908836.html",
+          "via": "search",
+          "quote": "The after-tax NPV8% is about CA$5,100M (~US$3,723M)",
+          "method": "3,723/5,100, PMET's own study conversion (likely its FX assumption); not a quoted market rate"
+        }
+      ],
+      "calc_assumptions": [
+        "debt not stated by any search result: treated as 0 for EV",
+        "FX for US$ conversion derived from stated figures (see fx_used_in_calc): CADUSD=0.73"
+      ]
+    },
+    {
+      "company": "Critical Elements Lithium Corp",
+      "ticker": "CRE",
+      "exchange": "TSXV",
+      "project": "Rose (lithium-tantalum)",
+      "country": "Canada (Quebec)",
+      "stage": "FS",
+      "study_date": "2023-08 (day not stated)",
+      "npv": {
+        "v": 2200,
+        "url": "https://www.cecorp.ca/en/critical-elements-lithium-announces-new-positive-feasibility-study-for-the-rose-lithium-project-generating-an-after-tax-npv8-of-us2-2b-and-an-after-tax-irr-of-65-7/",
+        "quote": "Generating an After-Tax NPV8% of US$2.2B and an After-Tax IRR of 65.7%",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "USD",
+        "rate_pct": 8,
+        "basis": null,
+        "lt_price": "LOM average US$2,162/t chemical-grade, US$4,699/t technical-grade concentrate; Ta2O5 US$150/kg (2023 deck)",
+        "lt_price_quote": "LOM average chemical grade lithium concentrate price sits at US$2,162/t"
+      },
+      "ownership_pct": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result in this task stated CRE's ownership of Rose."
+      },
+      "capex": {
+        "v": 471,
+        "url": "https://www.cecorp.ca/en/critical-elements-lithium-announces-new-positive-feasibility-study-for-the-rose-lithium-project-generating-an-after-tax-npv8-of-us2-2b-and-an-after-tax-irr-of-65-7/",
+        "quote": "Estimated initial capital cost: US$471 million (before working capital)",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "USD",
+        "basis": "initial capital before working capital"
+      },
+      "share_price": {
+        "v": 0.28,
+        "url": "https://finance.yahoo.com/quote/CRE.V/",
+        "quote": "0.2800 +0.0100 (+3.70%) As of 9:30:39 AM EST ... Market Cap (intraday) 64.971M",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "CAD",
+        "date": "not stated ('EST' timestamp implies on/after 1 Nov 2026)"
+      },
+      "shares_M": {
+        "v": 232.039672,
+        "url": "https://ca.advfn.com/stock-market/TSXV/CRE/stock-price",
+        "quote": "ADVFN reports 232,039,672 shares outstanding",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "date": "not stated"
+      },
+      "cash_M": {
+        "v": 23.598231,
+        "url": "https://www.fool.com/quote/tsxv/cre/",
+        "quote": "cash and short-term investments totaling 23,598,231 CAD as of May 31, 2026",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "CAD",
+        "date": "2026-05-31",
+        "note": "Includes short-term investments; same page also cites CA$8.29m cash & equivalents (undated). FY ends 31 Aug; FY2026 accounts not found."
+      },
+      "debt_M": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated CRE's borrowings (May 2026 release mentions only conditional long-term debt support).",
+        "currency": "CAD"
+      },
+      "fx_to_usd": {
+        "v": null,
+        "pair": "CADUSD",
+        "date": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated a market FX rate near 26 Nov 2026 (search budget exhausted before FX searches)."
+      },
+      "notes": "STALE STUDY (Aug 2023, high 2023 price deck) - the low ratio partly reflects an inflated NPV. Detailed engineering advanced; conditional infrastructure funding and debt support (May 2026). Rose West discovery drilling in 2026. Ownership unconfirmed (ratio on 100% basis).",
+      "market_cap_M": {
+        "v": 64.97,
+        "currency": "CAD",
+        "date": "2026-11 (undated quote)",
+        "url": null,
+        "computed": true,
+        "method": "share_price x shares_M",
+        "cross_check": "Yahoo stated C$64.971m (intraday)"
+      },
+      "ev_local_M": {
+        "v": 41.37,
+        "currency": "CAD",
+        "computed": true
+      },
+      "ev_usd_M": 30.2,
+      "npv_attr_usd_M": 2200.0,
+      "p_nav": 0.0137,
+      "ownership_used_in_calc_pct": {
+        "v": 100,
+        "basis": "NOT STATED - 100% basis used for the ratio only"
+      },
+      "fx_used_in_calc": [
+        {
+          "v": 0.73,
+          "pair": "CADUSD",
+          "computed": true,
+          "url": "https://www.newswire.ca/news-releases/pmet-resources-delivers-enhanced-cv5-lithium-tantalum-feasibility-study-869908836.html",
+          "via": "search",
+          "quote": "The after-tax NPV8% is about CA$5,100M (~US$3,723M)",
+          "method": "3,723/5,100, PMET's own study conversion (likely its FX assumption); not a quoted market rate"
+        }
+      ],
+      "calc_assumptions": [
+        "ownership not stated: ratio computed on a 100% basis",
+        "debt not stated by any search result: treated as 0 for EV",
+        "FX for US$ conversion derived from stated figures (see fx_used_in_calc): CADUSD=0.73"
+      ],
+      "ownership_unconfirmed": true
+    },
+    {
+      "company": "Delta Lithium Ltd",
+      "ticker": "DLI",
+      "exchange": "ASX",
+      "project": "Mt Ida (lithium-tantalum-rubidium)",
+      "country": "Australia (WA)",
+      "stage": "Scoping",
+      "study_date": "2026-11-17",
+      "npv": {
+        "v": 748,
+        "url": "https://smallcaps.com.au/article/delta-lithium-estimates-dollar748m-net-present-value-in-mt-ida-scoping-study",
+        "quote": "Delta Lithium's Mt Ida scoping study, released 17 November 2026, puts the post-tax NPV at about A$748 million at an 8% discount rate, with a 33% post-tax IRR",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "quote_type": "search-summary wording",
+        "currency": "AUD",
+        "rate_pct": 8,
+        "basis": null,
+        "lt_price": null,
+        "lt_price_reason": "Price assumption not stated in any search result",
+        "accuracy": "+/- 40%"
+      },
+      "ownership_pct": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result in this task stated Delta's ownership of Mt Ida."
+      },
+      "capex": {
+        "v": 483,
+        "url": "https://grafa.com/en/news/australia/delta-lithium-mt-ida-study-shows-a-748m-npv",
+        "quote": "Pre-production capital is A$483 million, including A$64 million contingency.",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "basis": "pre-production capital incl. contingency; peak funding ~A$498m"
+      },
+      "share_price": {
+        "v": 0.13,
+        "url": "https://kalkinemedia.com/au/stocks/lithium/new-chapter-does-delta-lithiums-asxdli-mt-ida-study-change-the-game",
+        "quote": "Kalkine's price tickers show A$0.14 on 19 November, down 3.6% on the day, and A$0.13 on 23 November",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "date": "2026-11-23",
+        "quote_type": "search-summary wording"
+      },
+      "shares_M": {
+        "v": 719.8,
+        "url": "https://www.tipranks.com/news/company-announcements/delta-lithium-corporate-presentation-lists-capital-structure-and-shareholders",
+        "quote": "719.8 million shares on issue, 14.4 million performance rights and 2.0 million options",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "date": "2026-11 (corporate presentation)"
+      },
+      "cash_M": {
+        "v": 48.8,
+        "url": "https://www.tipranks.com/news/company-announcements/delta-lithium-corporate-presentation-lists-capital-structure-and-shareholders",
+        "quote": "cash of A$48.8 million as at 30 September 2026, and enterprise value of A$56 million",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "date": "2026-09-30"
+      },
+      "debt_M": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated Delta's borrowings (presentation EV of A$56m ~= A$104m market cap - A$48.8m cash).",
+        "currency": "AUD"
+      },
+      "listed_investments_M": {
+        "v": 100,
+        "url": "https://www.tipranks.com/news/company-announcements/delta-lithium-corporate-presentation-lists-capital-structure-and-shareholders",
+        "quote": "shares in ASX-listed companies are valued at approximately A$100 million, based on closing prices on 10 November 2026",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "AUD",
+        "date": "2026-11-10",
+        "detail": "156M BM1 (Ballard Mining, ~34.4%, escrowed), 5M MEX, 16.1M JAV; ~A$125m at 29 Sep 2026 per discoveryalert"
+      },
+      "fx_to_usd": {
+        "v": null,
+        "pair": "AUDUSD",
+        "date": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated a market FX rate near 26 Nov 2026 (search budget exhausted before FX searches)."
+      },
+      "notes": "MULTI-ASSET + LARGE LISTED INVESTMENTS. The specified EV ignores ~A$100m of listed shares (mostly escrowed Ballard Mining); net of them EV is about -A$55m, so the market gives Mt Ida ~nil value. Also owns the Yinnetharra lithium project. Scoping +/-40%. Ownership unconfirmed (ratio on 100% basis). Presentation market cap A$104m at 10 Nov closing prices.",
+      "market_cap_M": {
+        "v": 93.57,
+        "currency": "AUD",
+        "date": "2026-11-23",
+        "url": null,
+        "computed": true,
+        "method": "share_price x shares_M",
+        "cross_check": "presentation stated A$104m (10 Nov 2026 close)"
+      },
+      "ev_local_M": {
+        "v": 44.77,
+        "currency": "AUD",
+        "computed": true
+      },
+      "ev_usd_M": 32.23,
+      "npv_attr_usd_M": 538.49,
+      "p_nav": 0.0599,
+      "ownership_used_in_calc_pct": {
+        "v": 100,
+        "basis": "NOT STATED - 100% basis used for the ratio only"
+      },
+      "fx_used_in_calc": [
+        {
+          "v": 0.7199,
+          "pair": "AUDUSD",
+          "computed": true,
+          "url": "https://www.investegate.co.uk/announcement/rns/atlantic-lithium-limited-npv-di---all/quarterly-activities-and-cash-flow-report/9842348",
+          "via": "search",
+          "quote": "all-cash consideration of US$0.25486 per share (A$0.354 per share / £0.188 per share)",
+          "method": "0.25486/0.354, i.e. the conversion Atlantic Lithium used in its Sep-2026 quarterly; not a quoted market rate"
+        }
+      ],
+      "calc_assumptions": [
+        "ownership not stated: ratio computed on a 100% basis",
+        "debt not stated by any search result: treated as 0 for EV",
+        "FX for US$ conversion derived from stated figures (see fx_used_in_calc): AUDUSD=0.7199"
+      ],
+      "ownership_unconfirmed": true,
+      "p_nav_net_of_listed_investments": {
+        "v": -0.0738,
+        "computed": true
+      }
+    },
+    {
+      "company": "Lithium Ionic Corp",
+      "ticker": "LTH",
+      "exchange": "TSXV",
+      "project": "Bandeira",
+      "country": "Brazil (Minas Gerais)",
+      "stage": "DFS (updated)",
+      "study_date": "2025-09-17",
+      "npv": {
+        "v": 1450,
+        "url": "https://www.globenewswire.com/news-release/2025/09/17/3151503/0/en/Lithium-Ionic-Announces-Definitive-Feasibility-Study-Results-for-Bandeira-Lithium-Project-Minas-Gerais-Brazil.html",
+        "quote": "The September 2025 updated feasibility study shows a post-tax NPV at an 8% discount rate of US$1.45 billion and a 61% post-tax IRR",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "quote_type": "search-summary wording",
+        "currency": "USD",
+        "rate_pct": 8,
+        "basis": null,
+        "lt_price": "Fastmarkets long-term forecast; search wording: US$1,400/t SC6 at production start (H2 2027), LOM average US$2,200/t SC6 CIF China (garbled - verify)",
+        "downside_quote": "An average price of US$1,370/t SC6, CIF China, results in a post-tax NPV of US$583 million and an IRR of 33%."
+      },
+      "ownership_pct": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result in this task stated Lithium Ionic's ownership of Bandeira."
+      },
+      "capex": {
+        "v": 191,
+        "url": "https://www.globenewswire.com/news-release/2025/09/17/3151503/0/en/Lithium-Ionic-Announces-Definitive-Feasibility-Study-Results-for-Bandeira-Lithium-Project-Minas-Gerais-Brazil.html",
+        "quote": "Capex is US$191 million",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "quote_type": "search-summary wording",
+        "currency": "USD",
+        "basis": "initial capex"
+      },
+      "share_price": {
+        "v": 0.365,
+        "url": "https://finance.yahoo.com/quote/LTH.V/",
+        "quote": "Yahoo Finance shows a later quote of 0.365 CAD, up 7.35% on the day ... Market Cap (intraday) 72.015M",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "CAD",
+        "date": "not stated (Investing.com stated C$0.415 on 2026-11-13)"
+      },
+      "shares_M": {
+        "v": 197.3,
+        "url": "https://www.roic.ai/quote/TSXV-LTH/statistics",
+        "quote": "lists 197.30M shares outstanding as of June 30, 2026 (third-party aggregator)",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "date": "2026-06-30"
+      },
+      "cash_M": {
+        "v": 6.02,
+        "url": "https://www.roic.ai/quote/TSXV-LTH/statistics",
+        "quote": "A third-party aggregator puts it at about $6.02M",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "CAD",
+        "date": "2026-06-30",
+        "note": "Company FS: current assets C$6,864,781 at 30 Jun 2026. After quarter-end it received US$30.0m cash from the Salinas sale (25 Aug 2026) - see subsequent_cash."
+      },
+      "subsequent_cash": {
+        "v": 30.0,
+        "url": "http://www.lithiumionic.com/_resources/news/nr-20260825.pdf",
+        "quote": "has completed the sale and received US$30.0 million in cash at closing",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "USD",
+        "date": "2026-08-25",
+        "note": "plus US$7.5m deferred consideration and a 2% royalty"
+      },
+      "debt_M": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated Lithium Ionic's borrowings (working capital C$1,394,202 at 30 Jun 2026; project debt unsigned).",
+        "currency": "CAD"
+      },
+      "fx_to_usd": {
+        "v": null,
+        "pair": "CADUSD",
+        "date": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated a market FX rate near 26 Nov 2026 (search budget exhausted before FX searches)."
+      },
+      "notes": "Permit targeted end-2026 (no construction licence as of Oct 2026); binding offtakes (Mar 2026) with US$1,000/t SC6 floor; 60-65% debt targeted but unsigned; Emerita litigation (defence filed 5 Nov 2026). Q3-2026 MD&A not found. Ownership unconfirmed (ratio on 100% basis).",
+      "market_cap_M": {
+        "v": 72.01,
+        "currency": "CAD",
+        "date": "2026-11 (undated quote)",
+        "url": null,
+        "computed": true,
+        "method": "share_price x shares_M",
+        "cross_check": "Yahoo stated C$72.015m (intraday)"
+      },
+      "ev_local_M": {
+        "v": 65.99,
+        "currency": "CAD",
+        "computed": true
+      },
+      "ev_usd_M": 48.17,
+      "npv_attr_usd_M": 1450.0,
+      "p_nav": 0.0332,
+      "ownership_used_in_calc_pct": {
+        "v": 100,
+        "basis": "NOT STATED - 100% basis used for the ratio only"
+      },
+      "fx_used_in_calc": [
+        {
+          "v": 0.73,
+          "pair": "CADUSD",
+          "computed": true,
+          "url": "https://www.newswire.ca/news-releases/pmet-resources-delivers-enhanced-cv5-lithium-tantalum-feasibility-study-869908836.html",
+          "via": "search",
+          "quote": "The after-tax NPV8% is about CA$5,100M (~US$3,723M)",
+          "method": "3,723/5,100, PMET's own study conversion (likely its FX assumption); not a quoted market rate"
+        }
+      ],
+      "calc_assumptions": [
+        "ownership not stated: ratio computed on a 100% basis",
+        "cash is the 30-Jun-2026 figure; the US$30m received on 25 Aug 2026 is excluded (see p_nav_incl_salinas_cash)",
+        "debt not stated by any search result: treated as 0 for EV",
+        "FX for US$ conversion derived from stated figures (see fx_used_in_calc): CADUSD=0.73"
+      ],
+      "ownership_unconfirmed": true,
+      "p_nav_incl_salinas_cash": {
+        "v": 0.0125,
+        "computed": true,
+        "method": "EV with cash = C$6.02m + US$30.0m/CADUSD; ignores Q3 spending"
+      }
+    },
+    {
+      "company": "Atlas Lithium Corp",
+      "ticker": "ATLX",
+      "exchange": "Nasdaq",
+      "project": "Neves",
+      "country": "Brazil (Minas Gerais)",
+      "stage": "DFS",
+      "study_date": "2025-08-04",
+      "npv": {
+        "v": 539,
+        "url": "https://www.atlas-lithium.com/news/atlas-lithiums-neves-project-completes-definitive-feasibility-study-estimating-145-irr-and-11-month-payback/",
+        "quote": "the Neves Project is expected to deliver an IRR of 145%, payback in 11 months from the start of operations, and an after-tax NPV of $539 million",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "USD",
+        "rate_pct": null,
+        "basis": null,
+        "lt_price": null,
+        "rate_reason": "discount rate not stated in any search result",
+        "lt_price_reason": "price deck not stated (in DFS exhibit to the Q2-2025 10-Q)"
+      },
+      "ownership_pct": {
+        "v": 100,
+        "url": "https://www.atlas-lithium.com/news/atlas-lithium-granted-expansion-permit-for-its-neves-project/",
+        "quote": "received its expansion permit for its 100%-owned Neves Project in Minas Gerais, Brazil",
+        "page": null,
+        "via": "search",
+        "verified": false
+      },
+      "capex": {
+        "v": 57.6,
+        "url": "https://www.atlas-lithium.com/news/atlas-lithiums-neves-project-completes-definitive-feasibility-study-estimating-145-irr-and-11-month-payback/",
+        "quote": "Direct capital expenditures of $57.6 million are expected.",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "USD",
+        "basis": "direct capex; ~US$30m already invested in DMS plant"
+      },
+      "share_price": {
+        "v": 1.36,
+        "url": "https://robinhood.com/us/en/stocks/ATLX/",
+        "quote": "The current Atlas Lithium(ATLX) stock price is $1.36, with a market capitalization of 42.01M.",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "USD",
+        "date": "2026-11-20"
+      },
+      "shares_M": {
+        "v": 30.062617,
+        "url": "https://www.stocktitan.net/sec-filings/ATLX/10-q-atlas-lithium-corp-quarterly-earnings-report-f5388695bb6a.html",
+        "quote": "30,062,617 shares of common stock issued and outstanding",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "date": "2026 (mid-year 10-Q per search result)"
+      },
+      "cash_M": {
+        "v": 27.7,
+        "url": "https://tickerstat.com/ATLX/cash-and-equivalents",
+        "quote": "the latest reported quarter, Q3 2026, shows $27.7M",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "USD",
+        "date": "2026-09-30",
+        "note": "Conflicts with US$36,092,613 (StockTitan, apparently 30 Jun 2026). Q3 10-Q not opened."
+      },
+      "debt_M": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated a 2026 debt balance; one summary mentions US$10.0m convertible notes from a 7 Nov 2023 financing (current status unknown).",
+        "currency": "USD"
+      },
+      "fx_to_usd": {
+        "v": 1.0,
+        "pair": "USDUSD",
+        "date": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "note": "no conversion"
+      },
+      "notes": "Fully permitted (expansion permit Jun 2026); funding/FID not finalised; commercial production targeted Q4 2027. Mitsui US$30m equity (timing vs 30 Sep not stated). If the US$10m 2023 convertible were still outstanding, P/NAV would be ~0.043. Royalty/prepayment encumbrances and non-lithium subsidiaries not assessed.",
+      "market_cap_M": {
+        "v": 40.89,
+        "currency": "USD",
+        "date": "2026-11-20",
+        "url": null,
+        "computed": true,
+        "method": "share_price x shares_M",
+        "cross_check": "Robinhood stated US$42.01m"
+      },
+      "ev_local_M": {
+        "v": 13.19,
+        "currency": "USD",
+        "computed": true
+      },
+      "ev_usd_M": 13.19,
+      "npv_attr_usd_M": 539.0,
+      "p_nav": 0.0245,
+      "ownership_used_in_calc_pct": {
+        "v": 100,
+        "basis": "stated 100%-owned"
+      },
+      "fx_used_in_calc": [],
+      "calc_assumptions": [
+        "debt not stated by any search result: treated as 0 for EV"
+      ]
+    },
+    {
+      "company": "Savannah Resources plc",
+      "ticker": "SAV",
+      "exchange": "AIM",
+      "project": "Barroso (Mina do Barroso), Phase 1",
+      "country": "Portugal",
+      "stage": "DFS",
+      "study_date": "2026-07-15",
+      "npv": {
+        "v": 913,
+        "url": "https://www.investegate.co.uk/announcement/rns/savannah-resources--sav/interim-results/9778514",
+        "quote": "This included US$3.2Bn EBITDA, US$1.9Bn free cash flow, unlevered Post-tax NPV8 US$913m, post-tax IRR of 43% and a Post-tax payback period of 1.9 years",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "USD",
+        "rate_pct": 8,
+        "basis": null,
+        "lt_price": null,
+        "lt_price_reason": "Only the ore-reserve price (US$1,200/t SC6) was stated; DFS revenue deck not found",
+        "date_url": "https://www.tradingview.com/news/reuters.com,2026-07-15:newsml_RSO4306Ma:0-reg-savannah-resources-barroso-li-project-definitive-feasibility-study/"
+      },
+      "ownership_pct": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "Not found (search budget exhausted)."
+      },
+      "capex": {
+        "v": 417,
+        "url": "https://www.financial-news.co.uk/savannah-resources-barroso-dfs-sets-out-417m-capex-and-14-year-mine-life/",
+        "quote": "Gross upfront capex is $417 million, with a net figure of US$283 million after a Portuguese state grant of up to €110 million.",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "quote_type": "search-summary wording",
+        "currency": "USD",
+        "basis": "gross upfront capex"
+      },
+      "share_price": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "Not found (search budget exhausted).",
+        "currency": "GBp",
+        "date": null
+      },
+      "shares_M": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "Not found (search budget exhausted).",
+        "date": null
+      },
+      "market_cap_M": {
+        "v": null,
+        "currency": "GBP",
+        "date": null,
+        "url": null,
+        "computed": true
+      },
+      "cash_M": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "Not found (interim results are at the investegate link above).",
+        "currency": "GBP",
+        "date": null
+      },
+      "debt_M": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "Not found.",
+        "currency": "GBP",
+        "date": null
+      },
+      "fx_to_usd": {
+        "v": null,
+        "pair": "GBPUSD",
+        "date": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated a market FX rate near 26 Nov 2026 (search budget exhausted before FX searches)."
+      },
+      "ev_usd_M": null,
+      "npv_attr_usd_M": null,
+      "p_nav": null,
+      "notes": "INCOMPLETE - no market data. Canaccord (22 Jul 2026) models NPV8 US$756m net of the grant; target price cut to 12p. Construction preparation for 2027."
+    },
+    {
+      "company": "Core Lithium Ltd",
+      "ticker": "CXO",
+      "exchange": "ASX",
+      "project": "Finniss (restart)",
+      "country": "Australia (NT)",
+      "stage": "PRODUCER IN RESTART/RAMP-UP - Restart Study (May 2025) updated at FID",
+      "study_date": "2026-03-18",
+      "npv": {
+        "v": 837,
+        "url": "https://greenstocksresearch.com/core-lithium-finniss-restart-fid/",
+        "quote": "A$837 million, unlevered post-tax IRR of 76.5%, and about A$1.7 billion of free cash flow over mine life, at a base case of US$1,500/t CIF spodumene and AUD/USD 0.70",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "quote_type": "search-summary wording",
+        "currency": "AUD",
+        "rate_pct": null,
+        "basis": null,
+        "lt_price": "US$1,500/t SC6 CIF base case; AUD/USD 0.70 (May-2025 study used US$1,330/t)",
+        "rate_reason": "discount rate not stated",
+        "primary_url": "https://data-api.marketindex.com.au/api/v1/announcements/XASX:CXO:2A1661047/pdf/inline/finniss-funding-and-restart-presentation"
+      },
+      "ownership_pct": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "Not found (search budget exhausted)."
+      },
+      "capex": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "Restart capex not stated; funding package ~A$307m reported.",
+        "currency": "AUD"
+      },
+      "share_price": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "Not found (search budget exhausted).",
+        "currency": "AUD",
+        "date": null
+      },
+      "shares_M": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "Not found.",
+        "date": null
+      },
+      "market_cap_M": {
+        "v": null,
+        "currency": "AUD",
+        "date": null,
+        "url": null,
+        "computed": true
+      },
+      "cash_M": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "Not found.",
+        "currency": "AUD",
+        "date": null
+      },
+      "debt_M": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "Not found.",
+        "currency": "AUD",
+        "date": null
+      },
+      "fx_to_usd": {
+        "v": null,
+        "pair": "AUDUSD",
+        "date": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated a market FX rate near 26 Nov 2026 (search budget exhausted before FX searches)."
+      },
+      "ev_usd_M": null,
+      "npv_attr_usd_M": null,
+      "p_nav": null,
+      "notes": "INCOMPLETE - no market data. Labelled producer-in-ramp-up: first concentrate targeted for the Sep quarter 2026 (not confirmed). Pre-tax NPV A$1.1bn."
+    },
+    {
+      "company": "Frontier Lithium Inc",
+      "ticker": "FL",
+      "exchange": "TSXV",
+      "project": "PAK",
+      "country": "Canada (Ontario)",
+      "stage": "PFS (mine-and-mill FS update initiated 10 Sep 2026)",
+      "study_date": null,
+      "npv": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "PFS NPV not found (search budget exhausted). The earlier PFS covered an integrated mine-to-hydroxide project, so it would not be comparable anyway.",
+        "currency": "CAD",
+        "rate_pct": null,
+        "basis": null,
+        "lt_price": null
+      },
+      "ownership_pct": {
+        "v": 92.5,
+        "url": "https://briefglance.com/companies/frontier-lithium-inc",
+        "quote": "The project remains a joint venture, between Frontier (92.5%) and Mitsubishi Corporation (7.5%)",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "quote_type": "search-summary wording"
+      },
+      "capex": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "Not found.",
+        "currency": "CAD"
+      },
+      "share_price": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "Not found (Apr-2026 bought deal priced at C$0.75/unit).",
+        "currency": "CAD",
+        "date": null
+      },
+      "shares_M": {
+        "v": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "Not found.",
+        "date": null
+      },
+      "market_cap_M": {
+        "v": null,
+        "currency": "CAD",
+        "date": null,
+        "url": null,
+        "computed": true
+      },
+      "cash_M": {
+        "v": 20.9,
+        "url": "https://briefglance.com/companies/frontier-lithium-inc/pulses/72362",
+        "quote": "One aggregator reports $20.9M in cash as of June 30, 2026.",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "CAD",
+        "date": "2026-06-30",
+        "quote_type": "search-summary wording"
+      },
+      "debt_M": {
+        "v": 3.35,
+        "url": "https://briefglance.com/companies/frontier-lithium-inc/pulses/72362",
+        "quote": "extended its $3.35M convertible loan maturity to February 2028 (another source cites a $3.63 million convertible loan)",
+        "page": null,
+        "via": "search",
+        "verified": false,
+        "currency": "CAD",
+        "date": "2026",
+        "quote_type": "search-summary wording"
+      },
+      "fx_to_usd": {
+        "v": null,
+        "pair": "CADUSD",
+        "date": null,
+        "url": null,
+        "quote": null,
+        "page": null,
+        "reason": "No search result stated a market FX rate near 26 Nov 2026 (search budget exhausted before FX searches)."
+      },
+      "ev_usd_M": null,
+      "npv_attr_usd_M": null,
+      "p_nav": null,
+      "notes": "INCOMPLETE - no NPV or market data."
+    }
+  ],
+  "excluded": [
+    {
+      "company": "Winsome Resources",
+      "ticker": "WR1",
+      "reason": "Acquired by Li-FT Power; completed 21 May 2026",
+      "quote": "On May 21, 2026, Li-FT completed the acquisition of Winsome Resources, securing a 100% interest in the Adina Lithium Project.",
+      "url": "http://www.li-ft.com/projects/",
+      "via": "search"
+    },
+    {
+      "company": "Snow Lake Resources",
+      "ticker": "LITM",
+      "reason": "Renamed Frontier Nuclear and Minerals (FNUC) effective 16 Mar 2026; lithium assets to be spun off",
+      "url": "https://www.tipranks.com/news/company-announcements/snow-lake-resources-rebrands-as-frontier-nuclear-and-minerals-plans-lithium-spin-off",
+      "via": "search"
+    },
+    {
+      "company": "Kali Metals",
+      "ticker": "KM1",
+      "reason": "Explorer, gold-led in FY2026; no lithium study",
+      "url": "https://www.marketindex.com.au/data-api/api/v1/announcements/XASX:KM1:6A1343016/pdf/inline/annual-report-30-june-2026",
+      "via": "search"
+    }
+  ],
+  "summary": {
+    "n": 8,
+    "median_p_nav": 0.0581,
+    "min_p_nav": 0.0137,
+    "max_p_nav": 0.3043,
+    "median_p_nav_excluding_takeover_targets": {
+      "n": 6,
+      "v": 0.0447
+    },
+    "median_p_nav_ownership_stated_or_computed_only": {
+      "n": 5,
+      "v": 0.1516,
+      "note": "excludes CRE, DLI, LTH (ownership not stated; 100% basis)"
+    },
+    "by_stage": {
+      "DFS/FS": {
+        "n": 7,
+        "median_p_nav": 0.0562,
+        "values": {
+          "WC8": 0.1516,
+          "GL1": 0.2525,
+          "A11 / ALL": 0.3043,
+          "PMET / PMT": 0.0562,
+          "CRE": 0.0137,
+          "LTH": 0.0332,
+          "ATLX": 0.0245
+        }
+      },
+      "Scoping/PEA": {
+        "n": 1,
+        "median_p_nav": 0.0599,
+        "values": {
+          "DLI": 0.0599
+        }
+      },
+      "DFS/FS excluding takeover targets": {
+        "n": 5,
+        "median_p_nav": 0.0332
+      },
+      "PFS": {
+        "n": 0,
+        "median_p_nav": null,
+        "note": "no PFS-stage company with complete data"
+      },
+      "Producer (ramp-up)": {
+        "n": 0,
+        "median_p_nav": null,
+        "note": "Core Lithium lacks market data"
+      }
+    },
+    "deal_prices": {
+      "GL1_Titan_offer_p_nav": 0.3244,
+      "A11_Huayou_offer_p_nav": 0.3366,
+      "note": "Agreed cash takeovers of two developers in 2026, on the same EV / attributable-NPV basis"
+    },
+    "p_nav_definition": "EV (market cap - cash + debt, converted to US$) / (study post-tax NPV x ownership, converted to US$). Where debt was not stated it is treated as 0 and flagged in calc_assumptions.",
+    "excluded_from_stats_incomplete": [
+      "SAV",
+      "CXO",
+      "FL"
+    ]
+  },
+  "gaps": [
+    "Nothing opened directly: WebFetch blocked by the environment's network allowlist. To verify, allow the hosts (discoveryalert.com, www.marketindex.com.au, wildcatresources.com.au, asx.com.au, sedarplus.ca, company sites) or check the primary documents manually. PDF page numbers are null.",
+    "WebSearch per-turn budget (200, shared) exhausted. Still missing: Savannah price/shares/cash/ownership; Core Lithium price/shares/cash/debt/ownership/capex; Frontier PFS NPV, price and shares; ownership for CRE, DLI, LTH; market FX rates.",
+    "FX: fx_to_usd.v is null everywhere (no market rate was stated). Calculations use derived rates: AUDUSD 0.7199 and GBPUSD 1.3556 from Atlantic Lithium's scheme-price conversion (Sep-2026 quarterly), CADUSD 0.73 from PMET's NPV conversion (likely its study assumption). Ratios for WC8, GL1, DLI, PMET and ATLX do not depend on FX; CRE, LTH and A11 do.",
+    "Debt was stated only for GL1 (nil at 30 Jun 2026) and FL. Elsewhere it is null and treated as 0 for EV (flagged). GL1 has since drawn on Titan's facility (amount not stated); ATLX may still carry US$10m of 2023 convertibles.",
+    "Ownership: CRE, DLI and LTH are not stated (their ratios are on a 100% basis and flagged). A11's 40.5% is a computed look-through whose structure was assumed.",
+    "Cash stale or conflicting: GL1 (30 Jun 2026), CRE (31 May 2026, includes ST investments; a CA$8.29m figure also cited), LTH (30 Jun 2026, before US$30m received 25 Aug 2026), ATLX (US$27.7m vs US$36.1m).",
+    "Share prices dated 13-26 Nov 2026; A11, CRE and LTH quotes show no date. WC8 share count is approximate ('about 1.6 billion').",
+    "Real/nominal basis stated only for Wildcat (real). Discount rate not stated for ATLX and CXO. Study price decks differ widely (US$1,500/t SC6 to US$2,162/t chemical grade; SC5.5 vs SC6; 2023 vs 2026 decks), and the stale 2023 studies (CRE, A11) inflate NPV.",
+    "Not assessed because of the budget: Kodal Minerals (Bougouni ramp-up), Green Technology Metals, European Lithium, Li-FT Power (Adina PEA)."
+  ]
+}

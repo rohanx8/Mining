@@ -1,0 +1,575 @@
+{
+ "asOf": "2026-11-27",
+ "provenance": "All values come from WebSearch results (40 searches, the full budget); no page or PDF was opened, so page is null throughout. quote is the text exactly as the result gave it: quote_kind 'extract' where the result presented it as the page's words, 'summary' where it is the search tool's wording. url_certain=false where the result did not tie the statement to one page; url is then the likeliest page and alt_urls the other candidates. Currency is as written in the quote ('$' where the quote names none), with currency_note giving context. Nothing was converted, derived or taken from memory. Fields already present in gold_studies.json or copper_studies.json were not repeated.",
+ "studies": {
+  "G01": {
+   "ga_per_year_M": {
+    "v": 12.1,
+    "unit": "$M per year (fixed mine-level G&A)",
+    "currency": "$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.montagegold.com/news/montage-announces-updated-feasibility-study-at-kon-gold-project-after-tax-npv-of-11b-and-31-irr-and-two-new-satellites-to-be-advanced",
+    "quote": "Total fixed mine level general and administration (\"G&A\") costs are estimated at $12.1M annually, which are in addition to the $19.3M in annual fixed processing costs shown in Table 13.",
+    "quote_kind": "extract",
+    "currency_note": "Result writes '$' without naming the currency.",
+    "note": "The result attributed this to the January 2024 UFS news release (search limited to montagegold.com). Processing cost per tonne (Table 13, by material type) and mining cost per tonne mined (Table 12) were referenced but their values were never returned."
+   }
+  },
+  "G02": {
+   "recovery_pct": {
+    "v": 92.8,
+    "unit": "% (LOM average)",
+    "currency": "",
+    "page": null,
+    "via": "search",
+    "url": "https://www.miningreview.com/exploration/predictive-discoverys-dfs-for-bankan-delivers-good-returns/",
+    "quote": "LOM average recoveries of 92.8% (92.4% in the PFS).",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://pdigold.com/assets/bankan-gold-project/",
+     "https://announcements.asx.com.au/asxpdf/20250625/pdf/06l2fkzgfks0gd.pdf",
+     "https://minedocs.com/30/Bankan-DFS-06252025.pdf"
+    ],
+    "note": "The quoted sentence came from a result that did not tie it to one page; two other results tied 'LOM average recovery of 92.8%' to this Mining Review page and 'DFS processing recovery estimate of 92.8%' to the pdigold.com project page."
+   }
+  },
+  "G03": {
+   "mining_op_per_t_ore": {
+    "v": 34.7,
+    "unit": "$/t ore mined",
+    "currency": "$",
+    "page": null,
+    "via": "search",
+    "url": "https://kalkine.co.uk/news/announcements/fortuna-mining-delivers-billion-dollar-npv-feasibility-study-for-diamba-sud-gold-project-in-senegal",
+    "quote": "Mining costs account for $34.70 per tonne mined, processing costs for $16.09 per tonne processed, and general and administrative costs for $8.65 per tonne processed.",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://fortunamining.com/news/fortuna-delivers-robust-feasibility-study-for-the-diamba-sud-gold-project-in-senegal-after-tax-irr-of-60-and-npv5-of-us1-billion-using-us3500-oz/",
+     "https://www.globenewswire.com/news-release/2026/06/29/3319325/0/en/fortuna-delivers-robust-feasibility-study-for-the-diamba-sud-gold-project-in-senegal-after-tax-irr-of-60-and-npv5-of-us-1-billion-using-us-3-500-oz.html",
+     "https://www.resource-capital.ch/fileadmin/news/Fortuna_Silver_Mines_Inc/2026/290626_EN_FVI_Fortuna_delivers_robust_Feasibility_Study.pdf"
+    ],
+    "currency_note": "Result writes '$'; Fortuna's release gives its headline figures in US$ (NPV5% of US$1 billion at US$3,500/oz).",
+    "note": "The result said this split came from 'a secondary summary of the study' without naming the page; kalkine.co.uk is the only summary-type page in its list, so url_certain=false. The quote says 'per tonne mined'; another result quotes the release's Table 7 footnote 'Per ore tonne mined', and total direct operating cost is $58.86/t milled, so this is filed as cost per tonne of ore, not per tonne of material moved. Verify against Table 7 of the 29 Jun 2026 release."
+   },
+   "processing_per_t": {
+    "v": 16.09,
+    "unit": "$/t processed",
+    "currency": "$",
+    "page": null,
+    "via": "search",
+    "url": "https://kalkine.co.uk/news/announcements/fortuna-mining-delivers-billion-dollar-npv-feasibility-study-for-diamba-sud-gold-project-in-senegal",
+    "quote": "Mining costs account for $34.70 per tonne mined, processing costs for $16.09 per tonne processed, and general and administrative costs for $8.65 per tonne processed.",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://fortunamining.com/news/fortuna-delivers-robust-feasibility-study-for-the-diamba-sud-gold-project-in-senegal-after-tax-irr-of-60-and-npv5-of-us1-billion-using-us3500-oz/",
+     "https://www.globenewswire.com/news-release/2026/06/29/3319325/0/en/fortuna-delivers-robust-feasibility-study-for-the-diamba-sud-gold-project-in-senegal-after-tax-irr-of-60-and-npv5-of-us-1-billion-using-us-3-500-oz.html",
+     "https://www.resource-capital.ch/fileadmin/news/Fortuna_Silver_Mines_Inc/2026/290626_EN_FVI_Fortuna_delivers_robust_Feasibility_Study.pdf"
+    ],
+    "currency_note": "Result writes '$'; Fortuna's release gives its headline figures in US$ (NPV5% of US$1 billion at US$3,500/oz).",
+    "note": "The result said this split came from 'a secondary summary of the study' without naming the page; kalkine.co.uk is the only summary-type page in its list, so url_certain=false."
+   },
+   "ga_per_t": {
+    "v": 8.65,
+    "unit": "$/t processed",
+    "currency": "$",
+    "page": null,
+    "via": "search",
+    "url": "https://kalkine.co.uk/news/announcements/fortuna-mining-delivers-billion-dollar-npv-feasibility-study-for-diamba-sud-gold-project-in-senegal",
+    "quote": "Mining costs account for $34.70 per tonne mined, processing costs for $16.09 per tonne processed, and general and administrative costs for $8.65 per tonne processed.",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://fortunamining.com/news/fortuna-delivers-robust-feasibility-study-for-the-diamba-sud-gold-project-in-senegal-after-tax-irr-of-60-and-npv5-of-us1-billion-using-us3500-oz/",
+     "https://www.globenewswire.com/news-release/2026/06/29/3319325/0/en/fortuna-delivers-robust-feasibility-study-for-the-diamba-sud-gold-project-in-senegal-after-tax-irr-of-60-and-npv5-of-us-1-billion-using-us-3-500-oz.html",
+     "https://www.resource-capital.ch/fileadmin/news/Fortuna_Silver_Mines_Inc/2026/290626_EN_FVI_Fortuna_delivers_robust_Feasibility_Study.pdf"
+    ],
+    "currency_note": "Result writes '$'; Fortuna's release gives its headline figures in US$ (NPV5% of US$1 billion at US$3,500/oz).",
+    "note": "The result said this split came from 'a secondary summary of the study' without naming the page; kalkine.co.uk is the only summary-type page in its list, so url_certain=false."
+   }
+  },
+  "G04": {},
+  "G05": {
+   "recovery_pct": {
+    "v": 90.8,
+    "unit": "% (plant metallurgical recovery)",
+    "currency": "",
+    "page": null,
+    "via": "search",
+    "url": "https://api.investi.com.au/api/announcements/rxl/801f83eb-71e.pdf",
+    "quote": "The DFS uses a plant metallurgical recovery of 90.8%.",
+    "quote_kind": "summary",
+    "url_certain": false,
+    "alt_urls": [
+     "https://www.listcorp.com/asx/rxl/rox-resources/news/youanmi-dfs-presentation-3275317.html",
+     "https://roxresources.com.au/wp-content/uploads/2026/08/RXL-Initiation.pdf"
+    ],
+    "note": "An earlier result tied the same DFS figure to the Aug 2026 analyst initiation: 'It assumes average recoveries of 88.1% versus 90.8% in the DFS'."
+   },
+   "sustaining_lom_M": {
+    "v": 172,
+    "unit": "A$M (LOM sustaining capital)",
+    "currency": "A$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.listcorp.com/asx/rxl/rox-resources/news/youanmi-dfs-presentation-3275317.html",
+    "quote": "Total Sustaining Capital172",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://api.investi.com.au/api/announcements/rxl/801f83eb-71e.pdf"
+    ],
+    "currency_note": "The quoted slide text shows no currency; the result read it as 'about A$172m'.",
+    "note": "Garbled DFS-presentation slide text as the result gave it. The result read it as about A$172m, of which underground A$121m and other A$51m."
+   }
+  },
+  "G06": {
+   "recovery_pct": {
+    "v": 90.4,
+    "unit": "%",
+    "currency": "",
+    "page": null,
+    "via": "search",
+    "url": "https://ausgoldlimited.com/projects/katanning-gold-project/definitive-feasibility-study/",
+    "quote": "Metallurgical Recovery · 90.4%",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://www.rrsinvestor.com/file/238/view/Ausgold_20250729_RRS_Ausgold_Presentation_Design_DFS.pdf",
+     "https://investorpa.com/announcement-pdf/20251216/235491.pdf",
+     "https://ausgoldlimited.com/wp-content/uploads/AusgoldDefinitiveFeasibilityStudyKatanningGoldProject30Jun25.pdf"
+    ],
+    "note": "The result did not say whether this is from the 30 Jun 2025 DFS or the 16 Dec 2025 update (the study in gold_studies.json)."
+   }
+  },
+  "G07": {
+   "sustaining_lom_M": {
+    "v": 525,
+    "unit": "$M (LOM sustaining capital)",
+    "currency": "$",
+    "page": null,
+    "via": "search",
+    "url": "https://magazine.cim.org/en/news/2025/updated-feasibility-study-released-for-cariboo-gold-project-en/",
+    "quote": "The project requires total initial capital costs of $881 million and sustaining capital of $525 million over the life of mine.",
+    "quote_kind": "summary",
+    "url_certain": false,
+    "alt_urls": [
+     "https://www.globenewswire.com/news-release/2025/04/28/3069042/0/en/Osisko-Development-Announces-Optimized-Feasibility-Study-for-Permitted-Cariboo-Gold-Project-with-C-943-Million-After-Tax-NPV5-and-22-1-IRR-at-US-2-400-oz-Base-Case-Gold-Price-at-US.html",
+     "https://www.osiskogold.ca/projects/cariboo-gold/"
+    ],
+    "currency_note": "Result writes '$'; Osisko's release gives NPV in C$ (C$943M), so C$ is likely but not stated."
+   }
+  },
+  "G08": {
+   "processing_per_t": {
+    "v": 10.72,
+    "unit": "US$/t processed",
+    "currency": "US$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.firstmininggold.com/_resources/news/nr-20251118.pdf",
+    "quote": "The PFS used an average cost of US$10.72 per tonne of processed material, based on the updated flowsheet. This includes power, labour, consumables, maintenance, and supplies.",
+    "quote_kind": "summary",
+    "url_certain": false,
+    "alt_urls": [
+     "https://minedocs.com/30/Springpole-PFS-12012025.pdf",
+     "https://www.newswire.ca/news-releases/first-mining-announces-updated-pre-feasibility-study-for-the-springpole-gold-project-ontario-canada-856680474.html",
+     "https://www.prnewswire.com/news-releases/first-mining-announces-updated-pre-feasibility-study-for-the-springpole-gold-project-ontario-canada-302617975.html"
+    ],
+    "note": "Worded as the cost used in the PFS; it may be the pit-optimisation/reserve input rather than the LOM average of the technical report's operating cost table, which was not returned."
+   },
+   "ga_per_t": {
+    "v": 2.56,
+    "unit": "US$/t (basis not stated; likely per tonne processed)",
+    "currency": "US$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.firstmininggold.com/_resources/news/nr-20251118.pdf",
+    "quote": "An average cost of US$2.56/t was used for G&A, which includes labour, camp, water treatment costs etc.",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://minedocs.com/30/Springpole-PFS-12012025.pdf",
+     "https://www.newswire.ca/news-releases/first-mining-announces-updated-pre-feasibility-study-for-the-springpole-gold-project-ontario-canada-856680474.html",
+     "https://www.prnewswire.com/news-releases/first-mining-announces-updated-pre-feasibility-study-for-the-springpole-gold-project-ontario-canada-302617975.html"
+    ],
+    "note": "Same caveat as processing_per_t."
+   },
+   "strip_ratio": {
+    "v": 3.0,
+    "unit": "waste:ore (overall)",
+    "currency": "",
+    "page": null,
+    "via": "search",
+    "url": "https://www.firstmininggold.com/_resources/news/nr-20251118.pdf",
+    "quote": "The deposit is planned to produce a total of 102.0 Mt of plant process feed and 309.5 Mt of waste (3.0:1 overall strip ratio) over a 9.4 year mine operating life.",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://www.newswire.ca/news-releases/first-mining-announces-updated-pre-feasibility-study-for-the-springpole-gold-project-ontario-canada-856680474.html",
+     "https://www.prnewswire.com/news-releases/first-mining-announces-updated-pre-feasibility-study-for-the-springpole-gold-project-ontario-canada-302617975.html",
+     "https://minedocs.com/30/Springpole-PFS-12012025.pdf"
+    ]
+   }
+  },
+  "C01": {
+   "recovery_pct": {
+    "v": 86,
+    "unit": "% Cu (sulphide concentrator)",
+    "currency": "",
+    "page": null,
+    "via": "search",
+    "url": "https://www.prnewswire.com/news-releases/hot-chili-announces-pfs--maiden1-mineral-reserve2-for-the-costa-fuego-cu-au-project-302412863.html",
+    "quote": "The study assumed Concentrator (86% Cu, 54% Au, 37% Ag, 70% Mo), Oxide Leach (65% Cu only), & Low-grade Sulphide Leach (39% Cu only).",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://minedocs.com/28/Costa-Fuego-PFS-03272025.pdf",
+     "https://www.newswire.ca/news-releases/hot-chili-announces-pfs-amp-maiden-1-mineral-reserve-2-for-the-costa-fuego-cu-au-project-850601550.html"
+    ],
+    "note": "Concentrator copper recovery; the same quote gives oxide heap leach 65% Cu and low-grade sulphide dump leach 39% Cu."
+   }
+  },
+  "C02": {},
+  "C03": {
+   "mining_ug_per_t_ore": {
+    "v": 24.02,
+    "unit": "$/t ore (LOM average)",
+    "currency": "$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.globenewswire.com/news-release/2023/03/06/2620982/0/en/Highland-Copper-Announces-Updated-Feasibility-Study-Results-for-Its-Fully-Permitted-Copperwood-Project-in-Michigan-USA.html",
+    "quote": "The average operating cost over the LOM is $48.05 per tonne of ore, or $1.83 per pound of payable copper, with mining representing 50.0% of the cost or $24.02 per tonne.",
+    "quote_kind": "extract",
+    "alt_urls": [
+     "https://www.highlandcopper.com/news/23-03-06-news/"
+    ],
+    "currency_note": "Release writes '$'; copper_studies.json treats Copperwood figures as US$.",
+    "note": "Total LOM operating cost $48.05/t ore in the same sentence. Processing and G&A shares were not returned."
+   },
+   "conc_grade_cu_pct": {
+    "v": 25,
+    "unit": "% Cu",
+    "currency": "",
+    "page": null,
+    "via": "search",
+    "url": "https://www.globenewswire.com/news-release/2025/09/04/3144910/0/en/Highland-Copper-Announces-Updated-Process-Plant-Flow-Sheet-Demonstrating-Increased-Copper-Recoveries-of-87-6-and-Reduced-Processing-Costs.html",
+    "quote": "The redesigned circuit is also projected to reach average copper recovery of 87.6% at a concentrate grade of 25% copper, compared with 86% recovery at 25% copper grade in the 2023 study.",
+    "quote_kind": "summary",
+    "note": "Stated for the 2023 study in a 4 Sep 2025 Highland release (search limited to globenewswire.com)."
+   }
+  },
+  "C04": {
+   "mining_op_per_t_material": {
+    "v": 2.3,
+    "unit": "C$/t material moved (LOM average)",
+    "currency": "C$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.westerncopperandgold.com/news-and-resources/news-release/western-copper-and-gold-announces-positive-feasibility-on-casino/",
+    "quote": "Mining costs averaged $2.30 per tonne of material moved and $3.65 per tonne of mineralized material.",
+    "quote_kind": "summary",
+    "currency_note": "Release writes '$' and states 'All references to \"$\" are to Canadian dollars' (copper_studies.json C04 currency_source); a second result also wrote C$2.30 and C$3.65."
+   },
+   "mining_op_per_t_ore": {
+    "v": 3.65,
+    "unit": "C$/t mineralized material (ore)",
+    "currency": "C$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.westerncopperandgold.com/news-and-resources/news-release/western-copper-and-gold-announces-positive-feasibility-on-casino/",
+    "quote": "Mining costs averaged $2.30 per tonne of material moved and $3.65 per tonne of mineralized material.",
+    "quote_kind": "summary",
+    "currency_note": "Release writes '$' and states 'All references to \"$\" are to Canadian dollars'."
+   }
+  },
+  "C05": {},
+  "C06": {
+   "strip_ratio": {
+    "v": 1.3,
+    "unit": "waste:ore (including pre-strip)",
+    "currency": "",
+    "page": null,
+    "via": "search",
+    "url": "https://minedocs.com/23/Caravel_PFS_07122022.pdf",
+    "quote": "Low operating costs (C1 ~US$1.72/lb) due to very low strip ratio of 1.3:1 (including pre-strip)",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://caravelminerals.com.au/wp-content/uploads/2022/12/gD12338-CaravelMineralsPFSWEBr.pdf",
+     "https://caravelminerals.com.au/wp-content/uploads/2023/01/CaravelMineralsCVVPFSUpdate.pdf",
+     "https://caravelminerals.com.au/2022prefeasibilitystudy/"
+    ],
+    "note": "July 2022 PFS (US$1.72/lb is the July 2022 C1)."
+   },
+   "conc_grade_cu_pct": {
+    "v": 25,
+    "unit": "% Cu (approximate: '~25%')",
+    "currency": "",
+    "page": null,
+    "via": "search",
+    "url": "https://minedocs.com/23/Caravel_PFS_07122022.pdf",
+    "quote": "Caravel will produce a clean, marketable concentrate grading ~25% copper with very low impurities.",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://caravelminerals.com.au/wp-content/uploads/2022/12/gD12338-CaravelMineralsPFSWEBr.pdf",
+     "https://caravelminerals.com.au/wp-content/uploads/2023/01/CaravelMineralsCVVPFSUpdate.pdf",
+     "https://caravelminerals.com.au/2022prefeasibilitystudy/"
+    ]
+   }
+  },
+  "C07": {}
+ },
+ "other_found": {
+  "_about": "Figures the searches returned that do not fit a field as defined (totals, per-oz or per-lb splits, cut-off or pit-optimisation inputs, superseded study versions, unclear scope). Not for direct use.",
+  "G01": [
+   {
+    "v": 19.3,
+    "unit": "$M per year (fixed processing cost only)",
+    "currency": "$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.montagegold.com/news/montage-announces-updated-feasibility-study-at-kon-gold-project-after-tax-npv-of-11b-and-31-irr-and-two-new-satellites-to-be-advanced",
+    "quote": "Total fixed mine level general and administration (\"G&A\") costs are estimated at $12.1M annually, which are in addition to the $19.3M in annual fixed processing costs shown in Table 13.",
+    "quote_kind": "extract",
+    "note": "Fixed part only; the variable processing cost per tonne by material type (Table 13) was not returned."
+   },
+   {
+    "v": 0.59,
+    "unit": "$/t processed (rehandle, LOM average)",
+    "currency": "$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.montagegold.com/news/montage-announces-updated-feasibility-study-at-kon-gold-project-after-tax-npv-of-11b-and-31-irr-and-two-new-satellites-to-be-advanced",
+    "quote": "In addition to the processing costs, rehandle costs equate to $0.59/t processed when averaged over the LOM.",
+    "quote_kind": "extract"
+   },
+   {
+    "v": 877.5,
+    "unit": "$M total LOM capital including closure (initial $712.1M)",
+    "currency": "$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.prnewswire.com/news-releases/montage-announces-updated-feasibility-study-at-kone-gold-project-302035508.html",
+    "quote": "Initial capital to fund construction and commissioning is estimated at $712.1 million with total capital estimated at $877.5 million over the LOM including closure costs.",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://www.montagegold.com/news/montage-announces-updated-feasibility-study-at-kon-gold-project-after-tax-npv-of-11b-and-31-irr-and-two-new-satellites-to-be-advanced"
+    ],
+    "note": "Sustaining and closure are not separated, so neither field is filled."
+   }
+  ],
+  "G03": [
+   {
+    "v": 58.86,
+    "unit": "$/t milled (total direct operating cost; $1,146/oz)",
+    "currency": "$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.globenewswire.com/news-release/2026/06/29/3319325/0/en/fortuna-delivers-robust-feasibility-study-for-the-diamba-sud-gold-project-in-senegal-after-tax-irr-of-60-and-npv5-of-us-1-billion-using-us-3-500-oz.html",
+    "quote": "The FS estimates direct operating costs of $58.86/t of material milled, or $1,146/oz of gold produced, and LOM AISC1 of $1,332/oz, as summarized in Table 7.",
+    "quote_kind": "extract",
+    "note": "Search limited to globenewswire.com. The same result mentions a release footnote 'Per ore tonne mined'."
+   }
+  ],
+  "G04": [
+   {
+    "v": 27.46,
+    "unit": "A$/t (AISC per tonne)",
+    "currency": "A$",
+    "page": null,
+    "via": "search",
+    "url": "https://minedocs.com/30/Apollo-Hill-PFS-12172025.pdf",
+    "quote": "All-in Sustaining Cost (AISC) is estimated at A$2,464/oz or A$27.46/tonne, resulting in an Operating AISC Margin of A$20.36/tonne at the Base Case A$4,300/oz gold price.",
+    "quote_kind": "extract",
+    "note": "Total, not a component."
+   },
+   {
+    "v": 1.87,
+    "unit": "$/t processed (G&A)",
+    "currency": "$",
+    "page": null,
+    "via": "search",
+    "url": "https://saturnmetals.com.au/wp-content/uploads/2023/08/230807-Apollo-Hill-Preliminary-Economic-Assessment.pdf",
+    "quote": "G&A costs are set at $1.87 / processed tonne",
+    "quote_kind": "extract",
+    "note": "From the Aug 2023 PEA, superseded by the Dec 2025 PFS; not the PFS figure."
+   }
+  ],
+  "G05": [
+   {
+    "v": null,
+    "unit": "A$/oz cost stack (mining ~904, processing ~593, site G&A ~93, C1 ~1,590)",
+    "currency": "A$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.listcorp.com/asx/rxl/rox-resources/news/youanmi-dfs-presentation-3275317.html",
+    "quote": "The DFS slide lists the cost stack in A$/oz: mining about A$904, processing about A$593, site G&A about A$93, giving a C1 cash cost of about A$1,590, plus royalty about A$176 and sustaining capital about A$209 for an AISC near A$1,975–1,978.",
+    "quote_kind": "summary",
+    "url_certain": false,
+    "alt_urls": [
+     "https://api.investi.com.au/api/announcements/rxl/801f83eb-71e.pdf"
+    ],
+    "note": "Per ounce, not per tonne. The result said the chart text was garbled and the mapping of values to cost lines was its own inference."
+   }
+  ],
+  "G06": [
+   {
+    "v": 5.3,
+    "unit": "$/t mined (scope unclear)",
+    "currency": "$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.epa.wa.gov.au/sites/default/files/Referral_Documentation/Appendix%20C_Open%20Pit%20Definitive%20Feasibility%20Study%20Report.pdf",
+    "quote": "An EPA referral appendix of the June 2025 open pit DFS gives a figure of $5.30/t mined. The sentence pairs this with total capital and operating costs of $1,471M, so it is unclear whether $5.30/t is mining-only or a broader total.",
+    "quote_kind": "summary",
+    "note": "From the June 2025 open-pit DFS report, not the Dec 2025 update; scope unclear."
+   },
+   {
+    "v": 2507,
+    "unit": "A$M total LOM operating costs (mining, processing, selling)",
+    "currency": "A$",
+    "page": null,
+    "via": "search",
+    "url": "https://investorpa.com/announcement-pdf/20251216/235491.pdf",
+    "quote": "Total operating costs inclusive of mining, processing, and selling costs are A$2,507 M.",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://ausgoldlimited.com/wp-content/uploads/AusgoldDefinitiveFeasibilityStudyKatanningGoldProject30Jun25.pdf",
+     "https://ausgoldlimited.com/projects/katanning-gold-project/definitive-feasibility-study/"
+    ],
+    "note": "Total; the result did not say which DFS version."
+   }
+  ],
+  "G08": [
+   {
+    "v": null,
+    "unit": "C$/t mined by material: waste 2.60, ore 2.30, overburden 2.00; +0.02 per 6 m depth",
+    "currency": "C$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.firstmininggold.com/_resources/news/nr-20251118.pdf",
+    "quote": "C$2.60/tonne mined of waste, C$2.30/tonne mined of ore, and C$2.00/tonne mined of overburden, with an incremental mining cost of C$0.02/tonne mined per 6 m of depth",
+    "quote_kind": "summary",
+    "url_certain": false,
+    "alt_urls": [
+     "https://minedocs.com/30/Springpole-PFS-12012025.pdf",
+     "https://www.newswire.ca/news-releases/first-mining-announces-updated-pre-feasibility-study-for-the-springpole-gold-project-ontario-canada-856680474.html",
+     "https://www.prnewswire.com/news-releases/first-mining-announces-updated-pre-feasibility-study-for-the-springpole-gold-project-ontario-canada-302617975.html"
+    ],
+    "note": "Preliminary pit-optimisation inputs by material type, not a LOM average mining cost."
+   },
+   {
+    "v": null,
+    "unit": "C$/t processed: processing 14.50, G&A 0.90, stockpile 0.75, incremental ore mining 0.56",
+    "currency": "C$",
+    "page": null,
+    "via": "search",
+    "url": "https://www.firstmininggold.com/assets/springpole-project/springpole-project-overview/",
+    "quote": "Preliminary processing cost assumptions of C$14.50/tonne processed, general & administration assumption of C$0.90/tonne processed, stockpile cost assumption of C$0.75/tonne processed, and incremental ore mining cost of C$0.56/tonne processed.",
+    "quote_kind": "extract",
+    "note": "Resource cut-off assumptions on the project overview page, not the 2025 PFS operating costs."
+   }
+  ],
+  "C01": [
+   {
+    "v": 1.5,
+    "unit": "waste:ore, open pits (stated as a reduction from 1.8)",
+    "currency": "",
+    "page": null,
+    "via": "search",
+    "url": "https://www.cruxinvestor.com/posts/billion-dollar-water-strategy-to-fund-major-chilean-copper-project",
+    "quote": "a reduction in strip ratio from 1.8 to 1.5 on open pits, helping maintain competitive cash costs at $1.38 per pound",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://www.hotchili.net.au/hot-chili-serves-up-chilean-copper-pfs/",
+     "https://capital10x.com/hot-chili-confirms-major-discovery-in-q1-2025-report/",
+     "https://www.prnewswire.com/news-releases/hot-chili-announces-pfs--maiden1-mineral-reserve2-for-the-costa-fuego-cu-au-project-302412863.html"
+    ],
+    "note": "Unclear whether 1.5 is the PFS strip ratio or a later planned change, so strip_ratio is not filled."
+   }
+  ],
+  "C05": [
+   {
+    "v": 77.43,
+    "unit": "US$/t ore processed (operating cost, scope unclear)",
+    "currency": "US$",
+    "page": null,
+    "via": "search",
+    "url": "https://newworldres.com/wp-content/uploads/AntlerCopperProjectPreFeasibilityStudyPresentation17Jul24.pdf",
+    "quote": "The PFS presentation lists operating costs at US$77.43/t of ore processed.",
+    "quote_kind": "summary"
+   },
+   {
+    "v": 108.45,
+    "unit": "US$/t ore milled (C1: mining, processing, G&A, transport, TC/RC, royalties)",
+    "currency": "US$",
+    "page": null,
+    "via": "search",
+    "url": "https://newworldres.com/wp-content/uploads/AntlerCopperProjectPreFeasibilityStudy17Jul24.pdf",
+    "quote": "The ASX outcomes table gives C1 costs of US$108.45 per tonne of ore milled.",
+    "quote_kind": "summary",
+    "note": "Totals that the result could not reconcile with each other; no component split returned."
+   }
+  ],
+  "C06": [
+   {
+    "v": null,
+    "unit": "US$/lb Cu sold, C1 by line (Sep 2022 PFS Update): mining 0.44, processing 0.82 (1.01 in Jul 2022 PFS), site G&A 0.09, logistics 0.21, TC/RC 0.16, by-product credits (0.19), total 1.54 (1.72)",
+    "currency": "US$",
+    "page": null,
+    "via": "search",
+    "url": "https://caravelminerals.com.au/wp-content/uploads/2023/01/CaravelMineralsCVVPFSUpdate.pdf",
+    "quote": "Table 2: Caravel Copper Project C1 Costs",
+    "quote_kind": "extract",
+    "url_certain": false,
+    "alt_urls": [
+     "https://minedocs.com/23/Caravel_PFS_07122022.pdf"
+    ],
+    "note": "Per lb, not per tonne; the values are the result's reading of the table under that title."
+   }
+  ],
+  "C07": [
+   {
+    "v": null,
+    "unit": "% Cu recovery range 85-92 (Au 70-81), reserve input",
+    "currency": "",
+    "page": null,
+    "via": "search",
+    "url": "https://solgold.com/solgold-plc-announces-completion-of-new-cascabel-pre-feasibility-study/",
+    "quote": "The reserve inputs include an overall operating cost of US$15.00/t and metallurgical recoveries that range from 85-92% for copper and 70-81% for gold.",
+    "quote_kind": "summary",
+    "url_certain": false,
+    "alt_urls": [
+     "https://minedocs.com/25/Cascabel-PFS-03082024.pdf"
+    ],
+    "note": "A range used for reserves, not a single LOM recovery."
+   }
+  ]
+ },
+ "gaps": {
+  "G01": "Mining US$/t mined (Table 12) and processing per tonne (Table 13) named but not returned.",
+  "G02": "No mining, processing or G&A unit cost in any result.",
+  "G03": "Sustaining and closure not returned.",
+  "G04": "No mining, processing or G&A unit cost for the PFS (only AISC A$27.46/t and a 2023 PEA G&A).",
+  "G05": "No per-tonne costs (only an A$/oz stack); closure not returned.",
+  "G06": "No processing or G&A per tonne; mining only an unclear A$5.30/t from the June 2025 DFS.",
+  "G07": "No mining, processing or G&A unit cost in any result.",
+  "G08": "Mining only as pit-optimisation inputs by material type; no LOM mining average.",
+  "C01": "No unit costs, concentrate grade, payability, TC/RC or freight.",
+  "C02": "No unit costs, TC/RC, payability, strip ratio or closure; the MD&A table did not come through.",
+  "C03": "Processing and G&A per tonne not returned; no TC/RC or freight.",
+  "C04": "Processing (milling, heap leach) and G&A per tonne not returned.",
+  "C05": "Only total C1 and opex per tonne; no split, recovery, concentrate terms.",
+  "C06": "Costs only in US$/lb; no per-tonne costs, recovery or TC/RC rates.",
+  "C07": "Only the US$15/t reserve opex already in copper_studies.json.",
+  "all": "No gold payability or refining charge, and no copper payability, TC (US$/dmt), RC (US$/lb), transport or freight (US$/wmt), was returned for any study."
+ }
+}

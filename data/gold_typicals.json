@@ -1,0 +1,250 @@
+{
+ "about": "Compile gold and copper typical values from the study research in data/research (gold_studies.json, copper_studies.json,\nunit_costs.json). Every value below is copied from those files, which record the page each came from as returned by web search\nin November 2026 (not checked page by page against the filings), or derived from them with the working shown.\nOnly figures stated in US$ (or without currency, such as recoveries and grades) are used: the A$ and C$ figures came without\nthe study's exchange rate. Costs from studies dated 2024 or earlier are brought to November 2025 prices with US CPI-U,\nas the lithium values are. Run: python3 -I tools/compile_typicals_au_cu.py",
+ "studies": {
+  "G01": "Montage Gold, Koné Updated FS (Feb 2024), Côte d'Ivoire",
+  "G02": "Predictive Discovery, Bankan DFS (Jun 2025), Guinea",
+  "G03": "Fortuna Mining, Diamba Sud FS (Jun 2026), Senegal",
+  "G04": "Saturn Metals, Apollo Hill PFS (Dec 2025), Western Australia",
+  "G05": "Rox Resources, Youanmi DFS (Nov 2025), Western Australia",
+  "G06": "Ausgold, Katanning updated DFS (Dec 2025), Western Australia",
+  "G07": "Osisko Development, Cariboo optimised FS (Apr 2025), British Columbia",
+  "G08": "First Mining Gold, Springpole updated PFS (Nov 2025), Ontario"
+ },
+ "typicals": {
+  "recovery_cil": {
+   "label": "Gold recovery, mill (CIL/CIP)",
+   "unit": "%",
+   "median": 90.9,
+   "low": 90.4,
+   "high": 92.8,
+   "n": 4,
+   "note": "From the company's announcement as web search returned it; page not checked.",
+   "points": [
+    {
+     "study": "G02",
+     "name": "Predictive Discovery, Bankan DFS (Jun 2025), Guinea",
+     "value": 92.8,
+     "page": null,
+     "working": "LOM average"
+    },
+    {
+     "study": "G03",
+     "name": "Fortuna Mining, Diamba Sud FS (Jun 2026), Senegal",
+     "value": 91.0,
+     "page": null,
+     "working": "CIL"
+    },
+    {
+     "study": "G05",
+     "name": "Rox Resources, Youanmi DFS (Nov 2025), Western Australia",
+     "value": 90.8,
+     "page": null,
+     "working": "plant metallurgical recovery"
+    },
+    {
+     "study": "G06",
+     "name": "Ausgold, Katanning updated DFS (Dec 2025), Western Australia",
+     "value": 90.4,
+     "page": null,
+     "working": ""
+    }
+   ]
+  },
+  "recovery_heap": {
+   "label": "Gold recovery, heap leach",
+   "unit": "%",
+   "median": 73.7,
+   "low": 73.7,
+   "high": 73.7,
+   "n": 1,
+   "note": "From the company's announcement as web search returned it; page not checked.",
+   "points": [
+    {
+     "study": "G04",
+     "name": "Saturn Metals, Apollo Hill PFS (Dec 2025), Western Australia",
+     "value": 73.7,
+     "page": null,
+     "working": "heap leach"
+    }
+   ]
+  },
+  "processing_cost_cil": {
+   "label": "Processing cost, mill (CIL/CIP), per tonne of ore",
+   "unit": "US$/t",
+   "median": 13.405,
+   "low": 10.72,
+   "high": 16.09,
+   "n": 2,
+   "note": "From the company's announcement as web search returned it; page not checked. Scale matters: the larger plant is cheaper per tonne.",
+   "points": [
+    {
+     "study": "G03",
+     "name": "Fortuna Mining, Diamba Sud FS (Jun 2026), Senegal",
+     "value": 16.09,
+     "page": null,
+     "working": "US$/t processed, 2.26 Mtpa"
+    },
+    {
+     "study": "G08",
+     "name": "First Mining Gold, Springpole updated PFS (Nov 2025), Ontario",
+     "value": 10.72,
+     "page": null,
+     "working": "US$/t processed, 30,000 t/d"
+    }
+   ]
+  },
+  "site_ga_per_t_ore": {
+   "label": "Site G&A per tonne of ore",
+   "unit": "US$/t",
+   "median": 5.605,
+   "low": 2.56,
+   "high": 8.65,
+   "n": 2,
+   "note": "From the company's announcement as web search returned it; page not checked.",
+   "points": [
+    {
+     "study": "G03",
+     "name": "Fortuna Mining, Diamba Sud FS (Jun 2026), Senegal",
+     "value": 8.65,
+     "page": null,
+     "working": "US$/t processed"
+    },
+    {
+     "study": "G08",
+     "name": "First Mining Gold, Springpole updated PFS (Nov 2025), Ontario",
+     "value": 2.56,
+     "page": null,
+     "working": "US$/t (basis not stated; likely per tonne processed)"
+    }
+   ]
+  },
+  "capex_per_annual_t_ore": {
+   "label": "Initial capex per tonne of annual ore capacity",
+   "unit": "US$ per t/yr",
+   "median": 138.353,
+   "low": 100.822,
+   "high": 175.885,
+   "n": 2,
+   "note": "From the company's announcement as web search returned it; page not checked.",
+   "points": [
+    {
+     "study": "G03",
+     "name": "Fortuna Mining, Diamba Sud FS (Jun 2026), Senegal",
+     "value": 175.885,
+     "page": null,
+     "working": "US$397.5M / 2.26 Mtpa"
+    },
+    {
+     "study": "G08",
+     "name": "First Mining Gold, Springpole updated PFS (Nov 2025), Ontario",
+     "value": 100.822,
+     "page": null,
+     "working": "US$1,104M / 10.95 Mtpa (30,000 t/d)"
+    }
+   ]
+  },
+  "closure_usd_m": {
+   "label": "Closure cost",
+   "unit": "US$M",
+   "median": 40.0,
+   "low": 40.0,
+   "high": 40.0,
+   "n": 1,
+   "note": "From the company's announcement as web search returned it; page not checked.",
+   "points": [
+    {
+     "study": "G08",
+     "name": "First Mining Gold, Springpole updated PFS (Nov 2025), Ontario",
+     "value": 40.0,
+     "page": null,
+     "working": ""
+    }
+   ]
+  },
+  "strip_ratio_op": {
+   "label": "Open-pit strip ratio (waste : ore)",
+   "unit": "x",
+   "median": 2.4,
+   "low": 1.9,
+   "high": 3.0,
+   "n": 3,
+   "note": "From the company's announcement as web search returned it; page not checked.",
+   "points": [
+    {
+     "study": "G02",
+     "name": "Predictive Discovery, Bankan DFS (Jun 2025), Guinea",
+     "value": 1.9,
+     "page": null,
+     "working": ""
+    },
+    {
+     "study": "G04",
+     "name": "Saturn Metals, Apollo Hill PFS (Dec 2025), Western Australia",
+     "value": 2.4,
+     "page": null,
+     "working": ""
+    },
+    {
+     "study": "G08",
+     "name": "First Mining Gold, Springpole updated PFS (Nov 2025), Ontario",
+     "value": 3.0,
+     "page": null,
+     "working": "overall"
+    }
+   ]
+  },
+  "discount_rate": {
+   "label": "Discount rate used by the study",
+   "unit": "%",
+   "median": 5.0,
+   "low": 5.0,
+   "high": 8.0,
+   "n": 6,
+   "note": "From the company's announcement as web search returned it; page not checked.",
+   "points": [
+    {
+     "study": "G02",
+     "name": "Predictive Discovery, Bankan DFS (Jun 2025), Guinea",
+     "value": 5.0,
+     "page": null,
+     "working": ""
+    },
+    {
+     "study": "G03",
+     "name": "Fortuna Mining, Diamba Sud FS (Jun 2026), Senegal",
+     "value": 5.0,
+     "page": null,
+     "working": ""
+    },
+    {
+     "study": "G04",
+     "name": "Saturn Metals, Apollo Hill PFS (Dec 2025), Western Australia",
+     "value": 8.0,
+     "page": null,
+     "working": ""
+    },
+    {
+     "study": "G06",
+     "name": "Ausgold, Katanning updated DFS (Dec 2025), Western Australia",
+     "value": 5.0,
+     "page": null,
+     "working": ""
+    },
+    {
+     "study": "G07",
+     "name": "Osisko Development, Cariboo optimised FS (Apr 2025), British Columbia",
+     "value": 5.0,
+     "page": null,
+     "working": ""
+    },
+    {
+     "study": "G08",
+     "name": "First Mining Gold, Springpole updated PFS (Nov 2025), Ontario",
+     "value": 5.0,
+     "page": null,
+     "working": ""
+    }
+   ]
+  }
+ }
+}

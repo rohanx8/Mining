@@ -188,6 +188,8 @@ tr.c-now > * { background: var(--accent-soft); font-weight: 700; }
 .c-deal-range b { font-size: 1.3rem; font-weight: 750; font-variant-numeric: tabular-nums; }
 .f-band { fill: var(--accent-soft); }
 .f-range { fill: var(--total); opacity: .5; }
+.c-mnote { display: none; }
+table.c-meth th[scope="row"] { white-space: normal; min-width: 0; }
 .c-sheet-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; }
 .c-sheet-bar fieldset.seg { margin: 0; }
 .c-st-wrap { max-height: min(62vh, 560px); overflow: auto; }   /* the headings stay in view as the rows scroll */
@@ -283,6 +285,9 @@ pre.log { font-family: var(--font-num); font-size: 12px; background: var(--surfa
   .c-sl-head > :not(.c-track) { display: none; }
   .c-kn { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .c-kv2 { grid-template-columns: minmax(0, 1fr); }
+  .c-mbasis { display: none; }
+  .c-mnote { display: block; margin-top: 2px; font-size: 11.5px; font-weight: 400; line-height: 1.3; color: var(--muted); }
+  table.c-meth th[scope="row"] { min-width: 150px; }
   dialog.sheet.wide { width: 100vw; max-width: 100vw; height: 100%; max-height: 100%; margin: 0; border-radius: 0; }
 }
 @media (max-width: 400px) { .c-sec-s { white-space: normal; } }
@@ -338,6 +343,7 @@ const MODEL = {
 };
 
 const PRICE_DECKS = {
+  req:       { id: 'req', label: 'Forecast', prices: { 2026: 4613, 2027: 4471, 2028: 4252, 2029: 4077, 2030: 3846, 2031: 3760 }, flat: 3760, desc: 'REQ Sep 2026 real forecast: US$4,613/oz (2026) falling to US$3,760/oz (2031), then flat', source: 'Department of Industry, Science and Resources, Resources and Energy Quarterly, Sep 2026, Table 9.1 (real 2026 US$); flat after 2031 is an assumption', url: 'https://www.industry.gov.au/publications/resources-and-energy-quarterly', flag: 'sourced' },
   spot:      { id: 'spot', label: 'Spot', prices: {}, flat: 3700, desc: 'US$3,700/oz flat', source: 'Trading Economics, gold spot about US$3,692 on 19 Nov 2026, rounded', url: 'https://tradingeconomics.com/commodity/gold', flag: 'sourced' },
   consensus: { id: 'consensus', label: 'Consensus', prices: { 2026: 4150, 2027: 4650, 2028: 4500, 2029: 4500, 2030: 4500 }, flat: 4500, desc: 'US$4,150 (2026), 4,650 (2027), then 4,500 flat', source: 'Goldman Sachs end-2026 and end-2027 forecasts (5 and 14 Nov 2026) via Golden Ark Reserve; US$4,500 from 2028 is an assumption', url: 'https://goldenarkreserve.com/insights/gold-price-forecast-november-2026/', flag: 'assumption' },
   downside:  { id: 'downside', label: 'Downside', prices: {}, flat: 3000, desc: 'US$3,000/oz flat', source: 'Downside deck set in the build brief', url: '', flag: 'assumption' }
@@ -351,8 +357,13 @@ const LITHIUM_DECKS = {
   downside: { id: 'downside', label: 'Downside', prices: {}, flat: 817, desc: 'US$817/t SC6 flat, the 2025 average in real terms', source: 'REQ Sep 2026, Table 14.1: 2025 average, real 2026 US$ (the last trough)', url: '', flag: 'sourced' }
 };
 const LB_PER_T = 2204.62262;   // pounds in a metric tonne
-// Copper, US$/lb, real 2026 US$. Filled from the REQ (Sep 2026, Table 11.1) once the deck is in.
-const COPPER_DECKS = {};
+// Copper, US$/lb, real 2026 US$.
+const lb = (perT) => perT / LB_PER_T;
+const COPPER_DECKS = {
+  req:      { id: 'req', label: 'Forecast', prices: { 2026: lb(13466), 2027: lb(13291), 2028: lb(12718), 2029: lb(12156), 2030: lb(11821), 2031: lb(11604) }, flat: lb(11604), desc: 'REQ Sep 2026 real forecast: US$6.11/lb (2026) falling to US$5.26/lb (2031), then flat', source: 'Department of Industry, Science and Resources, Resources and Energy Quarterly, Sep 2026, Table 11.1, p106 (LME, real 2026 US$: US$13,466/t falling to US$11,604/t); flat after 2031 is an assumption', url: 'https://www.industry.gov.au/publications/resources-and-energy-quarterly', flag: 'sourced' },
+  longterm: { id: 'longterm', label: 'Long term', prices: {}, flat: lb(11604), desc: 'US$5.26/lb flat, the REQ’s 2031 price', source: 'REQ Sep 2026, Table 11.1, p106: 2031, real 2026 US$ (US$11,604/t)', url: '', flag: 'sourced' },
+  downside: { id: 'downside', label: 'Downside', prices: {}, flat: lb(10106), desc: 'US$4.58/lb flat, the 2025 average in real terms', source: 'REQ Sep 2026, Table 11.1, p106: 2025 average, real 2026 US$ (US$10,106/t)', url: '', flag: 'sourced' }
+};
 const DECKS = { gold: PRICE_DECKS, spodumene: LITHIUM_DECKS, copper: COPPER_DECKS };
 const UNITS = {
   gold: { u: 'oz', k: 'koz', price: 'US$/oz', product: 'payable gold', priceName: 'gold price', grade: 'g/t', containedName: 'gold in the mine plan', basis: '', perUnit: 'per ounce' },
@@ -838,7 +849,7 @@ function irr(flows) {
 
 const ALL_DIALS = () => new Set(DIALS.map((d) => d.id));
 // The flat benchmark price (real) at which the owner's NPV after risks is zero; null if it is not reached by hi.
-function breakevenPrice(asset, ctl, hi = 10000) {
+function breakevenPrice(asset, ctl, hi = (CP[commodityOf(asset)] || { beMax: 10000 }).beMax) {
   const at = (p) => runModel(asset, { ...ctl, enabled: ALL_DIALS(), flatPrice: p }).npvAttr;
   if (at(hi) < 0) return null;
   let lo = 0; if (at(lo) >= 0) return 0;
@@ -885,20 +896,27 @@ const LI_STUDIES = {
   LTR: { source: 'Liontown, Quarterly Activities Report to 30 Sep 2026 (29 Oct 2026)', url: '' },
   TAYLOR: { source: 'Taylor’s rule (H.K. Taylor, 1977): mine life in years ≈ 0.2 × (ore tonnes)^0.25', url: '' }
 };
-const TYPICALS = { spodumene: LI_TYPICALS };
+const AU_TYPICALS = {"recovery_cil":{"label":"Gold recovery, mill (CIL/CIP)","unit":"%","median":90.9,"low":90.4,"high":92.8,"n":4,"note":"From the company's announcement as web search returned it; page not checked.","points":[["G02",92.8,null,"LOM average"],["G03",91.0,null,"CIL"],["G05",90.8,null,"plant metallurgical recovery"],["G06",90.4,null,""]]},"recovery_heap":{"label":"Gold recovery, heap leach","unit":"%","median":73.7,"low":73.7,"high":73.7,"n":1,"note":"From the company's announcement as web search returned it; page not checked.","points":[["G04",73.7,null,"heap leach"]]},"processing_cost_cil":{"label":"Processing cost, mill (CIL/CIP), per tonne of ore","unit":"US$/t","median":13.405,"low":10.72,"high":16.09,"n":2,"note":"From the company's announcement as web search returned it; page not checked. Scale matters: the larger plant is cheaper per tonne.","points":[["G03",16.09,null,"US$/t processed, 2.26 Mtpa"],["G08",10.72,null,"US$/t processed, 30,000 t/d"]]},"site_ga_per_t_ore":{"label":"Site G&A per tonne of ore","unit":"US$/t","median":5.605,"low":2.56,"high":8.65,"n":2,"note":"From the company's announcement as web search returned it; page not checked.","points":[["G03",8.65,null,"US$/t processed"],["G08",2.56,null,"US$/t (basis not stated; likely per tonne processed)"]]},"capex_per_annual_t_ore":{"label":"Initial capex per tonne of annual ore capacity","unit":"US$ per t/yr","median":138.353,"low":100.822,"high":175.885,"n":2,"note":"From the company's announcement as web search returned it; page not checked.","points":[["G03",175.885,null,"US$397.5M / 2.26 Mtpa"],["G08",100.822,null,"US$1,104M / 10.95 Mtpa (30,000 t/d)"]]},"closure_usd_m":{"label":"Closure cost","unit":"US$M","median":40.0,"low":40.0,"high":40.0,"n":1,"note":"From the company's announcement as web search returned it; page not checked.","points":[["G08",40.0,null,""]]},"strip_ratio_op":{"label":"Open-pit strip ratio (waste : ore)","unit":"x","median":2.4,"low":1.9,"high":3.0,"n":3,"note":"From the company's announcement as web search returned it; page not checked.","points":[["G02",1.9,null,""],["G04",2.4,null,""],["G08",3.0,null,"overall"]]},"discount_rate":{"label":"Discount rate used by the study","unit":"%","median":5.0,"low":5.0,"high":8.0,"n":6,"note":"From the company's announcement as web search returned it; page not checked.","points":[["G02",5.0,null,""],["G03",5.0,null,""],["G04",8.0,null,""],["G06",5.0,null,""],["G07",5.0,null,""],["G08",5.0,null,""]]}};   // gold: generated from data/gold_typicals.json
+const CU_TYPICALS = {"recovery_cu":{"label":"Copper recovery to concentrate","unit":"%","median":86.0,"low":86.0,"high":91.1,"n":3,"note":"From the company's announcement as web search returned it; page not checked.","points":[["C01",86.0,null,"sulphide concentrator"],["C02",91.1,null,""],["C03",86.0,null,""]]},"conc_grade_cu_pct":{"label":"Concentrate grade","unit":"% Cu","median":25.0,"low":24.5,"high":25.0,"n":3,"note":"From the company's announcement as web search returned it; page not checked.","points":[["C02",24.5,null,""],["C03",25.0,null,""],["C06",25.0,null,"approximately 25%"]]},"payability_cu_pct":{"label":"Copper payability","unit":"%","median":96.5,"low":96.5,"high":96.5,"n":1,"note":"From the company's announcement as web search returned it; page not checked.","points":[["C03",96.5,null,""]]},"capex_per_annual_t_ore":{"label":"Initial capex per tonne of annual ore capacity","unit":"US$ per t/yr","median":61.353,"low":52.308,"high":167.575,"n":3,"note":"From the company's announcement as web search returned it; page not checked. Big open pits sit at the bottom; small underground mines at the top.","points":[["C01",61.353,null,"US$1,270M / 20.7 Mtpa"],["C02",52.308,null,"US$2,441M / 49.64 Mtpa (136,000 t/d); x CPI 1.064 (2023 to Nov 2025 prices)"],["C03",167.575,null,"US$391M / 2.48 Mtpa (6,800 t/d), underground; x CPI 1.064 (2023 to Nov 2025 prices)"]]},"mining_cost_ug_per_t_ore":{"label":"Underground mining cost per tonne of ore","unit":"US$/t","median":25.551,"low":25.551,"high":25.551,"n":1,"note":"From the company's announcement as web search returned it; page not checked.","points":[["C03",25.551,null,"LOM average; x CPI 1.064 (2023 to Nov 2025 prices)"]]},"sustaining_capex_per_lb":{"label":"Sustaining capex per pound of copper","unit":"US$/lb","median":0.182,"low":0.182,"high":0.182,"n":1,"note":"From the company's announcement as web search returned it; page not checked.","points":[["C02",0.182,null,"US$1,500M / (152.9 kt a year x 26 years x 2,204.6 lb/t); copper produced, payable share not stated; x CPI 1.064 (2023 to Nov 2025 prices)"]]},"strip_ratio_op":{"label":"Open-pit strip ratio (waste : ore)","unit":"x","median":1.3,"low":1.3,"high":1.3,"n":1,"note":"From the company's announcement as web search returned it; page not checked.","points":[["C06",1.3,null,"including pre-strip"]]},"discount_rate":{"label":"Discount rate used by the study","unit":"%","median":8.0,"low":7.0,"high":8.0,"n":7,"note":"From the company's announcement as web search returned it; page not checked.","points":[["C01",8.0,null,""],["C02",8.0,null,""],["C03",8.0,null,""],["C04",8.0,null,""],["C05",7.0,null,""],["C06",7.0,null,"real"],["C07",8.0,null,""]]}};   // copper: generated from data/copper_typicals.json
+const STUDY_NAMES = {"G01":{"source":"Montage Gold, Koné Updated FS (Feb 2024), Côte d'Ivoire","url":""},"G02":{"source":"Predictive Discovery, Bankan DFS (Jun 2025), Guinea","url":""},"G03":{"source":"Fortuna Mining, Diamba Sud FS (Jun 2026), Senegal","url":""},"G04":{"source":"Saturn Metals, Apollo Hill PFS (Dec 2025), Western Australia","url":""},"G05":{"source":"Rox Resources, Youanmi DFS (Nov 2025), Western Australia","url":""},"G06":{"source":"Ausgold, Katanning updated DFS (Dec 2025), Western Australia","url":""},"G07":{"source":"Osisko Development, Cariboo optimised FS (Apr 2025), British Columbia","url":""},"G08":{"source":"First Mining Gold, Springpole updated PFS (Nov 2025), Ontario","url":""},"C01":{"source":"Hot Chili, Costa Fuego PFS (Mar 2025), Chile","url":""},"C02":{"source":"Los Andes Copper, Vizcachitas PFS (Feb 2023), Chile","url":""},"C03":{"source":"Highland Copper, Copperwood FS update (Mar 2023), Michigan","url":""},"C04":{"source":"Western Copper and Gold, Casino FS (Jun 2022), Yukon","url":""},"C05":{"source":"New World Resources, Antler PFS (Jul 2024), Arizona","url":""},"C06":{"source":"Caravel Minerals, Caravel PFS (2022-23), Western Australia","url":""},"C07":{"source":"SolGold, Cascabel PFS (Feb 2024), Ecuador","url":""}};   // gold and copper study keys, as LI_STUDIES does for lithium
+const TYPICALS = { spodumene: LI_TYPICALS, gold: AU_TYPICALS, copper: CU_TYPICALS };
 // What differs by commodity: units, process routes and the typical values behind them, the default deck and rate.
 const CP = {
   spodumene: { name: 'Lithium (spodumene)', grade: '% Li₂O', gradeEnd: '%', unit: 't', unitLong: 'tonne of concentrate', per: 'US$/t conc', price: 'US$/t SC6', priceDp: 0, priceSuffix: '/t',
     routes: [['dms', 'DMS only'], ['flot', 'DMS + flotation']], recKey: { dms: 'recovery_dms', flot: 'recovery_flotation' }, procKey: { dms: 'processing_cost_dms', flot: 'processing_cost_flotation' },
-    sustKey: 'sustaining_capex_per_t_conc', deck: 'req', rate: 0.08, resUnit: 't LCE' },
+    sustKey: 'sustaining_capex_per_t_conc', deck: 'req', rate: 0.08, resUnit: 't LCE', beMax: 10000 },
   gold: { name: 'Gold', grade: 'g/t Au', gradeEnd: ' g/t', unit: 'oz', unitLong: 'ounce', per: 'US$/oz', price: 'US$/oz', priceDp: 0, priceSuffix: '/oz',
     routes: [['cil', 'Mill and CIL'], ['heap', 'Heap leach']], recKey: { cil: 'recovery_cil', heap: 'recovery_heap' }, procKey: { cil: 'processing_cost_cil', heap: 'processing_cost_heap' },
-    sustKey: 'sustaining_capex_per_oz', deck: 'req', rate: 0.05, resUnit: 'oz' },
+    sustKey: 'sustaining_capex_per_oz', deck: 'req', rate: 0.05, resUnit: 'oz', beMax: 20000 },
   copper: { name: 'Copper (concentrate)', grade: '% Cu', gradeEnd: '%', unit: 'lb', unitLong: 'pound of payable copper', per: 'US$/lb', price: 'US$/lb', priceDp: 2, priceSuffix: '/lb',
     routes: [['flot', 'Flotation to concentrate']], recKey: { flot: 'recovery_cu' }, procKey: { flot: 'processing_cost_cu' },
-    sustKey: 'sustaining_capex_per_lb', deck: 'req', rate: 0.08, resUnit: 'lb Cu' }
+    sustKey: 'sustaining_capex_per_lb', deck: 'req', rate: 0.08, resUnit: 'lb Cu', beMax: 40 }
 };
-const fmtPrice = (p, c) => `US$${num1(p, CP[c].priceDp)}${CP[c].priceSuffix}`;
+const fmtPrice = (p, c = comOf(state.dep)) => `${p < 0 ? MINUS : ''}US$${numFixed(Math.abs(p), CP[c].priceDp)}${CP[c].priceSuffix}`;
+const myCP = () => CP[comOf(state.dep)];
+// Units per commodity for costs charged per tonne of concentrate (lithium), per ounce (gold) or per wet tonne of concentrate (copper).
+const UNIT_CONC = { spodumene: 'US$/t conc', gold: 'US$/oz', copper: 'US$/wmt conc' };
+const UNIT_SOLD = { spodumene: 'US$/t conc', gold: 'US$/oz', copper: 'US$/lb Cu' };
 const comOf = (d) => (d && TYPICALS[d.commodity] ? d.commodity : 'spodumene');   // the commodity a deposit produces
 const typicalIn = (c, k) => TYPICALS[c][k];
 const typical = (k) => typicalIn(comOf(state.dep), k);   // for the page: your project's commodity
@@ -908,7 +926,7 @@ const countryRow = (name) => COUNTRY_RISK.find((r) => r[0] === name);
 const LI_JURIS = [
   { id: 'AU-WA', label: 'Australia: Western Australia', country: 'Australia', royalties: [{ name: 'WA state royalty on spodumene concentrate', rate: 0.05, base: 'fob' }], tax: 0.30, carry: 0, src: 'S11n', page: 83, note: 'WA charges 5% of the concentrate’s value; native-title royalties are extra and deal-specific.' },
   { id: 'AU-NT', label: 'Australia: Northern Territory', country: 'Australia', royalties: [{ name: 'NT royalty, at its 2.5% of gross floor', rate: 0.025, base: 'gross' }], tax: 0.30, carry: 0, src: 'S06', page: 51, note: 'The NT charges the greater of 20% of net value or 2.5% of gross revenue; the calculator uses the 2.5% floor.' },
-  { id: 'GH', label: 'Ghana', country: 'Ghana', royalties: [{ name: 'Government royalty, sliding with the spodumene price', rate: 0.05, base: 'gross', bands: [{ upTo: 1500, rate: 0.05 }, { upTo: 3200, rate: 0.07 }, { upTo: null, rate: 0.12 }] }, { name: 'Growth and Sustainability levy', rate: 0.01, base: 'gross' }], tax: 0.35, carry: 0.13, src: 'S02', page: 43, note: 'The royalty slides with the SC6 price under the Minerals and Mining (Royalty) Regulations, 2025: 5% up to US$1,500/t, 7% above that and 12% above US$3,200/t. The band from US$2,501 to 3,200 is not confirmed, so 7% is used. Plus a 1% levy. The state holds a 13% free-carried interest (Ewoyaa lease, ratified March 2026) and can buy 6% more through MIIF. Tax 35%.' },
+  { id: 'GH', label: 'Ghana', country: 'Ghana', royalties: [{ name: 'Government royalty, sliding with the spodumene price', rate: 0.05, base: 'gross', bands: [{ upTo: 1500, rate: 0.05 }, { upTo: 2500, rate: 0.07 }, { upTo: 3000, rate: 0.10 }, { upTo: null, rate: 0.12 }] }, { name: 'Growth and Sustainability levy', rate: 0.01, base: 'gross' }], tax: 0.35, carry: 0.13, src: 'S02', page: 43, note: 'The royalty slides with the SC6 price under the Minerals and Mining (Royalties) Regulations, 2025 (L.I. 2517, in force 10 Mar 2026): 5% up to US$1,500/t, 7% to US$2,500, 10% to US$3,000 and 12% above, as WTS Global and TaxLawGH summarise it; reports of the ratified Ewoyaa lease put the 12% band above US$3,200. Plus the 1% Growth and Sustainability Levy. The state holds a 13% free-carried interest (Ewoyaa lease, ratified March 2026) and can buy 6% more through MIIF. Tax 35%.' },
   { id: 'ML', label: 'Mali (terms before the 2023 code)', country: 'Mali', royalties: [{ name: 'Government royalty', rate: 0.03, base: 'gross' }, { name: 'Local partner royalty', rate: 0.005, base: 'gross' }, { name: 'ISCP turnover tax', rate: 0.03, base: 'gross' }], tax: 0.25, carry: 0, src: 'S03', page: 3, note: 'From the 2020 Bougouni study. Mali’s 2023 code raised royalties and state stakes; replace these when the EY chapter arrives.' },
   { id: 'CA-QC', label: 'Canada: Quebec', country: 'Canada', royalties: [{ name: 'Royalty, as in the Shaakichiuwaanaan PEA', rate: 0.02, base: 'gross' }], tax: 0.417, carry: 0, src: 'S05', page: 42, note: 'Tax is the 41.7% effective rate, income and Quebec mining tax together, that the Rose feasibility study reports (p3); the mining tax is not modelled line by line.' }
 ];
@@ -985,8 +1003,9 @@ function depositDerived(d, wi = {}) {
   const resMt = sum(cats, ([, x]) => x.mt);
   const resGrade = resMt > 0 ? sum(cats, ([, x]) => x.mt * x.g) / resMt : 0;
   const infMt = d.includeInferred && d.inf ? d.inf.mt : 0;
-  const share = (d.planShare != null ? d.planShare : tv('plan_share_of_resource', 'share of resource mined')) / 100;
-  const dil = (d.dilution != null ? d.dilution : tv('dilution_pct', 'dilution')) / 100;
+  const needIf = (need, k, label) => (need ? tv(k, label) : (typ(k) ? typ(k).median : 0));   // a value the plan does not use need not be entered
+  const share = (d.planShare != null ? d.planShare : needIf(d.planMt == null, 'plan_share_of_resource', 'share of resource mined')) / 100;
+  const dil = (d.dilution != null ? d.dilution : needIf(d.planMt == null || d.planGrade == null, 'dilution_pct', 'dilution')) / 100;
   const planMt = (d.planMt != null ? d.planMt : resMt * share * (1 + dil)) * sc('tonnes');
   const planGrade = (d.planGrade != null ? d.planGrade : resGrade / (1 + dil)) * (1 + (wi.grade || 0) / 100) * sc('grade');
   const inferredShare = d.inferredShare != null ? d.inferredShare / 100 : (resMt > 0 ? infMt / resMt : 0);
@@ -1098,6 +1117,10 @@ function depositDialDefaults(d, D) {
     { committed: 'Funding is in place.', unknown: 'Funding not yet known.', none: 'No funding route yet.' }[fu],
     'Who will fund the build, on what terms, and what happens if it overruns or prices fall before financial close?');
   out.funding.applies = true;
+  if (d.buyer === 'buyer') {   // valued for a buyer that brings its own operating team and balance sheet
+    out.people = pick('L', 'Valued for an experienced buyer that would run the mine.', 'Who will run the mine after the deal, and what is their record on similar projects?');
+    out.funding = pick('L', 'Valued for a buyer that can fund the build.', 'How will the buyer fund the build, and what does that cost?'); out.funding.applies = true;
+  }
   return out;
 }
 
@@ -1123,7 +1146,11 @@ function depositAsset(d, id, opts = {}) {
 
 // Three studies, in US$ at each study's own FX. Each keeps its published NPV so the calculator can be checked against it.
 const LI_EXAMPLES = [
-  { id: 'ex-manna', year: 2025, d: { name: 'Manna (WA): DFS inputs', juris: 'AU-WA', mea: { mt: 0, g: 0 }, ind: { mt: 32.9, g: 1.04 }, inf: { mt: 18.7, g: 0.92 }, includeInferred: true,
+  { id: 'ex-manna', year: 2025,
+    // Global Lithium (GL1) on 23 Nov 2026, via web search: A$0.955 a share (Yahoo Finance), 277.49M shares (Morningstar), A$26.2M cash and no debt
+    // at 30 Jun 2026 (annual report). GL1 is under a A$1.15 cash offer from Titan, and the market price reflects the Manna-Nova plan.
+    company: { dealCcy: 'AUD', sharePrice: 0.955, sharesM: 277.49, cashM: 26.2, debtM: 0 },
+    d: { name: 'Manna (WA): DFS inputs', juris: 'AU-WA', mea: { mt: 0, g: 0 }, ind: { mt: 32.9, g: 1.04 }, inf: { mt: 18.7, g: 0.92 }, includeInferred: true,
       method: 'opug', ugShare: 34.6, strip: 14.9, planMt: 23.7, planGrade: 0.88, inferredShare: 18, rate: 1.66, miningOp: 3.08, miningUg: 56.28,
       route: 'dms', testwork: 'pilot', recovery: 72.8, concGrade: 5.5, processing: 20.1, ga: 0, byproduct: 0,
       plantMode: 'own', legs: [{ mode: 'truck', km: 0, rate: null }], port: 58.1, freight: 30, infraCapex: 0,
@@ -1165,7 +1192,7 @@ function toMyDeposit(ex, name) {
     for (const k of COST_KEYS) if (d[k] != null) d[k] = +(d[k] * f).toFixed(2);
     for (const l of d.legs || []) if (l.rate != null) l.rate = +(l.rate * f).toFixed(4);
   }
-  return { ...d, ...(ex.mine || {}), name, deckOverride: null, corporate: null, wcDays: null, realisation: null, capexStudy: d.capex };
+  return { ...d, ...(ex.mine || {}), ...(ex.company || {}), name, deckOverride: null, corporate: null, wcDays: null, realisation: null, capexStudy: d.capex, studyNpv: ex.study ? +(ex.study.npv / 1e6).toFixed(1) : null, stage: 'fs' };
 }
 function loadDep() {
   try { const t = localStorage.getItem(DEP_STORE); if (t) return JSON.parse(t); } catch (e) { /* storage unavailable */ }
@@ -1266,6 +1293,7 @@ function setPath(o, path, v) {
   x[ks[ks.length - 1]] = v;
 }
 const num1 = (x, dp = 2) => (x == null || !isFinite(x)) ? '—' : Number(x).toLocaleString('en-US', { maximumFractionDigits: dp });
+const numFixed = (x, dp) => (x == null || !isFinite(x)) ? '—' : Number(x).toLocaleString('en-US', { minimumFractionDigits: dp, maximumFractionDigits: dp });
 const dpFor = (x) => (Math.abs(x) >= 100 ? 0 : Math.abs(x) >= 10 ? 1 : Math.abs(x) >= 1 ? 2 : 3);   // decimals that suit a number's size
 const options = (list, cur) => list.map(([v, t]) => `<option value="${esc(v)}" ${String(cur) === v ? 'selected' : ''}>${esc(t)}</option>`).join('');
 
@@ -1318,10 +1346,34 @@ const FX_DEFAULT = { USD: 1, AUD: 0.6644, CAD: 1 / 1.4181, GBP: 1.3117 };
 const CCY_SYM = { USD: 'US$', AUD: 'A$', CAD: 'C$', GBP: '£' };
 // What the market pays, from public data (data/market_multiples.json): listed developers' EV ÷ attributable study NPV,
 // and prices paid in acquisitions per unit of resource. null until the data is in.
-const MARKET = { spodumene: { pnav: null, perUnit: null, unit: 't LCE' } };
+// What the market pays (data/market_multiples.json). Values came through web-search results in Nov 2026 and were not
+// checked page by page against the filings: indicative, to be replaced as better data comes in.
+// trading: listed developers' EV ÷ attributable study NPV; takeovers: price paid ÷ the target's study NPV; perUnit: price per unit of resource.
+const MARKET = {
+  spodumene: {
+    trading: { values: [0.014, 0.025, 0.033, 0.056, 0.152], note: 'five DFS/FS-stage lithium developers, 20–26 Nov 2026 (Critical Elements, Atlas, Lithium Ionic, PMET, Wildcat; two under takeover offers left out)' },
+    takeovers: { values: [0.324, 0.337], note: 'Titan for Global Lithium and Huayou for Atlantic Lithium, agreed in 2026' },
+    perUnit: { values: [120, 150], unit: 't LCE', fmt: (x) => `US$${num1(x, 0)}`, note: 'Ganfeng for Leo Lithium’s Goulamina stake and PLS for Latin Resources, 2024' }
+  },
+  copper: {
+    trading: { values: [0.048, 0.089, 0.106, 0.124, 0.295], note: 'five copper developers, Nov 2026 (Caravel, Los Andes, Western Copper, Hot Chili, Highland)' },
+    takeovers: { values: [0.04, 0.239, 0.375], note: 'Fortescue for Alta Copper (2026), Central Asia Metals for New World (2025), Jiangxi Copper for SolGold (2026)' },
+    perUnit: { values: [0.006, 0.030], unit: 'lb Cu', fmt: (x) => `${num1(x * 100, 1)}¢`, note: 'Alta Copper and SolGold, per pound of copper equivalent (What Drives Mining Project Value)' }
+  },
+  gold: { takeovers: { values: [0.75], note: 'OceanaGold’s 2026 offer for Ausgold, against its DFS NPV at 5%' } }
+};
+// Market value ÷ study NPV by stage: analytical judgement drawn from market practice, not a measured sample
+// (What Drives Mining Project Value, section 1.1, note 5).
+const STAGE_MULT = { scoping: [0.10, 0.25], pfs: [0.25, 0.50], fs: [0.50, 0.85], build: [0.80, 1.0] };
+const STAGE_NAME = { scoping: 'scoping or PEA', pfs: 'pre-feasibility', fs: 'feasibility', build: 'in construction' };
+// The 25th, 50th and 75th percentiles of a short list, interpolated.
+function quartiles(xs) {
+  const v = [...xs].sort((x, y) => x - y); const at = (p) => { const i = (v.length - 1) * p; const lo = Math.floor(i); return v[lo] + (v[Math.min(lo + 1, v.length - 1)] - v[lo]) * (i - lo); };
+  return { q1: at(0.25), median: at(0.5), q3: at(0.75), n: v.length };
+}
 const FUND_DEBT = 50; const RAISE_DISC = 10;   // assumptions for a fully funded build: half the funding gap as debt, new shares 10% below the price
 
-const byRoute = (dms, flot) => (d) => typicalIn(comOf(d), d.route === 'flot' ? flot : dms);
+const routeOf = (d) => (CP[comOf(d)].routes.some(([k]) => k === d.route) ? d.route : CP[comOf(d)].routes[0][0]);
 const OPT = {
   yesno: [['yes', 'Yes'], ['no', 'No']],
   method: [['op', 'Open pit'], ['ug', 'Underground'], ['opug', 'Open pit + underground']],
@@ -1332,11 +1384,16 @@ const OPT = {
   base: [['gross', 'Gross revenue'], ['fob', 'FOB value']],
   build: [['1', '1 year'], ['1.5', '18 months'], ['2', '2 years'], ['2.5', '30 months'], ['3', '3 years']],
   ramp: [['study', 'Full rate in year 1'], ['slow', 'Slow: 50%, 75%, then full']],
-  ccy: [['USD', 'US$'], ['AUD', 'A$'], ['CAD', 'C$'], ['GBP', '£ sterling']]
+  ccy: [['USD', 'US$'], ['AUD', 'A$'], ['CAD', 'C$'], ['GBP', '£ sterling']],
+  commodity: [['spodumene', 'Lithium (spodumene)'], ['gold', 'Gold'], ['copper', 'Copper (concentrate)']]
 };
 // A blank number uses the typical value from the studies (shown in grey) or a value worked out from the other inputs.
+const isLiD = (d) => comOf(d) === 'spodumene';
+const isAuD = (d) => comOf(d) === 'gold';
+const isCuD = (d) => comOf(d) === 'copper';
 const F = {
   name: { label: 'Name', type: 'text' },
+  commodity: { label: 'Commodity', type: 'sel', opts: OPT.commodity, help: 'Sets the units, the typical values, the price decks and the royalty presets. Changing it clears the commodity-specific inputs.' },
   includeInferred: { label: 'Count Inferred resource', type: 'bool', help: 'Studies often do (Ewoyaa 6% of the plan, Manna 18%). It raises the resource risk.' },
   method: { label: 'Mining method', type: 'sel', opts: OPT.method },
   ugShare: { label: 'Underground share', unit: '%', type: 'num', show: (d) => d.method === 'opug', help: 'Share of ore mined underground. Blank: 30%.' },
@@ -1344,23 +1401,29 @@ const F = {
   planShare: { label: 'Share of resource mined', unit: '%', type: 'num', typical: T('plan_share_of_resource'), show: (d) => d.planMt == null },
   dilution: { label: 'Dilution', unit: '%', type: 'num', typical: T('dilution_pct'), show: (d) => d.planMt == null, help: 'Waste mined with the ore, at zero grade.' },
   planMt: { label: 'Plan tonnes', unit: 'Mt', type: 'num', help: 'From a study, if there is one. Blank: worked out from the resource.' },
-  planGrade: { label: 'Plan grade', unit: '% Li₂O', type: 'num', show: (d) => d.planMt != null },
+  planGrade: { label: 'Plan grade', unit: (d) => CP[comOf(d)].grade, type: 'num', show: (d) => d.planMt != null },
   inferredShare: { label: 'Inferred share of plan', unit: '%', type: 'num', show: (d) => d.planMt != null },
   rate: { label: 'Ore per year', unit: 'Mtpa', type: 'num', help: 'Blank: Taylor’s rule (1977), which sets mine life from deposit size: life ≈ 0.2 × tonnes^0.25.' },
   miningOp: { label: 'Open-pit cost', unit: 'US$/t moved', type: 'num', typical: T('mining_cost_op_per_t_material'), show: (d) => d.method !== 'ug', help: 'Per tonne of ore and waste moved.' },
   miningUg: { label: 'Underground cost', unit: 'US$/t ore', type: 'num', typical: T('mining_cost_ug_per_t_ore'), show: (d) => d.method !== 'op' },
-  route: { label: 'Process route', type: 'sel', opts: OPT.route },
-  recovery: { label: 'Recovery', unit: '%', type: 'num', typical: byRoute('recovery_dms', 'recovery_flotation'), help: 'Share of the lithia in the ore that ends up in concentrate.' },
-  concGrade: { label: 'Concentrate grade', type: 'sel', opts: OPT.conc, num: true, oddLabel: (v) => `SC${v}` },
-  processing: { label: 'Processing cost', unit: 'US$/t ore', type: 'num', typical: byRoute('processing_cost_dms', 'processing_cost_flotation') },
+  route: { label: 'Process route', type: 'sel', opts: (d) => CP[comOf(d)].routes },
+  recovery: { label: 'Recovery', unit: '%', type: 'num', typical: (d) => typicalIn(comOf(d), CP[comOf(d)].recKey[routeOf(d)]), help: 'Share of the metal in the ore that ends up in the product sold.' },
+  concGrade: { label: 'Concentrate grade', type: 'sel', opts: OPT.conc, num: true, oddLabel: (v) => `SC${v}`, show: isLiD },
+  concGradeCu: { label: 'Concentrate grade', unit: '% Cu', type: 'num', typical: T('conc_grade_cu_pct'), show: isCuD },
+  payability: { label: 'Payability', unit: '%', type: 'num', typical: (d) => typicalIn(comOf(d), isAuD(d) ? 'payability_pct' : 'payability_cu_pct'), show: (d) => !isLiD(d), help: 'Share of the metal the buyer or refiner pays for.' },
+  moisture: { label: 'Concentrate moisture', unit: '%', type: 'num', typical: T('moisture_pct'), show: isCuD, help: 'Freight is charged on wet tonnes.' },
+  tc: { label: 'Treatment charge', unit: 'US$/dmt', type: 'num', typical: T('tc_per_dmt'), show: isCuD, help: 'Smelter charge per dry tonne of concentrate.' },
+  rc: { label: 'Refining charge', unit: 'US$/lb', type: 'num', typical: T('rc_per_lb'), show: isCuD, help: 'Per pound of payable copper.' },
+  refining: { label: 'Refining and transport', unit: 'US$/oz', type: 'num', typical: T('refining_per_oz'), show: isAuD, help: 'Refining, transport and insurance of doré, per ounce.' },
+  processing: { label: 'Processing cost', unit: 'US$/t ore', type: 'num', typical: (d) => typicalIn(comOf(d), CP[comOf(d)].procKey[routeOf(d)]) },
   ga: { label: 'Site G&A', unit: 'US$/t ore', type: 'num', typical: T('site_ga_per_t_ore'), help: 'Use 0 if the processing cost includes it.' },
-  byproduct: { label: 'By-product credit', unit: 'US$/t conc', type: 'num', help: 'For example tantalite at Rose, about US$66 per tonne of concentrate.' },
-  plantMode: { label: 'Plant', type: 'sel', opts: OPT.plant, help: 'Manna–Nova trucks ore 135 km to an existing plant: capex 59% lower, operating cost about 8% higher.' },
-  oreHaulKm: { label: 'Ore haul to plant', unit: 'km', type: 'num', show: (d) => d.plantMode === 'existing' },
-  oreHaulRate: { label: 'Ore haul rate', unit: 'US$/t-km', type: 'num', typical: T('road_haul_per_t_km'), show: (d) => d.plantMode === 'existing' },
-  port: { label: 'Port and loading', unit: 'US$/t conc', type: 'num', help: 'Leave blank if the haul rate includes port charges.' },
-  freight: { label: 'Ocean freight', unit: 'US$/t conc', type: 'num', typical: T('ocean_freight'), help: 'Use 0 if the price is FOB at your port.' },
-  otherPerT: { label: 'Other costs', unit: 'US$/t conc', type: 'num', help: 'Carbon costs, marketing fees and the like.' },
+  byproduct: { label: 'By-product credit', unit: (d) => UNIT_SOLD[comOf(d)], type: 'num', help: 'Credits for other metals sold, per unit of the main product. Lithium example: tantalite at Rose, about US$66 per tonne of concentrate.' },
+  plantMode: { label: 'Plant', type: 'sel', opts: OPT.plant, show: isLiD, help: 'Manna–Nova trucks ore 135 km to an existing plant: capex 59% lower, operating cost about 8% higher.' },
+  oreHaulKm: { label: 'Ore haul to plant', unit: 'km', type: 'num', show: (d) => isLiD(d) && d.plantMode === 'existing' },
+  oreHaulRate: { label: 'Ore haul rate', unit: 'US$/t-km', type: 'num', typical: T('road_haul_per_t_km'), show: (d) => isLiD(d) && d.plantMode === 'existing' },
+  port: { label: 'Port and loading', unit: (d) => UNIT_CONC[comOf(d)], type: 'num', show: (d) => !isAuD(d), help: 'Leave blank if the haul rate includes port charges.' },
+  freight: { label: 'Ocean freight', unit: (d) => UNIT_CONC[comOf(d)], type: 'num', typical: T('ocean_freight'), show: (d) => !isAuD(d), help: 'Use 0 if the price is FOB at your port.' },
+  otherPerT: { label: 'Other costs', unit: (d) => UNIT_SOLD[comOf(d)], type: 'num', help: 'Carbon costs, marketing fees and the like, per unit sold.' },
   infraCapex: { label: 'Infrastructure capex', unit: 'US$M', type: 'num', help: 'Roads, rail or port you must build. Added to capex.' },
   juris: { label: 'Country or state', type: 'juris', help: 'Sets royalty, tax and the country risk premium.' },
   royalty: { label: 'Royalty', unit: '%', type: 'num', help: 'Total rate. Blank: the preset for the country or state.' },
@@ -1370,17 +1433,17 @@ const F = {
   privateRoyalty: { label: 'Private royalty', unit: '%', type: 'num', help: 'On top of the state royalty, on gross revenue.' },
   wht: { label: 'Dividend withholding tax', unit: '%', type: 'num', help: 'For a foreign owner; depends on tax treaties.' },
   capex: { label: 'Initial capex', unit: 'US$M', type: 'num' },
-  sustaining: { label: 'Sustaining capex', unit: 'US$/t conc', type: 'num', typical: T('sustaining_capex_per_t_conc') },
+  sustaining: { label: 'Sustaining capex', unit: (d) => UNIT_SOLD[comOf(d)], type: 'num', typical: (d) => typicalIn(comOf(d), CP[comOf(d)].sustKey) },
   closure: { label: 'Closure', unit: 'US$M', type: 'num', typical: T('closure_usd_m') },
-  corporate: { label: 'Head office', unit: 'US$M/yr', type: 'num', typical: T('corporate_overhead_usd_m'), help: 'Use 0 if an existing company would run the mine.' },
+  corporate: { label: 'Head office', unit: 'US$M/yr', type: 'num', typical: () => typicalIn('spodumene', 'corporate_overhead_usd_m'), help: 'Use 0 if an existing company would run the mine.' },
   wcDays: { label: 'Receivables', unit: 'days', type: 'num', help: 'Days of revenue until buyers pay. Blank: 30. Use 0 for none.' },
   decisionYears: { label: 'Years to construction', unit: 'yrs', type: 'num', help: 'Years from 2026 until construction starts.' },
   buildYears: { label: 'Build time', type: 'sel', opts: OPT.build, num: true },
   ramp: { label: 'Ramp-up', type: 'sel', opts: OPT.ramp },
   deck: { label: 'Price deck', type: 'deck' },
-  lt: { label: 'Long-term price', unit: 'US$/t SC6', type: 'lt', help: 'Replaces the long-run price; the near-term years stay.' },
-  realisation: { label: 'Discount to benchmark', unit: '%', type: 'num', typical: T('realisation_discount_pct'), help: 'Price received below SC6 for grade, impurities and contract terms.' },
-  rateIn: { label: 'Discount rate', unit: '% real', type: 'rate', help: 'Before country risk. The Political risk adds the country premium.' },
+  lt: { label: 'Long-term price', unit: (d) => CP[comOf(d)].price, type: 'lt', help: 'Replaces the long-run price; the near-term years stay.' },
+  realisation: { label: 'Discount to benchmark', unit: '%', type: 'num', typical: T('realisation_discount_pct'), show: isLiD, help: 'Price received below SC6 for grade, impurities and contract terms.' },
+  rateIn: { label: 'Discount rate', unit: '% real', type: 'rate', help: 'Before country risk; the Political risk adds the country premium. Industry norm: 8% real for base metals and lithium, 5% for gold (KPMG, 2014, cited in What Drives Mining Project Value); the lithium studies’ median is 8%. Changing the commodity resets it to the norm.' },
   ownership: { label: 'Ownership', unit: '%', type: 'pct' },
   dealCcy: { label: 'Currency', type: 'sel', opts: OPT.ccy, help: 'For the share price, cash, debt and other assets below.' },
   dealFx: { label: 'Exchange rate', unit: 'US$ per unit', type: 'num', show: (d) => (d.dealCcy || 'USD') !== 'USD', help: 'Blank: A$ at the RBA rate of 26 Nov 2026, C$ at the Bank of Canada rate of 10 Nov 2026, £ at the market rate of 25 Nov 2026.' },
@@ -1389,27 +1452,45 @@ const F = {
   cashM: { label: 'Cash', unit: 'M', type: 'num', help: 'Latest reported, in the currency above.' },
   debtM: { label: 'Debt', unit: 'M', type: 'num', help: 'Borrowings and other claims ahead of shareholders, such as offtake prepayments.' },
   otherM: { label: 'Other assets', unit: 'M', type: 'num', help: 'Other projects and investments, at what you think they are worth.' },
+  studyNpv: { label: 'Published study NPV', unit: 'US$M, 100%', type: 'num', help: 'Post-tax, as the study states it, in US$. Market multiples apply to it; blank uses value before risks.' },
+  stage: { label: 'Study stage', type: 'sel', opts: [['scoping', 'Scoping or PEA'], ['pfs', 'Pre-feasibility'], ['fs', 'Feasibility'], ['build', 'In construction']], help: 'Sets the stage multiple. Blank follows the capex estimate’s basis.' },
+  buyer: { label: 'Valued for', type: 'sel', opts: [['junior', 'The listed owner as it stands'], ['buyer', 'A funded, experienced buyer']], help: 'A buyer that runs and pays for the build starts People and Funding at Low. In 2026 deals this view sat close to the prices paid (Titan for Global Lithium).' },
   fundDebtPct: { label: 'Build funded by debt', unit: '%', type: 'num', help: `Share of the funding gap (capex less cash) raised as debt; the rest comes from new shares. Blank: ${FUND_DEBT}%, an assumption.` },
   raiseDiscPct: { label: 'Discount on new shares', unit: '%', type: 'num', help: `Below the share price, for the equity raise. Blank: ${RAISE_DISC}%, an assumption.` }
 };
 const SECTIONS = [
-  { id: 'deposit', title: 'Deposit', keys: ['name', 'RESOURCE', 'includeInferred', 'method', 'ugShare', 'strip'], sum: (d, D) => `${num1(D.resMt, 1)} Mt at ${num1(D.resGrade)}% Li₂O` },
+  { id: 'deposit', title: 'Deposit', keys: ['name', 'commodity', 'RESOURCE', 'includeInferred', 'method', 'ugShare', 'strip'], sum: (d, D) => `${num1(D.resMt, 1)} Mt at ${num1(D.resGrade)}${CP[comOf(d)].gradeEnd}${isLiD(d) ? ' Li₂O' : isAuD(d) ? ' Au' : ' Cu'}` },
   { id: 'plan', title: 'Mine plan', keys: ['planMt', 'planGrade', 'inferredShare', 'planShare', 'dilution', 'rate', 'miningOp', 'miningUg'], sum: (d, D) => `${num1(D.planMt, 1)} Mt · ${num1(D.rate)} Mtpa · ${num1(D.life, 1)} yrs` },
-  { id: 'process', title: 'Processing', keys: ['route', 'recovery', 'concGrade', 'processing', 'ga', 'byproduct'], sum: (d, D) => `${d.route === 'flot' ? 'Flotation' : 'DMS'} · ${num1(D.recovery, 1)}% · SC${D.concGrade}` },
-  { id: 'logistics', title: 'Haulage', keys: ['plantMode', 'oreHaulKm', 'oreHaulRate', 'LEGS', 'port', 'freight', 'otherPerT', 'infraCapex'], sum: (d, D) => `US$${num1(D.logisticsPerT + D.freight, 0)}/t to buyer` },
+  { id: 'process', title: 'Processing', keys: ['route', 'recovery', 'concGrade', 'concGradeCu', 'payability', 'processing', 'ga', 'byproduct'], sum: (d, D) => `${(CP[comOf(d)].routes.find(([k]) => k === D.route) || ['', ''])[1]} · ${num1(D.recovery, 1)}%${isLiD(d) ? ` · SC${D.concGrade}` : ''}` },
+  { id: 'logistics', title: 'Haulage and sales', keys: ['plantMode', 'oreHaulKm', 'oreHaulRate', 'LEGS', 'port', 'freight', 'moisture', 'tc', 'rc', 'refining', 'otherPerT', 'infraCapex'],
+    sum: (d, D) => (isAuD(d) ? `US$${num1(D.refining, 1)}/oz to refine` : isCuD(d) ? `US$${num1(D.logisticsPerT + D.freight, 0)}/wmt to buyer · TC US$${num1(D.tc, 0)}` : `US$${num1(D.logisticsPerT + D.freight, 0)}/t to buyer`) },
   { id: 'fiscal', title: 'Fiscal', keys: ['juris', 'royalty', 'royaltyBase', 'tax', 'freeCarry', 'privateRoyalty', 'wht'], sum: (d, D) => `${D.juris.label} · tax ${pct(D.tax, 0)}` },
   { id: 'capital', title: 'Capital', keys: ['capex', 'sustaining', 'closure', 'corporate', 'wcDays', 'decisionYears', 'buildYears', 'ramp'], sum: (d, D) => `US$${num1(D.capexM, 0)}M · first production ${D.firstProd}` },
   { id: 'price', title: 'Price and rate', keys: ['deck', 'lt', 'realisation', 'rateIn', 'ownership'], sum: () => `${myDeck().label} · ${pct(state.rateBy.custom, 1)} real` },
-  { id: 'deal', title: 'Company and deal', keys: ['dealCcy', 'dealFx', 'sharePrice', 'sharesM', 'cashM', 'debtM', 'otherM', 'fundDebtPct', 'raiseDiscPct'],
-    sum: (d) => { const k = dealInputs(d); return k.price > 0 && k.shares > 0 ? `${k.sym}${num1(k.price, 3)} × ${num1(k.shares, 1)}M shares` : 'no share price yet'; } }
+  { id: 'deal', title: 'Company and deal', keys: ['buyer', 'stage', 'studyNpv', 'dealCcy', 'dealFx', 'sharePrice', 'sharesM', 'cashM', 'debtM', 'otherM', 'fundDebtPct', 'raiseDiscPct'],
+    sum: (d) => { const k = dealInputs(d); return `${d.buyer === 'buyer' ? 'Funded buyer' : 'As it stands'} · ${k.price > 0 && k.shares > 0 ? `${k.sym}${num1(k.price, 3)} × ${num1(k.shares, 1)}M shares` : 'no share price'}`; } }
 ];
 
+// A new commodity clears the inputs that mean something different for it, and takes that commodity's deck and rate.
+const COMMODITY_KEYS = ['mea', 'ind', 'inf', 'planGrade', 'planMt', 'route', 'recovery', 'processing', 'ga', 'miningOp', 'miningUg', 'strip', 'concGrade', 'concGradeCu', 'payability', 'moisture', 'tc', 'rc', 'refining',
+  'byproduct', 'port', 'freight', 'otherPerT', 'sustaining', 'closure', 'capex', 'capexBasis', 'capexStudy', 'royalty', 'royaltyName', 'tax', 'freeCarry', 'juris', 'realisation', 'plantMode', 'oreHaulKm', 'oreHaulRate', 'legs', 'deckOverride', 'testwork'];
+function switchCommodity(c) {
+  state.undo = { dep: JSON.parse(JSON.stringify(state.dep)), levels: { ...state.levels.custom }, whatIf: { ...state.whatIf }, deck: state.deckBy.custom, rate: state.rateBy.custom, lt: state.lt.custom };
+  const keep = { name: state.dep.name, ownership: state.dep.ownership, method: state.dep.method, ugShare: state.dep.ugShare, includeInferred: state.dep.includeInferred, decisionYears: state.dep.decisionYears, buildYears: state.dep.buildYears, ramp: state.dep.ramp,
+    permits: state.dep.permits, operator: state.dep.operator, funding: state.dep.funding, power: state.dep.power, dealCcy: state.dep.dealCcy, dealFx: state.dep.dealFx, sharePrice: state.dep.sharePrice, sharesM: state.dep.sharesM, cashM: state.dep.cashM, debtM: state.dep.debtM, otherM: state.dep.otherM, fundDebtPct: state.dep.fundDebtPct, raiseDiscPct: state.dep.raiseDiscPct };
+  state.dep = { ...blankDeposit(), ...keep, commodity: c, juris: (jurisList(c)[0] || { id: 'AU-WA' }).id };
+  state.deckBy.custom = CP[c].deck; state.rateBy.custom = CP[c].rate; state.lt.custom = null;
+  for (const k of Object.keys(state.whatIf)) state.whatIf[k] = 0;
+  rebuildCustom(); const a = assetById('custom'); for (const dl of DIALS) state.levels.custom[dl.id] = a.dialDefaults[dl.id].level;
+  renderAll();
+  showToast(`${esc(CP[c].name)}: enter the resource and the study’s figures; blanks use typical values where the studies give them. <button type="button" class="link-btn" data-undo-load>Undo</button>`);
+}
 // What a blank field means, shown in grey.
 function blankValue(key, d, D, t) {
   if (t) return num1(t.median, dpFor(t.median));
   const J = jurisOf(d.juris, comOf(d));
   const m = { capex: Math.round(D.capexTypical), rate: num1(D.rate), planMt: num1(D.planMt, 1), planGrade: num1(D.planGrade), inferredShare: num1(D.inferredShare * 100, 0), ugShare: 30,
-    dealFx: num1(FX_DEFAULT[CCY_SYM[d.dealCcy] ? d.dealCcy : 'USD'], 4), fundDebtPct: FUND_DEBT, raiseDiscPct: RAISE_DISC, sharePrice: '', sharesM: '',
+    dealFx: num1(FX_DEFAULT[CCY_SYM[d.dealCcy] ? d.dealCcy : 'USD'], 4), freight: '', studyNpv: '', fundDebtPct: FUND_DEBT, raiseDiscPct: RAISE_DISC, sharePrice: '', sharesM: '',
     decisionYears: D.decision, wcDays: 30, royalty: num1(sum(J.royalties || [], (r) => r.rate) * 100, 2), tax: num1(D.tax * 100, 1), freeCarry: num1((J.carry || 0) * 100, 0) };
   return key in m ? m[key] : 0;
 }
@@ -1418,8 +1499,8 @@ function fieldInfo(key, f, d, t, v) {
   const parts = [];
   if (f.help) parts.push(`<p>${esc(f.help)}</p>`);
   if (key === 'juris') { const J = jurisOf(d.juris, comOf(d)); if (J.note) parts.push(`<p>${esc(J.note)}</p>`); }
-  if (key === 'deck') parts.push(`<p>${Object.values(LITHIUM_DECKS).map((k) => `<b>${esc(k.label)}:</b> ${esc(k.desc)}`).join('<br>')}</p>`);
-  if (key === 'capex') { const c = typical('capex_per_annual_t_ore'); parts.push(`<p><b>Typical:</b> US$${num1(c.median, 1)} per tonne of yearly ore capacity (${c.n} studies, ${num1(c.low, 0)}–${num1(c.high, 0)}). Remote greenfield sites sit at the top.</p><p><button type="button" class="link-btn" data-dep-src="capex">Sources</button></p>`); }
+  if (key === 'deck') parts.push(`<p>${Object.values(myDecks()).map((k) => `<b>${esc(k.label)}:</b> ${esc(k.desc)}`).join('<br>')}</p>`);
+  if (key === 'capex' && typical('capex_per_annual_t_ore')) { const c = typical('capex_per_annual_t_ore'); parts.push(`<p><b>Typical:</b> US$${num1(c.median, 1)} per tonne of yearly ore capacity (${c.n} studies, ${num1(c.low, 0)}–${num1(c.high, 0)}). Remote greenfield sites sit at the top.</p><p><button type="button" class="link-btn" data-dep-src="capex">Sources</button></p>`); }
   if (t) parts.push(`<p><b>Typical:</b> ${num1(t.median, dpFor(t.median))} ${esc(t.unit)} (${t.n} ${t.n === 1 ? 'study' : 'studies'}${t.n > 1 ? `, ${num1(t.low)}–${num1(t.high)}` : ''}). Leave blank to use it.</p>
     <p>${v != null && Math.abs(v - t.median) > 1e-9 ? `<button type="button" class="link-btn" data-dep-typ="${key}">Use typical</button> · ` : ''}<button type="button" class="link-btn" data-dep-src="${key}">Sources</button></p>`);
   return parts.length ? info(`i-${key}`, parts.join(''), `About ${f.label}`) : '';
@@ -1427,38 +1508,41 @@ function fieldInfo(key, f, d, t, v) {
 
 function fieldRow(key, d, D) {
   if (key === 'RESOURCE') return resourceRow(d);
+  if (key === 'LEGS' && isAuD(d)) return '';
   if (key === 'LEGS') return legsRow(d, D);
   const f = F[key]; if (!f || (f.show && !f.show(d))) return '';
   const id = `dep-${key}`; const v = getPath(d, key); const t = f.typical ? f.typical(d) : null;
+  const unitText = typeof f.unit === 'function' ? f.unit(d) : f.unit; const opts = typeof f.opts === 'function' ? f.opts(d) : f.opts;
   const number = (attrs, value, ph) => `<input id="${id}" ${attrs} type="number" min="0" inputmode="decimal" value="${value}"${ph != null ? ` placeholder="${esc(String(ph))}"` : ''}>`;
   let control;
   if (f.type === 'text') control = `<input id="${id}" data-dep="${key}" data-type="text" type="text" value="${esc(v || '')}">`;
   else if (f.type === 'bool') control = `<select id="${id}" data-dep="${key}" data-type="bool">${options(OPT.yesno, v ? 'yes' : 'no')}</select>`;
   else if (f.type === 'sel') {
-    const cur = Array.isArray(v) ? 'custom' : String(v);
-    const extra = cur === 'custom' ? [['custom', 'From the study']] : f.opts.some(([o]) => o === cur) ? [] : [[cur, f.oddLabel ? f.oddLabel(cur) : cur]];   // a study value outside the options, e.g. SC5.8
-    control = `<select id="${id}" data-dep="${key}" data-type="${f.num ? 'numsel' : 'sel'}">${options(f.opts.concat(extra), cur)}</select>`;
+    const cur = Array.isArray(v) ? 'custom' : key === 'stage' && v == null ? stageOf(d) : key === 'buyer' && v == null ? 'junior' : String(v);
+    const extra = cur === 'custom' ? [['custom', 'From the study']] : opts.some(([o]) => o === cur) ? [] : key === 'route' || key === 'commodity' ? [] : [[cur, f.oddLabel ? f.oddLabel(cur) : cur]];   // a study value outside the options, e.g. SC5.8
+    control = `<select id="${id}" data-dep="${key}" data-type="${f.num ? 'numsel' : 'sel'}">${options(opts.concat(extra), key === 'route' ? routeOf(d) : key === 'commodity' ? comOf(d) : cur)}</select>`;
   } else if (f.type === 'juris') {
-    control = `<select id="${id}" data-dep="juris" data-type="sel"><optgroup label="Presets from studies">${options(LI_JURIS.map((j) => [j.id, j.label]), v)}</optgroup><optgroup label="Other countries">${options(COUNTRY_RISK.map((r) => [r[0], r[0]]), v)}</optgroup></select>`;
+    control = `<select id="${id}" data-dep="juris" data-type="sel">${jurisList(comOf(d)).length ? `<optgroup label="Presets">${options(jurisList(comOf(d)).map((j) => [j.id, j.label]), v)}</optgroup>` : ''}<optgroup label="Other countries">${options(COUNTRY_RISK.map((r) => [r[0], r[0]]), v)}</optgroup></select>`;
   } else if (f.type === 'deck') control = `<select id="${id}" data-dep-deck="1">${options(Object.values(myDecks()).map((k) => [k.id, k.label]), myDeck().id)}</select>`;
   else if (f.type === 'rate') control = number('data-dep-rate="1" step="0.5" max="20"', (state.rateBy.custom * 100).toFixed(1));
   else if (f.type === 'lt') control = number('data-dep-lt="1" step="any"', state.lt.custom ?? '', Math.round(myDeck().flat));
   else if (f.type === 'pct') control = number(`data-dep="${key}" data-type="pct" step="any" max="100"`, v != null ? +(v * 100).toFixed(4) : '');
-  else control = number(`data-dep="${key}" data-type="num" step="any"`, v ?? '', blankValue(key, d, D, t));
-  const unit = control.startsWith('<input') && f.type !== 'text' ? `<span class="u">${esc(f.unit || '')}</span>` : '';
+  else control = number(`data-dep="${key}" data-type="num" step="any"`, v ?? '', f.typical && !t && v == null ? 'enter' : blankValue(key, d, D, t));
+  const unit = control.startsWith('<input') && f.type !== 'text' ? `<span class="u">${esc(unitText || '')}</span>` : '';
   return `<div class="c-f" id="row-${key}"><div class="c-fl"><label for="${id}">${esc(f.label)}</label>${fieldInfo(key, f, d, t, v)}</div><div class="c-in">${control}${unit}</div></div>`;
 }
 
 function resourceRow(d) {
+  const gu = CP[comOf(d)].grade;
   const cell = (k, part, lbl) => `<td><input id="dep-${k}-${part}" data-dep="${k}.${part}" data-type="num" type="number" step="any" min="0" inputmode="decimal" value="${getPath(d, `${k}.${part}`) || ''}" aria-label="${lbl}"></td>`;
-  const row = (k, name) => `<tr><th scope="row">${name}</th>${cell(k, 'mt', `${name} tonnes, Mt`)}${cell(k, 'g', `${name} grade, % Li₂O`)}</tr>`;
+  const row = (k, name) => `<tr><th scope="row">${name}</th>${cell(k, 'mt', `${name} tonnes, Mt`)}${cell(k, 'g', `${name} grade, ${gu}`)}</tr>`;
   return `<div class="c-f wide"><div class="c-fl">Resource${info('i-resource', '<p>From the resource statement. Only Measured and Indicated can become reserves.</p>', 'About the resource')}</div>
-    <div class="table-wrap"><table class="res"><thead><tr><th scope="col"></th><th scope="col">Mt</th><th scope="col">% Li₂O</th></tr></thead><tbody>${row('mea', 'Measured')}${row('ind', 'Indicated')}${row('inf', 'Inferred')}</tbody></table></div></div>`;
+    <div class="table-wrap"><table class="res"><thead><tr><th scope="col"></th><th scope="col">Mt</th><th scope="col">${gu}</th></tr></thead><tbody>${row('mea', 'Measured')}${row('ind', 'Indicated')}${row('inf', 'Inferred')}</tbody></table></div></div>`;
 }
 
 function legsRow(d, D) {
   const legs = d.legs && d.legs.length ? d.legs : [{ mode: 'truck', km: 0, rate: null }];
-  const tr = typical('road_haul_per_t_km');
+  const tr = typicalIn('spodumene', 'road_haul_per_t_km');   // road haulage rates are not commodity-specific
   const rows = [0, 1].map((i) => {
     const l = legs[i] || { mode: 'rail', km: 0, rate: null };
     const input = (part, value, lbl, ph = '') => `<td><input id="dep-leg${i}-${part}" data-dep="legs.${i}.${part}" data-type="num" type="number" step="any" min="0" inputmode="decimal" value="${value}"${ph ? ` placeholder="${ph}"` : ''} aria-label="Leg ${i + 1} ${lbl}"></td>`;
@@ -1487,10 +1571,11 @@ function onDepInput(t) {
   else if (ty === 'sel') v = raw === 'custom' ? getPath(state.dep, path) : raw;
   else if (ty === 'numsel') v = raw === 'custom' ? getPath(state.dep, path) : Number(raw);
   else if (ty === 'pct') v = raw === '' ? null : Math.max(0, Math.min(100, Number(raw))) / 100;
-  else { v = raw === '' ? null : Math.max(0, Number(raw)); if (v != null && (F[path] || {}).unit === '%') v = Math.min(v, 100); }
+  else { v = raw === '' ? null : Math.max(0, Number(raw)); if (v != null && (F[path] || {}).unit === '%') v = Math.min(v, 100); if (v != null && path === 'moisture') v = Math.min(v, 50); }
   if (typeof v === 'number' && !isFinite(v)) return;
   if (path === 'juris') { state.dep.royalty = null; state.dep.tax = null; state.dep.freeCarry = null; }
   if (path === 'route') { state.dep.recovery = null; state.dep.processing = null; }   // the typical values for the new route apply
+  if (path === 'commodity' && v !== comOf(state.dep)) { switchCommodity(v); return; }
   if (path === 'planMt' && v == null) { state.dep.planGrade = null; state.dep.inferredShare = null; }
   setPath(state.dep, path, v);
   state.undo = null; hideToast();
@@ -1502,7 +1587,7 @@ function evidenceSheet(key) {
   const f = F[key];
   const t = k ? typical(k) : (f && f.typical ? f.typical(state.dep) : null);
   if (!t) return;
-  const items = t.points.map((p) => `<li><div class="ev-head"><span>${esc((LI_STUDIES[p[0]] || { source: p[0] }).source)}</span><span class="pill flag-${p[3] ? 'derived' : 'sourced'}">${p[3] ? 'Derived' : 'Sourced'}</span></div><span class="ev-val">${num1(p[1], 3)} ${esc(t.unit)}</span><span class="ev-src">Page ${esc(p[2])}${p[3] ? ` · ${esc(p[3])}` : ''}</span></li>`).join('');
+  const items = t.points.map((p) => `<li><div class="ev-head"><span>${esc(({ ...LI_STUDIES, ...STUDY_NAMES }[p[0]] || { source: p[0] }).source)}</span><span class="pill flag-${p[3] ? 'derived' : 'sourced'}">${p[3] ? 'Derived' : 'Sourced'}</span></div><span class="ev-val">${num1(p[1], 3)} ${esc(t.unit)}</span><span class="ev-src">Page ${esc(p[2])}${p[3] ? ` · ${esc(p[3])}` : ''}</span></li>`).join('');
   openSheet(t.label, `<div class="kv"><span>Median</span><span>${num1(t.median, 3)} ${esc(t.unit)}</span><span>Range</span><span>${num1(t.low, 3)}–${num1(t.high, 3)}</span><span>Studies</span><span>${t.n}</span></div>
     ${t.note ? `<p class="small muted">${esc(t.note)}</p>` : ''}<h3>Where it comes from</h3><ul class="ev-list">${items}</ul>
     <p class="small muted">In US$ at each study’s own exchange rate, escalated to November 2025 prices where marked. The calculator uses the median.</p>`);
@@ -1518,7 +1603,7 @@ function valueWith(wi, before = false) {
   return runModel(a, { ...ctlFor(a), deck, rate, enabled: before ? new Set() : ALL_DIALS() }).npvAttr;
 }
 let inputsValue = null;   // value after risks with no what-ifs, worked out once per redraw
-const beText = (be) => (be == null ? 'over US$10,000' : `US$${num1(be, 0)}/t`);
+const beText = (be) => (be == null ? `over ${fmtPrice(myCP().beMax)}` : fmtPrice(be));
 function setKpis(a, risk, base, be) {
   const set = (id, txt) => { const el = document.getElementById(id); if (el && el.textContent !== txt) el.textContent = txt; };
   set('kpi-risk', money(risk.npvAttr)); set('kpi-base', money(base.npvAttr)); set('kpi-irr', irrText(risk.irr));
@@ -1533,12 +1618,12 @@ function renderTop() {
   $('#brand-asset').textContent = state.dep.name || 'New deposit';
   const pick = $('#start-from'); if (!pick.options.length) pick.innerHTML = `<option value="">Start from…</option>${options(PRESETS, '')}`;
   pick.value = '';
-  if (an.pending) { morph($('#valuebar'), '<div class="wrap c-vb"><span class="muted">Enter the resource to see a value.</span></div>'); return; }
+  if (an.pending) { morph($('#valuebar'), `<div class="wrap c-vb"><span class="muted">${an.missing && an.missing.length ? `Enter ${an.missing.length} more input${an.missing.length > 1 ? 's' : ''} to see a value.` : 'Enter the resource to see a value.'}</span></div>`); return; }
   morph($('#valuebar'), `<div class="wrap c-vb">
     <div class="c-kpi c-kpi-main"><span class="k">NPV after risks${info('i-npv', `<p>Owner’s NPV at ${pct(an.risk.rate, 1)} real, after the risk settings. This is the most you could pay for the project at that rate.</p>`, 'About NPV after risks')}</span><b id="kpi-risk" aria-live="polite">${money(an.risk.npvAttr)}</b><span class="c-delta" id="kpi-delta"></span></div>
     <div class="c-kpi"><span class="k">Before risks</span><b id="kpi-base">${money(an.base.npvAttr)}</b></div>
     <div class="c-kpi"><span class="k">IRR</span><b id="kpi-irr">${irrText(an.risk.irr)}</b></div>
-    <div class="c-kpi c-kpi-x"><span class="k">Breakeven${info('i-be', '<p>The flat SC6 price, in today’s money, at which value after risks is zero.</p>', 'About breakeven')}</span><b id="kpi-be">${beText(an.be)}</b></div></div>`);
+    <div class="c-kpi c-kpi-x"><span class="k">Breakeven${info('i-be', `<p>The flat ${esc(myCP().price.replace('US$/', 'price per '))}, in today’s money, at which value after risks is zero.</p>`, 'About breakeven')}</span><b id="kpi-be">${beText(an.be)}</b></div></div>`);
   setKpis(a, an.risk, an.base, an.be);
 }
 
@@ -1562,7 +1647,7 @@ function riskFigure(dial, x, a) {
   const site = D.miningPerTOre + D.processing + D.ga + D.oreHaulPerT;
   const money1 = (v, unit = '') => `US$${num1(v, v >= 100 ? 0 : 1)}${unit}`;
   switch (dial.id) {
-    case 'resource': { const g = D.planGrade * (1 + (fx.grade || 0)); return { fig: `${num1(g)}% Li₂O`, end: `${num1(g)}%`, note: `${num1(D.planMt * (1 + (fx.life || 0)), 1)} Mt` }; }
+    case 'resource': { const g = D.planGrade * (1 + (fx.grade || 0)); const P = CP[D.commodity]; return { fig: `${num1(g)} ${P.grade}`.replace(' %', '%'), end: `${num1(g)}${P.gradeEnd}`, note: `${num1(D.planMt * (1 + (fx.life || 0)), 1)} Mt` }; }
     case 'recovery': { const r = `${num1(Math.max(0, D.recovery + (fx.recPts || 0)), 1)}%`; return { fig: r, end: r, note: '' }; }
     case 'ground': { const c = D.miningPerTOre * (1 + (fx.mining || 0)); return { fig: money1(c, '/t ore'), end: money1(c), note: join('mining', lost ? `${num1(lost * 100, 2)}% output lost` : '') }; }
     case 'infra': { const c = (D.processing + D.ga) * (1 + (fx.procGa || 0)); return { fig: money1(c, '/t ore'), end: money1(c), note: join('processing + G&A', lost ? `${num1(lost * 100, 2)}% output lost` : '') }; }
@@ -1594,10 +1679,10 @@ function risksHTML(a, an) {
 /* ---------- Scenarios: move a driver, see the value ---------- */
 const signed = (v, unit) => `${v > 0 ? '+' : v < 0 ? MINUS : ''}${Math.abs(v)}${unit}`;
 const WHATIF = [
-  { k: 'price', label: 'Price', min: -40, max: 40, step: 5, unit: '%', tip: 'Every year of the price deck. The figure is the long-term SC6 price.' },
+  { k: 'price', label: 'Price', min: -40, max: 40, step: 5, unit: '%', tip: 'Every year of the price deck. The figure is the long-term price.' },
   { k: 'capex', label: 'Capex', min: -50, max: 50, step: 5, unit: '%', tip: 'Initial capex, including infrastructure.' },
   { k: 'opex', label: 'Opex', min: -30, max: 30, step: 5, unit: '%', tip: 'Operating cost: mining, processing and site G&A per tonne of ore.' },
-  { k: 'recovery', label: 'Recovery', min: -10, max: 10, step: 1, unit: ' pts', tip: 'Lithia recovery, in percentage points.' },
+  { k: 'recovery', label: 'Recovery', min: -10, max: 10, step: 1, unit: ' pts', tip: 'Recovery to the product sold, in percentage points.' },
   { k: 'grade', label: 'Grade', min: -20, max: 20, step: 5, unit: '%', tip: 'Head grade of the ore sent to the plant.' },
   { k: 'delay', label: 'Start delay', min: 0, max: 4, step: 1, unit: ' yr', tip: 'Years added before construction starts. The figure is the year it starts.' },
   { k: 'rate', label: 'Discount rate', min: -5, max: 5, step: 0.5, unit: ' pts', tip: 'Points added to the real discount rate, before the country premium.' }
@@ -1606,11 +1691,11 @@ const wiText = (w, v) => (v ? signed(v, w.unit) : '0');
 // The figure a what-if gives, for a set of what-ifs: in full (fig) and short, for the slider ends (end).
 function wiFigure(k, wi, a = depositAsset(state.dep, 'custom', { wi })) {
   const D = a.derived;
-  if (k === 'price') { const p = num1(baseDeckFor(a).flat * (1 + (wi.price || 0) / 100), 0); return { fig: `US$${p}/t`, end: `US$${p}` }; }
+  if (k === 'price') { const p = baseDeckFor(a).flat * (1 + (wi.price || 0) / 100); const c = commodityOf(a); return { fig: fmtPrice(p, c), end: `US$${num1(p, CP[c].priceDp)}` }; }
   if (k === 'capex') { const c = `US$${num1(D.capexM, 0)}M`; return { fig: c, end: c }; }
   if (k === 'opex') { const o = num1(D.miningPerTOre + D.processing + D.ga, 1); return { fig: `US$${o}/t ore`, end: `US$${o}` }; }
   if (k === 'recovery') { const r = `${num1(D.recovery, 1)}%`; return { fig: r, end: r }; }
-  if (k === 'grade') { const g = num1(D.planGrade); return { fig: `${g}% Li₂O`, end: `${g}%` }; }
+  if (k === 'grade') { const g = num1(D.planGrade); const P = CP[D.commodity]; return { fig: `${g} ${P.grade}`.replace(' %', '%'), end: `${g}${P.gradeEnd}` }; }
   if (k === 'delay') { const y = String(MODEL.firstYear + D.decision); return { fig: `build ${y}`, end: y }; }
   const r = pct(Math.max(0, state.rateBy.custom + (wi.rate || 0) / 100), 1); return { fig: `${r} real`, end: r };
 }
@@ -1635,46 +1720,61 @@ function wiValue(extra = {}, before = false) {
 const LCE_PER_LI2O = 2.473;   // tonnes of lithium carbonate per tonne of Li2O: 2 × 73.89 ÷ 2 ÷ 29.88 (molar masses)
 // Output and unit costs are as planned (before risks); breakeven, payback and value per tonne are after risks.
 function keyNumbers(a, an) {
-  const D = a.derived; const prod = an.base.years.filter((y) => !y.release && y.oz > 0);
-  const conc = sum(prod, (y) => y.oz);
-  const c1Total = sum(prod, (y) => y.site + y.logistics + y.other - (y.byproduct || 0));
-  const c1 = conc > 0 ? c1Total / conc : NaN;
-  const aisc = conc > 0 ? (c1Total + sum(prod, (y) => y.royalties + y.sustaining + y.corporate + y.exploration)) / conc : NaN;
+  const D = a.derived; const c = D.commodity; const P = CP[c]; const prod = an.base.years.filter((y) => !y.release && y.oz > 0);
+  const units = sum(prod, (y) => y.oz);
+  // Copper is sold net of treatment and refining charges; C1 counts them as costs, as producers report it.
+  const tcrc = c === 'copper' ? D.rc + D.tc / (D.concGrade / 100 * LB_PER_T * D.payability) : 0;
+  const c1Total = sum(prod, (y) => y.site + y.logistics + y.other - (y.byproduct || 0) + (c === 'copper' ? y.freight + tcrc * y.oz : 0));
+  const c1 = units > 0 ? c1Total / units : NaN;
+  const aisc = units > 0 ? (c1Total + sum(prod, (y) => y.royalties + y.sustaining + y.corporate + y.exploration)) / units : NaN;
   let cum = 0; let payback = null;
   for (const y of an.risk.years) { cum += y.attrFcf; if (payback == null && y.oz > 0 && cum >= 0) payback = y.year; }
   const be = an.be !== undefined ? an.be : breakevenPrice(a, ctlFor(a)); const lt = curDeckFor(a).flat;
   const capex = D.capexM * 1e6 * a.ownerShare; const v = an.risk.npvAttr;
-  const lce = D.resMt * 1e6 * D.resGrade / 100 * LCE_PER_LI2O;   // tonnes of LCE in the resource, 100%
-  const lceYear = D.concPerYear * D.concGrade / 100 * LCE_PER_LI2O;
   const usd = (x, dp = 0) => `${x < 0 ? MINUS : ''}US$${num1(Math.abs(x), dp)}`;
+  const cost = (x) => (c === 'copper' ? `${x < 0 ? MINUS : ''}US$${numFixed(Math.abs(x), 2)}` : usd(x));
+  const res = resourceUnits(a) / a.ownerShare;   // in the deal unit, 100%
+  const out = c === 'gold' ? { value: `${num1(D.concPerYear / 1000, 0)} koz/yr`, sub: `payable gold at full rate`, csv: (D.concPerYear / 1000).toFixed(1), unit: 'koz of payable gold a year at full rate' }
+    : c === 'copper' ? { value: `${num1(D.concPerYear / LB_PER_T / 1000, 1)} kt/yr`, sub: `payable copper; ${num1(D.concPerYear / 1e6, 0)} Mlb`, csv: (D.concPerYear / LB_PER_T / 1000).toFixed(2), unit: 'kt of payable copper a year at full rate' }
+      : { value: `${num1(D.concPerYear / 1000, 0)} kt/yr`, sub: `SC${D.concGrade} concentrate; ${num1(D.concPerYear * D.concGrade / 100 * LCE_PER_LI2O / 1000, 1)} kt LCE`, csv: (D.concPerYear / 1000).toFixed(1), unit: 'kt of concentrate a year at full rate' };
+  const resRow = c === 'gold' ? { value: `${num1(res / 1e6, 2)} Moz`, sub: `${usd(v / (res * a.ownerShare))}/oz after risks`, csv: (res / 1e6).toFixed(3), unit: 'Moz of gold in the resource (100%)' }
+    : c === 'copper' ? { value: `${num1(res / LB_PER_T / 1e6, 2)} Mt Cu`, sub: `${v < 0 ? MINUS : ''}${num1(Math.abs(v / (res * a.ownerShare) * 100), 1)}¢/lb after risks`, csv: (res / LB_PER_T / 1e6).toFixed(3), unit: 'Mt of copper in the resource (100%)' }
+      : { value: `${num1(res / 1e6, 2)} Mt LCE`, sub: `${usd(v / (res * a.ownerShare))}/t LCE after risks`, csv: (res / 1e6).toFixed(3), unit: 'Mt LCE in the resource (100%)' };
+  const per = c === 'spodumene' ? '/t' : P.priceSuffix;
   return [
-    { label: 'Output', value: `${num1(D.concPerYear / 1000, 0)} kt/yr`, sub: `SC${D.concGrade} concentrate; ${num1(lceYear / 1000, 1)} kt LCE`, csv: (D.concPerYear / 1000).toFixed(1), unit: 'kt of concentrate a year at full rate' },
-    { label: 'Mine life', value: `${num1(D.life, 1)} years`, sub: `${num1(D.planMt, 1)} Mt at ${num1(D.planGrade, 2)}% Li₂O`, csv: D.life.toFixed(1), unit: 'years at full rate' },
-    { label: 'C1 cost', value: `${usd(c1)}/t`, sub: 'FOB: mine, plant, site, haul to ship', csv: c1.toFixed(0), unit: 'US$/t concentrate, FOB, before risks' },
-    { label: 'AISC', value: `${usd(aisc)}/t`, sub: 'C1 + royalties, sustaining, head office', csv: aisc.toFixed(0), unit: 'US$/t concentrate, FOB, before risks' },
-    { label: 'Breakeven price', value: be == null ? 'over US$10,000' : `${usd(be)}/t`, sub: `SC6 flat, after risks; long term ${usd(lt)}`, csv: be == null ? '' : be.toFixed(0), unit: 'US$/t SC6, flat, real, after risks' },
+    { label: 'Output', ...out },
+    { label: 'Mine life', value: `${num1(D.life, 1)} years`, sub: `${num1(D.planMt, 1)} Mt at ${num1(D.planGrade, 2)}${P.gradeEnd}${c === 'spodumene' ? ' Li₂O' : c === 'gold' ? ' Au' : ' Cu'}`, csv: D.life.toFixed(1), unit: 'years at full rate' },
+    { label: c === 'gold' ? 'Cash cost' : 'C1 cost', value: `${cost(c1)}${per}`, sub: c === 'gold' ? 'mine, plant, site, refining' : c === 'copper' ? 'mine, plant, site, freight, TC/RC' : 'FOB: mine, plant, site, haul to ship', csv: c1.toFixed(c === 'copper' ? 2 : 0), unit: `${UNIT_SOLD[c]}${c === 'spodumene' ? ', FOB' : ''}, before risks` },
+    { label: 'AISC', value: `${cost(aisc)}${per}`, sub: 'C1 + royalties, sustaining, head office', csv: aisc.toFixed(c === 'copper' ? 2 : 0), unit: `${UNIT_SOLD[c]}${c === 'spodumene' ? ', FOB' : ''}, before risks` },
+    { label: 'Breakeven price', value: be == null ? `over ${fmtPrice(P.beMax, c)}` : fmtPrice(be, c), sub: `flat, after risks; long term ${fmtPrice(lt, c)}`, csv: be == null ? '' : be.toFixed(P.priceDp), unit: `${P.price}, flat, real, after risks` },
     { label: 'Payback', value: payback ? String(payback) : 'not reached', sub: payback ? `year ${payback - an.risk.firstProdYear + 1} of output, after risks` : 'after risks', csv: payback || '', unit: 'calendar year, undiscounted, after risks' },
     { label: 'Value ÷ capex', value: `${v < 0 ? MINUS : ''}${num1(Math.abs(v / capex), 2)}×`, sub: 'NPV after risks ÷ initial capex', csv: (v / capex).toFixed(2), unit: 'owner’s share of each' },
-    { label: 'Resource', value: `${num1(lce / 1e6, 2)} Mt LCE`, sub: `${usd(v / (lce * a.ownerShare))}/t LCE after risks`, csv: (lce / 1e6).toFixed(3), unit: 'Mt LCE in the resource (100%)' }
+    { label: 'Resource', ...resRow }
   ];
 }
 const ICON_DOWNLOAD = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 1.5v8M3.8 6.4 7 9.6l3.2-3.2M2 12.5h10"/></svg>';
 function keyNumbersHTML(a, an) {
-  const tip = `<p><b>Output</b> is concentrate a year at full rate, and its lithium carbonate equivalent (LCE = Li₂O × ${LCE_PER_LI2O}).</p>
-    <p><b>C1</b> is mining, processing, site G&amp;A, haulage to the ship and other costs, less by-product credits, per tonne of concentrate, free on board. <b>AISC</b> adds royalties, sustaining capex and head office.</p>
-    <p>Output and costs are as planned, before risks. <b>Breakeven</b> is the flat SC6 price at which value after risks is zero. <b>Payback</b> is the year the owner’s cash after risks, undiscounted, has repaid the build. <b>Value per tonne of LCE</b> divides value after risks by the owner’s share of the resource, the yardstick deals are often quoted in.</p>`;
+  const cm = a.derived.commodity;
+  const tip = `<p><b>Output</b> is ${cm === 'gold' ? 'payable gold' : cm === 'copper' ? 'payable copper' : `concentrate, and its lithium carbonate equivalent (LCE = Li₂O × ${LCE_PER_LI2O})`}, a year at full rate.</p>
+    <p><b>${cm === 'gold' ? 'Cash cost' : 'C1'}</b> is mining, processing, site G&amp;A, ${cm === 'gold' ? 'refining' : cm === 'copper' ? 'transport, freight and treatment and refining charges' : 'haulage to the ship'} and other costs, less by-product credits, per ${esc(CP[cm].unitLong)}${cm === 'spodumene' ? ', free on board' : ''}. <b>AISC</b> adds royalties, sustaining capex and head office.</p>
+    <p>Output and costs are as planned, before risks. <b>Breakeven</b> is the flat price at which value after risks is zero. <b>Payback</b> is the year the owner’s cash after risks, undiscounted, has repaid the build. <b>Value per unit of resource</b> divides value after risks by the owner’s share of the resource (${cm === 'gold' ? 'ounces' : cm === 'copper' ? 'pounds of copper' : 'tonnes of LCE'}), the yardstick deals are often quoted in.</p>`;
   return `<section class="panel c-panel" aria-labelledby="kn-t"><div class="c-ph"><h2 id="kn-t">Key numbers${info('i-kn', tip, 'About the key numbers')}</h2><div class="c-dl" id="export" role="group" aria-label="Download" ${canExport ? '' : 'hidden'}><span class="c-dl-k">${ICON_DOWNLOAD}Download</span><button type="button" class="btn c-expand" data-export="xlsx">Excel</button><button type="button" class="btn c-expand" data-export="pdf">PDF memo</button><button type="button" class="btn c-expand" data-export="csv">CSV</button></div></div>
     <dl class="c-kn">${keyNumbers(a, an).map((k) => `<div><dt>${esc(k.label)}</dt><dd><b>${esc(k.value)}</b><small>${esc(k.sub)}</small></dd></div>`).join('')}</dl></section>`;
 }
 
 /* ---------- Deal price: equity value, value per share, P/NAV, and the methods side by side ---------- */
+const stageOf = (d) => ({ scoping: 'scoping', pfs: 'pfs', fs: 'fs' }[d.capexBasis] || (d.capex == null ? 'scoping' : 'pfs'));
 function dealInputs(d) {
   const ccy = CCY_SYM[d.dealCcy] ? d.dealCcy : 'USD';
   return { ccy, sym: CCY_SYM[ccy], fx: d.dealFx > 0 ? d.dealFx : FX_DEFAULT[ccy], price: d.sharePrice, shares: d.sharesM,
     cash: d.cashM || 0, debt: d.debtM || 0, other: d.otherM || 0, gear: (d.fundDebtPct ?? FUND_DEBT) / 100, disc: (d.raiseDiscPct ?? RAISE_DISC) / 100 };
 }
 // Resource the owner holds, in the unit deals are quoted in.
-function resourceUnits(a) { const D = a.derived; return D.resMt * 1e6 * D.resGrade / 100 * LCE_PER_LI2O * a.ownerShare; }
+function resourceUnits(a) {
+  const D = a.derived; const t = D.resMt * 1e6;
+  const u = D.commodity === 'gold' ? t * D.resGrade / G_PER_OZ : D.commodity === 'copper' ? t * D.resGrade / 100 * LB_PER_T : t * D.resGrade / 100 * LCE_PER_LI2O;
+  return u * a.ownerShare;
+}
 function dealValues(a, an) {
   const D = a.derived; const k = dealInputs(state.dep); const usd = (x) => x * 1e6 * k.fx;
   const net = usd(k.cash) - usd(k.debt) + usd(k.other);
@@ -1691,11 +1791,26 @@ function dealValues(a, an) {
   // DCF after risks across price ±10% and the discount rate ±1 point, the usual football-field band
   const corners = [[-10, 1], [-10, -1], [10, 1], [10, -1]].map(([p, r]) => wiValue({ price: p, rate: r }) + net);
   const methods = [{ k: 'dcf', label: 'DCF after risks', lo: Math.min(...corners), hi: Math.max(...corners), mid: eqRisk, note: 'price ±10%, discount rate ±1 point' }];
+  // A funded, experienced buyer: People and Funding at Low, the other risks as set.
+  const lv = state.levels.custom;
+  if (levelNum(lv.people) > 0 || levelNum(lv.funding) > 0) {
+    const buyer = (dp, dr) => runModel(depositAsset(state.dep, 'custom', { wi: { ...state.whatIf, price: (state.whatIf.price || 0) + dp, rate: (state.whatIf.rate || 0) + dr } }),
+      { ...ctlFor(a), deck: scaleDeck(baseDeckFor(a), 1 + ((state.whatIf.price || 0) + dp) / 100), rate: Math.max(0, state.rateBy.custom + ((state.whatIf.rate || 0) + dr) / 100), levels: { ...lv, people: 0, funding: 0 }, enabled: ALL_DIALS() }).npvAttr + net;
+    const bc = [[-10, 1], [-10, -1], [10, 1], [10, -1]].map(([p, r]) => buyer(p, r));
+    methods.push({ k: 'buyer', label: 'DCF, funded buyer', lo: Math.min(...bc), hi: Math.max(...bc), mid: buyer(0, 0), note: 'People and Funding at Low: a buyer that runs and pays for the build; price ±10%, rate ±1 point' });
+  }
+  // Multiples of NPV apply to the published study NPV, the basis they are quoted on; without one, to value before risks.
+  const npvRef = state.dep.studyNpv > 0 ? state.dep.studyNpv * 1e6 * a.ownerShare : an.base.npvAttr;
+  const refText = state.dep.studyNpv > 0 ? 'the study NPV' : 'value before risks (no published NPV entered)';
   const M = MARKET[commodityOf(a)] || {};
-  if (M.pnav) methods.push({ k: 'pnav', label: 'Peers’ P/NAV', lo: an.base.npvAttr * M.pnav.q1 + net, hi: an.base.npvAttr * M.pnav.q3 + net, mid: an.base.npvAttr * M.pnav.median + net,
-    note: `${num1(M.pnav.q1, 2)}–${num1(M.pnav.q3, 2)}× value before risks (median ${num1(M.pnav.median, 2)}×, ${M.pnav.n} developers)` });
-  if (M.perUnit && res > 0) methods.push({ k: 'deals', label: 'Precedent deals', lo: res * M.perUnit.q1 + net, hi: res * M.perUnit.q3 + net, mid: res * M.perUnit.median + net,
-    note: `US$${num1(M.perUnit.q1, 0)}–${num1(M.perUnit.q3, 0)} per ${M.unit} of resource (median US$${num1(M.perUnit.median, 0)}, ${M.perUnit.n} deals)` });
+  const multiple = (key, label, q) => methods.push({ k: key, label, lo: npvRef * q.q1 + net, hi: npvRef * q.q3 + net, mid: npvRef * q.median + net, note: `${num1(q.q1, 2)}–${num1(q.q3, 2)}× ${refText} (median ${num1(q.median, 2)}×, n = ${q.n})` });
+  if (M.trading) multiple('trading', 'Trading peers', quartiles(M.trading.values));
+  if (M.takeovers) multiple('takeovers', 'Takeovers', quartiles(M.takeovers.values));
+  const stage = STAGE_MULT[state.dep.stage] ? state.dep.stage : stageOf(state.dep);
+  methods.push({ k: 'stage', label: 'Stage multiple', lo: npvRef * STAGE_MULT[stage][0] + net, hi: npvRef * STAGE_MULT[stage][1] + net, mid: npvRef * (STAGE_MULT[stage][0] + STAGE_MULT[stage][1]) / 2 + net,
+    note: `${num1(STAGE_MULT[stage][0], 2)}–${num1(STAGE_MULT[stage][1], 2)}× ${refText} for a ${STAGE_NAME[stage]} project (framework judgement)` });
+  if (M.perUnit && res > 0) { const q = quartiles(M.perUnit.values); methods.push({ k: 'deals', label: 'Deals per resource', lo: res * q.q1 + net, hi: res * q.q3 + net, mid: res * q.median + net,
+    note: `${M.perUnit.fmt(q.q1)}–${M.perUnit.fmt(q.q3)} per ${M.perUnit.unit} of resource (n = ${q.n})` }); }
   const med = (xs) => { const s = [...xs].sort((x, y) => x - y); const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
   const range = methods.length > 1 ? { lo: med(methods.map((m) => m.lo)), hi: med(methods.map((m) => m.hi)) } : { lo: methods[0].lo, hi: methods[0].hi };
   return { k, net, eqRisk, eqBase, gap, listed, shares, priceUsd, mcap, ev, equityRaised, debtRaised, issue, newShares, res, methods, range,
@@ -1719,20 +1834,24 @@ function dealHTML(a, an) {
     rows.push(['Fully funded, after risks', `${usdSh(v.funded)}${local(v.funded)}`, `a share, after ${num1(v.newShares / 1e6, 0)}M new shares at ${num1(k.disc * 100, 0)}% below the price`]);
     rows.push(['Market cap', money(v.mcap), `${num1(k.shares, 1)}M shares at ${k.sym}${num1(k.price, k.price < 1 ? 3 : 2)}`]);
     rows.push(['Price ÷ value', v.pnavBase == null ? '–' : `${v.pnavBase.toFixed(2)}× before risks`, `${v.pnavRisk == null ? 'value after risks is below zero' : `${v.pnavRisk.toFixed(2)}× after risks`}; ${v.upside >= 0 ? 'upside' : 'downside'} ${pct(Math.abs(v.upside), 0)} to value after risks`]);
-    if (v.evPerUnit != null) rows.push(['EV per tonne of LCE', `US$${num1(v.evPerUnit, 0)}`, `EV ${money(v.ev)} over ${num1(v.res / 1e6, 2)} Mt LCE (owner’s share)`]);
+    const cm = a.derived.commodity;
+    if (v.evPerUnit != null) rows.push(cm === 'gold' ? ['EV per resource ounce', `US$${num1(v.evPerUnit, 0)}`, `EV ${money(v.ev)} over ${num1(v.res / 1e6, 2)} Moz (owner’s share)`]
+      : cm === 'copper' ? ['EV per pound of copper', `${num1(v.evPerUnit * 100, 2)}¢`, `EV ${money(v.ev)} over ${num1(v.res / LB_PER_T / 1e6, 2)} Mt Cu in the resource (owner’s share)`]
+        : ['EV per tonne of LCE', `US$${num1(v.evPerUnit, 0)}`, `EV ${money(v.ev)} over ${num1(v.res / 1e6, 2)} Mt LCE (owner’s share)`]);
   }
   const tip = `<p>For a rough deal price. <b>Equity value</b> is NPV (owner’s share, after head office and capex) plus cash, less debt, plus other assets. <b>Fully funded</b> raises the funding gap (capex less cash) as debt and new shares issued below the price, and spreads the value over the new share count.</p>
-    <p>The chart sets the methods side by side: the DCF after risks with price ±10% and the discount rate ±1 point; peers’ price ÷ NAV applied to value before risks; and prices paid in deals per unit of resource. The shaded band runs from the median low to the median high; the dashed line is the market cap.</p>
+    <p>The chart sets the methods side by side: the DCF after risks, and again for a funded, experienced buyer (People and Funding at Low), each with price ±10% and the rate ±1 point; what listed peers trade at and takeovers paid, as multiples of study NPV; the stage multiple from <i>What Drives Mining Project Value</i>; and deals per unit of resource. The shaded band runs from the median low to the median high; the dashed line is the market cap.</p>
+    <p>Market multiples are quoted against the study NPV as published, so enter it under <b>Company and deal</b>. They came through web search in November 2026 and have not been checked against the filings. Takeovers in 2026 paid more than the DCF at the full country premium would allow (Huayou for Atlantic Lithium, in Ghana): a buyer with political-risk cover may set Political to Low.</p>
     <p>Debt ${FUND_DEBT}% of the gap and a ${RAISE_DISC}% discount on new shares are assumptions when left blank. Set the company’s figures under <b>Company and deal</b>.</p>`;
   const kv = rows.map(([t, val, sub]) => `<div><dt>${esc(t)}</dt><dd><b>${esc(val)}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</dd></div>`).join('');
-  const meth = v.methods.map((m) => `<tr><th scope="row">${esc(m.label)}</th>${moneyCell(m.lo)}${moneyCell(m.mid)}${moneyCell(m.hi)}<td class="wrap-cell small">${esc(m.note)}</td></tr>`).join('');
-  const missing = ['pnav', 'deals'].filter((x) => !v.methods.some((m) => m.k === x));
+  const meth = v.methods.map((m) => `<tr><th scope="row">${esc(m.label)}<span class="c-mnote">${esc(m.note)}</span></th>${moneyCell(m.lo)}${moneyCell(m.mid)}${moneyCell(m.hi)}<td class="wrap-cell small c-mbasis">${esc(m.note)}</td></tr>`).join('');
+  const missing = ['trading', 'takeovers', 'deals'].filter((x) => !v.methods.some((m) => m.k === x));
   return `<section class="panel c-panel" aria-labelledby="deal-t"><div class="c-ph"><h2 id="deal-t">Deal price${info('i-deal', tip, 'About the deal price')}</h2></div>
     <p class="c-deal-range"><span class="muted">Indicated equity value</span> <b>${money(v.range.lo)} – ${money(v.range.hi)}</b>${v.listed ? ` <span class="muted">${usdSh(v.range.lo / v.shares)}–${usdSh(v.range.hi / v.shares)} a share</span>` : ''}</p>
     <dl class="c-kn c-kv2">${kv}</dl>
     <div class="chart" id="deal-chart"></div>
-    <div class="table-wrap"><table class="cmp"><thead><tr><th scope="col">Method</th><th scope="col">Low</th><th scope="col">Mid</th><th scope="col">High</th><th scope="col">Basis</th></tr></thead><tbody>${meth}</tbody></table></div>
-    ${!v.listed ? '<p class="small muted">Add the share price and shares outstanding under <b>Company and deal</b> for market cap, P/NAV and value per share.</p>' : ''}${missing.length ? `<p class="small muted">${missing.map((x) => (x === 'pnav' ? 'Peers’ P/NAV' : 'Precedent deals')).join(' and ')}: no market data for this commodity yet.</p>` : ''}</section>`;
+    <div class="table-wrap"><table class="cmp c-meth"><thead><tr><th scope="col">Method</th><th scope="col">Low</th><th scope="col">Mid</th><th scope="col">High</th><th scope="col" class="c-mbasis">Basis</th></tr></thead><tbody>${meth}</tbody></table></div>
+    ${!v.listed ? '<p class="small muted">Add the share price and shares outstanding under <b>Company and deal</b> for market cap, P/NAV and value per share.</p>' : ''}${missing.length ? `<p class="small muted">No market data yet for ${missing.map((x) => ({ trading: 'trading peers', takeovers: 'takeovers', deals: 'deals per unit of resource' }[x])).join(', ')} in ${esc(myCP().name.toLowerCase())}.</p>` : ''}</section>`;
 }
 // Football field: one bar per method across its range, the mid marked, the indicated band shaded, the market cap dashed.
 function fieldSVG(v, width) {
@@ -1813,25 +1932,33 @@ function inputsUsed(a) {
   const royalty = (r) => (r.bands ? r.bands.map((b) => `${(b.rate * 100).toFixed(1)}% ${b.upTo ? `to US$${b.upTo}/t` : 'above'}`).join('; ') : (r.rate * 100).toFixed(2));
   return [
     ['Jurisdiction', D.juris.label || D.juris.country, ''], ['Mining method', pick(OPT.method, d.method), ''], ['Process route', pick(OPT.route, d.route), ''],
-    ['Resource', D.resMt.toFixed(2), 'Mt'], ['Resource grade', D.resGrade.toFixed(3), '% Li2O'], ['Inferred share of the plan', (D.inferredShare * 100).toFixed(1), '%'],
-    ['Plan tonnes', D.planMt.toFixed(2), 'Mt'], ['Plan grade', D.planGrade.toFixed(3), '% Li2O'], ['Ore per year', D.rate.toFixed(3), 'Mtpa'], ['Strip ratio', D.strip.toFixed(2), 'waste : ore'],
-    ['Mining cost', D.miningPerTOre.toFixed(2), 'US$/t ore'], ['Recovery', D.recovery.toFixed(1), '%'], ['Concentrate grade', D.concGrade, '% Li2O'],
-    ['Processing cost', D.processing.toFixed(2), 'US$/t ore'], ['Site G&A', D.ga.toFixed(2), 'US$/t ore'], ['Haulage to port', D.logisticsPerT.toFixed(2), 'US$/t concentrate'],
-    ['Ocean freight', D.freight.toFixed(2), 'US$/t concentrate'], ['Other costs', D.otherPerT.toFixed(2), 'US$/t concentrate'], ['By-product credit', D.byproduct.toFixed(2), 'US$/t concentrate'],
-    ['Discount to benchmark', (D.realisation * 100).toFixed(2), '%'], ...D.royalties.map((r) => [r.name, royalty(r), r.bands ? 'by SC6 price' : `% of ${r.base === 'fob' ? 'FOB value' : 'revenue'}`]),
+    ['Commodity', CP[D.commodity].name, ''],
+    ['Resource', D.resMt.toFixed(2), 'Mt'], ['Resource grade', D.resGrade.toFixed(3), pdfText(CP[D.commodity].grade)], ['Inferred share of the plan', (D.inferredShare * 100).toFixed(1), '%'],
+    ['Plan tonnes', D.planMt.toFixed(2), 'Mt'], ['Plan grade', D.planGrade.toFixed(3), pdfText(CP[D.commodity].grade)], ['Ore per year', D.rate.toFixed(3), 'Mtpa'], ['Strip ratio', D.strip.toFixed(2), 'waste : ore'],
+    ['Mining cost', D.miningPerTOre.toFixed(2), 'US$/t ore'], ['Recovery', D.recovery.toFixed(1), '%'], ...(D.commodity === 'gold' ? [['Payability', (D.payability * 100).toFixed(2), '%'], ['Refining and transport', D.refining.toFixed(2), 'US$/oz']] : D.commodity === 'copper' ? [['Concentrate grade', D.concGrade, '% Cu'], ['Payability', (D.payability * 100).toFixed(2), '%'], ['Moisture', (D.moisture * 100).toFixed(1), '%'], ['Treatment charge', D.tc.toFixed(1), 'US$/dmt'], ['Refining charge', D.rc.toFixed(3), 'US$/lb']] : [['Concentrate grade', D.concGrade, '% Li2O']]),
+    ['Processing cost', D.processing.toFixed(2), 'US$/t ore'], ['Site G&A', D.ga.toFixed(2), 'US$/t ore'], ...(D.commodity === 'gold' ? [] : [['Haulage to port', D.logisticsPerT.toFixed(2), UNIT_CONC[D.commodity]], ['Ocean freight', D.freight.toFixed(2), UNIT_CONC[D.commodity]]]),
+    ['Other costs', D.otherPerT.toFixed(2), UNIT_SOLD[D.commodity]], ['By-product credit', D.byproduct.toFixed(2), UNIT_SOLD[D.commodity]],
+    ...(D.commodity === 'spodumene' ? [['Discount to benchmark', (D.realisation * 100).toFixed(2), '%']] : []), ...D.royalties.map((r) => [r.name, royalty(r), r.bands ? 'by price' : `% of ${r.base === 'fob' ? 'FOB value' : 'revenue'}`]),
     ['Income tax', (D.tax * 100).toFixed(1), '%'], ['State free carry', (D.carry * 100).toFixed(1), '%'], ['Initial capex', D.capexM.toFixed(1), 'US$M, 100%'],
-    ['Sustaining capex', D.sustaining.toFixed(2), 'US$/t concentrate'], ['Closure', D.closureM.toFixed(1), 'US$M'], ['Head office', D.corporateM.toFixed(1), 'US$M a year'],
+    ['Sustaining capex', D.sustaining.toFixed(2), UNIT_SOLD[D.commodity]], ['Closure', D.closureM.toFixed(1), 'US$M'], ['Head office', D.corporateM.toFixed(1), 'US$M a year'],
     ['Receivables', D.wcDays.toFixed(0), 'days of revenue'], ['Construction starts', MODEL.firstYear + D.decision, 'year'], ['Build time', D.build, 'years'], ['First production', D.firstProd, 'year'], ['Ownership', (d.ownership * 100).toFixed(1), '%']
   ];
 }
 const riskRows = (a, an) => DIALS.map((dl) => { const x = levelNum(state.levels.custom[dl.id]); const f = riskFigure(dl, x, a);
   return [dl.name, levelName(x), `${f.fig}${f.note ? ` (${f.note})` : ''}`, an.bridge.find((b) => b.dial.id === dl.id).delta]; });
+// A cash-flow line's label in the commodity's units.
+function cashLabel(label, c) {
+  if (label === 'Head grade') return `Head grade (${pdfText(CP[c].grade)})`;
+  if (label === 'Product sold (thousand units)') return c === 'gold' ? 'Gold sold (koz)' : c === 'copper' ? 'Payable copper (thousand lb)' : 'Concentrate (kt)';
+  if (label === 'Price') return `Price (${CP[c].price.replace('US$/t SC6', 'US$/t SC6')})`;
+  return label;
+}
 // The cash-flow lines, in US$M unless stated: [label, value(y), kind]. kind 'q' is a quantity, 'm' money, 'x' computed in the workbook.
 const CASH_LINES = [
-  ['Ore milled (Mt)', (y) => (y.release ? null : y.milled), 'q3'], ['Head grade (% Li2O)', (y) => (y.release || !y.ore ? null : y.grade), 'q3'],
-  ['Concentrate (kt)', (y) => (y.release ? null : y.oz / 1000), 'q1'], ['Price (US$/t SC6)', (y) => (y.release || !y.ore ? null : y.price), 'q0'],
+  ['Ore milled (Mt)', (y) => (y.release ? null : y.milled), 'q3'], ['Head grade', (y) => (y.release || !y.ore ? null : y.grade), 'q3'],
+  ['Product sold (thousand units)', (y) => (y.release ? null : y.oz / 1000), 'q1'], ['Price', (y) => (y.release || !y.ore ? null : y.price), 'q2'],
   ['Revenue', (y) => y.revenue / 1e6, 'm'], ['By-product credits', (y) => (y.byproduct || 0) / 1e6, 'm'], ['Royalties', (y) => -y.royalties / 1e6, 'm'], ['Site costs', (y) => -y.site / 1e6, 'm'],
-  ['Head office', (y) => -(y.corporate + y.exploration) / 1e6, 'm'], ['Haulage to port', (y) => -(y.logistics || 0) / 1e6, 'm'], ['Ocean freight', (y) => -(y.freight || 0) / 1e6, 'm'],
+  ['Head office', (y) => -(y.corporate + y.exploration) / 1e6, 'm'], ['Haulage, refining and port', (y) => -(y.logistics || 0) / 1e6, 'm'], ['Ocean freight', (y) => -(y.freight || 0) / 1e6, 'm'],
   ['Other costs', (y) => -(y.other || 0) / 1e6, 'm']
 ];
 function buildCSV() {
@@ -1849,18 +1976,18 @@ function buildCSV() {
     line('Equity value after risks', m2(dv.eqRisk), 'US$M'), line('Equity value before risks', m2(dv.eqBase), 'US$M'), line('Funding gap', m2(dv.gap), 'US$M'),
     line('Currency', dk.ccy, `US$${dk.fx.toFixed(4)} per unit`), line('Share price', dk.price ?? '', dk.ccy), line('Shares outstanding', dk.shares ?? '', 'M'),
     line('Value per share after risks', n2(dv.perShare), 'US$'), line('Fully funded value per share after risks', n2(dv.funded), 'US$'), line('Market cap', m2(dv.mcap), 'US$M'),
-    line('Price ÷ value before risks', n2(dv.pnavBase, 2), '×'), line('Price ÷ value after risks', n2(dv.pnavRisk, 2), '×'), line('EV per t LCE (owner’s share)', n2(dv.evPerUnit, 0), 'US$'),
+    line('Price ÷ value before risks', n2(dv.pnavBase, 2), '×'), line('Price ÷ value after risks', n2(dv.pnavRisk, 2), '×'), line(`EV per ${CP[D.commodity].resUnit} of resource (owner’s share)`, n2(dv.evPerUnit, D.commodity === 'copper' ? 4 : 0), 'US$'),
     ...dv.methods.map((m) => line(`Method: ${m.label}`, `${m2(m.lo)} to ${m2(m.hi)}`, `US$M; mid ${m2(m.mid)}; ${m.note}`)), '');
-  out.push(line('Setting', 'Value', 'Note'), line('Price deck', deck.label, deck.desc), line('Long-term price you set', state.lt.custom ?? '', 'US$/t SC6; blank uses the deck'),
+  out.push(line('Setting', 'Value', 'Note'), line('Price deck', deck.label, deck.desc), line('Long-term price you set', state.lt.custom ?? '', `${myCP().price}; blank uses the deck`),
     line('Discount rate before country risk', (curRateFor(a) * 100).toFixed(2), '% real'), line('Country risk premium', (D.crp * 100).toFixed(2), `% (${D.crpBasis})`), '');
   out.push(line('Risk', 'Setting', 'Figure', 'Value taken (US$M)'), ...riskRows(a, an).map((r) => line(r[0], r[1], r[2], m2(r[3]))), '');
   out.push(line('Scenario', 'Move', 'Figure'), ...WHATIF.map((w) => line(w.label, wiText(w, state.whatIf[w.k] || 0), wiFigure(w.k, state.whatIf, a).fig)), '');
   out.push(line('Input used (with the scenarios)', 'Value', 'Unit'), ...inputsUsed(a).map((u) => line(...u)), '');
   const after = state.tableMode === 'risk'; const ys = (after ? an.risk : an.base).years;
-  const fmt = (v, kind) => (v == null || !isFinite(v) ? '' : kind === 'q0' ? Math.round(v) : kind === 'q1' ? v.toFixed(1) : kind === 'q3' ? v.toFixed(3) : v.toFixed(2));
+  const fmt = (v, kind) => (v == null || !isFinite(v) ? '' : kind === 'q0' ? Math.round(v) : kind === 'q1' ? v.toFixed(1) : kind === 'q3' ? v.toFixed(3) : kind === 'q2' ? v.toFixed(D.commodity === 'copper' ? 3 : 0) : v.toFixed(2));
   const row = (label, f) => line(label, ...ys.map(f));
   out.push(line(`Annual cash flow, ${after ? 'after' : 'before'} risks (US$M, 100%, unless stated)`, ...ys.map((y) => (y.release ? `${y.year} (working capital back)` : y.year))),
-    ...CASH_LINES.map(([label, f, kind]) => row(label, (y) => fmt(f(y), kind))),
+    ...CASH_LINES.map(([label, f, kind]) => row(cashLabel(label, D.commodity), (y) => fmt(f(y), kind))),
     row('EBITDA', (y) => m2(y.ebitda)), row('Capex', (y) => m2(-y.capex)), row('Tax', (y) => m2(-y.tax)),
     row('Working capital', (y) => m2(-y.dWC)), row('Closure', (y) => m2(-y.closure)), row('Free cash flow', (y) => m2(y.fcf)),
     row('Owner’s share (%)', (y) => (y.ownerShare * 100).toFixed(1)), row('Owner’s cash flow', (y) => m2(y.attrFcf)), row('Discount factor', (y) => y.df.toFixed(4)), row('Owner’s present value', (y) => m2(y.pvAttr)));
@@ -1925,10 +2052,10 @@ function cashSheet(name, r, rateCell) {
     ['Cash flow date', '', ...ys.map((y) => ({ v: serial(y), s: 5 }))],
     ['Years from 1 Jan 2026', '', ...ys.map((_, i) => ({ f: `(${xcol(c0 + i)}4-DATE(2026,1,1))/365`, s: 4 }))]
   ];
-  const style = { q3: 7, q1: 2, q0: 8, m: 9 };
+  const style = { q3: 7, q1: 2, q0: 8, q2: commodityOf(assetById('custom')) === 'copper' ? 4 : 8, m: 9 };
   const first = rows.length + 1;
-  for (const [label, f, kind] of CASH_LINES) rows.push([label, kind === 'm' ? { f: `SUM(${span(rows.length + 1)})`, s: 9 } : '', ...ys.map((y) => { const v = f(y); return v == null ? '' : { v, s: style[kind] }; })]);
-  const at = (label) => first + CASH_LINES.findIndex((l) => l[0] === label);
+  for (const [label, f, kind] of CASH_LINES) rows.push([cashLabel(label, commodityOf(assetById('custom'))), kind === 'm' ? { f: `SUM(${span(rows.length + 1)})`, s: 9 } : '', ...ys.map((y) => { const v = f(y); return v == null ? '' : { v, s: style[kind] }; })]);
+  const at = (label) => first + CASH_LINES.findIndex((l) => l[0] === label);   // by the line's own key
   const rowOf = {}; const add = (key, label, cells, total = true, st = 9) => { rows.push([label, total ? { f: `SUM(${span(rows.length + 1)})`, s: st } : '', ...cells]); rowOf[key] = rows.length; };
   const colRef = (i, row) => `${xcol(c0 + i)}${row}`;
   add('ebitda', { v: 'EBITDA', s: 1 }, ys.map((_, i) => ({ f: `SUM(${colRef(i, at('Revenue'))}:${colRef(i, at('Other costs'))})`, s: 9 })));
@@ -2020,7 +2147,7 @@ function buildPDF() {
   const usd = (x) => money(x); const name = state.dep.name || 'Project';
   text(M, y, `Mining Risk Explorer: ${name}`, 15, true); y -= 15;
   text(M, y, `Valuation memo · 1 January 2026 valuation date · real US$ · ${myDeck().label} price deck · ${pct(an.risk.rate, 1)} real after country risk`, 8.5, false, 'left', 0.38); y -= 8; rule(y, 0.6); y -= 20;
-  const head = [['NPV after risks', usd(an.risk.npvAttr)], ['NPV before risks', usd(an.base.npvAttr)], ['IRR after risks', irrText(an.risk.irr)], ['Breakeven SC6', beText(an.be)]];
+  const head = [['NPV after risks', usd(an.risk.npvAttr)], ['NPV before risks', usd(an.base.npvAttr)], ['IRR after risks', irrText(an.risk.irr)], ['Breakeven', beText(an.be)]];
   head.forEach(([t, v], i) => { const x = M + i * (Wp - 2 * M) / 4; text(x, y + 11, t, 8, false, 'left', 0.4); text(x, y - 4, v, 14, true); }); y -= 18;
   heading('Deal price');
   text(M, y, `Indicated equity value ${usd(dv.range.lo)} to ${usd(dv.range.hi)}${dv.listed ? ` (${perSh(dv.range.lo / dv.shares)} to ${perSh(dv.range.hi / dv.shares)} a share)` : ''}`, 9.5, true); y -= 14;
@@ -2100,18 +2227,24 @@ function cashHTML(a, an) {
 
 function renderTinker() {
   const a = assetById('custom'); const an = ANALYSIS.custom;
-  if (an.pending) { morph($('#tinker'), '<section class="panel c-panel"><p class="muted">Enter the resource (tonnes and grade) under Deposit to see the value.</p></section>'); return; }
+  if (an.pending) {
+    const m = an.missing || [];
+    const res = an.noResource ? 'Enter the resource (tonnes and grade) under Deposit to see the value.' : '';
+    const typ = m.length ? `The studies give no typical value for these ${esc(myCP().name.toLowerCase())} inputs, so enter them from your study: <b>${esc(m.join(', '))}</b>.` : '';
+    morph($('#tinker'), `<section class="panel c-panel"><p class="muted">${[res, typ].filter(Boolean).join(' ')}</p></section>`);
+    return;
+  }
   morph($('#tinker'), keyNumbersHTML(a, an) + dealHTML(a, an) + risksHTML(a, an) + whatIfHTML(a, an) + sensHTML() + cashHTML(a, an));
 }
 
 /* ---------- Sensitivities, full size: every input, any one sensitivity, price × capex ---------- */
 // Each input moved on its own around the current case (your inputs, what-ifs and risks).
 const SENS_INPUTS = [
-  { k: 'price', label: 'Price, long term', unit: 'US$/t SC6', now: (a) => curDeckFor(a).flat },
+  { k: 'price', label: 'Price, long term', unit: (a) => CP[commodityOf(a)].price, now: (a) => curDeckFor(a).flat },
   { k: 'drate', label: 'Discount rate', unit: '% real', now: (a) => curRateFor(a) * 100 },
   { k: 'capex', label: 'Initial capex', unit: 'US$M', now: (a) => a.derived.capexM },
   { k: 'recovery', label: 'Recovery', unit: '%', now: (a) => a.derived.recovery },
-  { k: 'grade', label: 'Head grade', unit: '% Li₂O', now: (a) => a.derived.planGrade },
+  { k: 'grade', label: 'Head grade', unit: (a) => CP[commodityOf(a)].grade, now: (a) => a.derived.planGrade },
   { k: 'tonnes', label: 'Plan tonnes', unit: 'Mt', now: (a) => a.derived.planMt },
   { k: 'rate', label: 'Ore per year', unit: 'Mtpa', now: (a) => a.derived.rate },
   { k: 'miningOp', label: 'Open-pit cost', unit: 'US$/t moved', now: (a) => a.derived.miningOp, skip: (d) => d.method === 'ug' },
@@ -2119,18 +2252,18 @@ const SENS_INPUTS = [
   { k: 'strip', label: 'Strip ratio', unit: 'x', now: (a) => a.derived.strip, skip: (d) => d.method === 'ug' },
   { k: 'processing', label: 'Processing cost', unit: 'US$/t ore', now: (a) => a.derived.processing },
   { k: 'ga', label: 'Site G&A', unit: 'US$/t ore', now: (a) => a.derived.ga },
-  { k: 'logistics', label: 'Haulage to port', unit: 'US$/t conc', now: (a) => a.derived.logisticsPerT },
-  { k: 'freight', label: 'Ocean freight', unit: 'US$/t conc', now: (a) => a.derived.freight },
-  { k: 'realisation', label: 'Discount to benchmark', unit: '%', now: (a) => a.derived.realisation * 100 },
+  { k: 'logistics', label: 'Haulage and refining', unit: (a) => UNIT_CONC[commodityOf(a)], now: (a) => a.derived.logisticsPerT },
+  { k: 'freight', label: 'Ocean freight', unit: (a) => UNIT_CONC[commodityOf(a)], now: (a) => a.derived.freight },
+  { k: 'realisation', label: 'Discount to benchmark', unit: '%', now: (a) => a.derived.realisation * 100, skip: (d) => !isLiD(d) },
   { k: 'royalty', label: 'Royalty', unit: '% at LT price', now: (a) => sum(a.derived.royalties, (r) => royaltyRate(r, curDeckFor(assetById('custom')).flat)) * 100 },
   { k: 'tax', label: 'Income tax', unit: '%', now: (a) => a.derived.tax * 100 },
   { k: 'carry', label: 'State free carry', unit: '%', now: (a) => a.derived.carry * 100 },
-  { k: 'sustaining', label: 'Sustaining capex', unit: 'US$/t conc', now: (a) => a.derived.sustaining },
+  { k: 'sustaining', label: 'Sustaining capex', unit: (a) => UNIT_SOLD[commodityOf(a)], now: (a) => a.derived.sustaining },
   { k: 'closure', label: 'Closure', unit: 'US$M', now: (a) => a.derived.closureM },
   { k: 'corporate', label: 'Head office', unit: 'US$M/yr', now: (a) => a.derived.corporateM },
   { k: 'wcDays', label: 'Receivables', unit: 'days', now: (a) => a.derived.wcDays },
-  { k: 'byproduct', label: 'By-product credit', unit: 'US$/t conc', now: (a) => a.derived.byproduct },
-  { k: 'otherPerT', label: 'Other costs', unit: 'US$/t conc', now: (a) => a.derived.otherPerT }
+  { k: 'byproduct', label: 'By-product credit', unit: (a) => UNIT_SOLD[commodityOf(a)], now: (a) => a.derived.byproduct },
+  { k: 'otherPerT', label: 'Other costs', unit: (a) => UNIT_SOLD[commodityOf(a)], now: (a) => a.derived.otherPerT }
 ];
 const liveInputs = (a) => SENS_INPUTS.filter((s) => !(s.skip && s.skip(state.dep)) && Math.abs(s.now(a)) > 1e-9);   // a zero input cannot move
 // An input's figure when it is scaled by f.
@@ -2140,7 +2273,7 @@ function inputSens(move) {
   const a = assetById('custom'); const base = wiValue({});
   const rows = liveInputs(a).map((s) => {
     const vLo = wiValue({ scale: { [s.k]: 1 - move } }); const vHi = wiValue({ scale: { [s.k]: 1 + move } });
-    return { k: s.k, item: `in:${s.k}`, label: s.label, unit: s.unit, now: s.now(a), lo: inputAt(s, 1 - move, a), hi: inputAt(s, 1 + move, a), vLo, vHi, dlo: vLo - base, dhi: vHi - base };
+    return { k: s.k, item: `in:${s.k}`, label: s.label, unit: typeof s.unit === 'function' ? s.unit(a) : s.unit, now: s.now(a), lo: inputAt(s, 1 - move, a), hi: inputAt(s, 1 + move, a), vLo, vHi, dlo: vLo - base, dhi: vHi - base };
   });
   const vDelay = wiValue({ delay: 1 });
   rows.push({ k: 'delay', item: 'wi:delay', label: 'Years to construction (+1)', unit: 'years', now: a.derived.decision, lo: null, hi: a.derived.decision + 1, vLo: null, vHi: vDelay, dlo: null, dhi: vDelay - base, one: true });
@@ -2169,8 +2302,9 @@ function sensSeries(id) {
   if (kind === 'in') {
     const s = SENS_INPUTS.find((x) => x.k === k);
     const pts = [-50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50].map((p) => { const f = 1 + p / 100; const raw = fmtRaw(inputAt(s, f, a));
-      return { x: p, tick: raw, move: p ? signed(p, '%') : 'Now', raw: `${raw} ${s.unit}`, r: wiValue({ scale: { [k]: f } }), b: wiValue({ scale: { [k]: f } }, true) }; });
-    return { label: s.label, now: 0, xTitle: `${s.label} (${s.unit})`, fmtX: (x) => signed(Math.round(x), '%'), pts };
+      return { x: p, tick: raw, move: p ? signed(p, '%') : 'Now', raw: `${raw} ${typeof s.unit === 'function' ? s.unit(a) : s.unit}`, r: wiValue({ scale: { [k]: f } }), b: wiValue({ scale: { [k]: f } }, true) }; });
+    const su = typeof s.unit === 'function' ? s.unit(a) : s.unit;
+    return { label: s.label, now: 0, xTitle: `${s.label} (${su})`, fmtX: (x) => signed(Math.round(x), '%'), pts };
   }
   const d = DIALS.find((x) => x.id === k); const pts = [];
   for (let x = 0; x <= 2; x += 0.25) {
@@ -2206,10 +2340,10 @@ function sensSheetHTML(view, move, item) {
         return `<tr class="${cur ? 'c-now' : ''}"><th scope="row">${esc(q.move)}</th><td class="wrap-cell">${esc(q.raw)}</td>${moneyCell(q.r)}${hasB ? moneyCell(q.b) : ''}<td>${nowR == null ? '–' : money(q.r - nowR, { plus: true })}</td></tr>`; }).join('')}</tbody></table></div>`;
   }
   const cols = [-30, -20, -10, 0, 10, 20, 30]; const rows = [-20, -10, 0, 10, 20, 35, 50];
-  const lt = (p) => num1(baseDeckFor(assetById('custom')).flat * (1 + ((state.whatIf.price || 0) + p) / 100), 0);
+  const lt = (p) => num1(baseDeckFor(assetById('custom')).flat * (1 + ((state.whatIf.price || 0) + p) / 100), myCP().priceDp);
   const cap = (r) => num1(depositDerived(state.dep, { ...state.whatIf, capex: (state.whatIf.capex || 0) + r }).capexM, 0);
   const lbl = (x) => (x === 0 ? 'Now' : signed(x, '%')); sheetData = null;
-  return `${tabs}<p class="small muted">Value after risks, US$M, as price and capex move together. Under each move: the long-term price (US$/t SC6) or the capex (US$M).</p>
+  return `${tabs}<p class="small muted">Value after risks, US$M, as price and capex move together. Under each move: the long-term price (${esc(myCP().price)}) or the capex (US$M).</p>
     <div class="table-wrap c-st-wrap"><table class="mv-grid"><thead><tr><th scope="col" rowspan="2"></th><th scope="colgroup" colspan="${cols.length}">Price</th></tr>
     <tr>${cols.map((c) => `<th scope="col">${lbl(c)}<br><span class="u">${lt(c)}</span></th>`).join('')}</tr></thead>
     <tbody>${rows.map((r) => `<tr><th scope="row">Capex ${lbl(r).toLowerCase()} <span class="u">${cap(r)}</span></th>${cols.map((c) => { const v = wiValue({ price: c, capex: r }); return `<td class="n ${v < 0 ? 'neg' : ''} ${r === 0 && c === 0 ? 'cur' : ''}">${num1(v / 1e6, 0)}</td>`; }).join('')}</tr>`).join('')}</tbody></table></div>`;
@@ -2230,13 +2364,15 @@ function drawSheetChart() {
 /* ---------- Data: the typical values, where they come from, and the assumptions ---------- */
 function dataHTML() {
   const used = new Set();
-  const rows = Object.values(LI_TYPICALS).map((t) => { t.points.forEach((p) => used.add(p[0]));
-    return `<tr><th scope="row" class="wrap-cell">${esc(t.label)}</th><td class="n">${num1(t.median, dpFor(t.median))} ${esc(t.unit)}</td><td class="n">${t.n > 1 ? `${num1(t.low)}–${num1(t.high)}` : '–'}</td><td class="n">${t.n}</td><td class="wrap-cell small">${t.points.map((p) => `${p[0]} p${p[2]}`).join(', ')}</td></tr>`; }).join('');
-  const keys = [...used].filter((k) => LI_STUDIES[k]).map((k) => `<li><b>${k}</b> ${esc(LI_STUDIES[k].source)}</li>`).join('');
+  const c = comOf(state.dep); const TY = TYPICALS[c];
+  const rows = Object.values(TY).map((t) => { t.points.forEach((p) => used.add(p[0]));
+    return `<tr><th scope="row" class="wrap-cell">${esc(t.label)}</th><td class="n">${num1(t.median, dpFor(t.median))} ${esc(t.unit)}</td><td class="n">${t.n > 1 ? `${num1(t.low)}–${num1(t.high)}` : '–'}</td><td class="n">${t.n}</td><td class="wrap-cell small">${t.points.map((p) => `${p[0]}${p[2] != null ? ` p${p[2]}` : ''}`).join(', ')}</td></tr>`; }).join('');
+  const names = { ...LI_STUDIES, ...STUDY_NAMES };
+  const keys = [...used].filter((k) => names[k]).map((k) => `<li><b>${k}</b> ${esc(names[k].source)}</li>`).join('');
   return `<p class="small muted">Medians of published studies, with costs at November 2025 prices, just before the valuation date. A blank input uses its row; head grade, contingency and the studies’ discount rates are there for comparison.</p>
     <div class="table-wrap"><table class="cmp"><thead><tr><th scope="col">Input</th><th scope="col">Typical</th><th scope="col">Range</th><th scope="col">Studies</th><th scope="col">Where</th></tr></thead><tbody>${rows}</tbody></table></div>
     <h3>Studies</h3><ul class="small">${keys}</ul>
-    <h3>Other data</h3><ul class="small"><li>Country risk premiums and tax rates: Damodaran, January 2026, 178 countries.</li>${Object.values(LITHIUM_DECKS).map((dk) => `<li>${esc(dk.label)} price: ${esc(dk.desc)}.</li>`).join('')}<li>Fiscal presets for WA, NT, Ghana (2025 sliding royalty, Ewoyaa lease terms), Mali (pre-2023 terms) and Quebec.</li></ul>
+    <h3>Other data</h3><ul class="small"><li>Country risk premiums and tax rates: Damodaran, January 2026, 178 countries.</li>${Object.values(myDecks()).map((dk) => `<li>${esc(dk.label)} price: ${esc(dk.desc)}. <span class="muted">${esc(dk.source || '')}</span></li>`).join('')}<li>Fiscal presets for WA, NT, Ghana (2025 sliding royalty, Ewoyaa lease terms), Mali (pre-2023 terms) and Quebec.</li></ul>
     <h3>Assumptions</h3><ul class="small c-assume">${liAssumptions().map((x) => `<li><b>${esc(x.label)}:</b> ${esc(x.value)}.${x.note ? ` <span class="muted">${esc(x.note)}</span>` : ''}</li>`).join('')}</ul>`;
 }
 
@@ -2555,8 +2691,24 @@ function runChecks() {
     const IS = inputSens(0.1); const more = new Set(['price', 'recovery', 'grade', 'byproduct']);   // more of these is worth more
     const wrong = IS.rows.filter((r) => !r.one && !['tonnes', 'rate'].includes(r.k) && (more.has(r.k) ? r.vHi < r.vLo - 1 : r.vHi > r.vLo + 1)).map((r) => r.label);
     add('Every input moves value the right way', wrong.length === 0, wrong.length ? `Wrong way: ${wrong.join(', ')}` : `${IS.rows.length} inputs, ±10% each; biggest: ${IS.rows[0].label}`);
-    const capT = typical('capex_per_annual_t_ore');
+    const capT = typicalIn('spodumene', 'capex_per_annual_t_ore');
     add('Typical capex excludes the existing-plant case and is escalated to the valuation date', !capT.points.some((p) => p[0] === 'S11n') && capT.points.some((p) => /CPI/.test(p[3])), `Median US$${capT.median.toFixed(1)} per t/yr across ${capT.n} own-plant studies`);
+  }
+  group = 'Gold, copper and the deal price';
+  {
+    // Gold: payable ounces from tonnes, grade, recovery and payability; copper: payable pounds priced net of TC/RC.
+    const oz = COMMODITY.gold.units(1, 2, 0.9, { payability: 0.999 }); const ozHand = 1e6 * 2 / G_PER_OZ * 0.9 * 0.999;
+    add('Gold: payable ounces from tonnes, grade, recovery and payability', Math.abs(oz - ozHand) < 1e-6, `1 Mt at 2 g/t, 90%, 99.9% payable: ${num1(oz, 0)} oz`);
+    const pr = { concGrade: 25, payability: 0.965, tc: 80, rc: 0.08 }; const net = COMMODITY.copper.unitPrice(4.5, pr);
+    const hand = 4.5 - 0.08 - 80 / (0.25 * LB_PER_T * 0.965);
+    add('Copper: the price is net of the treatment and refining charges', Math.abs(net - hand) < 1e-12 && net < 4.5, `US$4.50/lb, TC US$80/dmt, RC US$0.08/lb, 25% Cu, 96.5% payable: US$${net.toFixed(4)}/lb`);
+    const lb = COMMODITY.copper.units(1, 0.5, 0.9, pr); const lbHand = 1e6 * 0.005 * 0.9 * 0.965 * LB_PER_T;
+    add('Copper: payable pounds from tonnes, grade, recovery and payability', Math.abs(lb - lbHand) < 1e-3, `1 Mt at 0.5% Cu, 90%, 96.5% payable: ${num1(lb / 1e6, 2)} Mlb`);
+    const dv = dealValues(assetById('custom'), ANALYSIS.custom);
+    const b = dv.methods.find((m) => m.k === 'buyer'); const own = dv.methods.find((m) => m.k === 'dcf');
+    add('A funded buyer’s DCF is at least the DCF as set', !b || b.mid >= own.mid - 1, b ? `${money(b.mid)} vs ${money(own.mid)}` : 'People and Funding already at Low');
+    const q = quartiles([1, 2, 3, 4, 5]);
+    add('Quartiles of the market multiples', q.q1 === 2 && q.median === 3 && q.q3 === 4, `1–5: ${q.q1}, ${q.median}, ${q.q3}`);
   }
   group = 'Risk amounts, value ladder and robustness';
   for (const a of ASSETS) {
@@ -2620,7 +2772,7 @@ const syncBar = () => document.documentElement.style.setProperty('--bar-h', $('#
 function renderAll(silent) {
   const active = document.activeElement && document.activeElement.id ? document.activeElement.id : null;
   const a = assetById('custom'); UCTX = 'spodumene';
-  ANALYSIS.custom = a.derived.resMt > 0 ? analyse(a, ctlFor(a)) : { pending: true };
+  ANALYSIS.custom = a.derived.resMt > 0 && !a.derived.missing.length ? analyse(a, ctlFor(a)) : { pending: true, missing: a.derived.missing, noResource: !(a.derived.resMt > 0) };
   if (!ANALYSIS.custom.pending) ANALYSIS.custom.be = breakevenPrice(a, ctlFor(a));
   inputsValue = null;
   hidePop(); INFO.clear();

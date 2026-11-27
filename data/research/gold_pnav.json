@@ -1,0 +1,661 @@
+{
+ "asOf": null,
+ "target_asOf": "2026-11-26",
+ "commodity": "gold",
+ "status": "PARTIAL_FROM_SEARCH",
+ "source_note": "Values were taken from WebSearch results, not from opened documents. WebFetch is blocked by the session network policy (www.montagegold.com and announcements.asx.com.au failed with ENOTFOUND). The per-turn search budget (200 calls, shared by all agents) ran out before any further searches could be made, so only results already returned earlier in this task are used. Each value has via='search' and page=null. 'quote' is the text exactly as the search result gave it: sometimes page text, sometimes the search tool's own summary wording; none was checked against the page. 'url' is the page the result cited. Where the result listed several pages without tying the statement to one, url_certain=false and 'url' is the likeliest of the listed pages; all listed pages are in search_result_urls. No number was inferred, converted with an assumption or taken from memory. Anything no search result stated is null.",
+ "method": "EV (US$M) = market cap - cash + debt, at fx_to_usd; attributable NPV = study post-tax NPV x ownership %, in US$; P/NAV = EV / attributable NPV.",
+ "companies": [
+  {
+   "company": "Saturn Metals Ltd",
+   "ticker": "ASX: STN",
+   "project": "Apollo Hill",
+   "stage": "PFS (DFS in progress)",
+   "npv": {
+    "v": 973,
+    "currency": "A$",
+    "rate_pct": 8,
+    "basis": null,
+    "tax_basis": "not stated in the result",
+    "gold_price": 4300,
+    "page": null,
+    "url": "https://discoveryalert.com.au/saturn-metals-q4-2025-results-pfs-milestone/",
+    "quote": "Sources cite over A$2.5 billion in EBITDA, an NPV8% of A$973 million, and an IRR of 51%, with payback within 2.3 years. Initial capex is approximately A$472 million, including contingencies.",
+    "via": "search",
+    "url_certain": false,
+    "note": "Gold price from: 'the company's own PFS, which uses A$4,300/oz as its base case'."
+   },
+   "ownership_pct": {
+    "v": 100,
+    "quote": "The PFS was released in December 2025 and covers the 100%-owned project near Leonora in Western Australia.",
+    "url": "https://minedocs.com/30/Apollo-Hill-PFS-12172025.pdf",
+    "via": "search",
+    "url_certain": false
+   },
+   "share_price": {
+    "v": null,
+    "currency": "A$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://www.marketindex.com.au/asx/stn"
+   },
+   "shares_M": {
+    "v": null,
+    "date": null,
+    "url": null
+   },
+   "market_cap_M": {
+    "v": null,
+    "currency": "A$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://www.marketindex.com.au/asx/stn"
+   },
+   "cash_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "September 2026 quarterly report and Appendix 5B (ASX): cash and debt at 30 Sep 2026"
+   },
+   "debt_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "September 2026 quarterly report and Appendix 5B (ASX): cash and debt at 30 Sep 2026"
+   },
+   "fx_to_usd": null,
+   "ev_usd_M": null,
+   "npv_attr_usd_M": null,
+   "p_nav": null,
+   "notes": "No share price, share count or market cap near 26 Nov 2026 was in any search result, and no FX rate was found, so EV and P/NAV are not computed. Search results mention 'It also raised $105m recently' and 'a $45 million share placement at $0.58 per share' (secondary source), both undated, so use the post-placement share count and cash."
+  },
+  {
+   "company": "Rox Resources Ltd",
+   "ticker": "ASX: RXL",
+   "project": "Youanmi",
+   "stage": "DFS (Nov 2025); construction toward first gold mid-CY2027",
+   "npv": {
+    "v": null,
+    "currency": "A$",
+    "rate_pct": null,
+    "basis": null,
+    "tax_basis": "post-tax not found",
+    "gold_price": null,
+    "page": null,
+    "url": "https://api.investi.com.au/api/announcements/rxl/801f83eb-71e.pdf",
+    "quote": null,
+    "via": "search",
+    "url_certain": false,
+    "note": "Only a pre-tax figure was found: 'a pre-tax NPV8 of A$1.92 billion and IRR of 86%' at 'current spot gold prices of A$6,100/oz'."
+   },
+   "ownership_pct": null,
+   "share_price": {
+    "v": null,
+    "currency": "A$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://www.marketindex.com.au/asx/rxl"
+   },
+   "shares_M": {
+    "v": null,
+    "date": null,
+    "url": null
+   },
+   "market_cap_M": {
+    "v": null,
+    "currency": "A$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://www.marketindex.com.au/asx/rxl"
+   },
+   "cash_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "September 2026 quarterly report and Appendix 5B (ASX): cash and debt at 30 Sep 2026"
+   },
+   "debt_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "September 2026 quarterly report and Appendix 5B (ASX): cash and debt at 30 Sep 2026"
+   },
+   "fx_to_usd": null,
+   "ev_usd_M": null,
+   "npv_attr_usd_M": null,
+   "p_nav": null,
+   "notes": "No share price, share count or market cap near 26 Nov 2026 was in any search result, and no FX rate was found, so EV and P/NAV are not computed. Planned funding per the results: 'approximately 60% debt funding (circa A$270 million) with the remainder via equity placement'. Include any drawn debt."
+  },
+  {
+   "company": "Astral Resources NL",
+   "ticker": "ASX: AAR",
+   "project": "Mandilla",
+   "stage": "PFS (Jun 2025); DFS in progress",
+   "npv": {
+    "v": 1400,
+    "currency": "A$",
+    "rate_pct": null,
+    "basis": null,
+    "tax_basis": "not stated in the result",
+    "gold_price": 4250,
+    "page": null,
+    "url": "https://www.proactiveinvestors.com/companies/news/1096038/astral-resources-builds-momentum-at-mandilla-during-june-quarter-as-drilling-resource-growth-and-dfs-work-advance-1096038.html",
+    "quote": "At a base-case gold price of A$4,250/oz, the project's net present value was about A$1.4 billion. At A$6,000/oz, that rose to about A$2.7 billion.",
+    "via": "search",
+    "url_certain": true,
+    "note": "Search-summary wording citing Proactive Investors (July 2026). The discount rate is not stated. A September 2026 Investing.com piece is said to cite 'a US$1 billion NPV at US$2,975/oz'."
+   },
+   "ownership_pct": null,
+   "share_price": {
+    "v": null,
+    "currency": "A$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://www.marketindex.com.au/asx/aar"
+   },
+   "shares_M": {
+    "v": null,
+    "date": null,
+    "url": null
+   },
+   "market_cap_M": {
+    "v": null,
+    "currency": "A$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://www.marketindex.com.au/asx/aar"
+   },
+   "cash_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "September 2026 quarterly report and Appendix 5B (ASX): cash and debt at 30 Sep 2026"
+   },
+   "debt_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "September 2026 quarterly report and Appendix 5B (ASX): cash and debt at 30 Sep 2026"
+   },
+   "fx_to_usd": null,
+   "ev_usd_M": null,
+   "npv_attr_usd_M": null,
+   "p_nav": null,
+   "notes": "No share price, share count or market cap near 26 Nov 2026 was in any search result, and no FX rate was found, so EV and P/NAV are not computed. One undated market value was found: 'Its market cap was $333m at the time of the Ausgold bid' (see indicative_equity_to_npv).",
+   "market_value_found": {
+    "v": 333,
+    "currency": "$ (unlabelled; Australian source)",
+    "date": "at the time of the Ausgold bid (date not stated)",
+    "quote": "Its market cap was $333m at the time of the Ausgold bid, which is less than half the Ausgold price.",
+    "url": "https://www.moneyofmine.com/p/ausgold-getting-acquired",
+    "via": "search",
+    "url_certain": false
+   },
+   "indicative_equity_to_npv": {
+    "v": 0.24,
+    "working": "333 / 1400",
+    "caveat": "Not P/NAV: market cap at an undated 2026 point, before cash and debt, over an NPV of unstated tax basis and discount rate, at 100%. Both are in A$ as reported."
+   }
+  },
+  {
+   "company": "Turaco Gold Ltd",
+   "ticker": "ASX: TCG",
+   "project": "Afema",
+   "stage": "PFS (Jun 2026); DFS targeted Q2 2027",
+   "npv": {
+    "v": 1486,
+    "currency": "US$",
+    "rate_pct": 5,
+    "basis": null,
+    "tax_basis": "post-tax",
+    "gold_price": 3000,
+    "page": null,
+    "url": "https://www.miningweekly.com/article/pfs-confirms-compelling-economics-of-turacos-cte-divoire-project-2026-06-17",
+    "quote": "At a gold price of US$3,000/oz, Afema generates a post-tax net present value using a 5% discount rate of US$1.486 billion and a post-tax internal rate of return of 60%.",
+    "via": "search",
+    "url_certain": false,
+    "note": "A sensitivity case: the PFS base case is US$2,000/oz, and its NPV was not in any result. Mining.com.au gives 'about US$2.1 billion at US$3,500/oz, with a 79% IRR'."
+   },
+   "ownership_pct": null,
+   "share_price": {
+    "v": null,
+    "currency": "A$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://www.marketindex.com.au/asx/tcg"
+   },
+   "shares_M": {
+    "v": null,
+    "date": null,
+    "url": null
+   },
+   "market_cap_M": {
+    "v": null,
+    "currency": "A$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://www.marketindex.com.au/asx/tcg"
+   },
+   "cash_M": {
+    "v": 60,
+    "currency": "A$",
+    "date": "2026-03-31",
+    "url": "https://www.miningweekly.com/article/pfs-confirms-compelling-economics-of-turacos-cte-divoire-project-2026-06-17",
+    "quote": "Turaco is fully funded to complete the next phase of work, with A$60m in cash at 31 March 2026",
+    "via": "search",
+    "url_certain": false,
+    "note": "Not the latest: use the Sep 2026 Appendix 5B."
+   },
+   "debt_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "September 2026 quarterly report and Appendix 5B (ASX): cash and debt at 30 Sep 2026"
+   },
+   "fx_to_usd": null,
+   "ev_usd_M": null,
+   "npv_attr_usd_M": null,
+   "p_nav": null,
+   "notes": "No share price, share count or market cap near 26 Nov 2026 was in any search result, and no FX rate was found, so EV and P/NAV are not computed. Ownership of Afema was not in any result. The state's free carry and any local partner reduce the attributable share."
+  },
+  {
+   "company": "Ausgold Ltd",
+   "ticker": "ASX: AUC",
+   "project": "Katanning",
+   "stage": "DFS (updated Dec 2025); subject to a 2026 takeover offer",
+   "npv": {
+    "v": 1028,
+    "currency": "A$",
+    "rate_pct": 5,
+    "basis": null,
+    "tax_basis": "post-tax",
+    "gold_price": 4300,
+    "page": null,
+    "url": "https://api.investi.com.au/api/announcements/auc/fe121bfd-e09.pdf",
+    "quote": "Life-of-mine production rose to 1.22Moz, and the base case NPV5 post-tax cashflow was A$1.028B with an IRR of 52.4% at a A$4,300/oz gold price. Costs also fell, with AISC of A$2,157/oz over first four years and A$2,252/oz life-of-mine, and the Ore Reserve grew to 1.33Moz.",
+    "via": "search",
+    "url_certain": false
+   },
+   "ownership_pct": null,
+   "share_price": {
+    "v": null,
+    "currency": "A$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://www.marketindex.com.au/asx/auc"
+   },
+   "shares_M": {
+    "v": null,
+    "date": null,
+    "url": null
+   },
+   "market_cap_M": {
+    "v": null,
+    "currency": "A$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://www.marketindex.com.au/asx/auc"
+   },
+   "cash_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "September 2026 quarterly report and Appendix 5B (ASX): cash and debt at 30 Sep 2026"
+   },
+   "debt_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "September 2026 quarterly report and Appendix 5B (ASX): cash and debt at 30 Sep 2026"
+   },
+   "fx_to_usd": null,
+   "ev_usd_M": null,
+   "npv_attr_usd_M": null,
+   "p_nav": null,
+   "notes": "No share price, share count or market cap near 26 Nov 2026 was in any search result, and no FX rate was found, so EV and P/NAV are not computed. Muddied by a takeover: 'The offer is for $776 million from TSX-listed OceanaGold. The consideration is a scrip offer of 0.03365 OceanaGold shares for each Ausgold share, with a $194m cash pool available.' Also: 'Ausgold shares have since traded above the offer value, which one source puts at $1.48 against the $1.36 per share offer.' No date was stated. Report this as a deal multiple, apart from the developer median.",
+   "offer_found": {
+    "v": 776,
+    "currency": "$ (unlabelled; Australian source)",
+    "date": "2026 (not stated)",
+    "quote": "The offer is for $776 million from TSX-listed OceanaGold.",
+    "url": "https://www.moneyofmine.com/p/ausgold-getting-acquired",
+    "via": "search",
+    "url_certain": false
+   },
+   "indicative_equity_to_npv": {
+    "v": 0.75,
+    "working": "776 / 1028",
+    "caveat": "Not P/NAV: takeover equity value before cash and debt, over the 100% post-tax NPV5 at A$4,300/oz. Ownership was not stated, and both figures are taken as A$."
+   }
+  },
+  {
+   "company": "Toubani Resources Ltd",
+   "ticker": "ASX: TRE",
+   "project": "Kobada (Mali)",
+   "stage": "DFS (Oct 2024); construction reported as commencing (Mar 2026 presentation)",
+   "npv": {
+    "v": 951,
+    "currency": "$ (unlabelled)",
+    "rate_pct": null,
+    "basis": null,
+    "tax_basis": "post-tax",
+    "gold_price": 3000,
+    "page": null,
+    "url": "https://www.scribd.com/document/846759303/document-6",
+    "quote": "A Scribd summary of the study reports a projected post-tax NPV of up to $951 million at a gold price of $3,000 per ounce.",
+    "via": "search",
+    "url_certain": true,
+    "note": "Third-party Scribd page, as the result says; 'up to' suggests a sensitivity case. The discount rate is not stated."
+   },
+   "ownership_pct": null,
+   "share_price": {
+    "v": null,
+    "currency": "A$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://www.marketindex.com.au/asx/tre"
+   },
+   "shares_M": {
+    "v": null,
+    "date": null,
+    "url": null
+   },
+   "market_cap_M": {
+    "v": null,
+    "currency": "A$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://www.marketindex.com.au/asx/tre"
+   },
+   "cash_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "September 2026 quarterly report and Appendix 5B (ASX): cash and debt at 30 Sep 2026"
+   },
+   "debt_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "September 2026 quarterly report and Appendix 5B (ASX): cash and debt at 30 Sep 2026"
+   },
+   "fx_to_usd": null,
+   "ev_usd_M": null,
+   "npv_attr_usd_M": null,
+   "p_nav": null,
+   "notes": "No share price, share count or market cap near 26 Nov 2026 was in any search result, and no FX rate was found, so EV and P/NAV are not computed. The results say DFS outcomes are 'presented on a 100% project basis': apply the Mali state interest for the attributable NPV."
+  },
+  {
+   "company": "First Mining Gold Corp.",
+   "ticker": "TSX: FF",
+   "project": "Springpole",
+   "stage": "PFS (Nov 2025); FS commenced",
+   "npv": {
+    "v": 2100,
+    "currency": "US$",
+    "rate_pct": 5,
+    "basis": null,
+    "tax_basis": "post-tax",
+    "gold_price": 3100,
+    "page": null,
+    "url": "https://www.firstmininggold.com/_resources/news/nr-20251118.pdf",
+    "quote": "US$2.1 billion after-tax NPV5% at US$3,100/oz Au, increasing to US$3.8 billion at US$4,200/oz Au",
+    "via": "search",
+    "url_certain": false
+   },
+   "ownership_pct": null,
+   "share_price": {
+    "v": null,
+    "currency": "C$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://money.tmx.com/en/quote/FF"
+   },
+   "shares_M": {
+    "v": null,
+    "date": null,
+    "url": null
+   },
+   "market_cap_M": {
+    "v": null,
+    "currency": "C$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://money.tmx.com/en/quote/FF"
+   },
+   "cash_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "Q3 2026 financial statements and MD&A (SEDAR+): cash and debt at 30 Sep 2026"
+   },
+   "debt_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "Q3 2026 financial statements and MD&A (SEDAR+): cash and debt at 30 Sep 2026"
+   },
+   "fx_to_usd": null,
+   "ev_usd_M": null,
+   "npv_attr_usd_M": null,
+   "p_nav": null,
+   "notes": "No share price, share count or market cap near 26 Nov 2026 was in any search result, and no FX rate was found, so EV and P/NAV are not computed. Muddied: First Mining holds other projects and royalties beyond Springpole."
+  },
+  {
+   "company": "Troilus Mining Corp.",
+   "ticker": "TSX: TLG (verify after the name change)",
+   "project": "Troilus (Au-Cu)",
+   "stage": "Updated NI 43-101 report (Sep 2026, Basic Engineering); financing in progress",
+   "npv": {
+    "v": 3200,
+    "currency": "US$",
+    "rate_pct": 5,
+    "basis": null,
+    "tax_basis": "post-tax",
+    "gold_price": 3600,
+    "page": null,
+    "url": "https://www.stocktitan.net/news/CHXMF/troilus-reports-updated-technical-report-following-completion-of-roq95pzp1h8v.html",
+    "quote": "A September 2026 updated NI 43-101 report, based on completed Basic Engineering, outlines a 26-year open-pit mine with after-tax NPV(5%) of US$3.2 billion, 22% IRR and a 3.6-year payback at a base gold price of US$3,600/oz.",
+    "via": "search",
+    "url_certain": true,
+    "note": "Search-summary wording; the cited page's title reads 'Troilus Reports $3.2B After-Tax NPV in Technical Report'. The 2024 FS gave 'an after-tax NPV at 5% of about US$884.5 million and an IRR of 14%' at US$1,975/oz."
+   },
+   "ownership_pct": null,
+   "share_price": {
+    "v": null,
+    "currency": "C$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://money.tmx.com/en/quote/TLG"
+   },
+   "shares_M": {
+    "v": null,
+    "date": null,
+    "url": null
+   },
+   "market_cap_M": {
+    "v": null,
+    "currency": "C$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://money.tmx.com/en/quote/TLG"
+   },
+   "cash_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "Q3 2026 financial statements and MD&A (SEDAR+): cash and debt at 30 Sep 2026"
+   },
+   "debt_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "Q3 2026 financial statements and MD&A (SEDAR+): cash and debt at 30 Sep 2026"
+   },
+   "fx_to_usd": null,
+   "ev_usd_M": null,
+   "npv_attr_usd_M": null,
+   "p_nav": null,
+   "notes": "No share price, share count or market cap near 26 Nov 2026 was in any search result, and no FX rate was found, so EV and P/NAV are not computed. Copper by-product. Results mention '$1.2B Financing and Offtake Deals Advance Toward Close' (Crux Investor title) and financial close targeted for Q4 2026: check for drawn debt."
+  },
+  {
+   "company": "Mayfair Gold Corp.",
+   "ticker": "TSX-V: MFG",
+   "project": "Fenn-Gib",
+   "stage": "PFS (Jan 2026)",
+   "npv": {
+    "v": 652,
+    "currency": "C$",
+    "rate_pct": 5,
+    "basis": null,
+    "tax_basis": "post-tax",
+    "gold_price": 3100,
+    "page": null,
+    "url": "https://mayfairgold.ca/wp-content/uploads/2026/01/MFG-NRJan82026-F.pdf",
+    "quote": "After-tax NPV(5%) of $652 million, IRR of 24% at US$3,100/oz base case gold price and 1.35 C$/US$ exchange rate.",
+    "via": "search",
+    "url_certain": false,
+    "note": "The result says 'All figures are in Canadian dollars unless noted'. The study FX is 1.35 C$/US$; a market rate near 26 Nov 2026 was not found."
+   },
+   "ownership_pct": null,
+   "share_price": {
+    "v": null,
+    "currency": "C$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://money.tmx.com/en/quote/MFG"
+   },
+   "shares_M": {
+    "v": null,
+    "date": null,
+    "url": null
+   },
+   "market_cap_M": {
+    "v": null,
+    "currency": "C$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://money.tmx.com/en/quote/MFG"
+   },
+   "cash_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "Q3 2026 financial statements and MD&A (SEDAR+): cash and debt at 30 Sep 2026"
+   },
+   "debt_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "Q3 2026 financial statements and MD&A (SEDAR+): cash and debt at 30 Sep 2026"
+   },
+   "fx_to_usd": null,
+   "ev_usd_M": null,
+   "npv_attr_usd_M": null,
+   "p_nav": null,
+   "notes": "No share price, share count or market cap near 26 Nov 2026 was in any search result, and no FX rate was found, so EV and P/NAV are not computed. Single asset per the results; check that the technical report was filed."
+  },
+  {
+   "company": "Osisko Development Corp.",
+   "ticker": "TSX-V: ODV; NYSE: ODV",
+   "project": "Cariboo",
+   "stage": "FS (2025); permitted; financing raised",
+   "npv": {
+    "v": 943,
+    "currency": "C$",
+    "rate_pct": 5,
+    "basis": null,
+    "tax_basis": "post-tax",
+    "gold_price": 2400,
+    "page": null,
+    "url": "https://www.globenewswire.com/news-release/2025/04/28/3069042/0/en/Osisko-Development-Announces-Optimized-Feasibility-Study-for-Permitted-Cariboo-Gold-Project-with-C-943-Million-After-Tax-NPV5-and-22-1-IRR-at-US-2-400-oz-Base-Case-Gold-Price-at-US.html",
+    "quote": "Osisko Development Announces Optimized Feasibility Study for Permitted Cariboo Gold Project with C$943 Million After-Tax NPV5% and 22.1% IRR at US$2,400/oz Base Case Gold Price; at US$3,300/oz Spot Gold C$2.1 Billion After-Tax NPV5% and 38.0% IRR",
+    "via": "search",
+    "url_certain": true
+   },
+   "ownership_pct": null,
+   "share_price": {
+    "v": null,
+    "currency": "C$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://money.tmx.com/en/quote/ODV"
+   },
+   "shares_M": {
+    "v": null,
+    "date": null,
+    "url": null
+   },
+   "market_cap_M": {
+    "v": null,
+    "currency": "C$",
+    "date": null,
+    "url": null,
+    "suggested_source": "https://money.tmx.com/en/quote/ODV"
+   },
+   "cash_M": {
+    "v": 422.3,
+    "currency": "$ (unlabelled)",
+    "date": "Q4 2025 (end of 2025)",
+    "url": "https://www.stocktitan.net/news/IAUX/funded-builders-are-pulling-away-from-the-gold-mining-02ut0frc6l9k.html",
+    "quote": "Osisko Development ends Q4 with $422.3M cash",
+    "via": "search",
+    "url_certain": true,
+    "note": "Page title as listed. Not the latest: the results also say it 'later raised ~US$143.8 million via a prospectus offering'. Use Q3 2026 statements."
+   },
+   "debt_M": {
+    "v": null,
+    "date": null,
+    "url": null,
+    "source_to_use": "Q3 2026 financial statements and MD&A (SEDAR+): cash and debt at 30 Sep 2026"
+   },
+   "fx_to_usd": null,
+   "ev_usd_M": null,
+   "npv_attr_usd_M": null,
+   "p_nav": null,
+   "notes": "No share price, share count or market cap near 26 Nov 2026 was in any search result, and no FX rate was found, so EV and P/NAV are not computed. Muddied: the company has held assets besides Cariboo (check the current portfolio in the latest MD&A), and it has raised equity in 2025-26."
+  }
+ ],
+ "excluded_candidates": [
+  {
+   "company": "Montage Gold Corp.",
+   "ticker": "TSX: MAU",
+   "reason": "No longer a single-asset developer. Per search results, Koné poured first gold on 26 Sep 2026 and Montage 'closed its acquisition of African Gold on April 29, 2026' (Didievi). Capital spending was 'about $725.2 million disbursed as of September 30, 2026'.",
+   "url": "https://www.globenewswire.com/news-release/2026/09/27/3369467/0/en/montage-gold-achieves-first-gold-pour-at-its-kon%C3%A9-mine-on-budget-and-ahead-of-schedule.html",
+   "via": "search"
+  },
+  {
+   "company": "PDI Gold Ltd (Predictive Discovery)",
+   "ticker": "ASX: PDI; TSX: PDI",
+   "reason": "No longer single-asset: 'The merger closed on 15 April 2026', adding Robex's producing Kiniero mine. A 5-for-1 consolidation approved 21 Aug 2026 takes shares 'from approximately 4.94 billion to about 988 million'. Undated market values found: 'a $3.3 billion U.S.-capped company' and 'c.US$3.1 billion'.",
+   "url": "https://kalkine.ca/news/mining/why-predictive-discovery-tsxpdi-now-targets-over-400000-oz-of-gold-a-year-after-the-robex-merger",
+   "via": "search"
+  }
+ ],
+ "summary": {
+  "n": 0,
+  "median_p_nav": null,
+  "by_stage": {},
+  "note": "No P/NAV could be computed. No search result gave a share price, share count or market cap near 26 Nov 2026, Sep 2026 cash or debt, or a Nov 2026 FX rate for any candidate.",
+  "indicative_equity_to_npv": [
+   {
+    "company": "Ausgold Ltd",
+    "v": 0.75,
+    "basis": "OceanaGold takeover offer equity value / 100% post-tax NPV5 (A$4,300/oz); a deal multiple, not a market P/NAV"
+   },
+   {
+    "company": "Astral Resources NL",
+    "v": 0.24,
+    "basis": "market cap 'at the time of the Ausgold bid' / ~A$1.4B NPV (tax basis and discount rate not stated)"
+   }
+  ],
+  "market_comment": {
+   "quote": "one fund manager noted developers trading at 0.2 times NAV, which makes them attractive targets",
+   "url": "https://stockhead.com.au/experts/aussie-gold-developers-look-ripe-for-the-picking/",
+   "via": "search",
+   "url_certain": false,
+   "note": "Search-summary wording; the result listed several Stockhead articles."
+  }
+ },
+ "to_complete": "Search or fetch, for each company: price and shares (or market cap) on or near 26 Nov 2026, cash and debt at 30 Sep 2026, AUD/USD and CAD/USD near 26 Nov 2026 (RBA, Bank of Canada), and the project ownership %. The search budget for this turn ran out before these could be looked up."
+}
